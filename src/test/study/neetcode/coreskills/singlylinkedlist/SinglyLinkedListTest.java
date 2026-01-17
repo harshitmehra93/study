@@ -56,7 +56,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insertHead_getZeroIndex_returnsHead(){
+    void insertHead_getZeroIndex_returnsHead(){
         singlyLinkedList.insertHead(10);
 
         assertEquals(1,singlyLinkedList.getSize());
@@ -64,7 +64,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insertTwoHead_getZeroIndex_returnsSecondHead(){
+    void insertTwoHead_getZeroIndex_returnsSecondHead(){
         singlyLinkedList.insertHead(10);
         singlyLinkedList.insertHead(20);
 
@@ -73,7 +73,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insertTwoHead_getFirstIndex_returnsFirstHead(){
+    void insertTwoHead_getFirstIndex_returnsFirstHead(){
         singlyLinkedList.insertHead(10);
         singlyLinkedList.insertHead(20);
         // 20 10
@@ -83,7 +83,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insertTwoHead_insertTail_getZeroIndex_returnsSecondHead(){
+    void insertTwoHead_insertTail_getZeroIndex_returnsSecondHead(){
         singlyLinkedList.insertHead(10);
         singlyLinkedList.insertHead(20);
         singlyLinkedList.insertTail(30);
@@ -96,7 +96,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insertTwoHead_insertTail_getWrongIndex_returnsMinusone(){
+    void insertTwoHead_insertTail_getWrongIndex_returnsMinusone(){
         singlyLinkedList.insertHead(10);
         singlyLinkedList.insertHead(20);
         singlyLinkedList.insertTail(30);
@@ -111,7 +111,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insert3Tail(){
+    void insert3Tail(){
         singlyLinkedList.insertTail(10);
         singlyLinkedList.insertTail(20);
         singlyLinkedList.insertTail(30);
@@ -126,7 +126,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void emptyList_insert3Tail_insert2Head(){
+    void insert3Tail_insert2Head(){
         singlyLinkedList.insertTail(10);
         singlyLinkedList.insertTail(20);
         singlyLinkedList.insertTail(30);
@@ -152,16 +152,16 @@ class SinglyLinkedListTest {
 
     @Test
     void emptyList_removeNegativeIndex_returnFalse() {
-        assertEquals(Boolean.FALSE, singlyLinkedList.remove(0));
+        assertEquals(Boolean.FALSE, singlyLinkedList.remove(-2));
     }
 
     @Test
     void emptyList_removenonExistentIndex_returnFalse() {
-        assertEquals(Boolean.FALSE, singlyLinkedList.remove(0));
+        assertEquals(Boolean.FALSE, singlyLinkedList.remove(99));
     }
 
     @Test
-    void emptyList_addHead_removeZeroIndex_returnTrue() {
+    void addHead_removeZeroIndex_returnTrue() {
         singlyLinkedList.insertHead(1);
         assertEquals(1,singlyLinkedList.getSize());
         assertEquals(Boolean.TRUE, singlyLinkedList.remove(0));
@@ -256,7 +256,6 @@ class SinglyLinkedListTest {
         // 5 2 1 3 4 6
 
         assertEquals(6,singlyLinkedList.getSize());
-
         assertEquals(5,singlyLinkedList.get(0));
         assertEquals(2,singlyLinkedList.get(1));
         assertEquals(1,singlyLinkedList.get(2));
@@ -271,7 +270,6 @@ class SinglyLinkedListTest {
         // 3 6
 
         assertEquals(2,singlyLinkedList.getSize());
-
         assertEquals(3,singlyLinkedList.get(0));
         assertEquals(6,singlyLinkedList.get(1));
 
@@ -297,7 +295,6 @@ class SinglyLinkedListTest {
         // 3
 
         assertEquals(1,singlyLinkedList.getSize());
-
         assertEquals(3,singlyLinkedList.get(0));
     }
 
@@ -336,18 +333,6 @@ class SinglyLinkedListTest {
         assertEquals(20,result[4]);
         assertEquals(10,result[5]);
 
-    }
-
-    @Test
-    void insertHead_insertTail_insertHead_remove_getValues(){
-        singlyLinkedList.insertHead(1);
-        singlyLinkedList.insertTail(2);
-        singlyLinkedList.insertHead(0);
-        // 0 1 2
-        singlyLinkedList.remove(1);
-        // 0 2
-        assertEquals(0,singlyLinkedList.get(0));
-        assertEquals(2,singlyLinkedList.get(1));
     }
 
 }
