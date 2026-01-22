@@ -54,27 +54,7 @@ class BinarySearchTreeTest {
 
     @Test
     void inorderWalkBst_returnsListInSortedOrder_2(){
-        List<Integer> list = new ArrayList<>();
-        list.add(6758);
-        list.add(4567);
-        list.add(6758);
-        list.add(4567);
-        list.add(676558);
-        list.add(4567);
-        list.add(676858);
-        list.add(4532467);
-        list.add(634758);
-        list.add(459067);
-        list.add(2);
-        list.add(3);
-        list.add(768);
-        list.add(23);
-        list.add(45);
-        list.add(89);
-        list.add(87);
-        list.add(6);
-        list.add(6);
-        list.add(23);
+        List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         assertEquals(list.size(),bst.getSize());
@@ -89,22 +69,9 @@ class BinarySearchTreeTest {
     @Test
     void inorderWalkBst_returnsListInSortedOrder_3(){
         List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        list.add(1);
+        for(int i=0;i<20;i++)
+            list.add(1);
+
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         assertEquals(list.size(),bst.getSize());
 
@@ -134,27 +101,7 @@ class BinarySearchTreeTest {
 
     @Test
     void preOrderWalkBst(){
-        List<Integer> list = new ArrayList<>();
-        list.add(6758);
-        list.add(4567);
-        list.add(6758);
-        list.add(4567);
-        list.add(676558);
-        list.add(4567);
-        list.add(676858);
-        list.add(4532467);
-        list.add(634758);
-        list.add(459067);
-        list.add(2);
-        list.add(3);
-        list.add(768);
-        list.add(23);
-        list.add(45);
-        list.add(89);
-        list.add(87);
-        list.add(6);
-        list.add(6);
-        list.add(23);
+        List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         assertEquals(list.size(),bst.getSize());
@@ -167,27 +114,7 @@ class BinarySearchTreeTest {
 
     @Test
     void postOrderWalkBst(){
-        List<Integer> list = new ArrayList<>();
-        list.add(6758);
-        list.add(4567);
-        list.add(6758);
-        list.add(4567);
-        list.add(676558);
-        list.add(4567);
-        list.add(676858);
-        list.add(4532467);
-        list.add(634758);
-        list.add(459067);
-        list.add(2);
-        list.add(3);
-        list.add(768);
-        list.add(23);
-        list.add(45);
-        list.add(89);
-        list.add(87);
-        list.add(6);
-        list.add(6);
-        list.add(23);
+        List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         assertEquals(list.size(),bst.getSize());
@@ -200,27 +127,7 @@ class BinarySearchTreeTest {
 
     @Test
     void successfulSearch_returnsNode(){
-        List<Integer> list = new ArrayList<>();
-        list.add(6758);
-        list.add(4567);
-        list.add(6758);
-        list.add(4567);
-        list.add(676558);
-        list.add(4567);
-        list.add(676858);
-        list.add(4532467);
-        list.add(634758);
-        list.add(459067);
-        list.add(2);
-        list.add(3);
-        list.add(768);
-        list.add(23);
-        list.add(45);
-        list.add(89);
-        list.add(87);
-        list.add(6);
-        list.add(6);
-        list.add(23);
+        List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
 
@@ -231,7 +138,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void search_returnsNode_ifExists(){
+    void successfulSearch_returnsNode_2(){
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(15);
@@ -246,7 +153,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void search_returnsNull_ifNotExists(){
+    void unsuccessfulSearch_returnsNull(){
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(15);
@@ -276,27 +183,7 @@ class BinarySearchTreeTest {
 
     @Test
     void treeMin_2(){
-        List<Integer> list = new ArrayList<>();
-        list.add(6758);
-        list.add(4567);
-        list.add(6758);
-        list.add(4567);
-        list.add(676558);
-        list.add(4567);
-        list.add(676858);
-        list.add(4532467);
-        list.add(634758);
-        list.add(459067);
-        list.add(2);
-        list.add(3);
-        list.add(768);
-        list.add(23);
-        list.add(45);
-        list.add(89);
-        list.add(87);
-        list.add(6);
-        list.add(6);
-        list.add(23);
+        List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
 
@@ -323,6 +210,28 @@ class BinarySearchTreeTest {
 
     @Test
     void treeMax_2(){
+        List<Integer> list = createBigList();
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.treeMax();
+
+        assertNotNull(node);
+        assertEquals(4532467,node.value);
+    }
+
+    private static boolean isSorted(List<Integer> result) {
+        boolean isSorted=true;
+        for(int i = 0, j = 1; j< result.size(); i++,j++){
+            if(result.get(i)> result.get(j)){
+                isSorted=false;
+                break;
+            }
+        }
+        return isSorted;
+    }
+
+    private static List<Integer> createBigList() {
         List<Integer> list = new ArrayList<>();
         list.add(6758);
         list.add(4567);
@@ -344,23 +253,6 @@ class BinarySearchTreeTest {
         list.add(6);
         list.add(6);
         list.add(23);
-
-        BinarySearchTree bst = new BinarySearchTreeImpl(list);
-
-        BstNode node = bst.treeMax();
-
-        assertNotNull(node);
-        assertEquals(4532467,node.value);
-    }
-
-    private static boolean isSorted(List<Integer> result) {
-        boolean isSorted=true;
-        for(int i = 0, j = 1; j< result.size(); i++,j++){
-            if(result.get(i)> result.get(j)){
-                isSorted=false;
-                break;
-            }
-        }
-        return isSorted;
+        return list;
     }
 }
