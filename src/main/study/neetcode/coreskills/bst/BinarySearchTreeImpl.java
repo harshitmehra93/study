@@ -1,8 +1,8 @@
 package study.neetcode.coreskills.bst;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Objects.isNull;
 
 public class BinarySearchTreeImpl implements BinarySearchTree{
     private int size;
@@ -40,9 +40,40 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
 
     @Override
     public List<Integer> inorderWalk() {
-        List<Integer> result = new ArrayList<>();
-        inorderWalk(root,result);
+        List<Integer> result = inorderWalkIterative();
+//        List<Integer> result = new ArrayList<>();
+//        inorderWalk(root,result);
         return result;
+    }
+
+    @Override
+    public List<Integer> preOrder() {
+        List<Integer> result = new ArrayList<>();
+        preOrder(root,result);
+        return result;
+    }
+    private void preOrder(BstNode node, List<Integer> result){
+        if(node==null)
+            return;
+
+        result.add(node.value);
+        preOrder(node.left,result);
+        preOrder(node.right,result);
+    }
+
+    @Override
+    public List<Integer> postOrder() {
+        List<Integer> result = new ArrayList<>();
+        postOrder(root,result);
+        return result;
+    }
+    private void postOrder(BstNode node, List<Integer> result){
+        if(node==null)
+            return;
+
+        preOrder(node.left,result);
+        preOrder(node.right,result);
+        result.add(node.value);
     }
 
     private void inorderWalk(BstNode node, List<Integer> result){
@@ -53,5 +84,25 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         inorderWalk(node.left,result);
         result.add(node.value);
         inorderWalk(node.right,result);
+    }
+
+    public List<Integer> inorderWalkIterative(){
+        Deque<BstNode> stack = new LinkedList();
+        ArrayList<Integer> result = new ArrayList<>();
+
+        BstNode current = root;
+
+        while(current!=null || !stack.isEmpty()){
+            while(current!=null){
+                stack.push(current);
+                current=current.left;
+            }
+
+            current=stack.pop();
+            result.add(current.value);
+
+            current=current.right;
+        }
+        return result;
     }
 }

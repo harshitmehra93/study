@@ -6,4 +6,6 @@ public interface BinarySearchTree {
     int getSize();
 
     List<Integer> inorderWalk();
+    List<Integer> preOrder();
+    List<Integer> postOrder();
 }

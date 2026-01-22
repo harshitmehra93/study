@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,10 +115,93 @@ class BinarySearchTreeTest {
         result.forEach(System.out::println);
     }
 
+    @Test
+    void inorderWalkBst_returnsListInSortedOrder_4(){
+        List<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        for(int i=0;i<100000;i++)
+            list.add(random.nextInt(100000000));
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        assertEquals(list.size(),bst.getSize());
+
+        List<Integer> result = bst.inorderWalk();
+
+        assertEquals(bst.getSize(),result.size());
+        assertTrue(isSorted(result));
+        result.forEach(System.out::println);
+    }
+
+    @Test
+    void preOrderWalkBst(){
+        List<Integer> list = new ArrayList<>();
+        list.add(6758);
+        list.add(4567);
+        list.add(6758);
+        list.add(4567);
+        list.add(676558);
+        list.add(4567);
+        list.add(676858);
+        list.add(4532467);
+        list.add(634758);
+        list.add(459067);
+        list.add(2);
+        list.add(3);
+        list.add(768);
+        list.add(23);
+        list.add(45);
+        list.add(89);
+        list.add(87);
+        list.add(6);
+        list.add(6);
+        list.add(23);
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        assertEquals(list.size(),bst.getSize());
+
+        List<Integer> result = bst.preOrder();
+
+        assertEquals(bst.getSize(),result.size());
+        result.forEach(System.out::println);
+    }
+
+    @Test
+    void postOrderWalkBst(){
+        List<Integer> list = new ArrayList<>();
+        list.add(6758);
+        list.add(4567);
+        list.add(6758);
+        list.add(4567);
+        list.add(676558);
+        list.add(4567);
+        list.add(676858);
+        list.add(4532467);
+        list.add(634758);
+        list.add(459067);
+        list.add(2);
+        list.add(3);
+        list.add(768);
+        list.add(23);
+        list.add(45);
+        list.add(89);
+        list.add(87);
+        list.add(6);
+        list.add(6);
+        list.add(23);
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        assertEquals(list.size(),bst.getSize());
+
+        List<Integer> result = bst.postOrder();
+
+        assertEquals(bst.getSize(),result.size());
+        result.forEach(System.out::println);
+    }
+
     private static boolean isSorted(List<Integer> result) {
         boolean isSorted=true;
         for(int i = 0, j = 1; j< result.size(); i++,j++){
-            if(result.get(i)> result.get(i)){
+            if(result.get(i)> result.get(j)){
                 isSorted=false;
                 break;
             }
