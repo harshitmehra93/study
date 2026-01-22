@@ -8,4 +8,10 @@ public interface BinarySearchTree {
     List<Integer> inorderWalk();
     List<Integer> preOrder();
     List<Integer> postOrder();
+
+    BstNode search(int i);
+
+    BstNode treeMin();
+
+    BstNode treeMax();
 }

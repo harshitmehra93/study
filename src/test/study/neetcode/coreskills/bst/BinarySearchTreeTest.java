@@ -198,6 +198,161 @@ class BinarySearchTreeTest {
         result.forEach(System.out::println);
     }
 
+    @Test
+    void successfulSearch_returnsNode(){
+        List<Integer> list = new ArrayList<>();
+        list.add(6758);
+        list.add(4567);
+        list.add(6758);
+        list.add(4567);
+        list.add(676558);
+        list.add(4567);
+        list.add(676858);
+        list.add(4532467);
+        list.add(634758);
+        list.add(459067);
+        list.add(2);
+        list.add(3);
+        list.add(768);
+        list.add(23);
+        list.add(45);
+        list.add(89);
+        list.add(87);
+        list.add(6);
+        list.add(6);
+        list.add(23);
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.search(4567);
+
+        assertNotNull(node);
+        assertEquals(4567,node.value);
+    }
+
+    @Test
+    void search_returnsNode_ifExists(){
+        List<Integer> list = new ArrayList<>();
+        list.add(5);
+        list.add(15);
+        list.add(20);
+        list.add(25);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.search(5);
+
+        assertNotNull(node);
+        assertEquals(5,node.value);
+    }
+
+    @Test
+    void search_returnsNull_ifNotExists(){
+        List<Integer> list = new ArrayList<>();
+        list.add(5);
+        list.add(15);
+        list.add(20);
+        list.add(25);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.search(0);
+
+        assertNull(node);
+    }
+
+    @Test
+    void treeMin(){
+        List<Integer> list = new ArrayList<>();
+        list.add(5);
+        list.add(15);
+        list.add(20);
+        list.add(25);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.treeMin();
+
+        assertNotNull(node);
+        assertEquals(5,node.value);
+    }
+
+    @Test
+    void treeMin_2(){
+        List<Integer> list = new ArrayList<>();
+        list.add(6758);
+        list.add(4567);
+        list.add(6758);
+        list.add(4567);
+        list.add(676558);
+        list.add(4567);
+        list.add(676858);
+        list.add(4532467);
+        list.add(634758);
+        list.add(459067);
+        list.add(2);
+        list.add(3);
+        list.add(768);
+        list.add(23);
+        list.add(45);
+        list.add(89);
+        list.add(87);
+        list.add(6);
+        list.add(6);
+        list.add(23);
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.treeMin();
+
+        assertNotNull(node);
+        assertEquals(2,node.value);
+    }
+
+    @Test
+    void treeMax(){
+        List<Integer> list = new ArrayList<>();
+        list.add(5);
+        list.add(15);
+        list.add(20);
+        list.add(25);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.treeMax();
+
+        assertNotNull(node);
+        assertEquals(25,node.value);
+    }
+
+    @Test
+    void treeMax_2(){
+        List<Integer> list = new ArrayList<>();
+        list.add(6758);
+        list.add(4567);
+        list.add(6758);
+        list.add(4567);
+        list.add(676558);
+        list.add(4567);
+        list.add(676858);
+        list.add(4532467);
+        list.add(634758);
+        list.add(459067);
+        list.add(2);
+        list.add(3);
+        list.add(768);
+        list.add(23);
+        list.add(45);
+        list.add(89);
+        list.add(87);
+        list.add(6);
+        list.add(6);
+        list.add(23);
+
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+
+        BstNode node = bst.treeMax();
+
+        assertNotNull(node);
+        assertEquals(4532467,node.value);
+    }
+
     private static boolean isSorted(List<Integer> result) {
         boolean isSorted=true;
         for(int i = 0, j = 1; j< result.size(); i++,j++){

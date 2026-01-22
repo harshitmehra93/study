@@ -67,6 +67,56 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         postOrder(root,result);
         return result;
     }
+
+    @Override
+    public BstNode search(int target) {
+//        return search(root,target);
+        return iterativeSearch(root,target);
+    }
+
+    @Override
+    public BstNode treeMin() {
+        BstNode tmp = root;
+        while(tmp.left!=null)
+            tmp=tmp.left;
+        return tmp;
+    }
+
+    @Override
+    public BstNode treeMax() {
+        BstNode tmp = root;
+        while(tmp.right!=null)
+            tmp=tmp.right;
+        return tmp;
+    }
+
+    private BstNode iterativeSearch(BstNode node, int target) {
+        while(node!=null){
+            if(node.value==target){
+                break;
+            }
+            if(node.value<target){
+                node=node.right;
+            }else {
+                node=node.left;
+            }
+        }
+        return node;
+    }
+
+    private BstNode search(BstNode node,int target){
+        if(isNull(node)){
+            return null;
+        }
+        if(node.value==target){
+            return node;
+        } else if (node.value<target) {
+            return search(node.right,target);
+        } else {
+            return search(node.left,target);
+        }
+    }
+
     private void postOrder(BstNode node, List<Integer> result){
         if(node==null)
             return;
