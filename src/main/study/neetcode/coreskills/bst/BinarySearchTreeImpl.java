@@ -56,7 +56,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         if(node==null)
             return;
 
-        result.add(node.value);
+        result.add(node.val);
         preOrder(node.left,result);
         preOrder(node.right,result);
     }
@@ -136,10 +136,10 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
 
     private BstNode iterativeSearch(BstNode node, int target) {
         while(node!=null){
-            if(node.value==target){
+            if(node.val ==target){
                 break;
             }
-            if(node.value<target){
+            if(node.val <target){
                 node=node.right;
             }else {
                 node=node.left;
@@ -152,9 +152,9 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         if(isNull(node)){
             return null;
         }
-        if(node.value==target){
+        if(node.val ==target){
             return node;
-        } else if (node.value<target) {
+        } else if (node.val <target) {
             return search(node.right,target);
         } else {
             return search(node.left,target);
@@ -167,7 +167,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
 
         preOrder(node.left,result);
         preOrder(node.right,result);
-        result.add(node.value);
+        result.add(node.val);
     }
 
     private void inorderWalk(BstNode node, List<Integer> result){
@@ -176,7 +176,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         }
 
         inorderWalk(node.left,result);
-        result.add(node.value);
+        result.add(node.val);
         inorderWalk(node.right,result);
     }
 
@@ -193,7 +193,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
             }
 
             current=stack.pop();
-            result.add(current.value);
+            result.add(current.val);
 
             current=current.right;
         }

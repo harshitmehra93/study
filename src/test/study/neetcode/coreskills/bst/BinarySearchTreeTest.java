@@ -127,7 +127,7 @@ class BinarySearchTreeTest {
         BstNode node = bst.search(4567);
 
         assertNotNull(node);
-        assertEquals(4567,node.value);
+        assertEquals(4567,node.val);
     }
 
     @Test
@@ -142,7 +142,7 @@ class BinarySearchTreeTest {
         BstNode node = bst.search(5);
 
         assertNotNull(node);
-        assertEquals(5,node.value);
+        assertEquals(5,node.val);
     }
 
     @Test
@@ -171,7 +171,7 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMin();
 
         assertNotNull(node);
-        assertEquals(5,node.value);
+        assertEquals(5,node.val);
     }
 
     @Test
@@ -183,7 +183,7 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMin();
 
         assertNotNull(node);
-        assertEquals(2,node.value);
+        assertEquals(2,node.val);
     }
 
     @Test
@@ -198,7 +198,7 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMax();
 
         assertNotNull(node);
-        assertEquals(25,node.value);
+        assertEquals(25,node.val);
     }
 
     @Test
@@ -210,7 +210,7 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMax();
 
         assertNotNull(node);
-        assertEquals(4532467,node.value);
+        assertEquals(4532467,node.val);
     }
 
     @Test
@@ -247,7 +247,7 @@ class BinarySearchTreeTest {
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         BstNode node = bst.successor(2);
         assertNotNull(node);
-        assertEquals(3,node.value);
+        assertEquals(3,node.val);
     }
 
     @Test
@@ -257,7 +257,7 @@ class BinarySearchTreeTest {
         for (int i = 1; i < 998; i++) {
             BstNode node = bst.successor(i);
             assertNotNull(node);
-            assertEquals(i + 1, node.value);
+            assertEquals(i + 1, node.val);
         }
     }
 
@@ -295,7 +295,7 @@ class BinarySearchTreeTest {
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         BstNode node = bst.predecessor(3);
         assertNotNull(node);
-        assertEquals(2,node.value);
+        assertEquals(2,node.val);
     }
 
     @Test
@@ -305,7 +305,7 @@ class BinarySearchTreeTest {
         for(int i=2;i<1001;i++){
             BstNode node = bst.predecessor(i);
             assertNotNull(node);
-            assertEquals(i-1,node.value);
+            assertEquals(i-1,node.val);
         }
     }
 
