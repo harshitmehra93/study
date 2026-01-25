@@ -77,16 +77,24 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
     @Override
     public BstNode treeMin() {
         BstNode tmp = root;
+        return min(tmp);
+    }
+
+    private static BstNode min(BstNode tmp) {
         while(tmp.left!=null)
-            tmp=tmp.left;
+            tmp = tmp.left;
         return tmp;
     }
 
     @Override
     public BstNode treeMax() {
         BstNode tmp = root;
+        return max(tmp);
+    }
+
+    private BstNode max(BstNode tmp) {
         while(tmp.right!=null)
-            tmp=tmp.right;
+            tmp = tmp.right;
         return tmp;
     }
 
@@ -96,11 +104,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         if(isNull(node))
             return null;
         if(node.right!=null){
-            BstNode tmp = node.right;
-            while(tmp.left!=null) {
-                tmp = tmp.left;
-            }
-            return tmp;
+            return min(node.right);
         }
 
         BstNode parent = node.parent;
@@ -118,11 +122,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         if(isNull(node))
             return null;
         if(node.left!=null){
-            BstNode tmp = node.left;
-            while(tmp.right!=null) {
-                tmp = tmp.right;
-            }
-            return tmp;
+            return max(node.left);
         }
 
         BstNode parent = node.parent;

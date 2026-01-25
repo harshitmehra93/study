@@ -48,7 +48,6 @@ class BinarySearchTreeTest {
 
         assertEquals(bst.getSize(),result.size());
         assertTrue(isSorted(result));
-        result.forEach(System.out::println);
     }
 
     @Test
@@ -62,7 +61,6 @@ class BinarySearchTreeTest {
 
         assertEquals(bst.getSize(),result.size());
         assertTrue(isSorted(result));
-        result.forEach(System.out::println);
     }
 
     @Test
@@ -78,7 +76,6 @@ class BinarySearchTreeTest {
 
         assertEquals(bst.getSize(),result.size());
         assertTrue(isSorted(result));
-        result.forEach(System.out::println);
     }
 
     @Test
@@ -95,7 +92,6 @@ class BinarySearchTreeTest {
 
         assertEquals(bst.getSize(),result.size());
         assertTrue(isSorted(result));
-        result.forEach(System.out::println);
     }
 
     @Test
@@ -108,7 +104,6 @@ class BinarySearchTreeTest {
         List<Integer> result = bst.preOrder();
 
         assertEquals(bst.getSize(),result.size());
-        result.forEach(System.out::println);
     }
 
     @Test
@@ -121,7 +116,6 @@ class BinarySearchTreeTest {
         List<Integer> result = bst.postOrder();
 
         assertEquals(bst.getSize(),result.size());
-        result.forEach(System.out::println);
     }
 
     @Test
