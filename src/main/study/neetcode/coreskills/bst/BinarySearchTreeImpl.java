@@ -90,6 +90,50 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         return tmp;
     }
 
+    @Override
+    public BstNode successor(int i) {
+        BstNode node = search(i);
+        if(isNull(node))
+            return null;
+        if(node.right!=null){
+            BstNode tmp = node.right;
+            while(tmp.left!=null) {
+                tmp = tmp.left;
+            }
+            return tmp;
+        }
+
+        BstNode parent = node.parent;
+        BstNode child = node;
+        while(parent!=null && child==parent.right){
+            child = parent;
+            parent=child.parent;
+        }
+        return parent;
+    }
+
+    @Override
+    public BstNode predecessor(int i) {
+        BstNode node = search(i);
+        if(isNull(node))
+            return null;
+        if(node.left!=null){
+            BstNode tmp = node.left;
+            while(tmp.right!=null) {
+                tmp = tmp.right;
+            }
+            return tmp;
+        }
+
+        BstNode parent = node.parent;
+        BstNode child = node;
+        while(parent!=null && child==parent.left){
+            child = parent;
+            parent=child.parent;
+        }
+        return parent;
+    }
+
     private BstNode iterativeSearch(BstNode node, int target) {
         while(node!=null){
             if(node.value==target){

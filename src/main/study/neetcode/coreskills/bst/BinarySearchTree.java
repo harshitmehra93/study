@@ -14,4 +14,8 @@ public interface BinarySearchTree {
     BstNode treeMin();
 
     BstNode treeMax();
+
+    BstNode successor(int i);
+
+    BstNode predecessor(int i);
 }

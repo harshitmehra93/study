@@ -2,9 +2,8 @@ package study.neetcode.coreskills.bst;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -218,6 +217,102 @@ class BinarySearchTreeTest {
 
         assertNotNull(node);
         assertEquals(4532467,node.value);
+    }
+
+    @Test
+    void emprtytree_successorEmpty(){
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+        BstNode node = bst.successor(2);
+        assertNull(node);
+    }
+
+    @Test
+    void targetNotInList_successorEmpty(){
+        List<Integer> list = new ArrayList<>();
+        list.add(3);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        BstNode node = bst.successor(2);
+        assertNull(node);
+    }
+
+    @Test
+    void targetInList_successorEmpty(){
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        BstNode node = bst.successor(2);
+        assertNull(node);
+    }
+
+    @Test
+    void targetInList_successorExists(){
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        BstNode node = bst.successor(2);
+        assertNotNull(node);
+        assertEquals(3,node.value);
+    }
+
+    @Test
+    void targetInList_successorExists_2() {
+        Set<Integer> set = new HashSet<>(Stream.iterate(1, n -> n + 1).limit(1000).toList());
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(set));
+        for (int i = 1; i < 998; i++) {
+            BstNode node = bst.successor(i);
+            assertNotNull(node);
+            assertEquals(i + 1, node.value);
+        }
+    }
+
+    @Test
+    void emprtytree_predecessorEmpty(){
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+        BstNode node = bst.predecessor(2);
+        assertNull(node);
+    }
+
+    @Test
+    void targetNotInList_predecessorEmpty(){
+        List<Integer> list = new ArrayList<>();
+        list.add(3);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        BstNode node = bst.predecessor(2);
+        assertNull(node);
+    }
+
+    @Test
+    void targetInList_predecessorEmpty(){
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        BstNode node = bst.predecessor(2);
+        assertNull(node);
+    }
+
+    @Test
+    void targetInList_predecessorExists(){
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        BstNode node = bst.predecessor(3);
+        assertNotNull(node);
+        assertEquals(2,node.value);
+    }
+
+    @Test
+    void targetInList_predecessorExists_2(){
+        Set<Integer> set = new HashSet<>(Stream.iterate(1,n->n+1).limit(1000).toList());
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(set));
+        for(int i=2;i<1001;i++){
+            BstNode node = bst.predecessor(i);
+            assertNotNull(node);
+            assertEquals(i-1,node.value);
+        }
     }
 
     private static boolean isSorted(List<Integer> result) {
