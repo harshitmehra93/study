@@ -18,4 +18,6 @@ public interface BinarySearchTree {
     BstNode successor(int i);
 
     BstNode predecessor(int i);
+
+    void insert(int i);
 }

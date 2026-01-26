@@ -2,6 +2,7 @@ package study.neetcode.coreskills.bst;
 
 import org.junit.jupiter.api.Test;
 
+import java.beans.Transient;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -9,117 +10,117 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BinarySearchTreeTest {
     @Test
-    void createBST(){
+    void createBST() {
         BinarySearchTree bst = new BinarySearchTreeImpl();
     }
 
     @Test
-    void createBST_size0(){
+    void createBST_size0() {
         BinarySearchTree bst = new BinarySearchTreeImpl();
-        assertEquals(0,bst.getSize());
+        assertEquals(0, bst.getSize());
     }
 
     @Test
-    void createBST_oneElement_size1(){
+    void createBST_oneElement_size1() {
         List<Integer> list = new ArrayList<>();
         list.add(6758);
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(1,bst.getSize());
+        assertEquals(1, bst.getSize());
     }
 
     @Test
-    void createBST_twoElements_size2(){
-        List<Integer> list = new ArrayList<>();
-        list.add(6758);
-        list.add(4567);
-        BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(2,bst.getSize());
-    }
-
-    @Test
-    void inorderWalkBst_returnsListInSortedOrder_1(){
+    void createBST_twoElements_size2() {
         List<Integer> list = new ArrayList<>();
         list.add(6758);
         list.add(4567);
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(2,bst.getSize());
+        assertEquals(2, bst.getSize());
+    }
+
+    @Test
+    void inorderWalkBst_returnsListInSortedOrder_1() {
+        List<Integer> list = new ArrayList<>();
+        list.add(6758);
+        list.add(4567);
+        BinarySearchTree bst = new BinarySearchTreeImpl(list);
+        assertEquals(2, bst.getSize());
 
         List<Integer> result = bst.inorderWalk();
 
-        assertEquals(bst.getSize(),result.size());
+        assertEquals(bst.getSize(), result.size());
         assertTrue(isSorted(result));
     }
 
     @Test
-    void inorderWalkBst_returnsListInSortedOrder_2(){
+    void inorderWalkBst_returnsListInSortedOrder_2() {
         List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(list.size(),bst.getSize());
+        assertEquals(list.size(), bst.getSize());
 
         List<Integer> result = bst.inorderWalk();
 
-        assertEquals(bst.getSize(),result.size());
+        assertEquals(bst.getSize(), result.size());
         assertTrue(isSorted(result));
     }
 
     @Test
-    void inorderWalkBst_returnsListInSortedOrder_3(){
+    void inorderWalkBst_returnsListInSortedOrder_3() {
         List<Integer> list = new ArrayList<>();
-        for(int i=0;i<20;i++)
+        for (int i = 0; i < 20; i++)
             list.add(1);
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(list.size(),bst.getSize());
+        assertEquals(list.size(), bst.getSize());
 
         List<Integer> result = bst.inorderWalk();
 
-        assertEquals(bst.getSize(),result.size());
+        assertEquals(bst.getSize(), result.size());
         assertTrue(isSorted(result));
     }
 
     @Test
-    void inorderWalkBst_returnsListInSortedOrder_4(){
+    void inorderWalkBst_returnsListInSortedOrder_4() {
         List<Integer> list = new ArrayList<>();
         Random random = new Random();
-        for(int i=0;i<100000;i++)
+        for (int i = 0; i < 100000; i++)
             list.add(random.nextInt(100000000));
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(list.size(),bst.getSize());
+        assertEquals(list.size(), bst.getSize());
 
         List<Integer> result = bst.inorderWalk();
 
-        assertEquals(bst.getSize(),result.size());
+        assertEquals(bst.getSize(), result.size());
         assertTrue(isSorted(result));
     }
 
     @Test
-    void preOrderWalkBst(){
+    void preOrderWalkBst() {
         List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(list.size(),bst.getSize());
+        assertEquals(list.size(), bst.getSize());
 
         List<Integer> result = bst.preOrder();
 
-        assertEquals(bst.getSize(),result.size());
+        assertEquals(bst.getSize(), result.size());
     }
 
     @Test
-    void postOrderWalkBst(){
+    void postOrderWalkBst() {
         List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
-        assertEquals(list.size(),bst.getSize());
+        assertEquals(list.size(), bst.getSize());
 
         List<Integer> result = bst.postOrder();
 
-        assertEquals(bst.getSize(),result.size());
+        assertEquals(bst.getSize(), result.size());
     }
 
     @Test
-    void successfulSearch_returnsNode(){
+    void successfulSearch_returnsNode() {
         List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -127,11 +128,11 @@ class BinarySearchTreeTest {
         BstNode node = bst.search(4567);
 
         assertNotNull(node);
-        assertEquals(4567,node.val);
+        assertEquals(4567, node.val);
     }
 
     @Test
-    void successfulSearch_returnsNode_2(){
+    void successfulSearch_returnsNode_2() {
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(15);
@@ -142,11 +143,11 @@ class BinarySearchTreeTest {
         BstNode node = bst.search(5);
 
         assertNotNull(node);
-        assertEquals(5,node.val);
+        assertEquals(5, node.val);
     }
 
     @Test
-    void unsuccessfulSearch_returnsNull(){
+    void unsuccessfulSearch_returnsNull() {
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(15);
@@ -160,7 +161,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void treeMin(){
+    void treeMin() {
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(15);
@@ -171,11 +172,11 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMin();
 
         assertNotNull(node);
-        assertEquals(5,node.val);
+        assertEquals(5, node.val);
     }
 
     @Test
-    void treeMin_2(){
+    void treeMin_2() {
         List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -183,11 +184,11 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMin();
 
         assertNotNull(node);
-        assertEquals(2,node.val);
+        assertEquals(2, node.val);
     }
 
     @Test
-    void treeMax(){
+    void treeMax() {
         List<Integer> list = new ArrayList<>();
         list.add(5);
         list.add(15);
@@ -198,11 +199,11 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMax();
 
         assertNotNull(node);
-        assertEquals(25,node.val);
+        assertEquals(25, node.val);
     }
 
     @Test
-    void treeMax_2(){
+    void treeMax_2() {
         List<Integer> list = createBigList();
 
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -210,18 +211,18 @@ class BinarySearchTreeTest {
         BstNode node = bst.treeMax();
 
         assertNotNull(node);
-        assertEquals(4532467,node.val);
+        assertEquals(4532467, node.val);
     }
 
     @Test
-    void emprtytree_successorEmpty(){
+    void emprtytree_successorEmpty() {
         BinarySearchTree bst = new BinarySearchTreeImpl();
         BstNode node = bst.successor(2);
         assertNull(node);
     }
 
     @Test
-    void targetNotInList_successorEmpty(){
+    void targetNotInList_successorEmpty() {
         List<Integer> list = new ArrayList<>();
         list.add(3);
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -230,7 +231,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void targetInList_successorEmpty(){
+    void targetInList_successorEmpty() {
         List<Integer> list = new ArrayList<>();
         list.add(2);
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -239,7 +240,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void targetInList_successorExists(){
+    void targetInList_successorExists() {
         List<Integer> list = new ArrayList<>();
         list.add(2);
         list.add(3);
@@ -247,7 +248,7 @@ class BinarySearchTreeTest {
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         BstNode node = bst.successor(2);
         assertNotNull(node);
-        assertEquals(3,node.val);
+        assertEquals(3, node.val);
     }
 
     @Test
@@ -262,14 +263,14 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void emprtytree_predecessorEmpty(){
+    void emprtytree_predecessorEmpty() {
         BinarySearchTree bst = new BinarySearchTreeImpl();
         BstNode node = bst.predecessor(2);
         assertNull(node);
     }
 
     @Test
-    void targetNotInList_predecessorEmpty(){
+    void targetNotInList_predecessorEmpty() {
         List<Integer> list = new ArrayList<>();
         list.add(3);
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -278,7 +279,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void targetInList_predecessorEmpty(){
+    void targetInList_predecessorEmpty() {
         List<Integer> list = new ArrayList<>();
         list.add(2);
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
@@ -287,7 +288,7 @@ class BinarySearchTreeTest {
     }
 
     @Test
-    void targetInList_predecessorExists(){
+    void targetInList_predecessorExists() {
         List<Integer> list = new ArrayList<>();
         list.add(2);
         list.add(3);
@@ -295,25 +296,74 @@ class BinarySearchTreeTest {
         BinarySearchTree bst = new BinarySearchTreeImpl(list);
         BstNode node = bst.predecessor(3);
         assertNotNull(node);
-        assertEquals(2,node.val);
+        assertEquals(2, node.val);
     }
 
     @Test
-    void targetInList_predecessorExists_2(){
-        Set<Integer> set = new HashSet<>(Stream.iterate(1,n->n+1).limit(1000).toList());
+    void targetInList_predecessorExists_2() {
+        Set<Integer> set = new HashSet<>(Stream.iterate(1, n -> n + 1).limit(1000).toList());
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(set));
-        for(int i=2;i<1001;i++){
+        for (int i = 2; i < 1001; i++) {
             BstNode node = bst.predecessor(i);
             assertNotNull(node);
-            assertEquals(i-1,node.val);
+            assertEquals(i - 1, node.val);
         }
     }
 
+    @Test
+    void insert_emptyTree_size1() {
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+
+        bst.insert(1);
+
+        assertEquals(1, bst.getSize());
+        assertEquals(1, bst.search(1).val);
+    }
+
+    @Test
+    void insert1_insert2_inorder_isSorted() {
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+
+        bst.insert(1);
+        bst.insert(2);
+
+        assertEquals(2, bst.getSize());
+        assertEquals(1, bst.search(1).val);
+        assertEquals(2, bst.search(2).val);
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void insertBigList_inorder_isSorted() {
+        List<Integer> bigList = createBigList();
+        BinarySearchTree bst = new BinarySearchTreeImpl(bigList);
+
+        assertEquals(bigList.size(), bst.getSize());
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void insertBigList_inorder_isSorted_2() {
+        List<Integer> bigList = Stream
+                .generate(() -> ((Double) (Math.random() * 10000)).intValue())
+                .limit(1000)
+                .toList();
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+
+        bigList.forEach(bst::insert);
+
+        assertEquals(bigList.size(), bst.getSize());
+        int randomIndex = ((Double) (Math.random() * 1000)).intValue();
+        Integer expected = bigList.get(randomIndex);
+        assertEquals(expected,bst.search(expected).val);
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
     private static boolean isSorted(List<Integer> result) {
-        boolean isSorted=true;
-        for(int i = 0, j = 1; j< result.size(); i++,j++){
-            if(result.get(i)> result.get(j)){
-                isSorted=false;
+        boolean isSorted = true;
+        for (int i = 0, j = 1; j < result.size(); i++, j++) {
+            if (result.get(i) > result.get(j)) {
+                isSorted = false;
                 break;
             }
         }
