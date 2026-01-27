@@ -559,7 +559,7 @@ class BinarySearchTreeTest {
                                              30                   90
                                         10       40            70        100
                                            20  35           80       95       110
-                                                 38                           105
+                                                 38                         105
                                                                          102
                                                                             104
       After delete -
