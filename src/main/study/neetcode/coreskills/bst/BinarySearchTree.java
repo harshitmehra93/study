@@ -20,4 +20,10 @@ public interface BinarySearchTree {
     BstNode predecessor(int i);
 
     void insert(int i);
+
+    void prettyPrint();
+
+    int getMaxHeight();
+
+    boolean delete(int i);
 }

@@ -359,6 +359,233 @@ class BinarySearchTreeTest {
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
+    @Test
+    void pretty_print_1(){
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+        bst.prettyPrint();
+    }
+
+    @Test
+    void pretty_print_oneNode(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1)));
+        bst.prettyPrint();
+    }
+    @Test
+    void pretty_print_twoNodes(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2)));
+        bst.prettyPrint();
+    }
+
+    @Test
+    void getMaxHeight_nullTree(){
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+        assertEquals(0,bst.getSize());
+        assertEquals(0,bst.getMaxHeight());
+    }
+
+    @Test
+    void getMaxHeight_singleNodeTree_returnsOne(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1)));
+        assertEquals(1,bst.getSize());
+        assertEquals(1,bst.getMaxHeight());
+    }
+    @Test
+    void getMaxHeight_3NodeTree_returnsTwo(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3)));
+        assertEquals(3,bst.getSize());
+        assertEquals(2,bst.getMaxHeight());
+    }
+
+    @Test
+    void getMaxHeight_5NodeTree_returnsThree(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5)));
+        assertEquals(5,bst.getSize());
+        assertEquals(3,bst.getMaxHeight());
+    }
+
+    @Test
+    void getMaxHeight_7NodeTree_returnsThree(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7)));
+        assertEquals(7,bst.getSize());
+        assertEquals(3,bst.getMaxHeight());
+    }
+
+    @Test
+    void getMaxHeight_8NodeTree_returnsThree(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8)));
+        assertEquals(8,bst.getSize());
+        assertEquals(4,bst.getMaxHeight());
+    }
+
+    @Test
+    void getMaxHeight_9NodeTree_returnsThree_2(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(-1,-2,1,2,3,4,5,6,7)));
+        assertEquals(9,bst.getSize());
+        assertEquals(4,bst.getMaxHeight());
+    }
+
+    @Test
+    void prettyPrint_1(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9)));
+        bst.prettyPrint();
+    }
+
+    @Test
+    void prettyPrint_2(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,23,567,666,777,12,68,123,5677,123,56,5,6,7)));
+        bst.prettyPrint();
+    }
+
+    @Test
+    void prettyPrint_3(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,21,22,23,24,25,26,27,28,29,30)));
+        bst.prettyPrint();
+    }
+
+    @Test
+    void delete_emptyTree_returnsFalse(){
+        BinarySearchTree bst = new BinarySearchTreeImpl();
+        assertFalse(bst.delete(3));
+    }
+
+    @Test
+    void delete_nodeDoesNotExist_returnsFalse(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9)));
+        assertFalse(bst.delete(10));
+    }
+
+    @Test
+    void delete_nodeExist_returnsTrue(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1)));
+        assertTrue(bst.delete(1));
+        assertEquals(0,bst.getSize());
+    }
+
+    @Test
+    void delete_leafNode_returnsTrue(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(1));
+        assertEquals(2,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_leafNode_returnsTrue_2(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(3));
+        assertEquals(2,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_leafNode_returnsTrue_3(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(7));
+        assertEquals(6,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_NodeWithOneChild_returnsTrue(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(1));
+        assertEquals(1,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_NodeWithOneChild_returnsTrue_2(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(1));
+        assertEquals(5,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_NodeWithOneChild_returnsTrue_3(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9,10,11)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(1));
+        assertEquals(10,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_NodeWithOneChild_returnsTrue_4(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9,10,11)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(4));
+        assertEquals(10,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_NodeWithOneChild_returnsTrue_5(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9,10,11)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(7));
+        assertEquals(10,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+    @Test
+    void delete_NodeWithOneChild_returnsTrue_6(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1,2,3,4,5,6,7,8,9,10,11)));
+        bst.prettyPrint();
+        assertTrue(bst.delete(10));
+        assertEquals(10,bst.getSize());
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+
+    /*
+    *
+    * before delete -
+                                                      60
+                                             30                   90
+                                        10       40            70        100
+                                           20  35           80       95       110
+                                                 38                           105
+                                                                         102
+                                                                            104
+      After delete -
+                                                      60
+                                             30                   90
+                                        10       40            70        102
+                                           20      50       80       95       110
+                                                                            105
+                                                                         104
+    *
+    * */
+    @Test
+    void delete_NodeWithTwoChild_returnsTrue(){
+        BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(10,20,30,40,50,60,70,80,90,100,110)));
+        bst.insert(95);
+        bst.insert(105);
+        bst.insert(102);
+        bst.insert(104);
+        bst.prettyPrint();
+        assertTrue(bst.delete(100));
+        bst.prettyPrint();
+        assertTrue(isSorted(bst.inorderWalk()));
+    }
+
+
+
     private static boolean isSorted(List<Integer> result) {
         boolean isSorted = true;
         for (int i = 0, j = 1; j < result.size(); i++, j++) {

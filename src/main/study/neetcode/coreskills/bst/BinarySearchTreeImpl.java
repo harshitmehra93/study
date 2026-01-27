@@ -158,6 +158,172 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         size++;
     }
 
+    @Override
+    public void prettyPrint() {
+        if(root==null){
+            return;
+        }
+        System.out.println();
+        Queue<BstNode> q1 = new LinkedList<>();
+        Queue<BstNode> q2 = new LinkedList<>();
+        Queue<BstNode> tmp = null;
+        BstNode nan = new BstNode(-1);
+        q1.add(root);
+        int height = getMaxHeight();
+        int level = 0;
+        while(!q1.isEmpty()){
+            int spaces = height*4-(int)Math.pow(2,level);
+            for(int i=0;i<spaces;i++){
+                System.out.print("  ");
+            }
+            while (!q1.isEmpty()){
+                BstNode node = q1.poll();
+                if(node.left!=null){
+                    q2.offer(node.left);
+                }else if(node!=nan){
+                    q2.offer(nan);
+                }
+                if(node.right!=null){
+                    q2.offer(node.right);
+                }
+                else if(node!=nan){
+                    q2.offer(nan);
+                }
+                System.out.print(node.val+"   ");
+            }
+            level++;
+            System.out.println();
+            tmp=q1;
+            q1=q2;
+            q2=tmp;
+        }
+    }
+
+    @Override
+    public int getMaxHeight() {
+        if(isNull(root))
+            return 0;
+        return getMaxHeight(root);
+    }
+
+    @Override
+    public boolean delete(int i) {
+        if(root==null)
+            return false;
+
+        BstNode node = search(i);
+
+        if(isNull(node)){
+            return false;
+        }
+
+        if(root==node&&size==1){
+            root=null;
+            size--;
+            return true;
+        }
+
+        // if leaf node, then sever connection with parent
+        if(isNull(node.left)&&isNull(node.right)){
+            if(node.parent.left==node)
+                node.parent.left=null;
+            if(node.parent.right==node)
+                node.parent.right=null;
+            size--;
+            return true;
+        }
+
+        if(isNull(node.right)||isNull(node.left)){
+            if(node==root){
+                if(isNull(node.left)){
+                    root=node.right;
+                    node.right.parent=null;
+                }
+                if(isNull(node.right)){
+                    root=node.left;
+                    node.left.parent=null;
+                }
+            }else{
+                if(node.parent.left==node){
+                    if(isNull(node.left)){
+                        node.parent.left=node.right;
+                        node.right.parent=node.parent;
+                    }else {
+                        node.parent.right=node.left;
+                        node.left.parent=node.parent;
+                    }
+                }else if(node.parent.right==node){
+                    if(isNull(node.right)){
+                        node.parent.right=node.left;
+                        node.left.parent=node.parent;
+                    }else {
+                        node.parent.right=node.right;
+                        node.right.parent=node.parent;
+                    }
+                }
+            }
+            size--;
+            return true;
+        }
+
+        if(node.left!=null&&node.right!=null){
+            BstNode successor = successor(node.val);
+            if(node.right==successor){
+                if(node.parent.left==node){
+                    node.parent.left=successor;
+                }else {
+                    node.parent.right=successor;
+                }
+                successor.parent=node.parent;
+                successor.left=node.left;
+                size--;
+                return true;
+            }
+
+            BstNode newNode =new BstNode(successor.val);
+            newNode.parent=node.parent;
+            newNode.left=node.left;
+            newNode.right=node.right;
+
+            if(successor.right!=null){
+                successor.parent.left=successor.right;
+                successor.right.parent=successor.parent;
+            }else{
+                successor.parent.left=null;
+            }
+
+            if(node.parent.left==node){
+                node.parent.left=newNode;
+            }else {
+                node.parent.right=newNode;
+            }
+            size--;
+            return true;
+        }
+        return false;
+    }
+
+    public void transplant(BstNode u, BstNode v){
+        if(u==root){
+            root=v;
+            v.parent=null;
+        }
+        if(u.parent.left==u){
+            u.parent.left=v;
+        }else {
+            u.parent.right=v;
+        }
+        if(v!=null)
+            v.parent=u.parent;
+    }
+
+    public int getMaxHeight(BstNode node){
+        if(isNull(node)){
+            return 0;
+        }
+        return 1 + Math.max(getMaxHeight(node.left),getMaxHeight(node.right));
+    }
+
     private BstNode iterativeSearch(BstNode node, int target) {
         while(node!=null){
             if(node.val ==target){
