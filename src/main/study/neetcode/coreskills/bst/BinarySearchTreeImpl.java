@@ -206,8 +206,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         return getMaxHeight(root);
     }
 
-    @Override
-    public boolean delete(int i) {
+    public boolean delete2(int i) {
         if(root==null)
             return false;
 
@@ -303,10 +302,36 @@ public class BinarySearchTreeImpl implements BinarySearchTree{
         return false;
     }
 
+    @Override
+    public boolean delete(int i){
+        BstNode node = search(i);
+        if(node==null){
+            return false;
+        }
+        if(node.left==null){
+            transplant(node,node.right);
+
+        } else if (node.right==null) {
+            transplant(node,node.left);
+        }else{
+            BstNode min = min(node.right);
+            if(min.parent!=node){
+                transplant(min,min.right);
+                min.right=node.right;
+                min.right.parent=min;
+            }
+            transplant(node,min);
+            min.left=node.left;
+            min.left.parent=min;
+        }
+        size--;
+        return true;
+    }
+
     public void transplant(BstNode u, BstNode v){
         if(u==root){
             root=v;
-            v.parent=null;
+            return;
         }
         if(u.parent.left==u){
             u.parent.left=v;

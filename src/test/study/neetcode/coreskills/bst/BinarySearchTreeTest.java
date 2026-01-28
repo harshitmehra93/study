@@ -556,18 +556,29 @@ class BinarySearchTreeTest {
     *
     * before delete -
                                                       60
+
                                              30                   90
+
                                         10       40            70        100
+
                                            20  35           80       95       110
+
                                                  38                         105
+
                                                                          102
+
                                                                             104
-      After delete -
+      After deleting 100 -
                                                       60
+
                                              30                   90
+
                                         10       40            70        102
+
                                            20      50       80       95       110
+
                                                                             105
+
                                                                          104
     *
     * */
