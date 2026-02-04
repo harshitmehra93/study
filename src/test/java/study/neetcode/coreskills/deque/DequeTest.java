@@ -1,5 +1,6 @@
 package study.neetcode.coreskills.deque;
 
+import coreskills.deque.Deque;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

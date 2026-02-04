@@ -2,7 +2,6 @@ package study.neetcode.coreskills.bst;
 
 import org.junit.jupiter.api.Test;
 
-import java.beans.Transient;
 import java.util.*;
 import java.util.stream.Stream;
 
