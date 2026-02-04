@@ -2,7 +2,6 @@ package study.neetcode.coreskills.generic.dynamicarray;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import coreskills.generic.dynamicarray.DynamicArrayException;
 import java.security.InvalidParameterException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

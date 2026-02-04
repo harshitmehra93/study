@@ -2,7 +2,6 @@ package study.neetcode.coreskills.deque;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import coreskills.deque.Deque;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
