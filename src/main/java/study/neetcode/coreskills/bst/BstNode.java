@@ -5,13 +5,15 @@ public class BstNode {
     BstNode parent;
     BstNode left;
     BstNode right;
-    BstNode(BstNode p, Integer val, BstNode left, BstNode right){
+
+    BstNode(BstNode p, Integer val, BstNode left, BstNode right) {
         this.val = val;
         parent = p;
-        this.left=left;
-        this.right=right;
+        this.left = left;
+        this.right = right;
     }
-    BstNode(Integer val){
-        this.val =val;
+
+    BstNode(Integer val) {
+        this.val = val;
     }
 }

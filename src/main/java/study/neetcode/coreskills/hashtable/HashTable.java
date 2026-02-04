@@ -7,7 +7,7 @@ public interface HashTable {
 
     int get(int key);
 
-    Boolean put(int key,int value);
+    Boolean put(int key, int value);
 
-  boolean remove(int key);
+    boolean remove(int key);
 }

@@ -2,6 +2,7 @@ package study.neetcode.coreskills.dynamicarray;
 
 public interface DynamicArray {
     int DEFAULT_CAPACITY = 50;
+
     int getCapacity();
 
     int getSize();
@@ -13,5 +14,6 @@ public interface DynamicArray {
     int popback();
 
     void set(int i, int i1);
+
     void resize();
 }

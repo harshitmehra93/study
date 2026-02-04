@@ -2,20 +2,20 @@ package study.neetcode.coreskills.deque;
 
 public class DequeLinkedListImpl implements Deque {
     private final int MAX_CAPACITY;
-    private final int DEFAULT_MAX_CAPACITY=50;
+    private final int DEFAULT_MAX_CAPACITY = 50;
     private int size;
     private DoubleLinkNode front;
     private DoubleLinkNode rear;
 
-    DequeLinkedListImpl(int capacity){
-        if(capacity<0)
-            throw new DequeException("Capacity should not be negative");
+    DequeLinkedListImpl(int capacity) {
+        if (capacity < 0) throw new DequeException("Capacity should not be negative");
         MAX_CAPACITY = capacity;
     }
 
-    DequeLinkedListImpl(){
+    DequeLinkedListImpl() {
         MAX_CAPACITY = DEFAULT_MAX_CAPACITY;
     }
+
     @Override
     public int getSize() {
         return size;
@@ -23,14 +23,13 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public boolean insertFront(int value) {
-        if(size>=MAX_CAPACITY)
-            throwDequeOverflowException();
-        if(size==0){
-            front=rear=new DoubleLinkNode(value);
-        }else {
-            var newFront = new DoubleLinkNode(null,value,front);
-            front.prev=newFront;
-            front=newFront;
+        if (size >= MAX_CAPACITY) throwDequeOverflowException();
+        if (size == 0) {
+            front = rear = new DoubleLinkNode(value);
+        } else {
+            var newFront = new DoubleLinkNode(null, value, front);
+            front.prev = newFront;
+            front = newFront;
         }
         size++;
         return true;
@@ -38,14 +37,13 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public boolean insertLast(int value) {
-        if(size>=MAX_CAPACITY)
-            throwDequeOverflowException();
-        if(size==0){
-            front=rear=new DoubleLinkNode(value);
-        }else{
-            var newRear = new DoubleLinkNode(rear,value,null);
-            rear.next=newRear;
-            rear=newRear;
+        if (size >= MAX_CAPACITY) throwDequeOverflowException();
+        if (size == 0) {
+            front = rear = new DoubleLinkNode(value);
+        } else {
+            var newRear = new DoubleLinkNode(rear, value, null);
+            rear.next = newRear;
+            rear = newRear;
         }
         size++;
         return true;
@@ -57,13 +55,13 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public boolean deleteFront() {
-        if(size==0){
+        if (size == 0) {
             throwEmptyDequeException();
-        }else if(size==1){
-            front=rear=null;
-        }else {
-            front.next.prev=null;
-            front=front.next;
+        } else if (size == 1) {
+            front = rear = null;
+        } else {
+            front.next.prev = null;
+            front = front.next;
         }
         size--;
         return true;
@@ -71,13 +69,13 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public boolean deleteLast() {
-        if(size==0){
+        if (size == 0) {
             throwEmptyDequeException();
-        }else if(size==1){
-            front=rear=null;
-        }else {
-            rear.prev.next=null;
-            rear=rear.prev;
+        } else if (size == 1) {
+            front = rear = null;
+        } else {
+            rear.prev.next = null;
+            rear = rear.prev;
         }
         size--;
         return true;
@@ -85,14 +83,13 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public int getFront() {
-        if(size==0)
-            throwEmptyDequeException();
+        if (size == 0) throwEmptyDequeException();
         return front.value;
     }
 
     @Override
     public int getRear() {
-        if(size==0){
+        if (size == 0) {
             throwEmptyDequeException();
         }
         return rear.value;
@@ -104,7 +101,7 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     @Override
@@ -114,6 +111,6 @@ public class DequeLinkedListImpl implements Deque {
 
     @Override
     public boolean isFull() {
-        return size==MAX_CAPACITY;
+        return size == MAX_CAPACITY;
     }
 }
