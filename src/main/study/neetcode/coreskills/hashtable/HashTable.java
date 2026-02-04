@@ -1,11 +1,13 @@
 package study.neetcode.coreskills.hashtable;
 
 public interface HashTable {
-    float getSize();
+    int getSize();
 
-    float getCapacity();
+    int getCapacity();
 
-    int get(int i);
+    int get(int key);
 
-    Boolean put(int i,int j);
+    Boolean put(int key,int value);
+
+  boolean remove(int key);
 }

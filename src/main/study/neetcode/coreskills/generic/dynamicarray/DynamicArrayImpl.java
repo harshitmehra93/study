@@ -8,6 +8,12 @@ public class DynamicArrayImpl<U> implements DynamicArray<U> {
     private int capacity;
     private int size=0;
     private Object[] array;
+    private boolean resizeAllowed=true;
+  public DynamicArrayImpl(int capacity,boolean resizeAllowed){
+    this.capacity=capacity;
+    this.resizeAllowed=resizeAllowed;
+    array = new Object[capacity];
+  }
     public DynamicArrayImpl(Integer capacity){
         if(isNull(capacity)||capacity<=0)
             throw new InvalidParameterException("invalid capacity value");
@@ -38,18 +44,20 @@ public class DynamicArrayImpl<U> implements DynamicArray<U> {
     }
 
     public void resize() {
+      if(resizeAllowed){
         capacity=getCapacity()*2;
         Object[] newArray = new Object[capacity];
         for(int i=0;i<getSize();i++){
-            newArray[i]=array[i];
+          newArray[i]=array[i];
         }
         array=newArray;
+      }
     }
 
     @Override
     public U get(int i) {
-        if(i<0||i>getCapacity())
-            return null;
+        if(i<0||i>=getCapacity())
+            returnDynamicArrayIndexNotFoundException(i);
         return (U)array[i];
     }
 
@@ -64,18 +72,22 @@ public class DynamicArrayImpl<U> implements DynamicArray<U> {
 
     @Override
     public void set(int i, U element) {
-        if(i<0||i>getCapacity())
+        if(i<0||i>=getCapacity())
             returnDynamicArrayIndexNotFoundException(i);
+        if(array[i]==null){
+          size++;
+        }
         array[i]=element;
+        if(getSize()==getCapacity())
+          resize();
     }
 
     private void returnDynamicArrayIndexNotFoundException(int i) {
-        throw new RuntimeException("index i="+i+" does not exist for Dynamic Array");
+        throw new DynamicArrayException("index i="+i+" does not exist for Dynamic Array");
     }
-
-//    class DynamicArrayException extends Exception{
-//        DynamicArrayException(String msg){
-//            super(msg);
-//        }
-//    }
+}
+class DynamicArrayException extends RuntimeException{
+  DynamicArrayException(String msg){
+    super(msg);
+  }
 }

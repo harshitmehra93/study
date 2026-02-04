@@ -3,290 +3,323 @@ package study.neetcode.coreskills.generic.dynamicarray;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import study.neetcode.coreskills.generic.dynamicarray.DynamicArray;
-import study.neetcode.coreskills.generic.dynamicarray.DynamicArrayImpl;
 
 import java.security.InvalidParameterException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DynamicArrayTest {
-    @Test
-    public void createADynamicArray(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertNotNull(dynamicArray1);
-    }
 
-    @Test
-    void createDynamicArrayWithDefaultCapacity(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertNotNull(dynamicArray1);
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-    }
+  @Test
+  public void createADynamicArray() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertNotNull(dynamicArray1);
+  }
 
-    @ParameterizedTest
-    @CsvSource({"1","2","3","4","5","6"})
-    void createDynamicArrayWithCustomCapacity(int capacity){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(capacity);
-        assertNotNull(dynamicArray1);
-        assertEquals(capacity,dynamicArray1.getCapacity());
-    }
+  @Test
+  void createDynamicArrayWithDefaultCapacity() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertNotNull(dynamicArray1);
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+  }
 
-    @ParameterizedTest
-    @CsvSource({"-1","0"})
-    void createDynamicArrayWithInvalidCapacity(Integer capacity){
-        assertThrows(InvalidParameterException.class, () -> new DynamicArrayImpl<>(capacity));
-    }
+  @ParameterizedTest
+  @CsvSource({"1", "2", "3", "4", "5", "6"})
+  void createDynamicArrayWithCustomCapacity(int capacity) {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(capacity);
+    assertNotNull(dynamicArray1);
+    assertEquals(capacity, dynamicArray1.getCapacity());
+  }
 
-    @Test
-    void createDynamicArrayWithInvalidCapacity(){
-        assertThrows(InvalidParameterException.class, () -> new DynamicArrayImpl<>(null));
-    }
+  @ParameterizedTest
+  @CsvSource({"-1", "0"})
+  void createDynamicArrayWithInvalidCapacity(Integer capacity) {
+    assertThrows(InvalidParameterException.class, () -> new DynamicArrayImpl<>(capacity));
+  }
 
-    @Test
-    void getCapacityOfDynamicArray(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertNotNull(dynamicArray1);
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-    }
+  @Test
+  void createDynamicArrayWithInvalidCapacity() {
+    assertThrows(InvalidParameterException.class, () -> new DynamicArrayImpl<>(null));
+  }
 
-    @Test
-    void sizeOfEmptyDynamicArray_isZero(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertEquals(0,dynamicArray1.getSize());
-    }
+  @Test
+  void getCapacityOfDynamicArray() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertNotNull(dynamicArray1);
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+  }
 
-    @ParameterizedTest
-    @CsvSource({"1","2","3","4"})
-    void sizeOfEmptyNCapacityDynamicArray_IsZero(int capacity){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(capacity);
-        assertNotNull(dynamicArray1);
-        assertEquals(capacity,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
-    }
+  @Test
+  void sizeOfEmptyDynamicArray_isZero() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertEquals(0, dynamicArray1.getSize());
+  }
 
-    @Test
-    void pushBackOneElement_sizeIs1(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
+  @ParameterizedTest
+  @CsvSource({"1", "2", "3", "4"})
+  void sizeOfEmptyNCapacityDynamicArray_IsZero(int capacity) {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(capacity);
+    assertNotNull(dynamicArray1);
+    assertEquals(capacity, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
+  }
 
-        dynamicArray1.pushback(1);
+  @Test
+  void pushBackOneElement_sizeIs1() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
 
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(1,dynamicArray1.getSize());
+    dynamicArray1.pushback(1);
 
-    }
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(1, dynamicArray1.getSize());
 
-    @Test
-    void pushBackTwoElements_sizeIs2(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
+  }
 
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(1);
+  @Test
+  void pushBackTwoElements_sizeIs2() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
 
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(2,dynamicArray1.getSize());
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(1);
 
-    }
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(2, dynamicArray1.getSize());
 
-    @Test
-    void pushBack50Elements_sizeIs50(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
+  }
 
-        for(int i=0;i<50;i++)
-            dynamicArray1.pushback(i);
+  @Test
+  void pushBack50Elements_sizeIs50() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
 
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(50,dynamicArray1.getSize());
+    for (int i = 0; i < 50; i++)
+      dynamicArray1.pushback(i);
 
-    }
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(50, dynamicArray1.getSize());
 
-    @Test
-    void push1_get1(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        dynamicArray1.pushback(1);
-        assertEquals(1,dynamicArray1.get(0));
-    }
+  }
 
-    @Test
-    void push2Elements_getBoth(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
-        assertEquals(1,dynamicArray1.get(0));
-        assertEquals(2,dynamicArray1.get(1));
-    }
+  @Test
+  void push1_get1() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    dynamicArray1.pushback(1);
+    assertEquals(1, dynamicArray1.get(0));
+  }
 
-    @Test
-    void push2Elements_getThirdElementReturnsNull(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
-        assertEquals(1,dynamicArray1.get(0));
-        assertEquals(2,dynamicArray1.get(1));
-        assertNull(dynamicArray1.get(2));
-    }
+  @Test
+  void push2Elements_getBoth() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
+    assertEquals(1, dynamicArray1.get(0));
+    assertEquals(2, dynamicArray1.get(1));
+  }
 
-    @Test
-    void push2Elements_getNegativeIndex_returnsNull(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
-        assertEquals(1,dynamicArray1.get(0));
-        assertEquals(2,dynamicArray1.get(1));
-        assertNull(dynamicArray1.get(-1));
-    }
+  @Test
+  void push2Elements_getThirdElementReturnsException() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(2);
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
+    assertEquals(1, dynamicArray1.get(0));
+    assertEquals(2, dynamicArray1.get(1));
+    assertThrows(DynamicArrayException.class, () -> dynamicArray1.get(2));
+  }
 
-    @Test
-    void pushNoElements_getZerothIndex_returnsNull(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertNull(dynamicArray1.get(0));
-    }
+  @Test
+  void push2Elements_getNegativeIndex_returnsException() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
+    assertEquals(1, dynamicArray1.get(0));
+    assertEquals(2, dynamicArray1.get(1));
+    assertThrows(DynamicArrayException.class, () -> dynamicArray1.get(-1));
+  }
 
-    @Test
-    void push2Elements_popBack_returnsSecondElement(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
-        assertEquals(1,dynamicArray1.get(0));
-        assertEquals(2,dynamicArray1.get(1));
-        assertEquals(2,dynamicArray1.popback());
-    }
+  @Test
+  void push2Elements_popBack_returnsSecondElement() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
+    assertEquals(1, dynamicArray1.get(0));
+    assertEquals(2, dynamicArray1.get(1));
+    assertEquals(2, dynamicArray1.popback());
+  }
 
-    @Test
-    void pushNoElements_popBack_returnsException(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        assertThrows(RuntimeException.class,()->dynamicArray1.popback());
-    }
+  @Test
+  void pushNoElements_popBack_returnsException() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertThrows(DynamicArrayException.class, () -> dynamicArray1.popback());
+  }
 
-    @Test
-    void push2Elements_setSecondElementTo3(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
-        assertEquals(2,dynamicArray1.get(1));
+  @Test
+  void push2Elements_setSecondElementTo3() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
+    assertEquals(2, dynamicArray1.get(1));
 
-        dynamicArray1.set(1,3);
+    dynamicArray1.set(1, 3);
 
-        assertEquals(3,dynamicArray1.get(1));
-    }
+    assertEquals(3, dynamicArray1.get(1));
+  }
 
-    @Test
-    void emptyDynamicArray_setSecondIndexTo3_returnsException(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+  @Test
+  void emptyDynamicArray_setSecondIndexTo3_returnsException() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(1);
 
-        assertThrows(RuntimeException.class,()->dynamicArray1.set(1,3));
-    }
+    assertThrows(DynamicArrayException.class, () -> dynamicArray1.set(1, 3));
+  }
 
-    @Test
-    void emptyDynamicArray_setNegativeIndexTo3_returnsException(){
-        DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+  @Test
+  void emptyDynamicArray_setNegativeIndexTo3_returnsException() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
 
-        assertThrows(RuntimeException.class,()->dynamicArray1.set(-1,3));
-    }
+    assertThrows(DynamicArrayException.class, () -> dynamicArray1.set(-1, 3));
+  }
 
-    @Test
-    void createDynamicArrayWith1Capcity_add2Elements_shouldResize(){
-        DynamicArray<Integer> dynamicArray = new DynamicArrayImpl<>(1);
-        assertEquals(1,dynamicArray.getCapacity());
-        dynamicArray.pushback(1);
-        assertDoesNotThrow(()->dynamicArray.pushback(2));
-        assertEquals(2,dynamicArray.getCapacity());
-    }
+  @Test
+  void createDynamicArrayWith1Capcity_add2Elements_shouldResize() {
+    DynamicArray<Integer> dynamicArray = new DynamicArrayImpl<>(1);
+    assertEquals(1, dynamicArray.getCapacity());
+    dynamicArray.pushback(1);
+    assertDoesNotThrow(() -> dynamicArray.pushback(2));
+    assertEquals(2, dynamicArray.getCapacity());
+  }
 
-    @Test
-    void pushBack51ElementsOnDefaultCapacity_resizesTheArray(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>();
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
+  @Test
+  void pushBack51ElementsOnDefaultCapacity_resizesTheArray() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
 
-        for(int i=0;i<50;i++)
-            dynamicArray1.pushback(i);
+    for (int i = 0; i < 50; i++)
+      dynamicArray1.pushback(i);
 
-        assertEquals(50,dynamicArray1.getSize());
+    assertEquals(50, dynamicArray1.getSize());
 
-        dynamicArray1.pushback(50);
-        assertEquals(51,dynamicArray1.getSize());
-        assertEquals(100,dynamicArray1.getCapacity());
+    dynamicArray1.pushback(50);
+    assertEquals(51, dynamicArray1.getSize());
+    assertEquals(100, dynamicArray1.getCapacity());
 
-        for(int i=0;i<51;i++)
-            assertEquals(i,dynamicArray1.get(i));
-    }
+    for (int i = 0; i < 51; i++)
+      assertEquals(i, dynamicArray1.get(i));
+  }
 
-    @Test
-    void empthyDynamicArray_resizeCall_resizesTheArray(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>();
-        assertEquals(DynamicArray.DEFAULT_CAPACITY,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
+  @Test
+  void empthyDynamicArray_resizeCall_resizesTheArray() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
+    assertEquals(DynamicArray.DEFAULT_CAPACITY, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
 
-        dynamicArray1.resize();
+    dynamicArray1.resize();
 
-        assertEquals(DynamicArray.DEFAULT_CAPACITY*2,dynamicArray1.getCapacity());
-        assertEquals(0,dynamicArray1.getSize());
-    }
+    assertEquals(DynamicArray.DEFAULT_CAPACITY * 2, dynamicArray1.getCapacity());
+    assertEquals(0, dynamicArray1.getSize());
+  }
 
-    @Test
-    void push2Elements_popback1_popsLastElement(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>();
+  @Test
+  void push2Elements_popback1_popsLastElement() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
 
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
 
-        assertEquals(2,dynamicArray1.popback());
-        assertEquals(1,dynamicArray1.getSize());
-    }
+    assertEquals(2, dynamicArray1.popback());
+    assertEquals(1, dynamicArray1.getSize());
+  }
 
-    @Test
-    void push2Elements_popback2Elements_sizeIsZero(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>();
+  @Test
+  void push2Elements_popback2Elements_sizeIsZero() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
 
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
 
-        assertEquals(2,dynamicArray1.popback());
-        assertEquals(1,dynamicArray1.popback());
-        assertEquals(0,dynamicArray1.getSize());
-    }
+    assertEquals(2, dynamicArray1.popback());
+    assertEquals(1, dynamicArray1.popback());
+    assertEquals(0, dynamicArray1.getSize());
+  }
 
-    @Test
-    void push2Elements_popback3Elements_returnException(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>();
+  @Test
+  void push2Elements_popback3Elements_returnException() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>();
 
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
 
-        assertEquals(2,dynamicArray1.popback());
-        assertEquals(1,dynamicArray1.popback());
-        assertThrows(RuntimeException.class,()->dynamicArray1.popback());
-    }
+    assertEquals(2, dynamicArray1.popback());
+    assertEquals(1, dynamicArray1.popback());
+    assertThrows(DynamicArrayException.class, () -> dynamicArray1.popback());
+  }
 
-    @Test
-    void capacity2Array_push2Elements_popback2Elements_doesNotResize(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>(2);
+  @Test
+  void capacity2Array_push2Elements_popback2Elements_doesNotResize() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(2);
 
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
 
-        assertEquals(2,dynamicArray1.popback());
-        assertEquals(1,dynamicArray1.popback());
-        assertEquals(0,dynamicArray1.getSize());
-        assertEquals(2,dynamicArray1.getCapacity());
-    }
+    assertEquals(2, dynamicArray1.popback());
+    assertEquals(1, dynamicArray1.popback());
+    assertEquals(0, dynamicArray1.getSize());
+    assertEquals(2, dynamicArray1.getCapacity());
+  }
 
-    @Test
-    void capacity2Array_push3Elements_resizes(){
-        DynamicArray dynamicArray1 = new DynamicArrayImpl<>(2);
+  @Test
+  void capacity2Array_push3Elements_resizes() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(2);
 
-        dynamicArray1.pushback(1);
-        dynamicArray1.pushback(2);
-        dynamicArray1.pushback(3);
+    dynamicArray1.pushback(1);
+    dynamicArray1.pushback(2);
+    dynamicArray1.pushback(3);
 
-        assertEquals(3,dynamicArray1.getSize());
-        assertEquals(4,dynamicArray1.getCapacity());
-    }
+    assertEquals(3, dynamicArray1.getSize());
+    assertEquals(4, dynamicArray1.getCapacity());
+  }
+
+  @Test
+  void capacity10Array_push3ElementsAtRandomPlaces_sizeIs3() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(10);
+
+    dynamicArray1.set(1,1);
+    dynamicArray1.set(5,5);
+    dynamicArray1.set(8,8);
+
+    assertEquals(3, dynamicArray1.getSize());
+    assertEquals(10, dynamicArray1.getCapacity());
+  }
+
+  @Test
+  void capacity10Array_push3ElementsAtRandomPlaces_overwriteOne_sizeIs3() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(10);
+
+    dynamicArray1.set(1,1);
+    dynamicArray1.set(5,5);
+    dynamicArray1.set(8,8);
+    dynamicArray1.set(1,2);
+
+    assertEquals(3, dynamicArray1.getSize());
+    assertEquals(10, dynamicArray1.getCapacity());
+  }
+
+  @Test
+  void capacity10Array_push10ElementsAtRandomPlaces_capacityDoubles() {
+    DynamicArray<Integer> dynamicArray1 = new DynamicArrayImpl<>(5);
+
+    dynamicArray1.set(0,0);
+    dynamicArray1.set(1,1);
+    dynamicArray1.set(2,2);
+    dynamicArray1.set(3,3);
+    dynamicArray1.set(4,4);
+    dynamicArray1.set(5,5);
+
+    assertEquals(6, dynamicArray1.getSize());
+    assertEquals(10, dynamicArray1.getCapacity());
+  }
 }

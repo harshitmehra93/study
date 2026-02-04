@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DynamicArrayTest {
     @Test
+
     public void createADynamicArray(){
         DynamicArray dynamicArray1 = new DynamicArrayImpl();
         assertNotNull(dynamicArray1);

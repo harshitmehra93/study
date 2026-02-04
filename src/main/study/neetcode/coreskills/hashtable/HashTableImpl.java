@@ -1,86 +1,128 @@
 package study.neetcode.coreskills.hashtable;
 
-import study.neetcode.coreskills.generic.dynamicarray.DynamicArray;
-import study.neetcode.coreskills.generic.dynamicarray.DynamicArrayImpl;
+import java.util.Optional;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class HashTableImpl implements HashTable {
-    float size;
-    float capacity;
-    DynamicArray<List<Entry>> dynamicArray;
-    HashTableImpl(){
-        capacity=8.0f;
-        dynamicArray = new DynamicArrayImpl((int)capacity);
-    }
-    HashTableImpl(int capacity){
-        this.capacity=capacity;
-        dynamicArray = new DynamicArrayImpl((int)capacity);
+public class  HashTableImpl implements HashTable {
+    int size;
+    int capacity;
+    FixedArray<List<Entry>> buckets;
+    public HashTableImpl(){
+        capacity=8;
+        buckets = createBucketsContainer(capacity);
     }
 
+  public HashTableImpl(int capacity){
+        this.capacity=capacity;
+        buckets = createBucketsContainer(capacity);
+    }
+
+  private FixedArray<List<Entry>> createBucketsContainer(int capacity) {
+    return new FixedArrayImpl<>(capacity);
+  }
+
     @Override
-    public float getSize() {
+    public int getSize() {
         return size;
     }
 
     @Override
-    public float getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
     @Override
-    public int get(int i) {
-        List<Entry> list = dynamicArray.get(hash(i));
+    public int get(int key) {
+        List<Entry> list = buckets.get(hash(key));
         if(list!=null){
-            return list.stream().filter(e->e.getKey()==i).findFirst().get().getValue();
+            return list.stream()
+                .filter(e -> e.getKey() == key)
+                .map(Entry::getValue)
+                .findFirst()
+                .orElse(-1);
         }
         return -1;
     }
 
     @Override
     public Boolean put(int key, int value) {
-        if(get(key)==-1){
-            int index = hash(key);
-            var list = new LinkedList<Entry>();
-            list.add(new Entry(key,value));
-            dynamicArray.set(index,list);
-        }else {
-            List<Entry> list = dynamicArray.get(hash(key));
-            var entry = list.stream().filter(e->e.getKey()==key).findFirst().get();
-            entry.setValue(value);
+      int index=hash(key);
+      List<Entry> existingList = buckets.get(index);
+
+      if(existingList ==null){
+          var newList = new LinkedList<Entry>();
+          newList.add(new Entry(key, value));
+          buckets.set(index,newList);
+          incrementSize();
+        }else{
+          Optional<Entry> entry = existingList.stream().filter(e->e.getKey()==key).findFirst();
+          entry.ifPresent(entry1 -> entry1.setValue(value));
+
+          if(entry.isEmpty()){
+            existingList.add(new Entry(key, value));
+            incrementSize();
+          }
         }
-        incrementSize();
         return Boolean.TRUE;
     }
 
-    private int hash(int key) {
-        int cap = (int)capacity;
-        return ((key%cap)+cap)%cap;
+  @Override
+  public boolean remove(int key) {
+    int index = hash(key);
+    var list = buckets.get(index);
+    if (list == null)
+      return false;
+
+    for (var it = list.iterator(); it.hasNext(); ) {
+      if (it.next().getKey() == key) {
+        it.remove();
+        size--;
+        if (list.isEmpty())
+          buckets.set(index, null);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private int hash(int key) {
+    return ((key% capacity)+ capacity)% capacity;
     }
 
     private void incrementSize() {
         size++;
-        if(needsCapacityIncrease()){
-            capacity=capacity*2;
+        if(needsRehash()){
+            rehash();
         }
     }
 
-    boolean needsCapacityIncrease(){
-        return size / capacity > 0.75;
+  private void rehash() {
+    var oldBuckets = buckets;
+    capacity=capacity*2;
+    size=0;
+    buckets = createBucketsContainer(capacity);
+    for(int i=0;i<oldBuckets.length();i++){
+      var list = oldBuckets.get(i);
+      if(list!=null){
+        list.forEach(e->put(e.getKey(),e.getValue()));
+      }
+    }
+  }
+
+  boolean needsRehash(){
+        return (double) size / capacity >= 0.75;
     }
 
-    class Entry implements Comparable<Entry>{
-        private int key;
+    static class Entry{
+        private final int key;
         private int value;
-        Entry(){}
         Entry(int k, int v){key=k;value=v;}
         int getKey(){return key;}
-        int setValue(int value){return this.value=value;}
-        int getValue(){return value;}
-        @Override
-        public int compareTo(Entry entry) {
-            return this.key-entry.getKey();
+        void setValue(int value){
+          this.value = value;
         }
+        int getValue(){return value;}
     }
 }
