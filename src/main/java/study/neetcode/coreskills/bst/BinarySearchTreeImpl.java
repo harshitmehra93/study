@@ -8,7 +8,7 @@ public class BinarySearchTreeImpl implements BinarySearchTree {
     private int size;
     BstNode root;
 
-    BinarySearchTreeImpl(List<Integer> list) {
+    public BinarySearchTreeImpl(List<Integer> list) {
         size = list.size();
         createBst(list);
     }
@@ -152,46 +152,6 @@ public class BinarySearchTreeImpl implements BinarySearchTree {
     }
 
     @Override
-    public void prettyPrint() {
-        if (root == null) {
-            return;
-        }
-        System.out.println();
-        Queue<BstNode> q1 = new LinkedList<>();
-        Queue<BstNode> q2 = new LinkedList<>();
-        Queue<BstNode> tmp = null;
-        BstNode nan = new BstNode(-1);
-        q1.add(root);
-        int height = getMaxHeight();
-        int level = 0;
-        while (!q1.isEmpty()) {
-            int spaces = height * 4 - (int) Math.pow(2, level);
-            for (int i = 0; i < spaces; i++) {
-                System.out.print("  ");
-            }
-            while (!q1.isEmpty()) {
-                BstNode node = q1.poll();
-                if (node.left != null) {
-                    q2.offer(node.left);
-                } else if (node != nan) {
-                    q2.offer(nan);
-                }
-                if (node.right != null) {
-                    q2.offer(node.right);
-                } else if (node != nan) {
-                    q2.offer(nan);
-                }
-                System.out.print(node.val + "   ");
-            }
-            level++;
-            System.out.println();
-            tmp = q1;
-            q1 = q2;
-            q2 = tmp;
-        }
-    }
-
-    @Override
     public int getMaxHeight() {
         if (isNull(root)) return 0;
         return getMaxHeight(root);
@@ -314,6 +274,11 @@ public class BinarySearchTreeImpl implements BinarySearchTree {
         }
         size--;
         return true;
+    }
+
+    @Override
+    public BstNode getRoot() {
+        return root;
     }
 
     public void transplant(BstNode u, BstNode v) {

@@ -23,9 +23,9 @@ public interface BinarySearchTree {
 
     void insert(int i);
 
-    void prettyPrint();
-
     int getMaxHeight();
 
     boolean delete(int i);
+
+    BstNode getRoot();
 }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import study.utils.TreeUtils;
 
 class BinarySearchTreeTest {
     @Test
@@ -358,19 +359,19 @@ class BinarySearchTreeTest {
     @Test
     void pretty_print_1() {
         BinarySearchTree bst = new BinarySearchTreeImpl();
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
     }
 
     @Test
     void pretty_print_oneNode() {
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
     }
 
     @Test
     void pretty_print_twoNodes() {
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
     }
 
     @Test
@@ -429,7 +430,7 @@ class BinarySearchTreeTest {
     void prettyPrint_1() {
         BinarySearchTree bst =
                 new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
     }
 
     @Test
@@ -440,7 +441,7 @@ class BinarySearchTreeTest {
                                 List.of(
                                         1, 2, 3, 4, 23, 567, 666, 777, 12, 68, 123, 5677, 123, 56,
                                         5, 6, 7)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
     }
 
     @Test
@@ -451,7 +452,7 @@ class BinarySearchTreeTest {
                                 List.of(
                                         1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18,
                                         21, 22, 23, 24, 25, 26, 27, 28, 29, 30)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
     }
 
     @Test
@@ -477,20 +478,20 @@ class BinarySearchTreeTest {
     @Test
     void delete_leafNode_returnsTrue() {
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2, 3)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(1));
         assertEquals(2, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
     @Test
     void delete_leafNode_returnsTrue_2() {
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2, 3)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(3));
         assertEquals(2, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
@@ -498,30 +499,30 @@ class BinarySearchTreeTest {
     void delete_leafNode_returnsTrue_3() {
         BinarySearchTree bst =
                 new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(7));
         assertEquals(6, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
     @Test
     void delete_NodeWithOneChild_returnsTrue() {
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(1));
         assertEquals(1, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
     @Test
     void delete_NodeWithOneChild_returnsTrue_2() {
         BinarySearchTree bst = new BinarySearchTreeImpl(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(1));
         assertEquals(5, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
@@ -530,10 +531,10 @@ class BinarySearchTreeTest {
         BinarySearchTree bst =
                 new BinarySearchTreeImpl(
                         new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(1));
         assertEquals(10, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
@@ -542,10 +543,10 @@ class BinarySearchTreeTest {
         BinarySearchTree bst =
                 new BinarySearchTreeImpl(
                         new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(4));
         assertEquals(10, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
@@ -554,10 +555,10 @@ class BinarySearchTreeTest {
         BinarySearchTree bst =
                 new BinarySearchTreeImpl(
                         new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(7));
         assertEquals(10, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
@@ -566,10 +567,10 @@ class BinarySearchTreeTest {
         BinarySearchTree bst =
                 new BinarySearchTreeImpl(
                         new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(10));
         assertEquals(10, bst.getSize());
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 
@@ -612,9 +613,9 @@ class BinarySearchTreeTest {
         bst.insert(105);
         bst.insert(102);
         bst.insert(104);
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(bst.delete(100));
-        bst.prettyPrint();
+        TreeUtils.prettyPrint(bst.getRoot());
         assertTrue(isSorted(bst.inorderWalk()));
     }
 

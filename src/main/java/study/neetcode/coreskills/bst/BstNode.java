@@ -1,6 +1,9 @@
 package study.neetcode.coreskills.bst;
 
-public class BstNode {
+import study.model.BstNodeBase;
+import study.model.TreeNodeBase;
+
+public class BstNode implements BstNodeBase<Integer> {
     int val;
     BstNode parent;
     BstNode left;
@@ -15,5 +18,25 @@ public class BstNode {
 
     BstNode(Integer val) {
         this.val = val;
+    }
+
+    @Override
+    public Integer getValue() {
+        return val;
+    }
+
+    @Override
+    public TreeNodeBase<Integer> getLeft() {
+        return left;
+    }
+
+    @Override
+    public TreeNodeBase<Integer> getRight() {
+        return right;
+    }
+
+    @Override
+    public BstNodeBase<Integer> getParent() {
+        return parent;
     }
 }
