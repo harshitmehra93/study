@@ -7,9 +7,11 @@ public class HeapNode implements TreeNodeBase<Integer> {
     HeapNode left;
     HeapNode right;
     HeapNode parent;
-    HeapNode(Integer val){
-        this.value=val;
+
+    HeapNode(Integer val) {
+        this.value = val;
     }
+
     @Override
     public Integer getValue() {
         return value;
