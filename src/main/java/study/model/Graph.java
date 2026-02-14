@@ -3,15 +3,15 @@ package study.model;
 import java.util.Set;
 
 public interface Graph<T> {
-  Set<GraphNodeBase<T>> getGraphNodes();
+    Set<GraphNodeBase<T>> getGraphNodes();
 
-  int getSize();
+    int getSize();
 
-  void addEdge(T a, T b);
+    void addEdge(T a, T b);
 
-  void addNode(T o);
+    void addNode(T o);
 
-  GraphNodeBase<T> getNode(T node);
+    GraphNodeBase<T> getNode(T node);
 
-  void removeEdge(T nodeA, T nodeB);
+    void removeEdge(T nodeA, T nodeB);
 }
