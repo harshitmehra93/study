@@ -1,9 +1,8 @@
 package study.model;
 
-import study.neetcode.coreskills.graph.IntegerGraphNode;
-
 import java.util.List;
 import java.util.Set;
+import study.neetcode.coreskills.graph.IntegerGraphNode;
 
 public interface Graph<T> {
     Set<? extends GraphNodeBase<T>> getGraphNodes();

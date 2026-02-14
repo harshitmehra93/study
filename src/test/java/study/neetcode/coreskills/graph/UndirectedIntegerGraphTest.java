@@ -99,9 +99,9 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void sameNode_addEdge_shouldThrow(){
+    void sameNode_addEdge_shouldThrow() {
         graph.addNode(1);
-        assertThrows(GraphException.class,()->graph.addEdge(1,1));
+        assertThrows(GraphException.class, () -> graph.addEdge(1, 1));
     }
 
     @Test
@@ -308,7 +308,7 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void bfs_emptyGraph(){
+    void bfs_emptyGraph() {
         buildRandomGraph(20);
         List<IntegerGraphNode> bfsOrder = graph.bfs(getRandomNode(10));
         System.out.println(bfsOrder);
@@ -325,22 +325,26 @@ public class UndirectedIntegerGraphTest {
                     } catch (GraphException g) {
                     }
                 });
-        for (int i = 0; i < GRAPH_MAX_SIZE ; i++) addRandomEdge(GRAPH_MAX_SIZE);
+        for (int i = 0; i < GRAPH_MAX_SIZE; i++) addRandomEdge(GRAPH_MAX_SIZE);
         printGraph();
     }
 
     private void printGraph() {
         Set<IntegerGraphNode> nodes = graph.getGraphNodes();
-        nodes.stream().forEach(n->{
-            System.out.println(n.getValue()+" -> "+n.getAdjacencyList());
-        });
+        nodes.stream()
+                .forEach(
+                        n -> {
+                            System.out.println(n.getValue() + " -> " + n.getAdjacencyList());
+                        });
     }
 
     private void addRandomEdge(int MAX_INT) {
         GraphNodeBase node1 = getRandomNode(MAX_INT);
         GraphNodeBase node2 = getRandomNode(MAX_INT);
-        try { graph.addEdge(node1, node2);}
-        catch (GraphException g) {}
+        try {
+            graph.addEdge(node1, node2);
+        } catch (GraphException g) {
+        }
     }
 
     private IntegerGraphNode getRandomNode(int SET_SIZE) {
