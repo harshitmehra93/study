@@ -2,14 +2,14 @@ package study.neetcode.coreskills.graph;
 
 import static java.util.Objects.isNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
 import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNodeBase;
 
 public class UndirectedIntegerGraph implements Graph<Integer> {
-    Set<GraphNodeBase<Integer>> nodes;
+    Set<IntegerGraphNode> nodes;
 
     UndirectedIntegerGraph(int numOfNodes) {
         nodes = new HashSet<>();
@@ -23,7 +23,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public Set<GraphNodeBase<Integer>> getGraphNodes() {
+    public Set<IntegerGraphNode> getGraphNodes() {
         return nodes;
     }
 
@@ -40,8 +40,21 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         var nodeA = getNode(a);
         var nodeB = getNode(b);
 
-        nodeA.getAdjacencyList().add(nodeB);
-        nodeB.getAdjacencyList().add(nodeA);
+        Set<IntegerGraphNode> adjacencyListA = nodeA.getAdjacencyList();
+        Set<IntegerGraphNode> adjacencyListB = nodeB.getAdjacencyList();
+
+        if(adjacencyListA.contains(nodeB)&&adjacencyListB.contains(nodeA))
+            throw new GraphException("Edge already exists");
+
+        adjacencyListA.add(nodeB);
+        adjacencyListB.add(nodeA);
+    }
+
+    @Override
+    public void addEdge(GraphNodeBase<Integer> a, GraphNodeBase<Integer> b) {
+        if(isNull(a)||isNull(b))
+            throw getNodeDoesNotExistException();
+        addEdge(a.getValue(),b.getValue());
     }
 
     @Override
@@ -55,7 +68,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public GraphNodeBase<Integer> getNode(Integer node) {
+    public IntegerGraphNode getNode(Integer node) {
         return nodes.stream()
                 .filter(n -> n.getValue().equals(node))
                 .findFirst()
@@ -76,6 +89,16 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
 
         nodeA.getAdjacencyList().remove(nodeB);
         nodeB.getAdjacencyList().remove(nodeA);
+    }
+
+    @Override
+    public List<IntegerGraphNode> getNeighbours(Integer node) {
+        if(isNull(node) || !isNodePresent(node)){
+            throw getNodeDoesNotExistException();
+        }
+        List<IntegerGraphNode> adjacencyList = new ArrayList<>(getNode(node).getAdjacencyList());
+        Collections.sort(adjacencyList);
+        return adjacencyList;
     }
 
     private static GraphException getNodeDoesNotExistException() {

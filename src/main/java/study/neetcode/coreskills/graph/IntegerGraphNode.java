@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import study.model.GraphNodeBase;
 
-public class IntegerGraphNode implements GraphNodeBase<Integer> {
+public class IntegerGraphNode implements GraphNodeBase<Integer>, Comparable<IntegerGraphNode> {
 
     Integer value;
-    Set<GraphNodeBase<Integer>> adjacencyList;
+    Set<IntegerGraphNode> adjacencyList;
 
     public IntegerGraphNode(Integer value) {
         this.value = value;
@@ -20,7 +20,7 @@ public class IntegerGraphNode implements GraphNodeBase<Integer> {
     }
 
     @Override
-    public Set<GraphNodeBase<Integer>> getAdjacencyList() {
+    public Set<IntegerGraphNode> getAdjacencyList() {
         return adjacencyList;
     }
 
@@ -35,5 +35,10 @@ public class IntegerGraphNode implements GraphNodeBase<Integer> {
     @Override
     public int hashCode() {
         return value.hashCode();
+    }
+
+    @Override
+    public int compareTo(IntegerGraphNode o) {
+        return this.getValue().compareTo(o.getValue());
     }
 }

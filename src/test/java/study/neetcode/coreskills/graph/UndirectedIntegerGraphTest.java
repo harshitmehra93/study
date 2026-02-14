@@ -1,7 +1,8 @@
 package study.neetcode.coreskills.graph;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import study.model.Graph;
@@ -11,7 +12,6 @@ import study.model.GraphNodeBase;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UndirectedIntegerGraphTest {
-
     private Graph graph;
 
     @BeforeEach
@@ -81,6 +81,22 @@ public class UndirectedIntegerGraphTest {
     @Test
     public void emptyGraph_AddEdge_shouldThrow() {
         assertThrows(GraphException.class, () -> graph.addEdge(1, 2));
+    }
+
+    @Test
+    public void existingEdge_addAgain_shouldThrow(){
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addEdge(1,2);
+
+        assertThrows(GraphException.class,()->graph.addEdge(1,2));
+        assertThrows(GraphException.class,()->graph.addEdge(2,1));
+        assertEquals(2,graph.getSize());
+        GraphNodeBase node1 = graph.getNode(1);
+        GraphNodeBase node2 = graph.getNode(2);
+
+        assertTrue(node1.getAdjacencyList().contains(node2));
+        assertTrue(node2.getAdjacencyList().contains(node1));
     }
 
     @Test
@@ -232,5 +248,105 @@ public class UndirectedIntegerGraphTest {
         set.add(node1);
         set.add(node2);
         assertEquals(1,set.size());
+    }
+
+    @Test
+    void nullNode_getNeighbours_throws(){
+        assertThrows(GraphException.class,()->graph.getNeighbours(null));
+    }
+
+    @Test
+    void NonExistentNode_getNeighbours_throws(){
+        assertThrows(GraphException.class,()->graph.getNeighbours(1));
+    }
+
+    @Test
+    void getNeighbours_happy(){
+        graph.addNode(1);
+        graph.addNode(2);
+
+        var neightbours = graph.getNeighbours(1);
+
+        assertNotNull(neightbours);
+        assertEquals(0,neightbours.size());
+    }
+
+    @Test
+    void getNeighbours_happy_2(){
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addNode(3);
+        graph.addNode(4);
+        graph.addNode(5);
+
+        graph.addEdge(1,4);
+        graph.addEdge(1,2);
+        graph.addEdge(1,5);
+        graph.addEdge(1,3);
+
+
+        var neighbours = graph.getNeighbours(1);
+
+        assertNotNull(neighbours);
+        System.out.println(neighbours);
+        assertEquals(4,neighbours.size());
+        assertListIsSorted(neighbours);
+    }
+
+    @Test
+    void getNeighbours_happy_3(){
+        final int GRAPH_SIZE = 100;
+        buildRandomGraph(GRAPH_SIZE);
+
+        var node = getRandomNode(GRAPH_SIZE);
+        var neighbours = graph.getNeighbours(node.getValue());
+        assertListIsSorted(neighbours);
+    }
+
+    private void buildRandomGraph(int GRAPH_MAX_SIZE) {
+        IntStream s = IntStream.generate(()->(int)(Math.random()* GRAPH_MAX_SIZE)).limit(GRAPH_MAX_SIZE);
+        s.forEach(i->{
+            try{graph.addNode(i);}
+            catch (GraphException g){}
+        });
+        for(int i=0;i<GRAPH_MAX_SIZE*10;i++)
+            addRandomEdge(GRAPH_MAX_SIZE);
+    }
+
+    private void addRandomEdge(int MAX_INT) {
+        GraphNodeBase node1 = getRandomNode(MAX_INT);
+        GraphNodeBase node2 = getRandomNode(MAX_INT);
+        try{graph.addEdge(node1,node2);}
+        catch (GraphException g){}
+    }
+
+    private GraphNodeBase getRandomNode(int SET_SIZE) {
+        GraphNodeBase node = null;
+        for(int i=(int)(Math.random()*SET_SIZE);i<SET_SIZE;i++){
+            try{
+                node = graph.getNode(i);
+            }catch (GraphException g){
+                if(i==SET_SIZE-1){
+                    i=0; // restart from 0 if node is not found
+                }
+                continue;
+            }
+            break;
+        }
+        return node;
+    }
+
+    private void assertListIsSorted(List neighbours) {
+        Iterator<IntegerGraphNode> it = neighbours.iterator();
+        isSorted(it);
+    }
+
+    private void isSorted(Iterator<IntegerGraphNode> it) {
+        var node1 = it.hasNext() ? it.next():null;
+        while (it.hasNext()){
+            var node2 = it.next();
+            assertTrue(node1.getValue()<=node2.getValue());
+            node1=node2;
+        }
     }
 }

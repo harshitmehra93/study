@@ -5,5 +5,5 @@ import java.util.Set;
 public interface GraphNodeBase<T> {
     T getValue();
 
-    Set<GraphNodeBase<Integer>> getAdjacencyList();
+    Set<? extends GraphNodeBase<T>> getAdjacencyList();
 }
