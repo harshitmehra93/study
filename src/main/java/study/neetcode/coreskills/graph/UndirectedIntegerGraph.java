@@ -49,6 +49,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         if (isNull(node)) {
             throw new GraphException("Node cannot be null");
         }
+        if(isNodePresent(node))
+            throw new GraphException("Node already exists");
         nodes.add(new IntegerGraphNode(node));
     }
 
@@ -58,6 +60,10 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
                 .filter(n -> n.getValue().equals(node))
                 .findFirst()
                 .orElseThrow(UndirectedIntegerGraph::getNodeDoesNotExistException);
+    }
+
+    boolean isNodePresent(Integer node){
+        return nodes.stream().anyMatch(n->n.getValue().equals(node));
     }
 
     @Override
