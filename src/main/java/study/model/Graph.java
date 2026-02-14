@@ -9,6 +9,7 @@ public interface Graph<T> {
     int getSize();
 
     void addEdge(T a, T b);
+
     void addEdge(GraphNodeBase<T> a, GraphNodeBase<T> b);
 
     void addNode(T o);

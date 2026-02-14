@@ -1,15 +1,14 @@
 package study.neetcode.coreskills.graph;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.*;
 import java.util.stream.IntStream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNodeBase;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class UndirectedIntegerGraphTest {
     private Graph graph;
@@ -54,7 +53,7 @@ public class UndirectedIntegerGraphTest {
     @Test
     public void addDuplicate_throws() {
         graph.addNode(1);
-        assertThrows(GraphException.class,()->graph.addNode(1));
+        assertThrows(GraphException.class, () -> graph.addNode(1));
     }
 
     @Test
@@ -84,14 +83,14 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    public void existingEdge_addAgain_shouldThrow(){
+    public void existingEdge_addAgain_shouldThrow() {
         graph.addNode(1);
         graph.addNode(2);
-        graph.addEdge(1,2);
+        graph.addEdge(1, 2);
 
-        assertThrows(GraphException.class,()->graph.addEdge(1,2));
-        assertThrows(GraphException.class,()->graph.addEdge(2,1));
-        assertEquals(2,graph.getSize());
+        assertThrows(GraphException.class, () -> graph.addEdge(1, 2));
+        assertThrows(GraphException.class, () -> graph.addEdge(2, 1));
+        assertEquals(2, graph.getSize());
         GraphNodeBase node1 = graph.getNode(1);
         GraphNodeBase node2 = graph.getNode(2);
 
@@ -139,17 +138,17 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void removeEdge_happy(){
+    void removeEdge_happy() {
         // Arrange
         graph.addNode(1);
         graph.addNode(2);
-        graph.addEdge(1,2);
+        graph.addEdge(1, 2);
 
         // Act
-        graph.removeEdge(1,2);
+        graph.removeEdge(1, 2);
 
         // Assert
-        assertEquals(2,graph.getSize());
+        assertEquals(2, graph.getSize());
 
         var node1 = graph.getNode(1);
         var node2 = graph.getNode(2);
@@ -160,36 +159,36 @@ public class UndirectedIntegerGraphTest {
         var adjListNode2 = node2.getAdjacencyList();
         assertNotNull(adjListNode1);
         assertNotNull(adjListNode2);
-        assertEquals(0,adjListNode1.size());
-        assertEquals(0,adjListNode2.size());
+        assertEquals(0, adjListNode1.size());
+        assertEquals(0, adjListNode2.size());
         assertFalse(adjListNode1.contains(node2));
         assertFalse(adjListNode2.contains(node1));
     }
 
     @Test
-    void removeEdge_happy_2(){
+    void removeEdge_happy_2() {
         // Arrange
         graph.addNode(1);
         graph.addNode(2);
         graph.addNode(3);
         graph.addNode(4);
         graph.addNode(5);
-        graph.addEdge(1,2);
-        graph.addEdge(2,3);
-        graph.addEdge(3,4);
-        graph.addEdge(2,5);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 4);
+        graph.addEdge(2, 5);
         // 1-2-3-4
         //   |
         //   5
 
         // Act
-        graph.removeEdge(1,2);
+        graph.removeEdge(1, 2);
         // 1 2-3-4
         //   |
         //   5
 
         // Assert
-        assertEquals(5,graph.getSize());
+        assertEquals(5, graph.getSize());
 
         var node1 = graph.getNode(1);
         var node2 = graph.getNode(2);
@@ -214,87 +213,86 @@ public class UndirectedIntegerGraphTest {
         assertNotNull(adjListNode5);
 
         // node 1
-        assertEquals(0,adjListNode1.size());
+        assertEquals(0, adjListNode1.size());
         assertFalse(adjListNode1.contains(node2));
 
         // node 2
-        assertEquals(2,adjListNode2.size());
+        assertEquals(2, adjListNode2.size());
         assertFalse(adjListNode2.contains(node1));
         assertTrue(adjListNode2.contains(node5));
         assertTrue(adjListNode2.contains(node3));
 
         // node 3
-        assertEquals(2,adjListNode3.size());
+        assertEquals(2, adjListNode3.size());
         assertTrue(adjListNode3.contains(node2));
         assertTrue(adjListNode3.contains(node4));
 
         // node 4
-        assertEquals(1,adjListNode4.size());
+        assertEquals(1, adjListNode4.size());
         assertTrue(adjListNode4.contains(node3));
 
         // node 5
-        assertEquals(1,adjListNode5.size());
+        assertEquals(1, adjListNode5.size());
         assertTrue(adjListNode5.contains(node2));
     }
 
     @Test
-    void equality(){
+    void equality() {
         var node1 = new IntegerGraphNode(1);
         var node2 = new IntegerGraphNode(1);
         assertTrue(node1.equals(node2));
-        assertTrue(node1.hashCode()==node2.hashCode());
+        assertTrue(node1.hashCode() == node2.hashCode());
 
         Set<IntegerGraphNode> set = new HashSet<>();
         set.add(node1);
         set.add(node2);
-        assertEquals(1,set.size());
+        assertEquals(1, set.size());
     }
 
     @Test
-    void nullNode_getNeighbours_throws(){
-        assertThrows(GraphException.class,()->graph.getNeighbours(null));
+    void nullNode_getNeighbours_throws() {
+        assertThrows(GraphException.class, () -> graph.getNeighbours(null));
     }
 
     @Test
-    void NonExistentNode_getNeighbours_throws(){
-        assertThrows(GraphException.class,()->graph.getNeighbours(1));
+    void NonExistentNode_getNeighbours_throws() {
+        assertThrows(GraphException.class, () -> graph.getNeighbours(1));
     }
 
     @Test
-    void getNeighbours_happy(){
+    void getNeighbours_happy() {
         graph.addNode(1);
         graph.addNode(2);
 
         var neightbours = graph.getNeighbours(1);
 
         assertNotNull(neightbours);
-        assertEquals(0,neightbours.size());
+        assertEquals(0, neightbours.size());
     }
 
     @Test
-    void getNeighbours_happy_2(){
+    void getNeighbours_happy_2() {
         graph.addNode(1);
         graph.addNode(2);
         graph.addNode(3);
         graph.addNode(4);
         graph.addNode(5);
 
-        graph.addEdge(1,4);
-        graph.addEdge(1,2);
-        graph.addEdge(1,5);
-        graph.addEdge(1,3);
-
+        graph.addEdge(1, 4);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 5);
+        graph.addEdge(1, 3);
 
         var neighbours = graph.getNeighbours(1);
 
         assertNotNull(neighbours);
         System.out.println(neighbours);
-        assertEquals(4,neighbours.size());
+        assertEquals(4, neighbours.size());
         assertListIsSorted(neighbours);
     }
 
     @Test
-    void getNeighbours_happy_3(){
+    void getNeighbours_happy_3() {
         final int GRAPH_SIZE = 100;
         buildRandomGraph(GRAPH_SIZE);
 
@@ -304,30 +302,36 @@ public class UndirectedIntegerGraphTest {
     }
 
     private void buildRandomGraph(int GRAPH_MAX_SIZE) {
-        IntStream s = IntStream.generate(()->(int)(Math.random()* GRAPH_MAX_SIZE)).limit(GRAPH_MAX_SIZE);
-        s.forEach(i->{
-            try{graph.addNode(i);}
-            catch (GraphException g){}
-        });
-        for(int i=0;i<GRAPH_MAX_SIZE*10;i++)
-            addRandomEdge(GRAPH_MAX_SIZE);
+        IntStream s =
+                IntStream.generate(() -> (int) (Math.random() * GRAPH_MAX_SIZE))
+                        .limit(GRAPH_MAX_SIZE);
+        s.forEach(
+                i -> {
+                    try {
+                        graph.addNode(i);
+                    } catch (GraphException g) {
+                    }
+                });
+        for (int i = 0; i < GRAPH_MAX_SIZE * 10; i++) addRandomEdge(GRAPH_MAX_SIZE);
     }
 
     private void addRandomEdge(int MAX_INT) {
         GraphNodeBase node1 = getRandomNode(MAX_INT);
         GraphNodeBase node2 = getRandomNode(MAX_INT);
-        try{graph.addEdge(node1,node2);}
-        catch (GraphException g){}
+        try {
+            graph.addEdge(node1, node2);
+        } catch (GraphException g) {
+        }
     }
 
     private GraphNodeBase getRandomNode(int SET_SIZE) {
         GraphNodeBase node = null;
-        for(int i=(int)(Math.random()*SET_SIZE);i<SET_SIZE;i++){
-            try{
+        for (int i = (int) (Math.random() * SET_SIZE); i < SET_SIZE; i++) {
+            try {
                 node = graph.getNode(i);
-            }catch (GraphException g){
-                if(i==SET_SIZE-1){
-                    i=0; // restart from 0 if node is not found
+            } catch (GraphException g) {
+                if (i == SET_SIZE - 1) {
+                    i = 0; // restart from 0 if node is not found
                 }
                 continue;
             }
@@ -342,11 +346,11 @@ public class UndirectedIntegerGraphTest {
     }
 
     private void isSorted(Iterator<IntegerGraphNode> it) {
-        var node1 = it.hasNext() ? it.next():null;
-        while (it.hasNext()){
+        var node1 = it.hasNext() ? it.next() : null;
+        while (it.hasNext()) {
             var node2 = it.next();
-            assertTrue(node1.getValue()<=node2.getValue());
-            node1=node2;
+            assertTrue(node1.getValue() <= node2.getValue());
+            node1 = node2;
         }
     }
 }

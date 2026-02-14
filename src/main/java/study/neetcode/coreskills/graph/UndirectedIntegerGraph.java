@@ -3,7 +3,6 @@ package study.neetcode.coreskills.graph;
 import static java.util.Objects.isNull;
 
 import java.util.*;
-
 import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNodeBase;
@@ -43,7 +42,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         Set<IntegerGraphNode> adjacencyListA = nodeA.getAdjacencyList();
         Set<IntegerGraphNode> adjacencyListB = nodeB.getAdjacencyList();
 
-        if(adjacencyListA.contains(nodeB)&&adjacencyListB.contains(nodeA))
+        if (adjacencyListA.contains(nodeB) && adjacencyListB.contains(nodeA))
             throw new GraphException("Edge already exists");
 
         adjacencyListA.add(nodeB);
@@ -52,9 +51,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
 
     @Override
     public void addEdge(GraphNodeBase<Integer> a, GraphNodeBase<Integer> b) {
-        if(isNull(a)||isNull(b))
-            throw getNodeDoesNotExistException();
-        addEdge(a.getValue(),b.getValue());
+        if (isNull(a) || isNull(b)) throw getNodeDoesNotExistException();
+        addEdge(a.getValue(), b.getValue());
     }
 
     @Override
@@ -62,8 +60,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         if (isNull(node)) {
             throw new GraphException("Node cannot be null");
         }
-        if(isNodePresent(node))
-            throw new GraphException("Node already exists");
+        if (isNodePresent(node)) throw new GraphException("Node already exists");
         nodes.add(new IntegerGraphNode(node));
     }
 
@@ -75,8 +72,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
                 .orElseThrow(UndirectedIntegerGraph::getNodeDoesNotExistException);
     }
 
-    boolean isNodePresent(Integer node){
-        return nodes.stream().anyMatch(n->n.getValue().equals(node));
+    boolean isNodePresent(Integer node) {
+        return nodes.stream().anyMatch(n -> n.getValue().equals(node));
     }
 
     @Override
@@ -93,7 +90,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
 
     @Override
     public List<IntegerGraphNode> getNeighbours(Integer node) {
-        if(isNull(node) || !isNodePresent(node)){
+        if (isNull(node) || !isNodePresent(node)) {
             throw getNodeDoesNotExistException();
         }
         List<IntegerGraphNode> adjacencyList = new ArrayList<>(getNode(node).getAdjacencyList());
