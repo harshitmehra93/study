@@ -41,4 +41,9 @@ public class IntegerGraphNode implements GraphNodeBase<Integer>, Comparable<Inte
     public int compareTo(IntegerGraphNode o) {
         return this.getValue().compareTo(o.getValue());
     }
+
+    @Override
+    public String toString(){
+        return String.valueOf(value);
+    }
 }

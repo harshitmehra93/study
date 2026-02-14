@@ -1,5 +1,7 @@
 package study.model;
 
+import study.neetcode.coreskills.graph.IntegerGraphNode;
+
 import java.util.List;
 import java.util.Set;
 
@@ -19,4 +21,6 @@ public interface Graph<T> {
     void removeEdge(T nodeA, T nodeB);
 
     List<? extends GraphNodeBase<T>> getNeighbours(T node);
+
+    List<IntegerGraphNode> bfs(IntegerGraphNode node);
 }

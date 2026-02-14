@@ -99,6 +99,12 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
+    void sameNode_addEdge_shouldThrow(){
+        graph.addNode(1);
+        assertThrows(GraphException.class,()->graph.addEdge(1,1));
+    }
+
+    @Test
     public void addEdge_happy() {
         graph.addNode(1);
         graph.addNode(2);
@@ -301,6 +307,13 @@ public class UndirectedIntegerGraphTest {
         assertListIsSorted(neighbours);
     }
 
+    @Test
+    void bfs_emptyGraph(){
+        buildRandomGraph(20);
+        List<IntegerGraphNode> bfsOrder = graph.bfs(getRandomNode(10));
+        System.out.println(bfsOrder);
+    }
+
     private void buildRandomGraph(int GRAPH_MAX_SIZE) {
         IntStream s =
                 IntStream.generate(() -> (int) (Math.random() * GRAPH_MAX_SIZE))
@@ -312,23 +325,29 @@ public class UndirectedIntegerGraphTest {
                     } catch (GraphException g) {
                     }
                 });
-        for (int i = 0; i < GRAPH_MAX_SIZE * 10; i++) addRandomEdge(GRAPH_MAX_SIZE);
+        for (int i = 0; i < GRAPH_MAX_SIZE ; i++) addRandomEdge(GRAPH_MAX_SIZE);
+        printGraph();
+    }
+
+    private void printGraph() {
+        Set<IntegerGraphNode> nodes = graph.getGraphNodes();
+        nodes.stream().forEach(n->{
+            System.out.println(n.getValue()+" -> "+n.getAdjacencyList());
+        });
     }
 
     private void addRandomEdge(int MAX_INT) {
         GraphNodeBase node1 = getRandomNode(MAX_INT);
         GraphNodeBase node2 = getRandomNode(MAX_INT);
-        try {
-            graph.addEdge(node1, node2);
-        } catch (GraphException g) {
-        }
+        try { graph.addEdge(node1, node2);}
+        catch (GraphException g) {}
     }
 
-    private GraphNodeBase getRandomNode(int SET_SIZE) {
-        GraphNodeBase node = null;
+    private IntegerGraphNode getRandomNode(int SET_SIZE) {
+        IntegerGraphNode node = null;
         for (int i = (int) (Math.random() * SET_SIZE); i < SET_SIZE; i++) {
             try {
-                node = graph.getNode(i);
+                node = (IntegerGraphNode) graph.getNode(i);
             } catch (GraphException g) {
                 if (i == SET_SIZE - 1) {
                     i = 0; // restart from 0 if node is not found

@@ -38,6 +38,9 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         }
         var nodeA = getNode(a);
         var nodeB = getNode(b);
+        if(nodeA==nodeB){
+            throw new GraphException("cannot create edge with one node");
+        }
 
         Set<IntegerGraphNode> adjacencyListA = nodeA.getAdjacencyList();
         Set<IntegerGraphNode> adjacencyListB = nodeB.getAdjacencyList();
@@ -75,6 +78,9 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     boolean isNodePresent(Integer node) {
         return nodes.stream().anyMatch(n -> n.getValue().equals(node));
     }
+    boolean isNodePresent(IntegerGraphNode node) {
+        return nodes.stream().anyMatch(n -> n.equals(node));
+    }
 
     @Override
     public void removeEdge(Integer a, Integer b) {
@@ -96,6 +102,31 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         List<IntegerGraphNode> adjacencyList = new ArrayList<>(getNode(node).getAdjacencyList());
         Collections.sort(adjacencyList);
         return adjacencyList;
+    }
+
+    @Override
+    public List<IntegerGraphNode> bfs(IntegerGraphNode node) {
+        if(!isNodePresent(node)){
+            throw getNodeDoesNotExistException();
+        }
+        List<IntegerGraphNode> result = new ArrayList<>();
+        Set<IntegerGraphNode> visited = new HashSet<>();
+        Queue<IntegerGraphNode> q = new ArrayDeque<>();
+        q.offer(node);
+        while (!q.isEmpty()){
+            var n = q.poll();
+            System.out.println(n.getValue());
+            if(!visited.contains(n)){
+                result.add(n);
+                visited.add(n);
+                getNeighbours(n.getValue()).forEach(n1->{
+                    if(!visited.contains(n1))
+                        q.offer(n1);
+                });
+//                q.addAll(getNeighbours(n.getValue()));
+            }
+        }
+        return result;
     }
 
     private static GraphException getNodeDoesNotExistException() {
