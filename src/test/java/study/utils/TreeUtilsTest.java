@@ -1,13 +1,12 @@
 package study.utils;
 
-import org.junit.jupiter.api.Test;
-import study.neetcode.coreskills.bst.BinarySearchTree;
-import study.neetcode.coreskills.bst.BinarySearchTreeImpl;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import study.neetcode.coreskills.bst.BinarySearchTree;
+import study.neetcode.coreskills.bst.BinarySearchTreeImpl;
 
 class TreeUtilsTest {
 

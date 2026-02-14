@@ -7,8 +7,9 @@ public interface Heap {
 
     void push(int i);
 }
-class HeapException extends RuntimeException{
-    HeapException(String msg){
+
+class HeapException extends RuntimeException {
+    HeapException(String msg) {
         super(msg);
     }
 }

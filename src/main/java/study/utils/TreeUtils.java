@@ -1,16 +1,13 @@
 package study.utils;
 
-import study.model.BstNodeBase;
-import study.model.TreeNodeBase;
-import study.neetcode.coreskills.bst.BstNode;
+import static java.util.Objects.isNull;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
-import static java.util.Objects.isNull;
+import study.model.TreeNodeBase;
 
 public class TreeUtils {
-    static public <T> void prettyPrint(TreeNodeBase<T> root) {
+    public static <T> void prettyPrint(TreeNodeBase<T> root) {
         if (root == null) {
             return;
         }
