@@ -399,6 +399,15 @@ public class UndirectedIntegerGraphTest {
         assertListsAreSame(path, List.of(3, 8, 18, 2, 14));
     }
 
+    @Test
+    void NoPathExists_throws() {
+        build20NodeGraph();
+
+        List<IntegerGraphNode> path = graph.findPath(9, 10);
+
+        assertListsAreSame(path, List.of());
+    }
+
     private static void assertListsAreSame(
             List<IntegerGraphNode> result, List<Integer> expectedList) {
         assertEquals(result.size(), expectedList.size());
@@ -425,6 +434,20 @@ public class UndirectedIntegerGraphTest {
         for (int i = 0; i < GRAPH_MAX_SIZE; i++) addRandomEdge(GRAPH_MAX_SIZE);
         printGraph();
     }
+
+    /*
+     *    14
+     *    |
+     *    2 -- 18 -- 1
+     *    |     |    |
+     *    |    19    |
+     *    |     |    8 -- 3
+     *    |     5  / |  /
+     *    |     | /  11
+     *    2 --- 12
+     *
+     *    9   10
+     * */
 
     private void build20NodeGraph() {
         for (int i = 1; i < 20; i++) graph.addNode(i);
