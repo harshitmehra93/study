@@ -19,7 +19,7 @@ public interface Graph<T> {
 
     void removeEdge(T nodeA, T nodeB);
 
-    List<? extends GraphNodeBase<T>> getNeighbours(T node);
+    Set<? extends GraphNodeBase<T>> getNeighbours(T node);
 
     List<IntegerGraphNode> bfs(IntegerGraphNode node);
 }

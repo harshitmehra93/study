@@ -294,7 +294,7 @@ public class UndirectedIntegerGraphTest {
         assertNotNull(neighbours);
         System.out.println(neighbours);
         assertEquals(4, neighbours.size());
-        assertListIsSorted(neighbours);
+        assertSetIsSorted(neighbours);
     }
 
     @Test
@@ -304,14 +304,31 @@ public class UndirectedIntegerGraphTest {
 
         var node = getRandomNode(GRAPH_SIZE);
         var neighbours = graph.getNeighbours(node.getValue());
-        assertListIsSorted(neighbours);
+        assertSetIsSorted(neighbours);
     }
 
     @Test
-    void bfs_emptyGraph() {
+    void bfs_happy() {
         buildRandomGraph(20);
         List<IntegerGraphNode> bfsOrder = graph.bfs(getRandomNode(10));
         System.out.println(bfsOrder);
+    }
+
+    @Test
+    void bfs_happy_2(){
+        build20NodeGraph();
+        IntegerGraphNode node = (IntegerGraphNode) graph.getNode(3);
+        List<IntegerGraphNode> result = graph.bfs(node);
+        System.out.println(result);
+
+        List<Integer> expectedList = List.of(3,8,11,1,12,18,2,5,19,14);
+        Iterator<IntegerGraphNode> resultIt = result.iterator();
+        Iterator<Integer> expectedIt = expectedList.iterator();
+        while(resultIt.hasNext()){
+            var expected = expectedIt.next();
+            var actual = resultIt.next().getValue();
+            assertEquals(expected,actual);
+        }
     }
 
     private void buildRandomGraph(int GRAPH_MAX_SIZE) {
@@ -327,6 +344,24 @@ public class UndirectedIntegerGraphTest {
                 });
         for (int i = 0; i < GRAPH_MAX_SIZE; i++) addRandomEdge(GRAPH_MAX_SIZE);
         printGraph();
+    }
+
+    private void build20NodeGraph(){
+        for(int i=1;i<20;i++)
+            graph.addNode(i);
+        graph.addEdge(1,18);
+        graph.addEdge(1,8);
+        graph.addEdge(8,3);
+        graph.addEdge(8,11);
+        graph.addEdge(8,12);
+        graph.addEdge(8,18);
+        graph.addEdge(3,11);
+        graph.addEdge(12,2);
+        graph.addEdge(12,5);
+        graph.addEdge(2,18);
+        graph.addEdge(2,14);
+        graph.addEdge(5,19);
+        graph.addEdge(18,19);
     }
 
     private void printGraph() {
@@ -361,6 +396,11 @@ public class UndirectedIntegerGraphTest {
             break;
         }
         return node;
+    }
+
+    private void assertSetIsSorted(Set neighbours) {
+        Iterator<IntegerGraphNode> it = neighbours.iterator();
+        isSorted(it);
     }
 
     private void assertListIsSorted(List neighbours) {

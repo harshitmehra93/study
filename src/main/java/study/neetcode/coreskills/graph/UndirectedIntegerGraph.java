@@ -96,13 +96,11 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> getNeighbours(Integer node) {
+    public Set<IntegerGraphNode> getNeighbours(Integer node) {
         if (isNull(node) || !isNodePresent(node)) {
             throw getNodeDoesNotExistException();
         }
-        List<IntegerGraphNode> adjacencyList = new ArrayList<>(getNode(node).getAdjacencyList());
-        Collections.sort(adjacencyList);
-        return adjacencyList;
+        return getNode(node).getAdjacencyList();
     }
 
     @Override
@@ -111,21 +109,20 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
             throw getNodeDoesNotExistException();
         }
         List<IntegerGraphNode> result = new ArrayList<>();
-        Set<IntegerGraphNode> visited = new HashSet<>();
         Queue<IntegerGraphNode> q = new ArrayDeque<>();
         q.offer(node);
         while (!q.isEmpty()) {
             var n = q.poll();
             System.out.println(n.getValue());
-            if (!visited.contains(n)) {
+            if (!result.contains(n)) {
                 result.add(n);
-                visited.add(n);
                 getNeighbours(n.getValue())
                         .forEach(
                                 n1 -> {
-                                    if (!visited.contains(n1)) q.offer(n1);
+                                    if ( !result.contains(n1) && !q.contains(n1) ) {
+                                        q.offer(n1);
+                                    }
                                 });
-                //                q.addAll(getNeighbours(n.getValue()));
             }
         }
         return result;
