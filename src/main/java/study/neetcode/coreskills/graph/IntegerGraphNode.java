@@ -1,9 +1,7 @@
 package study.neetcode.coreskills.graph;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 import study.model.GraphNodeBase;
 
 public class IntegerGraphNode implements GraphNodeBase<Integer>, Comparable<IntegerGraphNode> {

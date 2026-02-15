@@ -144,6 +144,15 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
+    void nonExistentEdge_removeEdge_throws() {
+        graph.addNode(1);
+        graph.addNode(2);
+
+        assertThrows(GraphException.class, () -> graph.removeEdge(1, 2));
+        assertThrows(GraphException.class, () -> graph.removeEdge(2, 1));
+    }
+
+    @Test
     void removeEdge_happy() {
         // Arrange
         graph.addNode(1);
@@ -315,19 +324,20 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void bfs_happy_2(){
+    void bfs_happy_2() {
         build20NodeGraph();
         IntegerGraphNode node = (IntegerGraphNode) graph.getNode(3);
         List<IntegerGraphNode> result = graph.bfs(node);
         System.out.println(result);
+        assertEquals(10, result.size());
 
-        List<Integer> expectedList = List.of(3,8,11,1,12,18,2,5,19,14);
+        List<Integer> expectedList = List.of(3, 8, 11, 1, 12, 18, 2, 5, 19, 14);
         Iterator<IntegerGraphNode> resultIt = result.iterator();
         Iterator<Integer> expectedIt = expectedList.iterator();
-        while(resultIt.hasNext()){
+        while (resultIt.hasNext()) {
             var expected = expectedIt.next();
             var actual = resultIt.next().getValue();
-            assertEquals(expected,actual);
+            assertEquals(expected, actual);
         }
     }
 
@@ -346,22 +356,21 @@ public class UndirectedIntegerGraphTest {
         printGraph();
     }
 
-    private void build20NodeGraph(){
-        for(int i=1;i<20;i++)
-            graph.addNode(i);
-        graph.addEdge(1,18);
-        graph.addEdge(1,8);
-        graph.addEdge(8,3);
-        graph.addEdge(8,11);
-        graph.addEdge(8,12);
-        graph.addEdge(8,18);
-        graph.addEdge(3,11);
-        graph.addEdge(12,2);
-        graph.addEdge(12,5);
-        graph.addEdge(2,18);
-        graph.addEdge(2,14);
-        graph.addEdge(5,19);
-        graph.addEdge(18,19);
+    private void build20NodeGraph() {
+        for (int i = 1; i < 20; i++) graph.addNode(i);
+        graph.addEdge(1, 18);
+        graph.addEdge(1, 8);
+        graph.addEdge(8, 3);
+        graph.addEdge(8, 11);
+        graph.addEdge(8, 12);
+        graph.addEdge(8, 18);
+        graph.addEdge(3, 11);
+        graph.addEdge(12, 2);
+        graph.addEdge(12, 5);
+        graph.addEdge(2, 18);
+        graph.addEdge(2, 14);
+        graph.addEdge(5, 19);
+        graph.addEdge(18, 19);
     }
 
     private void printGraph() {

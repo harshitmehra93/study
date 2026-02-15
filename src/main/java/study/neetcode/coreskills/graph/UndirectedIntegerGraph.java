@@ -8,12 +8,12 @@ import study.model.GraphException;
 import study.model.GraphNodeBase;
 
 public class UndirectedIntegerGraph implements Graph<Integer> {
-    HashMap<Integer,IntegerGraphNode> nodesMap;
+    HashMap<Integer, IntegerGraphNode> nodesMap;
 
     UndirectedIntegerGraph(int numOfNodes) {
         nodesMap = new HashMap<>();
         for (int i = 0; i < numOfNodes; i++) {
-            nodesMap.put(i,new IntegerGraphNode(i));
+            nodesMap.put(i, new IntegerGraphNode(i));
         }
     }
 
@@ -23,11 +23,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
 
     @Override
     public Set<IntegerGraphNode> getGraphNodes() {
-        return nodesMap.entrySet().stream()
-                .collect(
-                        HashSet::new,
-                        (set,e)->set.add(e.getValue()),
-                        (s1,s2)->s1.addAll(s2));
+        return new HashSet<>(nodesMap.values());
     }
 
     @Override
@@ -68,13 +64,12 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
             throw new GraphException("Node cannot be null");
         }
         if (isNodePresent(node)) throw new GraphException("Node already exists");
-        nodesMap.put(node,new IntegerGraphNode(node));
+        nodesMap.put(node, new IntegerGraphNode(node));
     }
 
     @Override
     public IntegerGraphNode getNode(Integer node) {
-        if(nodesMap.containsKey(node))
-            return nodesMap.get(node);
+        if (nodesMap.containsKey(node)) return nodesMap.get(node);
         throw getNodeDoesNotExistException();
     }
 
@@ -94,8 +89,14 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         var nodeA = getNode(a);
         var nodeB = getNode(b);
 
-        nodeA.getAdjacencyList().remove(nodeB);
-        nodeB.getAdjacencyList().remove(nodeA);
+        Set<IntegerGraphNode> adjacencyListA = nodeA.getAdjacencyList();
+        Set<IntegerGraphNode> adjacencyListB = nodeB.getAdjacencyList();
+
+        if (!adjacencyListA.contains(nodeB) && !adjacencyListB.contains(nodeA))
+            throw new GraphException("Edge does not exist");
+
+        adjacencyListA.remove(nodeB);
+        adjacencyListB.remove(nodeA);
     }
 
     @Override
@@ -107,25 +108,24 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> bfs(IntegerGraphNode node) {
-        if (!isNodePresent(node)) {
+    public List<IntegerGraphNode> bfs(IntegerGraphNode start) {
+        if (!isNodePresent(start)) {
             throw getNodeDoesNotExistException();
         }
+
         List<IntegerGraphNode> result = new ArrayList<>();
+        Set<IntegerGraphNode> visited = new HashSet<>();
         Queue<IntegerGraphNode> q = new ArrayDeque<>();
-        q.offer(node);
+
+        visited.add(start);
+        q.offer(start);
+
         while (!q.isEmpty()) {
             var n = q.poll();
-            System.out.println(n.getValue());
-            if (!result.contains(n)) {
-                result.add(n);
-                getNeighbours(n.getValue())
-                        .forEach(
-                                n1 -> {
-                                    if ( !result.contains(n1) && !q.contains(n1) ) {
-                                        q.offer(n1);
-                                    }
-                                });
+            result.add(n);
+
+            for (var nei : getNeighbours(n.getValue())) {
+                if (visited.add(nei)) q.offer(nei);
             }
         }
         return result;
