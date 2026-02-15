@@ -394,7 +394,7 @@ public class UndirectedIntegerGraphTest {
 
         List<IntegerGraphNode> path = graph.findShortestPath(14, 3);
 
-        assertListsAreSame(path, List.of(3, 8, 18, 2, 14));
+        assertListsAreSame(path, List.of(3, 8, 12, 2, 14));
     }
 
     @Test

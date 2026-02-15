@@ -133,13 +133,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
 
     @Override
     public List<IntegerGraphNode> findShortestPath(int a, int b) {
-        var start = getNode(a);
-        var finish = getNode(b);
-
-        List<IntegerGraphNode> shortestPath =
-                findShortestPath(start, finish, new HashSet<IntegerGraphNode>());
-
-        return shortestPath;
+        return findShortestPath(getNode(a), getNode(b), new HashSet<>());
     }
 
     private List<IntegerGraphNode> findShortestPath(
@@ -151,20 +145,17 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
             return result;
         }
         visited.add(current);
-        HashMap<IntegerGraphNode, List<IntegerGraphNode>> paths = new HashMap<>();
+        List<List<IntegerGraphNode>> possiblePaths = new ArrayList<>();
         for (var node : current.getAdjacencyList()) {
             if (!visited.contains(node))
-                paths.put(node, findShortestPath(node, finish, new HashSet<>(visited)));
+                possiblePaths.add(findShortestPath(node, finish, new HashSet<>(visited)));
         }
         List<IntegerGraphNode> smallestPath = null;
-        for (var entry : paths.entrySet()) {
-            List<IntegerGraphNode> path = entry.getValue();
-            if (!isNull(path)) {
-                if (smallestPath == null) {
-                    smallestPath = path;
-                } else {
-                    smallestPath = smallestPath.size() > path.size() ? path : smallestPath;
-                }
+        for (var path : possiblePaths) {
+            if (isNull(smallestPath) && !isNull(path)) {
+                smallestPath = path;
+            } else if (!isNull(smallestPath) && !isNull(path)) {
+                smallestPath = smallestPath.size() > path.size() ? path : smallestPath;
             }
         }
 
