@@ -132,15 +132,14 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> findPath(int a, int b) {
+    public List<IntegerGraphNode> findShortestPath(int a, int b) {
         var start = getNode(a);
         var finish = getNode(b);
 
-        if (!bfs(start).contains(finish)) {
-            return new ArrayList<>();
-        }
+        List<IntegerGraphNode> shortestPath =
+                findShortestPath(start, finish, new HashSet<IntegerGraphNode>());
 
-        return findShortestPath(start, finish, new HashSet<IntegerGraphNode>());
+        return shortestPath;
     }
 
     private List<IntegerGraphNode> findShortestPath(

@@ -348,64 +348,60 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void emptyGraph_findPath_throws() {
-        assertThrows(GraphException.class, () -> graph.findPath(1, 2));
+    void emptyGraph_findShortestPath_throws() {
+        assertThrows(GraphException.class, () -> graph.findShortestPath(1, 2));
     }
 
     @Test
-    void noPathExists_findPath_returnsEmptyList() {
+    void noPathExists_findShortestPath_returnsNull() {
         graph.addNode(1);
         graph.addNode(2);
-        assertEquals(0, graph.findPath(1, 2).size());
+        assertNull(graph.findShortestPath(1, 2));
     }
 
     @Test
-    void pathExists_findPath_returnsPath() {
+    void pathExists_findShortestPath_returnsPath() {
         graph.addNode(1);
         graph.addNode(2);
         graph.addEdge(1, 2);
 
-        List<IntegerGraphNode> path = graph.findPath(1, 2);
+        List<IntegerGraphNode> path = graph.findShortestPath(1, 2);
 
-        assertEquals(2, path.size());
-        assertEquals(2, path.get(0).getValue());
-        assertEquals(1, path.get(1).getValue());
+        assertListsAreSame(path, List.of(2, 1));
     }
 
     @Test
-    void pathExists_findPath_happy() {
+    void pathExists_findShortestPath_happy() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findPath(5, 19);
+        List<IntegerGraphNode> path = graph.findShortestPath(5, 19);
 
         assertListsAreSame(path, List.of(19, 5));
     }
 
     @Test
-    void pathExists_findPath_happy_2() {
+    void pathExists_findShortestPath_happy_2() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findPath(5, 8);
+        List<IntegerGraphNode> path = graph.findShortestPath(5, 8);
 
         assertListsAreSame(path, List.of(8, 12, 5));
     }
 
     @Test
-    void pathExists_findPath_happy_3() {
+    void pathExists_findShortestPath_happy_3() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findPath(14, 3);
+        List<IntegerGraphNode> path = graph.findShortestPath(14, 3);
 
         assertListsAreSame(path, List.of(3, 8, 18, 2, 14));
     }
 
     @Test
-    void NoPathExists_throws() {
+    void NoPathExists_returnsNull() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findPath(9, 10);
-
-        assertListsAreSame(path, List.of());
+        assertNull(graph.findShortestPath(9, 10));
     }
 
     private static void assertListsAreSame(
@@ -414,9 +410,7 @@ public class UndirectedIntegerGraphTest {
         Iterator<IntegerGraphNode> resultIt = result.iterator();
         Iterator<Integer> expectedIt = expectedList.iterator();
         while (resultIt.hasNext()) {
-            var expected = expectedIt.next();
-            var actual = resultIt.next().getValue();
-            assertEquals(expected, actual);
+            assertEquals(expectedIt.next(), resultIt.next().getValue());
         }
     }
 
@@ -436,17 +430,18 @@ public class UndirectedIntegerGraphTest {
     }
 
     /*
-     *    14
-     *    |
-     *    2 -- 18 -- 1
-     *    |     |    |
-     *    |    19    |
-     *    |     |    8 -- 3
-     *    |     5  / |  /
-     *    |     | /  11
-     *    2 --- 12
      *
-     *    9   10
+     *
+     *        18 --------- 1
+     *        |   \        |
+     *        |     19     |
+     *        |     |      8 --- 3
+     *        |     |    / |   /
+     *        |     5   /  |  /
+     *        |     |  /   11
+     *  14 -- 2 --- 12
+     *
+     *        9   10
      * */
 
     private void build20NodeGraph() {
