@@ -8,27 +8,31 @@ import study.model.GraphException;
 import study.model.GraphNodeBase;
 
 public class UndirectedIntegerGraph implements Graph<Integer> {
-    Set<IntegerGraphNode> nodes;
+    HashMap<Integer,IntegerGraphNode> nodesMap;
 
     UndirectedIntegerGraph(int numOfNodes) {
-        nodes = new HashSet<>();
+        nodesMap = new HashMap<>();
         for (int i = 0; i < numOfNodes; i++) {
-            nodes.add(new IntegerGraphNode(i));
+            nodesMap.put(i,new IntegerGraphNode(i));
         }
     }
 
     UndirectedIntegerGraph() {
-        nodes = new HashSet<>();
+        nodesMap = new HashMap<>();
     }
 
     @Override
     public Set<IntegerGraphNode> getGraphNodes() {
-        return nodes;
+        return nodesMap.entrySet().stream()
+                .collect(
+                        HashSet::new,
+                        (set,e)->set.add(e.getValue()),
+                        (s1,s2)->s1.addAll(s2));
     }
 
     @Override
     public int getSize() {
-        return nodes.size();
+        return nodesMap.size();
     }
 
     @Override
@@ -64,23 +68,22 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
             throw new GraphException("Node cannot be null");
         }
         if (isNodePresent(node)) throw new GraphException("Node already exists");
-        nodes.add(new IntegerGraphNode(node));
+        nodesMap.put(node,new IntegerGraphNode(node));
     }
 
     @Override
     public IntegerGraphNode getNode(Integer node) {
-        return nodes.stream()
-                .filter(n -> n.getValue().equals(node))
-                .findFirst()
-                .orElseThrow(UndirectedIntegerGraph::getNodeDoesNotExistException);
+        if(nodesMap.containsKey(node))
+            return nodesMap.get(node);
+        throw getNodeDoesNotExistException();
     }
 
     boolean isNodePresent(Integer node) {
-        return nodes.stream().anyMatch(n -> n.getValue().equals(node));
+        return nodesMap.containsKey(node);
     }
 
     boolean isNodePresent(IntegerGraphNode node) {
-        return nodes.stream().anyMatch(n -> n.equals(node));
+        return nodesMap.containsKey(node.getValue());
     }
 
     @Override
