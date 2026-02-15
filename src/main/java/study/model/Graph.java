@@ -22,4 +22,6 @@ public interface Graph<T> {
     Set<? extends GraphNodeBase<T>> getNeighbours(T node);
 
     List<IntegerGraphNode> bfs(IntegerGraphNode node);
+
+    List<IntegerGraphNode> findPath(int start, int finish);
 }

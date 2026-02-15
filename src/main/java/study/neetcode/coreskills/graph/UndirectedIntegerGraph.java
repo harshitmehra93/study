@@ -131,6 +131,48 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         return result;
     }
 
+    @Override
+    public List<IntegerGraphNode> findPath(int a, int b) {
+        var start = getNode(a);
+        var finish = getNode(b);
+
+        if (!bfs(start).contains(finish)) {
+            return new ArrayList<>();
+        }
+
+        return findShortestPath(start, finish, new HashSet<IntegerGraphNode>());
+    }
+
+    private List<IntegerGraphNode> findShortestPath(
+            IntegerGraphNode current, IntegerGraphNode finish, HashSet<IntegerGraphNode> visited) {
+        if (current == null) return null;
+        if (current == finish) {
+            var result = new ArrayList<IntegerGraphNode>();
+            result.add(finish);
+            return result;
+        }
+        visited.add(current);
+        HashMap<IntegerGraphNode, List<IntegerGraphNode>> paths = new HashMap<>();
+        for (var node : current.getAdjacencyList()) {
+            if (!visited.contains(node))
+                paths.put(node, findShortestPath(node, finish, new HashSet<>(visited)));
+        }
+        List<IntegerGraphNode> smallestPath = null;
+        for (var entry : paths.entrySet()) {
+            List<IntegerGraphNode> path = entry.getValue();
+            if (!isNull(path)) {
+                if (smallestPath == null) {
+                    smallestPath = path;
+                } else {
+                    smallestPath = smallestPath.size() > path.size() ? path : smallestPath;
+                }
+            }
+        }
+
+        if (smallestPath != null) smallestPath.add(current);
+        return smallestPath;
+    }
+
     private static GraphException getNodeDoesNotExistException() {
         return new GraphException("Node does not exist");
     }

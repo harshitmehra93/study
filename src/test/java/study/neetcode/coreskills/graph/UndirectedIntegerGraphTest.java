@@ -327,11 +327,81 @@ public class UndirectedIntegerGraphTest {
     void bfs_happy_2() {
         build20NodeGraph();
         IntegerGraphNode node = (IntegerGraphNode) graph.getNode(3);
-        List<IntegerGraphNode> result = graph.bfs(node);
-        System.out.println(result);
-        assertEquals(10, result.size());
 
+        List<IntegerGraphNode> result = graph.bfs(node);
+
+        assertEquals(10, result.size());
         List<Integer> expectedList = List.of(3, 8, 11, 1, 12, 18, 2, 5, 19, 14);
+        assertListsAreSame(result, expectedList);
+    }
+
+    @Test
+    void bfs_happy_3() {
+        build20NodeGraph();
+        IntegerGraphNode node = (IntegerGraphNode) graph.getNode(9);
+
+        List<IntegerGraphNode> result = graph.bfs(node);
+
+        assertEquals(1, result.size());
+        List<Integer> expectedList = List.of(9);
+        assertListsAreSame(result, expectedList);
+    }
+
+    @Test
+    void emptyGraph_findPath_throws() {
+        assertThrows(GraphException.class, () -> graph.findPath(1, 2));
+    }
+
+    @Test
+    void noPathExists_findPath_returnsEmptyList() {
+        graph.addNode(1);
+        graph.addNode(2);
+        assertEquals(0, graph.findPath(1, 2).size());
+    }
+
+    @Test
+    void pathExists_findPath_returnsPath() {
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addEdge(1, 2);
+
+        List<IntegerGraphNode> path = graph.findPath(1, 2);
+
+        assertEquals(2, path.size());
+        assertEquals(2, path.get(0).getValue());
+        assertEquals(1, path.get(1).getValue());
+    }
+
+    @Test
+    void pathExists_findPath_happy() {
+        build20NodeGraph();
+
+        List<IntegerGraphNode> path = graph.findPath(5, 19);
+
+        assertListsAreSame(path, List.of(19, 5));
+    }
+
+    @Test
+    void pathExists_findPath_happy_2() {
+        build20NodeGraph();
+
+        List<IntegerGraphNode> path = graph.findPath(5, 8);
+
+        assertListsAreSame(path, List.of(8, 12, 5));
+    }
+
+    @Test
+    void pathExists_findPath_happy_3() {
+        build20NodeGraph();
+
+        List<IntegerGraphNode> path = graph.findPath(14, 3);
+
+        assertListsAreSame(path, List.of(3, 8, 18, 2, 14));
+    }
+
+    private static void assertListsAreSame(
+            List<IntegerGraphNode> result, List<Integer> expectedList) {
+        assertEquals(result.size(), expectedList.size());
         Iterator<IntegerGraphNode> resultIt = result.iterator();
         Iterator<Integer> expectedIt = expectedList.iterator();
         while (resultIt.hasNext()) {
