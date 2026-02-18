@@ -24,4 +24,6 @@ public interface Graph<T> {
     List<IntegerGraphNode> bfs(IntegerGraphNode node);
 
     List<IntegerGraphNode> findShortestPath(int start, int finish);
+
+    List<? extends GraphNodeBase> dfs(Integer node);
 }

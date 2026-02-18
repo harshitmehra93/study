@@ -136,6 +136,27 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         return findShortestPath(getNode(a), getNode(b), new HashSet<>());
     }
 
+    @Override
+    public List<IntegerGraphNode> dfs(Integer node) {
+        IntegerGraphNode start = getNode(node);
+        List<IntegerGraphNode> result = new ArrayList<>();
+        HashSet<IntegerGraphNode> visited = new HashSet<>();
+        dfs(start,result,visited);
+        return result;
+    }
+
+    void dfs(IntegerGraphNode node,List<IntegerGraphNode> result, Set<IntegerGraphNode> visited){
+        if(isNull(node)){
+            return;
+        }
+        visited.add(node);
+        result.add(node);
+        for(var neighbour : node.getAdjacencyList()){
+            if(!visited.contains(neighbour))
+                dfs(neighbour,result,visited);
+        }
+    }
+
     private List<IntegerGraphNode> findShortestPath(
             IntegerGraphNode current, IntegerGraphNode finish, HashSet<IntegerGraphNode> visited) {
         if (current == null) return null;

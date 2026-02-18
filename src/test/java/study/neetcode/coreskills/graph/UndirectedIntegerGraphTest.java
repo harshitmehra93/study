@@ -348,6 +348,15 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
+    void bfs_happy_4(){
+        buildSmallTree();
+
+        var result = graph.bfs((IntegerGraphNode) graph.getNode(1));
+
+        assertListsAreSame(result,List.of(1,2,3,4,5));
+    }
+
+    @Test
     void emptyGraph_findShortestPath_throws() {
         assertThrows(GraphException.class, () -> graph.findShortestPath(1, 2));
     }
@@ -398,10 +407,74 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void NoPathExists_returnsNull() {
+    void NoPathExists_findShortestPath_returnsNull() {
         build20NodeGraph();
 
         assertNull(graph.findShortestPath(9, 10));
+    }
+
+    @Test
+    void dfs_nodeDoesNotExist_throws(){
+        assertThrows(GraphException.class,()->graph.dfs(1));
+    }
+
+    @Test
+    void dfs_nodeExist_returnsList(){
+        graph.addNode(1);
+
+        List<IntegerGraphNode> result = graph.dfs(1);
+
+        assertListsAreSame(result,List.of(1));
+    }
+
+    @Test
+    void dfs_happy(){
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addEdge(1,2);
+
+        var result = graph.dfs(1);
+
+        assertListsAreSame(result,List.of(1,2));
+    }
+
+    @Test
+    void dfs_happy_2(){
+        buildSmallTree();
+
+        var result = graph.dfs(1);
+
+        assertListsAreSame(result,List.of(1,2,4,5,3));
+    }
+
+    @Test
+    void dfs_happy_3(){
+        buildSmallTree();
+        graph.addEdge(5,1); // make a cycle
+
+        var result = graph.dfs(1);
+
+        assertListsAreSame(result,List.of(1,2,4,5,3));
+    }
+
+    private void buildSmallTree() {
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addNode(3);
+        graph.addNode(4);
+        graph.addNode(5);
+        graph.addNode(6);
+        graph.addEdge(1,2);
+        graph.addEdge(1,3);
+        graph.addEdge(2,4);
+        graph.addEdge(2,5);
+        /*
+        *        1
+        *       / \
+        *      2   3
+        *     / \
+        *    4   5
+        * */
     }
 
     private static void assertListsAreSame(
