@@ -23,7 +23,7 @@ public interface Graph<T> {
 
     List<? extends GraphNodeBase<T>> bfs(T node);
 
-    List<IntegerGraphNode> findShortestPath(int start, int finish);
+    List<IntegerGraphNode> findShortestPath(T start, T finish);
 
     List<? extends GraphNodeBase> dfs(T node);
 }
