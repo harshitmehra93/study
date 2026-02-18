@@ -130,7 +130,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> findShortestPath(int a, int b) {
+    public List<IntegerGraphNode> findShortestPath(Integer a, Integer b) {
         return findShortestPath(getNode(a), getNode(b), new HashSet<>());
     }
 
