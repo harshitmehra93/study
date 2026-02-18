@@ -319,16 +319,15 @@ public class UndirectedIntegerGraphTest {
     @Test
     void bfs_happy() {
         buildRandomGraph(20);
-        List<IntegerGraphNode> bfsOrder = graph.bfs(getRandomNode(10));
+        List<IntegerGraphNode> bfsOrder = graph.bfs(getRandomNode(10).getValue());
         System.out.println(bfsOrder);
     }
 
     @Test
     void bfs_happy_2() {
         build20NodeGraph();
-        IntegerGraphNode node = (IntegerGraphNode) graph.getNode(3);
 
-        List<IntegerGraphNode> result = graph.bfs(node);
+        List<IntegerGraphNode> result = graph.bfs(3);
 
         assertEquals(10, result.size());
         List<Integer> expectedList = List.of(3, 8, 11, 1, 12, 18, 2, 5, 19, 14);
@@ -338,9 +337,8 @@ public class UndirectedIntegerGraphTest {
     @Test
     void bfs_happy_3() {
         build20NodeGraph();
-        IntegerGraphNode node = (IntegerGraphNode) graph.getNode(9);
 
-        List<IntegerGraphNode> result = graph.bfs(node);
+        List<IntegerGraphNode> result = graph.bfs(9);
 
         assertEquals(1, result.size());
         List<Integer> expectedList = List.of(9);
@@ -348,12 +346,12 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void bfs_happy_4(){
+    void bfs_happy_4() {
         buildSmallTree();
 
-        var result = graph.bfs((IntegerGraphNode) graph.getNode(1));
+        var result = graph.bfs(1);
 
-        assertListsAreSame(result,List.of(1,2,3,4,5));
+        assertListsAreSame(result, List.of(1, 2, 3, 4, 5));
     }
 
     @Test
@@ -414,47 +412,47 @@ public class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void dfs_nodeDoesNotExist_throws(){
-        assertThrows(GraphException.class,()->graph.dfs(1));
+    void dfs_nodeDoesNotExist_throws() {
+        assertThrows(GraphException.class, () -> graph.dfs(1));
     }
 
     @Test
-    void dfs_nodeExist_returnsList(){
+    void dfs_nodeExist_returnsList() {
         graph.addNode(1);
 
         List<IntegerGraphNode> result = graph.dfs(1);
 
-        assertListsAreSame(result,List.of(1));
+        assertListsAreSame(result, List.of(1));
     }
 
     @Test
-    void dfs_happy(){
+    void dfs_happy() {
         graph.addNode(1);
         graph.addNode(2);
-        graph.addEdge(1,2);
+        graph.addEdge(1, 2);
 
         var result = graph.dfs(1);
 
-        assertListsAreSame(result,List.of(1,2));
+        assertListsAreSame(result, List.of(1, 2));
     }
 
     @Test
-    void dfs_happy_2(){
+    void dfs_happy_2() {
         buildSmallTree();
 
         var result = graph.dfs(1);
 
-        assertListsAreSame(result,List.of(1,2,4,5,3));
+        assertListsAreSame(result, List.of(1, 2, 4, 5, 3));
     }
 
     @Test
-    void dfs_happy_3(){
+    void dfs_happy_3() {
         buildSmallTree();
-        graph.addEdge(5,1); // make a cycle
+        graph.addEdge(5, 1); // make a cycle
 
         var result = graph.dfs(1);
 
-        assertListsAreSame(result,List.of(1,2,4,5,3));
+        assertListsAreSame(result, List.of(1, 2, 4, 5, 3));
     }
 
     private void buildSmallTree() {
@@ -464,17 +462,17 @@ public class UndirectedIntegerGraphTest {
         graph.addNode(4);
         graph.addNode(5);
         graph.addNode(6);
-        graph.addEdge(1,2);
-        graph.addEdge(1,3);
-        graph.addEdge(2,4);
-        graph.addEdge(2,5);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(2, 5);
         /*
-        *        1
-        *       / \
-        *      2   3
-        *     / \
-        *    4   5
-        * */
+         *        1
+         *       / \
+         *      2   3
+         *     / \
+         *    4   5
+         * */
     }
 
     private static void assertListsAreSame(

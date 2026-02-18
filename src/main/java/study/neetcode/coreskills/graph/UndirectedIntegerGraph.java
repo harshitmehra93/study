@@ -108,10 +108,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> bfs(IntegerGraphNode start) {
-        if (!isNodePresent(start)) {
-            throw getNodeDoesNotExistException();
-        }
+    public List<IntegerGraphNode> bfs(Integer node) {
+        var start = getNode(node);
 
         List<IntegerGraphNode> result = new ArrayList<>();
         Set<IntegerGraphNode> visited = new HashSet<>();
@@ -141,19 +139,18 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         IntegerGraphNode start = getNode(node);
         List<IntegerGraphNode> result = new ArrayList<>();
         HashSet<IntegerGraphNode> visited = new HashSet<>();
-        dfs(start,result,visited);
+        dfs(start, result, visited);
         return result;
     }
 
-    void dfs(IntegerGraphNode node,List<IntegerGraphNode> result, Set<IntegerGraphNode> visited){
-        if(isNull(node)){
+    void dfs(IntegerGraphNode node, List<IntegerGraphNode> result, Set<IntegerGraphNode> visited) {
+        if (isNull(node)) {
             return;
         }
         visited.add(node);
         result.add(node);
-        for(var neighbour : node.getAdjacencyList()){
-            if(!visited.contains(neighbour))
-                dfs(neighbour,result,visited);
+        for (var neighbour : node.getAdjacencyList()) {
+            if (!visited.contains(neighbour)) dfs(neighbour, result, visited);
         }
     }
 

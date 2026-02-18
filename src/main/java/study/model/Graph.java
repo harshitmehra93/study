@@ -21,9 +21,9 @@ public interface Graph<T> {
 
     Set<? extends GraphNodeBase<T>> getNeighbours(T node);
 
-    List<IntegerGraphNode> bfs(IntegerGraphNode node);
+    List<? extends GraphNodeBase<T>> bfs(T node);
 
     List<IntegerGraphNode> findShortestPath(int start, int finish);
 
-    List<? extends GraphNodeBase> dfs(Integer node);
+    List<? extends GraphNodeBase> dfs(T node);
 }
