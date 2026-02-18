@@ -143,6 +143,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         return result;
     }
 
+    // create an iterative dfs
     void dfs(IntegerGraphNode node, List<IntegerGraphNode> result, Set<IntegerGraphNode> visited) {
         if (isNull(node)) {
             return;
@@ -154,6 +155,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         }
     }
 
+    // Find reason why this solution is in factorial runtime ?
+    // create a better solution
     private List<IntegerGraphNode> findShortestPath(
             IntegerGraphNode current, IntegerGraphNode finish, HashSet<IntegerGraphNode> visited) {
         if (current == null) return null;
