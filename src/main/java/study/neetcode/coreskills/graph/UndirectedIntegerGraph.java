@@ -193,8 +193,17 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
         }
     }
 
+    // This method explores all paths with back tracking
     // Find reason why this solution is in factorial runtime ?
-    // create a better solution
+    // For a 6 node complete graph
+    // the number of path from a to b can be -
+    // direct a to b = 1
+    // with 1 intermediate = N-2 = 4
+    // with 2 intermediate = (N-2)(N-3) = 4*3 = 12
+    // with 3 intermediate = (N-2)(N-3)(N-4) = 4*3*2 = 24
+    // with 4 intermediate = (N-2)(N-3)(N-4)(N-5) = 4*3*2*1 = 24
+    // Total = 1+4+12+24+24 = 65 which is in factorial order
+    // create a better solution - DONE
     private List<IntegerGraphNode> findShortestPath(
             IntegerGraphNode current, IntegerGraphNode finish, HashSet<IntegerGraphNode> visited) {
         if (current == null) return null;
