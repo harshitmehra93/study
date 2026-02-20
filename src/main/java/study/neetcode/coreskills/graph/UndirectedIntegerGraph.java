@@ -131,38 +131,39 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
 
     @Override
     public List<IntegerGraphNode> findShortestPath(Integer a, Integer b) {
-//        return findShortestPath(getNode(a), getNode(b), new HashSet<>());
-        return findShortestPathWithBfs(getNode(a),getNode(b));
+        //        return findShortestPath(getNode(a), getNode(b), new HashSet<>());
+        return findShortestPathWithBfs(getNode(a), getNode(b));
     }
 
-    private List<IntegerGraphNode> findShortestPathWithBfs(IntegerGraphNode start, IntegerGraphNode finish) {
+    private List<IntegerGraphNode> findShortestPathWithBfs(
+            IntegerGraphNode start, IntegerGraphNode finish) {
         if (start.equals(finish)) return List.of(start);
         Queue<IntegerGraphNode> q = new ArrayDeque<>();
         Set<IntegerGraphNode> visited = new HashSet<>();
         // node to parent mapping
-        HashMap<IntegerGraphNode,IntegerGraphNode> parentMap = new HashMap<>();
+        HashMap<IntegerGraphNode, IntegerGraphNode> parentMap = new HashMap<>();
         q.offer(start);
         visited.add(start);
         boolean isFound = false;
-        while (!q.isEmpty()&&!isFound){
+        while (!q.isEmpty() && !isFound) {
             var node = q.poll();
 
-            for(var neighbour : node.getAdjacencyList()){
-                if(visited.add(neighbour)){
-                    parentMap.put(neighbour,node);
-                    if(neighbour.equals(finish)){
-                        isFound=true;
+            for (var neighbour : node.getAdjacencyList()) {
+                if (visited.add(neighbour)) {
+                    parentMap.put(neighbour, node);
+                    if (neighbour.equals(finish)) {
+                        isFound = true;
                         break;
                     }
                     q.offer(neighbour);
                 }
             }
         }
-        if(isFound){
+        if (isFound) {
             List<IntegerGraphNode> result = new ArrayList<>();
             IntegerGraphNode pointer = finish;
             result.add(finish);
-            while(!pointer.equals(start)){
+            while (!pointer.equals(start)) {
                 pointer = parentMap.get(pointer);
                 result.add(pointer);
             }
