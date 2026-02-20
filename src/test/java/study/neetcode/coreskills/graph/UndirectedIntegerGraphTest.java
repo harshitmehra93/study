@@ -477,7 +477,7 @@ public class UndirectedIntegerGraphTest {
 
     private static void assertListsAreSame(
             List<IntegerGraphNode> result, List<Integer> expectedList) {
-        assertEquals(result.size(), expectedList.size());
+        assertEquals(expectedList.size(), result.size());
         Iterator<IntegerGraphNode> resultIt = result.iterator();
         Iterator<Integer> expectedIt = expectedList.iterator();
         while (resultIt.hasNext()) {
@@ -503,9 +503,9 @@ public class UndirectedIntegerGraphTest {
     /*
      *
      *
-     *        18 --------- 1
-     *        |   \        |
-     *        |     19     |
+     *          ----- 18 - 1
+     *        /     /    \ |
+     *        |     19    \|
      *        |     |      8 --- 3
      *        |     |    / |   /
      *        |     5   /  |  /
