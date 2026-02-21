@@ -5,24 +5,21 @@ import static java.util.Objects.isNull;
 import java.util.*;
 import study.model.Graph;
 import study.model.GraphException;
-import study.model.GraphNodeBase;
+import study.model.GraphNode;
 
-public class UndirectedIntegerGraph implements Graph<Integer> {
-    HashMap<Integer, IntegerGraphNode> nodesMap;
+public class UndirectedGraph<T extends Comparable> implements Graph<T> {
+    HashMap<T, GraphNode<T>> nodesMap;
 
-    UndirectedIntegerGraph(int numOfNodes) {
+    UndirectedGraph(int numOfNodes) {
         nodesMap = new HashMap<>();
-        for (int i = 0; i < numOfNodes; i++) {
-            nodesMap.put(i, new IntegerGraphNode(i));
-        }
     }
 
-    UndirectedIntegerGraph() {
+    UndirectedGraph() {
         nodesMap = new HashMap<>();
     }
 
     @Override
-    public Set<IntegerGraphNode> getGraphNodes() {
+    public Set<GraphNode<T>> getGraphNodes() {
         return new HashSet<>(nodesMap.values());
     }
 
@@ -32,7 +29,7 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public void addEdge(Integer a, Integer b) {
+    public void addEdge(T a, T b) {
         if (isNull(a) || isNull(b)) {
             throw new GraphException("Node cannot be null");
         }
@@ -42,8 +39,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
             throw new GraphException("cannot create edge with one node");
         }
 
-        Set<IntegerGraphNode> adjacencyListA = nodeA.getAdjacencyList();
-        Set<IntegerGraphNode> adjacencyListB = nodeB.getAdjacencyList();
+        Set<GraphNode<T>> adjacencyListA = nodeA.getAdjacencyList();
+        Set<GraphNode<T>> adjacencyListB = nodeB.getAdjacencyList();
 
         if (adjacencyListA.contains(nodeB) && adjacencyListB.contains(nodeA))
             throw new GraphException("Edge already exists");
@@ -53,44 +50,44 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public void addEdge(GraphNodeBase<Integer> a, GraphNodeBase<Integer> b) {
+    public void addEdge(GraphNode<T> a, GraphNode<T> b) {
         if (isNull(a) || isNull(b)) throw getNodeDoesNotExistException();
         addEdge(a.getValue(), b.getValue());
     }
 
     @Override
-    public void addNode(Integer node) {
+    public void addNode(T node) {
         if (isNull(node)) {
             throw new GraphException("Node cannot be null");
         }
         if (isNodePresent(node)) throw new GraphException("Node already exists");
-        nodesMap.put(node, new IntegerGraphNode(node));
+        nodesMap.put(node, new GraphNode<T>(node));
     }
 
     @Override
-    public IntegerGraphNode getNode(Integer node) {
+    public GraphNode<T> getNode(T node) {
         if (nodesMap.containsKey(node)) return nodesMap.get(node);
         throw getNodeDoesNotExistException();
     }
 
-    boolean isNodePresent(Integer node) {
+    boolean isNodePresent(T node) {
         return nodesMap.containsKey(node);
     }
 
-    boolean isNodePresent(IntegerGraphNode node) {
+    boolean isNodePresent(GraphNode node) {
         return nodesMap.containsKey(node.getValue());
     }
 
     @Override
-    public void removeEdge(Integer a, Integer b) {
+    public void removeEdge(T a, T b) {
         if (isNull(a) || isNull(b)) {
             throw getNodeDoesNotExistException();
         }
         var nodeA = getNode(a);
         var nodeB = getNode(b);
 
-        Set<IntegerGraphNode> adjacencyListA = nodeA.getAdjacencyList();
-        Set<IntegerGraphNode> adjacencyListB = nodeB.getAdjacencyList();
+        Set<GraphNode<T>> adjacencyListA = nodeA.getAdjacencyList();
+        Set<GraphNode<T>> adjacencyListB = nodeB.getAdjacencyList();
 
         if (!adjacencyListA.contains(nodeB) && !adjacencyListB.contains(nodeA))
             throw new GraphException("Edge does not exist");
@@ -100,20 +97,22 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public Set<IntegerGraphNode> getNeighbours(Integer node) {
+    public List<GraphNode<T>> getNeighbours(T node) {
         if (isNull(node) || !isNodePresent(node)) {
             throw getNodeDoesNotExistException();
         }
-        return getNode(node).getAdjacencyList();
+        List<GraphNode<T>> adjacencyList = new ArrayList<>(getNode(node).getAdjacencyList());
+        Collections.sort(adjacencyList);
+        return adjacencyList;
     }
 
     @Override
-    public List<IntegerGraphNode> bfs(Integer node) {
+    public List<GraphNode<T>> bfs(T node) {
         var start = getNode(node);
 
-        List<IntegerGraphNode> result = new ArrayList<>();
-        Set<IntegerGraphNode> visited = new HashSet<>();
-        Queue<IntegerGraphNode> q = new ArrayDeque<>();
+        List<GraphNode<T>> result = new ArrayList<>();
+        Set<GraphNode<T>> visited = new HashSet<>();
+        Queue<GraphNode<T>> q = new ArrayDeque<>();
 
         visited.add(start);
         q.offer(start);
@@ -130,25 +129,24 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> findShortestPath(Integer a, Integer b) {
+    public List<GraphNode<T>> findShortestPath(T a, T b) {
         //        return findShortestPath(getNode(a), getNode(b), new HashSet<>());
         return findShortestPathWithBfs(getNode(a), getNode(b));
     }
 
-    private List<IntegerGraphNode> findShortestPathWithBfs(
-            IntegerGraphNode start, IntegerGraphNode finish) {
+    private List<GraphNode<T>> findShortestPathWithBfs(GraphNode start, GraphNode finish) {
         if (start.equals(finish)) return List.of(start);
-        Queue<IntegerGraphNode> q = new ArrayDeque<>();
-        Set<IntegerGraphNode> visited = new HashSet<>();
+        Queue<GraphNode<T>> q = new ArrayDeque<>();
+        Set<GraphNode<T>> visited = new HashSet<>();
         // node to parent mapping
-        HashMap<IntegerGraphNode, IntegerGraphNode> parentMap = new HashMap<>();
+        HashMap<GraphNode<T>, GraphNode<T>> parentMap = new HashMap<>();
         q.offer(start);
         visited.add(start);
         boolean isFound = false;
         while (!q.isEmpty() && !isFound) {
             var node = q.poll();
 
-            for (var neighbour : node.getAdjacencyList()) {
+            for (var neighbour : getNeighbours(node.getValue())) {
                 if (visited.add(neighbour)) {
                     parentMap.put(neighbour, node);
                     if (neighbour.equals(finish)) {
@@ -160,8 +158,8 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
             }
         }
         if (isFound) {
-            List<IntegerGraphNode> result = new ArrayList<>();
-            IntegerGraphNode pointer = finish;
+            List<GraphNode<T>> result = new ArrayList<>();
+            GraphNode pointer = finish;
             result.add(finish);
             while (!pointer.equals(start)) {
                 pointer = parentMap.get(pointer);
@@ -173,16 +171,16 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     }
 
     @Override
-    public List<IntegerGraphNode> dfs(Integer node) {
-        IntegerGraphNode start = getNode(node);
-        List<IntegerGraphNode> result = new ArrayList<>();
-        HashSet<IntegerGraphNode> visited = new HashSet<>();
+    public List<GraphNode<T>> dfs(T node) {
+        GraphNode start = getNode(node);
+        List<GraphNode<T>> result = new ArrayList<>();
+        HashSet<GraphNode<T>> visited = new HashSet<>();
         dfs(start, result, visited);
         return result;
     }
 
     // create an iterative dfs
-    void dfs(IntegerGraphNode node, List<IntegerGraphNode> result, Set<IntegerGraphNode> visited) {
+    void dfs(GraphNode<T> node, List<GraphNode<T>> result, Set<GraphNode<T>> visited) {
         if (isNull(node)) {
             return;
         }
@@ -204,21 +202,21 @@ public class UndirectedIntegerGraph implements Graph<Integer> {
     // with 4 intermediate = (N-2)(N-3)(N-4)(N-5) = 4*3*2*1 = 24
     // Total = 1+4+12+24+24 = 65 which is in factorial order
     // create a better solution - DONE
-    private List<IntegerGraphNode> findShortestPath(
-            IntegerGraphNode current, IntegerGraphNode finish, HashSet<IntegerGraphNode> visited) {
+    private List<GraphNode> findShortestPath(
+            GraphNode<T> current, GraphNode<T> finish, HashSet<GraphNode<T>> visited) {
         if (current == null) return null;
         if (current == finish) {
-            var result = new ArrayList<IntegerGraphNode>();
+            var result = new ArrayList<GraphNode>();
             result.add(finish);
             return result;
         }
         visited.add(current);
-        List<List<IntegerGraphNode>> possiblePaths = new ArrayList<>();
+        List<List<GraphNode>> possiblePaths = new ArrayList<>();
         for (var node : current.getAdjacencyList()) {
             if (!visited.contains(node))
                 possiblePaths.add(findShortestPath(node, finish, new HashSet<>(visited)));
         }
-        List<IntegerGraphNode> smallestPath = null;
+        List<GraphNode> smallestPath = null;
         for (var path : possiblePaths) {
             if (isNull(smallestPath) && !isNull(path)) {
                 smallestPath = path;

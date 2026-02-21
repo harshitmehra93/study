@@ -8,14 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import study.model.Graph;
 import study.model.GraphException;
-import study.model.GraphNodeBase;
+import study.model.GraphNode;
 
 public class UndirectedIntegerGraphTest {
-    private Graph graph;
+    private Graph<Integer> graph;
 
     @BeforeEach
     void setUp() {
-        graph = new UndirectedIntegerGraph();
+        graph = new UndirectedGraph<Integer>();
     }
 
     @Test
@@ -23,11 +23,11 @@ public class UndirectedIntegerGraphTest {
         assertEquals(0, graph.getSize());
     }
 
-    @Test
-    public void testArgConstructor() {
-        graph = new UndirectedIntegerGraph(10);
-        assertEquals(10, graph.getSize());
-    }
+    //    @Test
+    //    public void testArgConstructor() {
+    //        graph = new UndirectedGraph(10);
+    //        assertEquals(10, graph.getSize());
+    //    }
 
     @Test
     public void addNullNode_shouldThrow() {
@@ -45,7 +45,7 @@ public class UndirectedIntegerGraphTest {
         graph.addNode(1);
 
         assertEquals(1, graph.getSize());
-        GraphNodeBase node = graph.getNode(1);
+        study.model.GraphNode node = graph.getNode(1);
         assertNotNull(node);
         assertEquals(1, node.getValue());
     }
@@ -63,11 +63,11 @@ public class UndirectedIntegerGraphTest {
 
         assertEquals(2, graph.getSize());
 
-        GraphNodeBase node1 = graph.getNode(1);
+        study.model.GraphNode node1 = graph.getNode(1);
         assertNotNull(node1);
         assertEquals(1, node1.getValue());
 
-        GraphNodeBase node2 = graph.getNode(1);
+        study.model.GraphNode node2 = graph.getNode(1);
         assertNotNull(node2);
         assertEquals(1, node2.getValue());
     }
@@ -91,8 +91,8 @@ public class UndirectedIntegerGraphTest {
         assertThrows(GraphException.class, () -> graph.addEdge(1, 2));
         assertThrows(GraphException.class, () -> graph.addEdge(2, 1));
         assertEquals(2, graph.getSize());
-        GraphNodeBase node1 = graph.getNode(1);
-        GraphNodeBase node2 = graph.getNode(2);
+        study.model.GraphNode node1 = graph.getNode(1);
+        study.model.GraphNode node2 = graph.getNode(2);
 
         assertTrue(node1.getAdjacencyList().contains(node2));
         assertTrue(node2.getAdjacencyList().contains(node1));
@@ -111,15 +111,15 @@ public class UndirectedIntegerGraphTest {
 
         graph.addEdge(1, 2);
 
-        GraphNodeBase node1 = graph.getNode(1);
-        GraphNodeBase node2 = graph.getNode(2);
+        study.model.GraphNode node1 = graph.getNode(1);
+        study.model.GraphNode node2 = graph.getNode(2);
 
         assertEquals(2, graph.getSize());
 
         // node 1 validation
         assertNotNull(node1);
         assertEquals(1, node1.getValue());
-        Set<GraphNodeBase> adjListOfNode1 = node1.getAdjacencyList();
+        Set<study.model.GraphNode> adjListOfNode1 = node1.getAdjacencyList();
         assertNotNull(adjListOfNode1);
         assertEquals(1, adjListOfNode1.size());
         assertTrue(adjListOfNode1.contains(node2));
@@ -127,7 +127,7 @@ public class UndirectedIntegerGraphTest {
         // node 2 validation
         assertNotNull(node2);
         assertEquals(2, node2.getValue());
-        Set<GraphNodeBase> adjListOfNode2 = node2.getAdjacencyList();
+        Set<study.model.GraphNode> adjListOfNode2 = node2.getAdjacencyList();
         assertNotNull(adjListOfNode2);
         assertEquals(1, adjListOfNode1.size());
         assertTrue(adjListOfNode2.contains(node1));
@@ -253,12 +253,12 @@ public class UndirectedIntegerGraphTest {
 
     @Test
     void equality() {
-        var node1 = new IntegerGraphNode(1);
-        var node2 = new IntegerGraphNode(1);
+        var node1 = new GraphNode(1);
+        var node2 = new GraphNode(1);
         assertTrue(node1.equals(node2));
         assertTrue(node1.hashCode() == node2.hashCode());
 
-        Set<IntegerGraphNode> set = new HashSet<>();
+        Set<GraphNode> set = new HashSet<>();
         set.add(node1);
         set.add(node2);
         assertEquals(1, set.size());
@@ -303,7 +303,7 @@ public class UndirectedIntegerGraphTest {
         assertNotNull(neighbours);
         System.out.println(neighbours);
         assertEquals(4, neighbours.size());
-        assertSetIsSorted(neighbours);
+        assertListIsSorted(neighbours);
     }
 
     @Test
@@ -313,13 +313,13 @@ public class UndirectedIntegerGraphTest {
 
         var node = getRandomNode(GRAPH_SIZE);
         var neighbours = graph.getNeighbours(node.getValue());
-        assertSetIsSorted(neighbours);
+        assertListIsSorted(neighbours);
     }
 
     @Test
     void bfs_happy() {
         buildRandomGraph(20);
-        List<IntegerGraphNode> bfsOrder = graph.bfs(getRandomNode(10).getValue());
+        List<GraphNode<Integer>> bfsOrder = graph.bfs(getRandomNode(10).getValue());
         System.out.println(bfsOrder);
     }
 
@@ -327,7 +327,7 @@ public class UndirectedIntegerGraphTest {
     void bfs_happy_2() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> result = graph.bfs(3);
+        List<GraphNode<Integer>> result = graph.bfs(3);
 
         assertEquals(10, result.size());
         List<Integer> expectedList = List.of(3, 8, 11, 1, 12, 18, 2, 5, 19, 14);
@@ -338,7 +338,7 @@ public class UndirectedIntegerGraphTest {
     void bfs_happy_3() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> result = graph.bfs(9);
+        List<GraphNode<Integer>> result = graph.bfs(9);
 
         assertEquals(1, result.size());
         List<Integer> expectedList = List.of(9);
@@ -372,7 +372,7 @@ public class UndirectedIntegerGraphTest {
         graph.addNode(2);
         graph.addEdge(1, 2);
 
-        List<IntegerGraphNode> path = graph.findShortestPath(1, 2);
+        List<GraphNode<Integer>> path = graph.findShortestPath(1, 2);
 
         assertListsAreSame(path, List.of(2, 1));
     }
@@ -381,7 +381,7 @@ public class UndirectedIntegerGraphTest {
     void pathExists_sameNode_returnsSingleNodeList() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findShortestPath(8, 8);
+        List<GraphNode<Integer>> path = graph.findShortestPath(8, 8);
 
         assertListsAreSame(path, List.of(8));
     }
@@ -397,7 +397,7 @@ public class UndirectedIntegerGraphTest {
     void pathExists_findShortestPath_happy() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findShortestPath(5, 19);
+        List<GraphNode<Integer>> path = graph.findShortestPath(5, 19);
 
         assertListsAreSame(path, List.of(19, 5));
     }
@@ -406,7 +406,7 @@ public class UndirectedIntegerGraphTest {
     void pathExists_findShortestPath_happy_2() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findShortestPath(5, 8);
+        List<GraphNode<Integer>> path = graph.findShortestPath(5, 8);
 
         assertListsAreSame(path, List.of(8, 12, 5));
     }
@@ -415,7 +415,7 @@ public class UndirectedIntegerGraphTest {
     void pathExists_findShortestPath_happy_3() {
         build20NodeGraph();
 
-        List<IntegerGraphNode> path = graph.findShortestPath(14, 3);
+        List<GraphNode<Integer>> path = graph.findShortestPath(14, 3);
 
         assertListsAreSame(path, List.of(3, 8, 12, 2, 14));
     }
@@ -429,7 +429,7 @@ public class UndirectedIntegerGraphTest {
     void dfs_nodeExist_returnsList() {
         graph.addNode(1);
 
-        List<IntegerGraphNode> result = graph.dfs(1);
+        List<GraphNode<Integer>> result = graph.dfs(1);
 
         assertListsAreSame(result, List.of(1));
     }
@@ -485,9 +485,9 @@ public class UndirectedIntegerGraphTest {
     }
 
     private static void assertListsAreSame(
-            List<IntegerGraphNode> result, List<Integer> expectedList) {
+            List<GraphNode<Integer>> result, List<Integer> expectedList) {
         assertEquals(expectedList.size(), result.size());
-        Iterator<IntegerGraphNode> resultIt = result.iterator();
+        Iterator<GraphNode<Integer>> resultIt = result.iterator();
         Iterator<Integer> expectedIt = expectedList.iterator();
         while (resultIt.hasNext()) {
             assertEquals(expectedIt.next(), resultIt.next().getValue());
@@ -542,7 +542,7 @@ public class UndirectedIntegerGraphTest {
     }
 
     private void printGraph() {
-        Set<IntegerGraphNode> nodes = graph.getGraphNodes();
+        Set<GraphNode<Integer>> nodes = graph.getGraphNodes();
         nodes.stream()
                 .forEach(
                         n -> {
@@ -551,19 +551,19 @@ public class UndirectedIntegerGraphTest {
     }
 
     private void addRandomEdge(int MAX_INT) {
-        GraphNodeBase node1 = getRandomNode(MAX_INT);
-        GraphNodeBase node2 = getRandomNode(MAX_INT);
+        GraphNode node1 = getRandomNode(MAX_INT);
+        GraphNode node2 = getRandomNode(MAX_INT);
         try {
             graph.addEdge(node1, node2);
         } catch (GraphException g) {
         }
     }
 
-    private IntegerGraphNode getRandomNode(int SET_SIZE) {
-        IntegerGraphNode node = null;
+    private GraphNode<Integer> getRandomNode(int SET_SIZE) {
+        GraphNode<Integer> node = null;
         for (int i = (int) (Math.random() * SET_SIZE); i < SET_SIZE; i++) {
             try {
-                node = (IntegerGraphNode) graph.getNode(i);
+                node = (GraphNode) graph.getNode(i);
             } catch (GraphException g) {
                 if (i == SET_SIZE - 1) {
                     i = 0; // restart from 0 if node is not found
@@ -576,16 +576,16 @@ public class UndirectedIntegerGraphTest {
     }
 
     private void assertSetIsSorted(Set neighbours) {
-        Iterator<IntegerGraphNode> it = neighbours.iterator();
+        Iterator<GraphNode<Integer>> it = neighbours.iterator();
         isSorted(it);
     }
 
     private void assertListIsSorted(List neighbours) {
-        Iterator<IntegerGraphNode> it = neighbours.iterator();
+        Iterator<GraphNode<Integer>> it = neighbours.iterator();
         isSorted(it);
     }
 
-    private void isSorted(Iterator<IntegerGraphNode> it) {
+    private void isSorted(Iterator<GraphNode<Integer>> it) {
         var node1 = it.hasNext() ? it.next() : null;
         while (it.hasNext()) {
             var node2 = it.next();
