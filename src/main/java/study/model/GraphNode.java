@@ -8,7 +8,7 @@ public class GraphNode<T extends Comparable> implements Comparable<GraphNode<T>>
 
     public GraphNode(T value) {
         this.value = value;
-        adjacencyList = new HashSet<>();
+        adjacencyList = new TreeSet<>();
     }
 
     public T getValue() {

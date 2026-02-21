@@ -303,7 +303,7 @@ public class UndirectedIntegerGraphTest {
         assertNotNull(neighbours);
         System.out.println(neighbours);
         assertEquals(4, neighbours.size());
-        assertListIsSorted(neighbours);
+        assertSetIsSorted(neighbours);
     }
 
     @Test
@@ -313,7 +313,7 @@ public class UndirectedIntegerGraphTest {
 
         var node = getRandomNode(GRAPH_SIZE);
         var neighbours = graph.getNeighbours(node.getValue());
-        assertListIsSorted(neighbours);
+        assertSetIsSorted(neighbours);
     }
 
     @Test

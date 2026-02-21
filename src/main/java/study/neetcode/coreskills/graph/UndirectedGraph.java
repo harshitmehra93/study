@@ -10,10 +10,6 @@ import study.model.GraphNode;
 public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     HashMap<T, GraphNode<T>> nodesMap;
 
-    UndirectedGraph(int numOfNodes) {
-        nodesMap = new HashMap<>();
-    }
-
     UndirectedGraph() {
         nodesMap = new HashMap<>();
     }
@@ -97,13 +93,11 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     }
 
     @Override
-    public List<GraphNode<T>> getNeighbours(T node) {
+    public Set<GraphNode<T>> getNeighbours(T node) {
         if (isNull(node) || !isNodePresent(node)) {
             throw getNodeDoesNotExistException();
         }
-        List<GraphNode<T>> adjacencyList = new ArrayList<>(getNode(node).getAdjacencyList());
-        Collections.sort(adjacencyList);
-        return adjacencyList;
+        return Collections.unmodifiableSet(getNode(node).getAdjacencyList());
     }
 
     @Override
@@ -146,7 +140,7 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
         while (!q.isEmpty() && !isFound) {
             var node = q.poll();
 
-            for (var neighbour : getNeighbours(node.getValue())) {
+            for (var neighbour : node.getAdjacencyList()) {
                 if (visited.add(neighbour)) {
                     parentMap.put(neighbour, node);
                     if (neighbour.equals(finish)) {

@@ -18,7 +18,7 @@ public interface Graph<T extends Comparable> {
 
     void removeEdge(T nodeA, T nodeB);
 
-    List<GraphNode<T>> getNeighbours(T node);
+    Set<GraphNode<T>> getNeighbours(T node);
 
     List<GraphNode<T>> bfs(T node);
 
