@@ -127,7 +127,7 @@ public class UndirectedIntegerGraphTest {
         // node 2 validation
         assertNotNull(node2);
         assertEquals(2, node2.getValue());
-        Set<study.model.GraphNode<Integer>> adjListOfNode2 =  graph.getNeighbours(node2.getValue());
+        Set<study.model.GraphNode<Integer>> adjListOfNode2 = graph.getNeighbours(node2.getValue());
         assertNotNull(adjListOfNode2);
         assertEquals(1, adjListOfNode1.size());
         assertTrue(adjListOfNode2.contains(node1));
