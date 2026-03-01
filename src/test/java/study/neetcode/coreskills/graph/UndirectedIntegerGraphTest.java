@@ -15,7 +15,7 @@ public class UndirectedIntegerGraphTest {
 
     @BeforeEach
     void setUp() {
-        graph = new UndirectedGraph<Integer>();
+        graph = new UndirectedGraphWithAdjMatrix<Integer>();
     }
 
     @Test
@@ -91,11 +91,11 @@ public class UndirectedIntegerGraphTest {
         assertThrows(GraphException.class, () -> graph.addEdge(1, 2));
         assertThrows(GraphException.class, () -> graph.addEdge(2, 1));
         assertEquals(2, graph.getSize());
-        study.model.GraphNode node1 = graph.getNode(1);
-        study.model.GraphNode node2 = graph.getNode(2);
+        study.model.GraphNode<Integer> node1 = graph.getNode(1);
+        study.model.GraphNode<Integer> node2 = graph.getNode(2);
 
-        assertTrue(node1.getAdjacencyList().contains(node2));
-        assertTrue(node2.getAdjacencyList().contains(node1));
+        assertTrue(graph.getNeighbours(node1.getValue()).contains(node2));
+        assertTrue(graph.getNeighbours(node2.getValue()).contains(node1));
     }
 
     @Test
@@ -111,15 +111,15 @@ public class UndirectedIntegerGraphTest {
 
         graph.addEdge(1, 2);
 
-        study.model.GraphNode node1 = graph.getNode(1);
-        study.model.GraphNode node2 = graph.getNode(2);
+        study.model.GraphNode<Integer> node1 = graph.getNode(1);
+        study.model.GraphNode<Integer> node2 = graph.getNode(2);
 
         assertEquals(2, graph.getSize());
 
         // node 1 validation
         assertNotNull(node1);
         assertEquals(1, node1.getValue());
-        Set<study.model.GraphNode> adjListOfNode1 = node1.getAdjacencyList();
+        Set<study.model.GraphNode<Integer>> adjListOfNode1 = graph.getNeighbours(node1.getValue());
         assertNotNull(adjListOfNode1);
         assertEquals(1, adjListOfNode1.size());
         assertTrue(adjListOfNode1.contains(node2));
@@ -127,7 +127,7 @@ public class UndirectedIntegerGraphTest {
         // node 2 validation
         assertNotNull(node2);
         assertEquals(2, node2.getValue());
-        Set<study.model.GraphNode> adjListOfNode2 = node2.getAdjacencyList();
+        Set<study.model.GraphNode<Integer>> adjListOfNode2 =  graph.getNeighbours(node2.getValue());
         assertNotNull(adjListOfNode2);
         assertEquals(1, adjListOfNode1.size());
         assertTrue(adjListOfNode2.contains(node1));
@@ -170,8 +170,8 @@ public class UndirectedIntegerGraphTest {
         assertNotNull(node1);
         assertNotNull(node2);
 
-        var adjListNode1 = node1.getAdjacencyList();
-        var adjListNode2 = node2.getAdjacencyList();
+        var adjListNode1 = graph.getNeighbours(node1.getValue());
+        var adjListNode2 = graph.getNeighbours(node2.getValue());
         assertNotNull(adjListNode1);
         assertNotNull(adjListNode2);
         assertEquals(0, adjListNode1.size());
@@ -216,11 +216,11 @@ public class UndirectedIntegerGraphTest {
         assertNotNull(node4);
         assertNotNull(node5);
 
-        var adjListNode1 = node1.getAdjacencyList();
-        var adjListNode2 = node2.getAdjacencyList();
-        var adjListNode3 = node3.getAdjacencyList();
-        var adjListNode4 = node4.getAdjacencyList();
-        var adjListNode5 = node5.getAdjacencyList();
+        var adjListNode1 = graph.getNeighbours(node1.getValue());
+        var adjListNode2 = graph.getNeighbours(node2.getValue());
+        var adjListNode3 = graph.getNeighbours(node3.getValue());
+        var adjListNode4 = graph.getNeighbours(node4.getValue());
+        var adjListNode5 = graph.getNeighbours(node5.getValue());
         assertNotNull(adjListNode1);
         assertNotNull(adjListNode2);
         assertNotNull(adjListNode3);
