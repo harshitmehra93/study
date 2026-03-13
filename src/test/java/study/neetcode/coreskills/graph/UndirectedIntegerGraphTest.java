@@ -466,6 +466,26 @@ public abstract class UndirectedIntegerGraphTest {
 
         GraphUtils.assertListsAreSame(result, List.of(1, 2, 4, 5, 3));
     }
+
+    @Test
+    void clearTest(){
+        graph = GraphUtils.buildSmallTree(graph);
+        assertEquals(6,graph.getSize());
+        GraphNode<Integer> a = graph.getNode(1);
+
+        GraphNode<Integer> b = graph.getNode(2);
+        GraphNode<Integer> c = graph.getNode(3);
+        List<GraphNode<Integer>> expectedNeighbours = List.of(b, c);
+        Set<GraphNode<Integer>> neighbours = graph.getNeighbours(a.getValue());
+        assertEquals(2, neighbours.size());
+        for(GraphNode<Integer> nei : neighbours){
+            assertTrue(expectedNeighbours.contains(nei));
+        }
+
+        graph.clear();
+        assertEquals(0,graph.getSize());
+        assertThrows(GraphException.class, ()->graph.getNode(1));
+    }
 }
 
 class GraphWithAdjacencyListTest extends UndirectedIntegerGraphTest {
