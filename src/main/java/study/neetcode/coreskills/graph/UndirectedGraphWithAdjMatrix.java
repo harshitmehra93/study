@@ -132,6 +132,14 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph
         return neighbours;
     }
 
+    @Override
+    public void clear() {
+        adjMatrix = new int[initialCapacity][initialCapacity];
+        nodesMap = new HashMap<>();
+        nodeToIndexMap = new HashMap<>();
+        indexToNodeMap = new HashMap<>();
+    }
+
     private boolean isOverloaded() {
         return (double) nodesMap.size() / initialCapacity > LOAD_THRESHOLD;
     }

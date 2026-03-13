@@ -100,6 +100,11 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
         return Collections.unmodifiableSet(getNode(node).getAdjacencyList());
     }
 
+    @Override
+    public void clear() {
+        nodesMap = new HashMap<>();
+    }
+
     // This method explores all paths with back tracking
     // Find reason why this solution is in factorial runtime ?
     // For a 6 node complete graph

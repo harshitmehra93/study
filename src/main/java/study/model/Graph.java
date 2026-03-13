@@ -108,4 +108,6 @@ public interface Graph<T extends Comparable> {
             if (!visited.contains(neighbour)) dfs(neighbour, result, visited);
         }
     }
+
+    void clear();
 }
