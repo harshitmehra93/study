@@ -2,13 +2,7 @@ package study.model;
 
 import static java.util.Objects.isNull;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public interface Graph<T extends Comparable> {
     Set<GraphNode<T>> getGraphNodes();
@@ -110,4 +104,8 @@ public interface Graph<T extends Comparable> {
     }
 
     void clear();
+
+    Optional<UndirectedEdge<T>> getEdge(T node1, T node2);
+
+    Set<UndirectedEdge<T>> getEdges();
 }

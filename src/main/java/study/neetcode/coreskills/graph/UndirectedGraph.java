@@ -6,9 +6,11 @@ import java.util.*;
 import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNode;
+import study.model.UndirectedEdge;
 
 public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     HashMap<T, GraphNode<T>> nodesMap;
+    Set<UndirectedEdge<T>> edges = new HashSet<>();
 
     UndirectedGraph() {
         nodesMap = new HashMap<>();
@@ -31,18 +33,20 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
         }
         var nodeA = getNode(a);
         var nodeB = getNode(b);
-        if (nodeA == nodeB) {
+        if (nodeA.equals(nodeB)) {
             throw new GraphException("cannot create edge with one node");
         }
 
         Set<GraphNode<T>> adjacencyListA = nodeA.getAdjacencyList();
         Set<GraphNode<T>> adjacencyListB = nodeB.getAdjacencyList();
 
-        if (adjacencyListA.contains(nodeB) && adjacencyListB.contains(nodeA))
+        if (getEdge(nodeA.getValue(), nodeB.getValue()).isPresent())
             throw new GraphException("Edge already exists");
 
         adjacencyListA.add(nodeB);
         adjacencyListB.add(nodeA);
+
+        edges.add(new UndirectedEdge<T>(nodeA, nodeB));
     }
 
     @Override
@@ -85,9 +89,9 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
         Set<GraphNode<T>> adjacencyListA = nodeA.getAdjacencyList();
         Set<GraphNode<T>> adjacencyListB = nodeB.getAdjacencyList();
 
-        if (!adjacencyListA.contains(nodeB) && !adjacencyListB.contains(nodeA))
-            throw new GraphException("Edge does not exist");
+        if (getEdge(a, b).isEmpty()) throw new GraphException("Edge does not exist");
 
+        getEdges().remove(getEdge(a, b).get());
         adjacencyListA.remove(nodeB);
         adjacencyListB.remove(nodeA);
     }
@@ -103,6 +107,26 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     @Override
     public void clear() {
         nodesMap = new HashMap<>();
+    }
+
+    @Override
+    public Optional<UndirectedEdge<T>> getEdge(T node1, T node2) {
+        GraphNode<T> nodeA = getNode(node1);
+        GraphNode<T> nodeB = getNode(node2);
+
+        return getEdges().stream()
+                // (1,2) == (2,1)
+                .filter(
+                        edge ->
+                                (edge.vertice1.equals(nodeA) && edge.vertice2.equals(nodeB))
+                                        || (edge.vertice1.equals(nodeB)
+                                                && edge.vertice2.equals(nodeA)))
+                .findFirst();
+    }
+
+    @Override
+    public Set<UndirectedEdge<T>> getEdges() {
+        return this.edges;
     }
 
     // This method explores all paths with back tracking

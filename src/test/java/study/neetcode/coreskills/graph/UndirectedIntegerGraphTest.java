@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNode;
+import study.model.UndirectedEdge;
 import study.utils.GraphUtils;
 
 public abstract class UndirectedIntegerGraphTest {
@@ -468,9 +469,9 @@ public abstract class UndirectedIntegerGraphTest {
     }
 
     @Test
-    void clearTest(){
+    void clearTest() {
         graph = GraphUtils.buildSmallTree(graph);
-        assertEquals(6,graph.getSize());
+        assertEquals(6, graph.getSize());
         GraphNode<Integer> a = graph.getNode(1);
 
         GraphNode<Integer> b = graph.getNode(2);
@@ -478,19 +479,62 @@ public abstract class UndirectedIntegerGraphTest {
         List<GraphNode<Integer>> expectedNeighbours = List.of(b, c);
         Set<GraphNode<Integer>> neighbours = graph.getNeighbours(a.getValue());
         assertEquals(2, neighbours.size());
-        for(GraphNode<Integer> nei : neighbours){
+        for (GraphNode<Integer> nei : neighbours) {
             assertTrue(expectedNeighbours.contains(nei));
         }
 
         graph.clear();
-        assertEquals(0,graph.getSize());
-        assertThrows(GraphException.class, ()->graph.getNode(1));
+        assertEquals(0, graph.getSize());
+        assertThrows(GraphException.class, () -> graph.getNode(1));
     }
 }
 
 class GraphWithAdjacencyListTest extends UndirectedIntegerGraphTest {
     void setupTargetGraph() {
         graph = new UndirectedGraph<Integer>();
+    }
+
+    @Test
+    void test_getEdge() {
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addEdge(1, 2);
+
+        assertEquals(2, graph.getSize());
+        assertTrue(graph.getNeighbours(1).contains(graph.getNode(2)));
+        assertTrue(graph.getNeighbours(2).contains(graph.getNode(1)));
+
+        UndirectedEdge<Integer> edge = graph.getEdge(1, 2).get();
+        assertEquals(1, edge.vertice1.getValue());
+        assertEquals(2, edge.vertice2.getValue());
+
+        UndirectedEdge<Integer> sameEdge = graph.getEdge(2, 1).get();
+        assertEquals(1, sameEdge.vertice1.getValue());
+        assertEquals(2, sameEdge.vertice2.getValue());
+
+        assertEquals(1, graph.getEdges().size());
+
+        graph.removeEdge(1, 2);
+
+        assertTrue(graph.getEdge(1, 2).isEmpty());
+        assertEquals(0, graph.getEdges().size());
+    }
+
+    @Test
+    void getEdge_nulls() {
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addEdge(1, 2);
+
+        assertThrows(GraphException.class, () -> graph.getEdge(null, null));
+    }
+
+    @Test
+    void getEdge_doesNotExist() {
+        graph.addNode(1);
+        graph.addNode(2);
+
+        assertTrue(graph.getEdge(1, 2).isEmpty());
     }
 }
 

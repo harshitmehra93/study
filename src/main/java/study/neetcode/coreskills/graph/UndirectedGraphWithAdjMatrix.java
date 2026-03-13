@@ -2,13 +2,11 @@ package study.neetcode.coreskills.graph;
 
 import static java.util.Objects.isNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNode;
+import study.model.UndirectedEdge;
 
 public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph<T> {
 
@@ -132,12 +130,26 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph
         return neighbours;
     }
 
+    public Set<GraphNode<T>> getNeighbours(GraphNode<T> node) {
+        return getNeighbours(node.getValue());
+    }
+
     @Override
     public void clear() {
         adjMatrix = new int[initialCapacity][initialCapacity];
         nodesMap = new HashMap<>();
         nodeToIndexMap = new HashMap<>();
         indexToNodeMap = new HashMap<>();
+    }
+
+    @Override
+    public Optional<UndirectedEdge<T>> getEdge(T node1, T node2) {
+        return null;
+    }
+
+    @Override
+    public Set<UndirectedEdge<T>> getEdges() {
+        return null;
     }
 
     private boolean isOverloaded() {
