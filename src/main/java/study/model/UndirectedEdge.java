@@ -12,12 +12,8 @@ public class UndirectedEdge<T extends Comparable> {
     @Override
     public boolean equals(Object e1) {
         if (e1 instanceof UndirectedEdge<?> edge) {
-            if (edge.vertice1.equals(this.vertice1) && edge.vertice2.equals(this.vertice2)) {
-                return true;
-            }
-            if (edge.vertice1.equals(this.vertice2) && edge.vertice2.equals(this.vertice1)) {
-                return true;
-            }
+            return (edge.vertice1.equals(this.vertice1) && edge.vertice2.equals(this.vertice2))
+                    || (edge.vertice1.equals(this.vertice2) && edge.vertice2.equals(this.vertice1));
         }
         return false;
     }
