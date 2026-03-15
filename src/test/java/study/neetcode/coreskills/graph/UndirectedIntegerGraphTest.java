@@ -5,10 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import study.model.Graph;
-import study.model.GraphException;
-import study.model.GraphNode;
-import study.model.UndirectedEdge;
+import study.model.*;
 import study.utils.GraphUtils;
 
 public abstract class UndirectedIntegerGraphTest {
@@ -471,7 +468,7 @@ public abstract class UndirectedIntegerGraphTest {
     @Test
     void clearTest() {
         graph = GraphUtils.buildSmallTree(graph);
-        assertEquals(6, graph.getSize());
+        assertEquals(5, graph.getSize());
         GraphNode<Integer> a = graph.getNode(1);
 
         GraphNode<Integer> b = graph.getNode(2);
@@ -504,11 +501,11 @@ class GraphWithAdjacencyListTest extends UndirectedIntegerGraphTest {
         assertTrue(graph.getNeighbours(1).contains(graph.getNode(2)));
         assertTrue(graph.getNeighbours(2).contains(graph.getNode(1)));
 
-        UndirectedEdge<Integer> edge = graph.getEdge(1, 2).get();
+        Edge<Integer> edge = graph.getEdge(1, 2).get();
         assertEquals(1, edge.vertice1.getValue());
         assertEquals(2, edge.vertice2.getValue());
 
-        UndirectedEdge<Integer> sameEdge = graph.getEdge(2, 1).get();
+        Edge<Integer> sameEdge = graph.getEdge(2, 1).get();
         assertEquals(1, sameEdge.vertice1.getValue());
         assertEquals(2, sameEdge.vertice2.getValue());
 

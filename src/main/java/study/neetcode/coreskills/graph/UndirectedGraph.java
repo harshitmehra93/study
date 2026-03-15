@@ -3,27 +3,16 @@ package study.neetcode.coreskills.graph;
 import static java.util.Objects.isNull;
 
 import java.util.*;
-import study.model.Graph;
-import study.model.GraphException;
-import study.model.GraphNode;
-import study.model.UndirectedEdge;
+import study.model.*;
 
-public class UndirectedGraph<T extends Comparable> implements Graph<T> {
-    HashMap<T, GraphNode<T>> nodesMap;
-    Set<UndirectedEdge<T>> edges = new HashSet<>();
-
-    UndirectedGraph() {
-        nodesMap = new HashMap<>();
-    }
+public class UndirectedGraph<T extends Comparable> extends Graph<T> {
+    HashMap<T, GraphNode<T>> nodesMap = new HashMap<>();
+    ;
+    Set<Edge<T>> edges = new HashSet<>();
 
     @Override
-    public Set<GraphNode<T>> getGraphNodes() {
-        return new HashSet<>(nodesMap.values());
-    }
-
-    @Override
-    public int getSize() {
-        return nodesMap.size();
+    public Map<T, GraphNode<T>> getNodesMap() {
+        return nodesMap;
     }
 
     @Override
@@ -56,29 +45,6 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     }
 
     @Override
-    public void addNode(T node) {
-        if (isNull(node)) {
-            throw new GraphException("Node cannot be null");
-        }
-        if (isNodePresent(node)) throw new GraphException("Node already exists");
-        nodesMap.put(node, new GraphNode<T>(node));
-    }
-
-    @Override
-    public GraphNode<T> getNode(T node) {
-        if (nodesMap.containsKey(node)) return nodesMap.get(node);
-        throw getNodeDoesNotExistException();
-    }
-
-    boolean isNodePresent(T node) {
-        return nodesMap.containsKey(node);
-    }
-
-    boolean isNodePresent(GraphNode node) {
-        return nodesMap.containsKey(node.getValue());
-    }
-
-    @Override
     public void removeEdge(T a, T b) {
         if (isNull(a) || isNull(b)) {
             throw getNodeDoesNotExistException();
@@ -97,20 +63,7 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     }
 
     @Override
-    public Set<GraphNode<T>> getNeighbours(T node) {
-        if (isNull(node) || !isNodePresent(node)) {
-            throw getNodeDoesNotExistException();
-        }
-        return Collections.unmodifiableSet(getNode(node).getAdjacencyList());
-    }
-
-    @Override
-    public void clear() {
-        nodesMap = new HashMap<>();
-    }
-
-    @Override
-    public Optional<UndirectedEdge<T>> getEdge(T node1, T node2) {
+    public Optional<Edge<T>> getEdge(T node1, T node2) {
         GraphNode<T> nodeA = getNode(node1);
         GraphNode<T> nodeB = getNode(node2);
 
@@ -125,7 +78,7 @@ public class UndirectedGraph<T extends Comparable> implements Graph<T> {
     }
 
     @Override
-    public Set<UndirectedEdge<T>> getEdges() {
+    public Set<Edge<T>> getEdges() {
         return this.edges;
     }
 

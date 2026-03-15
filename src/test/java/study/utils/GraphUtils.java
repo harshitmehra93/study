@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
-import study.model.Graph;
 import study.model.GraphException;
 import study.model.GraphNode;
+import study.neetcode.coreskills.graph.Graph;
 
 public class GraphUtils {
     /*
@@ -25,7 +25,6 @@ public class GraphUtils {
         graph.addNode(3);
         graph.addNode(4);
         graph.addNode(5);
-        graph.addNode(6);
         graph.addEdge(1, 2);
         graph.addEdge(1, 3);
         graph.addEdge(2, 4);

@@ -3,12 +3,9 @@ package study.neetcode.coreskills.graph;
 import static java.util.Objects.isNull;
 
 import java.util.*;
-import study.model.Graph;
-import study.model.GraphException;
-import study.model.GraphNode;
-import study.model.UndirectedEdge;
+import study.model.*;
 
-public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph<T> {
+public class UndirectedGraphWithAdjMatrix<T extends Comparable> extends Graph<T> {
 
     public static final double LOAD_THRESHOLD = .75;
     HashMap<T, GraphNode<T>> nodesMap = new HashMap<>();
@@ -24,16 +21,6 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph
 
     UndirectedGraphWithAdjMatrix() {
         this(10);
-    }
-
-    @Override
-    public Set<GraphNode<T>> getGraphNodes() {
-        return new HashSet<>(nodesMap.values());
-    }
-
-    @Override
-    public int getSize() {
-        return nodesMap.size();
     }
 
     @Override
@@ -93,14 +80,6 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph
     }
 
     @Override
-    public GraphNode<T> getNode(T node) {
-        if (!nodesMap.containsKey(node)) {
-            throw new GraphException("node not found");
-        }
-        return nodesMap.get(node);
-    }
-
-    @Override
     public void removeEdge(T nodeA, T nodeB) {
         GraphNode<T> a = getNode(nodeA);
         GraphNode<T> b = getNode(nodeB);
@@ -114,6 +93,11 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph
         } else {
             throw new GraphException("edge does not exist or graph is corrupted");
         }
+    }
+
+    @Override
+    public Map<T, GraphNode<T>> getNodesMap() {
+        return nodesMap;
     }
 
     @Override
@@ -143,12 +127,12 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> implements Graph
     }
 
     @Override
-    public Optional<UndirectedEdge<T>> getEdge(T node1, T node2) {
+    public Optional<Edge<T>> getEdge(T node1, T node2) {
         return null;
     }
 
     @Override
-    public Set<UndirectedEdge<T>> getEdges() {
+    public Set<Edge<T>> getEdges() {
         return null;
     }
 

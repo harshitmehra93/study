@@ -1,8 +1,10 @@
 package study.model;
 
-public class UndirectedEdge<T extends Comparable> {
-    public GraphNode<T> vertice1;
-    public GraphNode<T> vertice2;
+import java.util.HashMap;
+
+public class UndirectedEdge<T extends Comparable> extends Edge<T> {
+
+    public HashMap<String, String> attributes = new HashMap<String, String>();
 
     public UndirectedEdge(GraphNode<T> a, GraphNode<T> b) {
         vertice1 = a;
@@ -21,5 +23,10 @@ public class UndirectedEdge<T extends Comparable> {
     @Override
     public int hashCode() {
         return vertice1.hashCode() + vertice2.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "edge : (" + vertice1 + ", " + vertice2 + ") " + attributes;
     }
 }

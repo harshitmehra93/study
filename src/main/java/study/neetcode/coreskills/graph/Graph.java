@@ -1,27 +1,54 @@
-package study.model;
+package study.neetcode.coreskills.graph;
 
 import static java.util.Objects.isNull;
 
 import java.util.*;
+import study.model.Edge;
+import study.model.GraphException;
+import study.model.GraphNode;
 
-public interface Graph<T extends Comparable> {
-    Set<GraphNode<T>> getGraphNodes();
+public abstract class Graph<T extends Comparable> {
+    public Set<GraphNode<T>> getGraphNodes() {
+        return new HashSet<>(getNodesMap().values());
+    }
 
-    int getSize();
+    public int getSize() {
+        return getNodesMap().size();
+    }
 
-    void addEdge(T a, T b);
+    public abstract void addEdge(T a, T b);
 
-    void addEdge(GraphNode<T> a, GraphNode<T> b);
+    public abstract void addEdge(GraphNode<T> a, GraphNode<T> b);
 
-    void addNode(T o);
+    public void addNode(T node) {
+        if (isNull(node)) {
+            throw new GraphException("Node cannot be null");
+        }
+        if (isNodePresent(node)) throw new GraphException("Node already exists");
+        getNodesMap().put(node, new GraphNode<T>(node));
+    }
 
-    GraphNode<T> getNode(T node);
+    public GraphNode<T> getNode(T node) {
+        if (getNodesMap().containsKey(node)) return getNodesMap().get(node);
+        throw new GraphException("node does not exist");
+    }
 
-    void removeEdge(T nodeA, T nodeB);
+    public abstract void removeEdge(T nodeA, T nodeB);
 
-    Set<GraphNode<T>> getNeighbours(T node);
+    public abstract Map<T, GraphNode<T>> getNodesMap();
 
-    public default List<GraphNode<T>> bfs(T node) {
+    public boolean isNodePresent(T node) {
+        return getNodesMap().containsKey(node);
+    }
+
+    public Set<GraphNode<T>> getNeighbours(T node) {
+        if (isNull(node) || !isNodePresent(node)) {
+            throw new GraphException("node does not exist");
+        }
+        return Collections.unmodifiableSet(getNode(node).getAdjacencyList());
+    }
+
+    public List<GraphNode<T>> bfs(T node) {
         var start = getNode(node);
 
         List<GraphNode<T>> result = new ArrayList<>();
@@ -42,7 +69,7 @@ public interface Graph<T extends Comparable> {
         return result;
     }
 
-    public default List<GraphNode<T>> findShortestPath(T a, T b) {
+    public List<GraphNode<T>> findShortestPath(T a, T b) {
         //        return findShortestPath(getNode(a), getNode(b), new HashSet<>());
         return findShortestPathWithBfs(getNode(a), getNode(b));
     }
@@ -83,7 +110,7 @@ public interface Graph<T extends Comparable> {
         return null;
     }
 
-    public default List<GraphNode<T>> dfs(T node) {
+    public List<GraphNode<T>> dfs(T node) {
         GraphNode start = getNode(node);
         List<GraphNode<T>> result = new ArrayList<>();
         HashSet<GraphNode<T>> visited = new HashSet<>();
@@ -103,9 +130,11 @@ public interface Graph<T extends Comparable> {
         }
     }
 
-    void clear();
+    public void clear() {
+        getNodesMap().clear();
+    }
 
-    Optional<UndirectedEdge<T>> getEdge(T node1, T node2);
+    public abstract Optional<Edge<T>> getEdge(T node1, T node2);
 
-    Set<UndirectedEdge<T>> getEdges();
+    public abstract Set<Edge<T>> getEdges();
 }
