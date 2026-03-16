@@ -356,8 +356,8 @@ public class DirectedIntegerGraphTest {
          *
          *
          *          ----> 18 <- 1
-         *        /     /|  |\  |
-         *        |      |   \  |
+         *        /      |  |\  |
+         *        |     \|   \  |
          *        |     19    \ |/
          *        |     ^       8 ----> 3
          *        |     |     / |     /
@@ -368,6 +368,7 @@ public class DirectedIntegerGraphTest {
          *
          *        9   10
          * */
+
         List<GraphNode<Integer>> result = graph.bfs(8);
 
         assertEquals(9, result.size());
