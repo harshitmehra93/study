@@ -139,6 +139,7 @@ public class EdgeClassificationTest {
         assertEquals(EdgeType.CROSS_EDGE, classification.get(graph.getEdge(3, 5).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(2, 5).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(2, 4).get()));
+        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1,2,4,5,3));
     }
 
     @Test
@@ -173,6 +174,7 @@ public class EdgeClassificationTest {
         assertEquals(EdgeType.BACK_EDGE, classification.get(graph.getEdge(5, 1).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(5, 8).get()));
         assertEquals(EdgeType.FORWARD_EDGE, classification.get(graph.getEdge(1, 8).get()));
+        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1,2,4,5,8));
     }
 
     @Test
@@ -206,5 +208,6 @@ public class EdgeClassificationTest {
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(4, 5).get()));
         assertEquals(EdgeType.FORWARD_EDGE, classification.get(graph.getEdge(1, 5).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(1, 8).get()));
+        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1,2,4,5,8));
     }
 }
