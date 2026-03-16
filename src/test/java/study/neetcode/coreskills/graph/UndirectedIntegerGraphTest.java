@@ -6,6 +6,7 @@ import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import study.model.*;
+import study.model.exceptions.GraphException;
 import study.utils.GraphUtils;
 
 public abstract class UndirectedIntegerGraphTest {

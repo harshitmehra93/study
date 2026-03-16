@@ -4,6 +4,7 @@ import static java.util.Objects.isNull;
 
 import java.util.*;
 import study.model.*;
+import study.model.exceptions.GraphException;
 
 public class UndirectedGraphWithAdjMatrix<T extends Comparable> extends Graph<T> {
 
