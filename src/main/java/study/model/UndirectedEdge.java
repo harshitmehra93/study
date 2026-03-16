@@ -1,11 +1,9 @@
 package study.model;
 
-import java.util.HashMap;
-
 public class UndirectedEdge<T extends Comparable> extends Edge<T> {
 
     public UndirectedEdge(GraphNode<T> a, GraphNode<T> b) {
-        super(a,b);
+        super(a, b);
     }
 
     @Override

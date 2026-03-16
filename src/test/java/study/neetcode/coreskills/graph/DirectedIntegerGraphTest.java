@@ -1,29 +1,28 @@
 package study.neetcode.coreskills.graph;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import study.model.Edge;
-import study.model.exceptions.GraphException;
-import study.model.GraphNode;
-import study.utils.GraphUtils;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import study.model.Edge;
+import study.model.GraphNode;
+import study.model.exceptions.GraphException;
+import study.utils.GraphUtils;
 
 public class DirectedIntegerGraphTest {
 
     private Graph<Integer> graph;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         graph = new DirectedGraph<>();
     }
 
     @Test
-    void createGraph(){
+    void createGraph() {
         assertEquals(0, graph.getSize());
     }
 

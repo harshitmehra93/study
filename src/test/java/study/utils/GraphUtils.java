@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
-import study.model.exceptions.GraphException;
 import study.model.GraphNode;
+import study.model.exceptions.GraphException;
 import study.neetcode.coreskills.graph.Graph;
 
 public class GraphUtils {

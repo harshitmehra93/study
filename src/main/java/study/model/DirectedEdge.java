@@ -1,6 +1,6 @@
 package study.model;
 
-public class DirectedEdge<T extends Comparable> extends Edge<T>{
+public class DirectedEdge<T extends Comparable> extends Edge<T> {
 
     public DirectedEdge(GraphNode<T> a, GraphNode<T> b) {
         super(a, b);
