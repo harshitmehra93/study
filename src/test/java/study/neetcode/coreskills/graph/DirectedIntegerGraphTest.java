@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -346,5 +347,31 @@ public class DirectedIntegerGraphTest {
         graph.addNode(2);
 
         assertTrue(graph.getEdge(1, 2).isEmpty());
+    }
+
+    @Test
+    void bfs_happy() {
+        graph = GraphUtils.build20NodeGraph(graph);
+        /*
+         *
+         *
+         *          ----> 18 <- 1
+         *        /     /|  |\  |
+         *        |      |   \  |
+         *        |     19    \ |/
+         *        |     ^       8 ----> 3
+         *        |     |     / |     /
+         *        |     5    /  |/  |/
+         *        |     ^   /     11
+         *        |     | |/
+         * 14 <-- 2 <-- 12
+         *
+         *        9   10
+         * */
+        List<GraphNode<Integer>> result = graph.bfs(8);
+
+        assertEquals(9, result.size());
+        List<Integer> expectedList = List.of(8,3,11,12,18,2,5,19,14);
+        GraphUtils.assertListsAreSame(result, expectedList);
     }
 }

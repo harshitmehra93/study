@@ -45,7 +45,8 @@ public abstract class Graph<T extends Comparable> {
         if (isNull(node) || !isNodePresent(node)) {
             throw new GraphException("node does not exist");
         }
-        return Collections.unmodifiableSet(getNode(node).getAdjacencyList());
+        Set<GraphNode<T>> adjacencyList = getNode(node).getAdjacencyList();
+        return Collections.unmodifiableSet(new TreeSet<>(adjacencyList));
     }
 
     public List<GraphNode<T>> bfs(T node) {
