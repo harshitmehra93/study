@@ -372,7 +372,7 @@ public class DirectedIntegerGraphTest {
         List<GraphNode<Integer>> result = graph.bfs(8);
 
         assertEquals(9, result.size());
-        List<Integer> expectedList = List.of(8,3,11,12,18,2,5,19,14);
+        List<Integer> expectedList = List.of(8, 3, 11, 12, 18, 2, 5, 19, 14);
         GraphUtils.assertListsAreSame(result, expectedList);
     }
 }
