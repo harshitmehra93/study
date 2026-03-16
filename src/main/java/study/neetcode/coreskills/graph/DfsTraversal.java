@@ -13,50 +13,57 @@ public class DfsTraversal<T extends Comparable> {
     private Integer counter;
 
     void dfsTraversal(Graph<T> graph) {
+        init();
+
         for (var node : graph.getGraphNodes()) {
             nodeColorMap.put(node, NodeColor.WHITE);
             discoveryTime.put(node, 0);
             finishTime.put(node, 0);
         }
 
-        counter = 0;
         for (var node : graph.getGraphNodes()) {
-            dfsVisit(null, node, graph);
+            if (nodeColorMap.get(node) == NodeColor.WHITE) {
+                dfsVisit(null, node, graph);
+            }
         }
     }
 
+    private void init() {
+        result.clear();
+        classification.clear();
+        discoveryTime.clear();
+        finishTime.clear();
+        treeEdgeParents.clear();
+        nodeColorMap.clear();
+        counter = 0;
+    }
+
     private void dfsVisit(GraphNode<T> parent, GraphNode<T> node, Graph<T> graph) {
-        NodeColor nodeColor = nodeColorMap.get(node);
         Optional<Edge<T>> edge = Optional.empty();
         if (parent != null) {
             edge = graph.getEdge(parent.getValue(), node.getValue());
         }
-        if (nodeColor.equals(NodeColor.WHITE)) {
+        if (nodeColorMap.get(node).equals(NodeColor.WHITE)) {
             nodeColorMap.put(node, NodeColor.GREY);
             counter++;
             discoveryTime.put(node, counter);
             result.add(node);
             treeEdgeParents.put(node, parent);
-            if (edge.isPresent()) {
-                classification.put(edge.get(), EdgeType.TREE_EDGE);
-            }
+            edge.ifPresent(e -> classification.put(e, EdgeType.TREE_EDGE));
+
             for (var nei : graph.getNeighbours(node.getValue())) {
                 dfsVisit(node, nei, graph);
             }
             counter++;
             finishTime.put(node, counter);
             nodeColorMap.put(node, NodeColor.BLACK);
-        }
-        if (nodeColor.equals(NodeColor.GREY)) {
+        } else if (nodeColorMap.get(node).equals(NodeColor.GREY)) {
+            edge.ifPresent(e -> classification.put(e, EdgeType.BACK_EDGE));
+        } else if (nodeColorMap.get(node).equals(NodeColor.BLACK)) {
             if (edge.isPresent()) {
-                classification.put(edge.get(), EdgeType.BACK_EDGE);
-            }
-        }
-        if (nodeColor.equals(NodeColor.BLACK)) {
-            if (edge.isPresent()) {
-                if (discoveryTime.get(parent) > finishTime.get(node))
-                    classification.put(edge.get(), EdgeType.CROSS_EDGE);
-                else classification.put(edge.get(), EdgeType.FORWARD_EDGE);
+                if (discoveryTime.get(parent) < discoveryTime.get(node))
+                    classification.put(edge.get(), EdgeType.FORWARD_EDGE);
+                else classification.put(edge.get(), EdgeType.CROSS_EDGE);
             }
         }
     }
