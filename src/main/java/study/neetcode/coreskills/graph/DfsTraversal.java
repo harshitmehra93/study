@@ -108,22 +108,6 @@ public class DfsTraversal<T extends Comparable> {
         }
     }
 
-    private boolean allNeighboursAreBlackOrGreyOrThereAreNoNeighbours(
-            Graph<T> graph, GraphNode<T> item) {
-        Set<GraphNode<T>> neighbours = graph.getNeighbours(item.getValue());
-        if (neighbours.size() == 0) return true;
-        if (allNeighboursAreBlack(neighbours) || allNeighboursAreGrey(neighbours)) return true;
-        return false;
-    }
-
-    private boolean allNeighboursAreBlack(Set<GraphNode<T>> neighbours) {
-        return neighbours.stream().allMatch(nei -> nodeColorMap.get(nei).equals(NodeColor.BLACK));
-    }
-
-    private boolean allNeighboursAreGrey(Set<GraphNode<T>> neighbours) {
-        return neighbours.stream().allMatch(nei -> nodeColorMap.get(nei).equals(NodeColor.GREY));
-    }
-
     private static <T extends Comparable> List<GraphNode<T>> getNeighboursInReverse(
             Graph<T> graph, GraphNode<T> item) {
         return graph.getNeighbours(item.getValue()).stream()
