@@ -375,4 +375,54 @@ public class DirectedIntegerGraphTest {
         List<Integer> expectedList = List.of(8, 3, 11, 12, 18, 2, 5, 19, 14);
         GraphUtils.assertListsAreSame(result, expectedList);
     }
+
+    @Test
+    void dfs_nodeDoesNotExist_throws() {
+        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        traversal.dfsTraversalIterative(graph);
+        assertEquals(0, traversal.result.size());
+    }
+
+    @Test
+    void dfs_nodeExist_returnsList() {
+        graph.addNode(1);
+
+        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        traversal.dfsTraversalIterative(graph);
+
+        GraphUtils.assertListsAreSame(traversal.result, List.of(1));
+    }
+
+    @Test
+    void dfs_happy() {
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addEdge(1, 2);
+
+        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        traversal.dfsTraversalIterative(graph);
+
+        GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2));
+    }
+
+    @Test
+    void dfs_happy_2() {
+        graph = GraphUtils.buildSmallTree(graph);
+
+        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        traversal.dfsTraversalIterative(graph);
+
+        GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2, 4, 5, 3));
+    }
+
+    @Test
+    void dfs_happy_3() {
+        graph = GraphUtils.buildSmallTree(graph);
+        graph.addEdge(5, 1); // make a cycle
+
+        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        traversal.dfsTraversalIterative(graph);
+
+        GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2, 4, 5, 3));
+    }
 }
