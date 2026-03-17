@@ -97,7 +97,10 @@ public class DfsTraversal<T extends Comparable> {
             if (nodeColorMap.get(item).equals(NodeColor.WHITE)) {
                 nodeColorMap.put(item, NodeColor.GREY);
                 result.add(item);
-                var neighbours = getNeighboursInReverse(graph, item);
+                List<GraphNode<T>> neighbours =
+                        new ArrayList<>(graph.getNeighbours(item.getValue()));
+
+                Collections.reverse(neighbours);
                 for (var nei : neighbours) {
                     if (nodeColorMap.get(nei).equals(NodeColor.WHITE)) {
                         stack.push(nei);
@@ -106,13 +109,6 @@ public class DfsTraversal<T extends Comparable> {
                 nodeColorMap.put(item, NodeColor.BLACK);
             }
         }
-    }
-
-    private static <T extends Comparable> List<GraphNode<T>> getNeighboursInReverse(
-            Graph<T> graph, GraphNode<T> item) {
-        return graph.getNeighbours(item.getValue()).stream()
-                .sorted(Comparator.reverseOrder())
-                .toList();
     }
 }
 
