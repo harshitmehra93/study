@@ -12,6 +12,7 @@ public class DfsTraversal<T extends Comparable> {
     public Map<GraphNode<T>, Integer> finishTime = new HashMap<>();
     public Map<GraphNode<T>, Integer> connectedComponents = new HashMap<>();
     private Integer counter;
+    public LinkedList<GraphNode<T>> topologicalSortResult = new LinkedList<>();
 
     void dfsTraversal(Graph<T> graph) {
         init();
@@ -79,11 +80,15 @@ public class DfsTraversal<T extends Comparable> {
         }
     }
 
-    public void printResult() {
+    public void printResult(List<GraphNode<T>> result) {
         for (var node : result) {
             System.out.println(
                     node.getValue() + "  " + discoveryTime.get(node) + "/" + finishTime.get(node));
         }
+    }
+
+    public void printResult() {
+        printResult(result);
     }
 
     public void dfsTraversalIterative(Graph<T> graph) {
@@ -117,6 +122,30 @@ public class DfsTraversal<T extends Comparable> {
                 nodeColorMap.put(item, NodeColor.BLACK);
             }
         }
+    }
+
+    public void topologicalSort(Graph<T> graph) {
+        init();
+        initColorDiscoveryAndFinishTime(graph);
+        var visited = new HashSet<GraphNode<T>>();
+
+        for (var node : graph.getGraphNodes()) {
+            if (!visited.contains(node)) {
+                topologicalSortVisit(graph, visited, node);
+            }
+        }
+    }
+
+    private void topologicalSortVisit(Graph<T> graph, HashSet<GraphNode<T>> visited,  GraphNode<T> node) {
+            counter++;
+            discoveryTime.put(node, counter);
+            visited.add(node);
+            for (var nei : graph.getNeighbours(node.getValue())) {
+                if(!visited.contains(nei)) topologicalSortVisit(graph, visited, nei);
+            }
+            counter++;
+            finishTime.put(node, counter);
+            topologicalSortResult.addFirst(node);
     }
 }
 

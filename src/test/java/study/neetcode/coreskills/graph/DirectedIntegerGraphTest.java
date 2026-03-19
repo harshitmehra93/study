@@ -435,20 +435,20 @@ public class DirectedIntegerGraphTest {
         graph.addNode(6);
         graph.addNode(7);
         graph.addNode(8);
-        graph.addEdge(1,2);
-        graph.addEdge(2,3);
-        graph.addEdge(3,4);
-//        graph.addEdge(5,2);
-        graph.addEdge(5,6);
-        graph.addEdge(6,7);
-        graph.addEdge(7,8);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 4);
+        //        graph.addEdge(5,2);
+        graph.addEdge(5, 6);
+        graph.addEdge(6, 7);
+        graph.addEdge(7, 8);
         /*
-        *   1 -> 2       5 -> 6
-        *        |            |
-        *        \/           \/
-        *   4 <- 3       8 <- 7
-        *
-        * */
+         *   1 -> 2       5 -> 6
+         *        |            |
+         *        \/           \/
+         *   4 <- 3       8 <- 7
+         *
+         * */
 
         DfsTraversal<Integer> dfsTraversal = new DfsTraversal<>();
         dfsTraversal.dfsTraversal(graph);
@@ -460,7 +460,7 @@ public class DirectedIntegerGraphTest {
                                         entry -> entry.getValue(),
                                         Collectors.mapping(
                                                 entry -> entry.getKey(), Collectors.toList())));
-        assertEquals(2,result.size());
+        assertEquals(2, result.size());
         var connectedComponent1 = result.get(1);
         assertTrue(connectedComponent1.contains(graph.getNode(1)));
         assertTrue(connectedComponent1.contains(graph.getNode(2)));
@@ -472,5 +472,46 @@ public class DirectedIntegerGraphTest {
         assertTrue(connectedComponent2.contains(graph.getNode(6)));
         assertTrue(connectedComponent2.contains(graph.getNode(7)));
         assertTrue(connectedComponent2.contains(graph.getNode(8)));
+    }
+
+    @Test
+    void topologicalSort() {
+        Graph<String> graph = new DirectedGraph<String>();
+        graph.addNode("undershorts");
+        graph.addNode("pants");
+        graph.addNode("belt");
+        graph.addNode("shirt");
+        graph.addNode("tie");
+        graph.addNode("jacket");
+        graph.addNode("socks");
+        graph.addNode("shoes");
+        graph.addNode("watch");
+        graph.addEdge("undershorts", "pants");
+        graph.addEdge("pants", "belt");
+        graph.addEdge("belt", "jacket");
+        graph.addEdge("shirt", "belt");
+        graph.addEdge("shirt", "tie");
+        graph.addEdge("tie", "jacket");
+        graph.addEdge("undershorts", "shoes");
+        graph.addEdge("pants", "shoes");
+        graph.addEdge("socks", "shoes");
+
+        DfsTraversal<String> traversal = new DfsTraversal<>();
+        traversal.topologicalSort(graph);
+
+        // [GraphNode(undershorts), GraphNode(socks), GraphNode(watch), GraphNode(pants),
+        // GraphNode(shoes), GraphNode(shirt), GraphNode(belt), GraphNode(tie), GraphNode(jacket)]
+        LinkedList<GraphNode<String>> result = traversal.topologicalSortResult;
+        assertEquals("undershorts", result.get(0).getValue());
+        assertEquals("socks", result.get(1).getValue());
+        assertEquals("watch", result.get(2).getValue());
+        assertEquals("pants", result.get(3).getValue());
+        assertEquals("shoes", result.get(4).getValue());
+        assertEquals("shirt", result.get(5).getValue());
+        assertEquals("belt", result.get(6).getValue());
+        assertEquals("tie", result.get(7).getValue());
+        assertEquals("jacket", result.get(8).getValue());
+
+        GraphUtils.printGraph(graph);
     }
 }
