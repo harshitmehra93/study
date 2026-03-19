@@ -3,9 +3,8 @@ package study.neetcode.coreskills.graph;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import study.model.Edge;
@@ -424,5 +423,54 @@ public class DirectedIntegerGraphTest {
         traversal.dfsTraversalIterative(graph);
 
         GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2, 4, 5, 3));
+    }
+
+    @Test
+    void connectedComponents() {
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addNode(3);
+        graph.addNode(4);
+        graph.addNode(5);
+        graph.addNode(6);
+        graph.addNode(7);
+        graph.addNode(8);
+        graph.addEdge(1,2);
+        graph.addEdge(2,3);
+        graph.addEdge(3,4);
+//        graph.addEdge(5,2);
+        graph.addEdge(5,6);
+        graph.addEdge(6,7);
+        graph.addEdge(7,8);
+        /*
+        *   1 -> 2       5 -> 6
+        *        |            |
+        *        \/           \/
+        *   4 <- 3       8 <- 7
+        *
+        * */
+
+        DfsTraversal<Integer> dfsTraversal = new DfsTraversal<>();
+        dfsTraversal.dfsTraversal(graph);
+
+        var result =
+                dfsTraversal.connectedComponents.entrySet().stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        entry -> entry.getValue(),
+                                        Collectors.mapping(
+                                                entry -> entry.getKey(), Collectors.toList())));
+        assertEquals(2,result.size());
+        var connectedComponent1 = result.get(1);
+        assertTrue(connectedComponent1.contains(graph.getNode(1)));
+        assertTrue(connectedComponent1.contains(graph.getNode(2)));
+        assertTrue(connectedComponent1.contains(graph.getNode(3)));
+        assertTrue(connectedComponent1.contains(graph.getNode(4)));
+
+        var connectedComponent2 = result.get(2);
+        assertTrue(connectedComponent2.contains(graph.getNode(5)));
+        assertTrue(connectedComponent2.contains(graph.getNode(6)));
+        assertTrue(connectedComponent2.contains(graph.getNode(7)));
+        assertTrue(connectedComponent2.contains(graph.getNode(8)));
     }
 }

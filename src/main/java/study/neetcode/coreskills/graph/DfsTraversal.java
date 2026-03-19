@@ -10,15 +10,18 @@ public class DfsTraversal<T extends Comparable> {
     public Map<GraphNode<T>, GraphNode<T>> treeEdgeParents = new HashMap<>();
     public Map<GraphNode<T>, Integer> discoveryTime = new HashMap<>();
     public Map<GraphNode<T>, Integer> finishTime = new HashMap<>();
+    public Map<GraphNode<T>, Integer> connectedComponents = new HashMap<>();
     private Integer counter;
 
     void dfsTraversal(Graph<T> graph) {
         init();
         initColorDiscoveryAndFinishTime(graph);
 
+        int connectedComponentNumber = 0;
         for (var node : graph.getGraphNodes()) {
             if (nodeColorMap.get(node) == NodeColor.WHITE) {
-                dfsVisit(null, node, graph);
+                connectedComponentNumber++;
+                dfsVisit(null, node, graph, connectedComponentNumber);
             }
         }
     }
@@ -41,7 +44,11 @@ public class DfsTraversal<T extends Comparable> {
         counter = 0;
     }
 
-    private void dfsVisit(GraphNode<T> parent, GraphNode<T> node, Graph<T> graph) {
+    private void dfsVisit(
+            GraphNode<T> parent,
+            GraphNode<T> node,
+            Graph<T> graph,
+            Integer connectedComponentNumber) {
         Optional<Edge<T>> edge = Optional.empty();
         if (parent != null) {
             edge = graph.getEdge(parent.getValue(), node.getValue());
@@ -53,9 +60,10 @@ public class DfsTraversal<T extends Comparable> {
             result.add(node);
             treeEdgeParents.put(node, parent);
             edge.ifPresent(e -> classification.put(e, EdgeType.TREE_EDGE));
+            connectedComponents.put(node, connectedComponentNumber);
 
             for (var nei : graph.getNeighbours(node.getValue())) {
-                dfsVisit(node, nei, graph);
+                dfsVisit(node, nei, graph, connectedComponentNumber);
             }
             counter++;
             finishTime.put(node, counter);

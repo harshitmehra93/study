@@ -34,7 +34,7 @@ public class GraphNode<T extends Comparable> implements Comparable<GraphNode<T>>
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return "GraphNode(" + String.valueOf(value) + ")";
     }
 
     @Override
