@@ -136,16 +136,17 @@ public class DfsTraversal<T extends Comparable> {
         }
     }
 
-    private void topologicalSortVisit(Graph<T> graph, HashSet<GraphNode<T>> visited,  GraphNode<T> node) {
-            counter++;
-            discoveryTime.put(node, counter);
-            visited.add(node);
-            for (var nei : graph.getNeighbours(node.getValue())) {
-                if(!visited.contains(nei)) topologicalSortVisit(graph, visited, nei);
-            }
-            counter++;
-            finishTime.put(node, counter);
-            topologicalSortResult.addFirst(node);
+    private void topologicalSortVisit(
+            Graph<T> graph, HashSet<GraphNode<T>> visited, GraphNode<T> node) {
+        counter++;
+        discoveryTime.put(node, counter);
+        visited.add(node);
+        for (var nei : graph.getNeighbours(node.getValue())) {
+            if (!visited.contains(nei)) topologicalSortVisit(graph, visited, nei);
+        }
+        counter++;
+        finishTime.put(node, counter);
+        topologicalSortResult.addFirst(node);
     }
 }
 

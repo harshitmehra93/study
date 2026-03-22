@@ -514,4 +514,79 @@ public class DirectedIntegerGraphTest {
 
         GraphUtils.printGraph(graph);
     }
+
+    @Test
+    void simplePathTest() {
+        Graph<String> G = simplePathsSetup();
+
+        DfsTraversal traversal = new DfsTraversal();
+        traversal.topologicalSort(G);
+
+        // expected - p, n, o, s, m, r, y, v, x, w, z, u, q, t.
+        assertListsAreSame(
+                traversal.topologicalSortResult,
+                List.of("p", "n", "o", "s", "m", "r", "y", "v", "x", "w", "z", "u", "q", "t"));
+    }
+
+    Graph<String> simplePathsSetup() {
+        Graph graph = new DirectedGraph<String>();
+        // cormen page 615 fig 22.8
+        graph.addNode("m");
+        graph.addNode("t");
+        graph.addNode("x");
+        graph.addNode("n");
+        graph.addNode("q");
+        graph.addNode("u");
+        graph.addNode("o");
+        graph.addNode("r");
+        graph.addNode("y");
+        graph.addNode("v");
+        graph.addNode("s");
+        graph.addNode("p");
+        graph.addNode("z");
+        graph.addNode("w");
+
+        graph.addEdge("m", "x");
+        graph.addEdge("m", "q");
+        graph.addEdge("m", "r");
+
+        graph.addEdge("q", "t");
+
+        graph.addEdge("n", "q");
+        graph.addEdge("n", "u");
+        graph.addEdge("n", "o");
+
+        graph.addEdge("u", "t");
+
+        graph.addEdge("r", "u");
+        graph.addEdge("r", "y");
+
+        graph.addEdge("y", "v");
+
+        graph.addEdge("o", "r");
+        graph.addEdge("o", "s");
+
+        graph.addEdge("v", "x");
+        graph.addEdge("v", "w");
+
+        graph.addEdge("s", "r");
+
+        graph.addEdge("p", "o");
+        graph.addEdge("p", "s");
+        graph.addEdge("p", "z");
+
+        graph.addEdge("w", "z");
+
+        return graph;
+    }
+
+    public <T extends Comparable> void assertListsAreSame(
+            List<GraphNode<T>> result, List<T> expectedList) {
+        assertEquals(expectedList.size(), result.size());
+        Iterator<GraphNode<T>> resultIt = result.iterator();
+        Iterator<T> expectedIt = expectedList.iterator();
+        while (resultIt.hasNext()) {
+            assertEquals(expectedIt.next(), resultIt.next().getValue());
+        }
+    }
 }
