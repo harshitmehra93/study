@@ -11,12 +11,12 @@ import study.utils.GraphUtils;
 public class EdgeClassificationTest {
 
     private Graph<Integer> graph;
-    private DfsTraversal<Integer> dfsTraversal;
+    private GraphTraversal<Integer> graphTraversal;
 
     @BeforeEach
     void setup() {
         graph = new DirectedGraph<>();
-        dfsTraversal = new DfsTraversal();
+        graphTraversal = new GraphTraversal();
     }
 
     @Test
@@ -29,30 +29,30 @@ public class EdgeClassificationTest {
          *     / \
          *    4   5
          * */
-        dfsTraversal = new DfsTraversal();
+        graphTraversal = new GraphTraversal();
 
-        dfsTraversal.dfsTraversal(graph);
+        graphTraversal.dfsTraversal(graph);
 
-        System.out.println(dfsTraversal.result);
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 3));
+        System.out.println(graphTraversal.result);
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 3));
     }
 
     @Test
     void dfs_nodeDoesNotExist_throws() {
         graph.clear();
 
-        dfsTraversal.dfsTraversal(graph);
+        graphTraversal.dfsTraversal(graph);
 
-        assertEquals(0, dfsTraversal.result.size());
+        assertEquals(0, graphTraversal.result.size());
     }
 
     @Test
     void dfs_nodeExist_returnsList() {
         graph.addNode(1);
 
-        dfsTraversal.dfsTraversal(graph);
+        graphTraversal.dfsTraversal(graph);
 
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1));
     }
 
     @Test
@@ -61,18 +61,18 @@ public class EdgeClassificationTest {
         graph.addNode(2);
         graph.addEdge(1, 2);
 
-        dfsTraversal.dfsTraversal(graph);
+        graphTraversal.dfsTraversal(graph);
 
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2));
     }
 
     @Test
     void dfs_happy_2() {
         graph = GraphUtils.buildSmallTree(graph);
 
-        dfsTraversal.dfsTraversal(graph);
+        graphTraversal.dfsTraversal(graph);
 
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 3));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 3));
     }
 
     @Test
@@ -80,9 +80,9 @@ public class EdgeClassificationTest {
         graph = GraphUtils.buildSmallTree(graph);
         graph.addEdge(5, 1); // make a cycle
 
-        dfsTraversal.dfsTraversal(graph);
+        graphTraversal.dfsTraversal(graph);
 
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 3));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 3));
     }
 
     @Test
@@ -99,21 +99,21 @@ public class EdgeClassificationTest {
          *    4      5
          * */
 
-        dfsTraversal.dfsTraversal(graph);
-        dfsTraversal.printResult();
+        graphTraversal.dfsTraversal(graph);
+        graphTraversal.printResult();
 
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 3));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 3));
 
         assertEquals(
-                EdgeType.TREE_EDGE, dfsTraversal.classification.get(graph.getEdge(1, 3).get()));
+                EdgeType.TREE_EDGE, graphTraversal.classification.get(graph.getEdge(1, 3).get()));
         assertEquals(
-                EdgeType.TREE_EDGE, dfsTraversal.classification.get(graph.getEdge(1, 2).get()));
+                EdgeType.TREE_EDGE, graphTraversal.classification.get(graph.getEdge(1, 2).get()));
         assertEquals(
-                EdgeType.CROSS_EDGE, dfsTraversal.classification.get(graph.getEdge(3, 5).get()));
+                EdgeType.CROSS_EDGE, graphTraversal.classification.get(graph.getEdge(3, 5).get()));
         assertEquals(
-                EdgeType.TREE_EDGE, dfsTraversal.classification.get(graph.getEdge(2, 5).get()));
+                EdgeType.TREE_EDGE, graphTraversal.classification.get(graph.getEdge(2, 5).get()));
         assertEquals(
-                EdgeType.TREE_EDGE, dfsTraversal.classification.get(graph.getEdge(2, 4).get()));
+                EdgeType.TREE_EDGE, graphTraversal.classification.get(graph.getEdge(2, 4).get()));
     }
 
     @Test
@@ -128,10 +128,10 @@ public class EdgeClassificationTest {
          *    4   5
          * */
 
-        dfsTraversal.dfsTraversal(graph);
-        dfsTraversal.printResult();
+        graphTraversal.dfsTraversal(graph);
+        graphTraversal.printResult();
 
-        var classification = dfsTraversal.classification;
+        var classification = graphTraversal.classification;
 
         assertEquals(5, classification.keySet().size());
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(1, 3).get()));
@@ -139,7 +139,7 @@ public class EdgeClassificationTest {
         assertEquals(EdgeType.CROSS_EDGE, classification.get(graph.getEdge(3, 5).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(2, 5).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(2, 4).get()));
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 3));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 3));
     }
 
     @Test
@@ -163,10 +163,10 @@ public class EdgeClassificationTest {
          *    4
          * */
 
-        DfsTraversal dfsTraversal = new DfsTraversal();
-        dfsTraversal.dfsTraversal(graph);
-        dfsTraversal.printResult();
-        var classification = dfsTraversal.classification;
+        GraphTraversal graphTraversal = new GraphTraversal();
+        graphTraversal.dfsTraversal(graph);
+        graphTraversal.printResult();
+        var classification = graphTraversal.classification;
 
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(1, 2).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(2, 4).get()));
@@ -174,7 +174,7 @@ public class EdgeClassificationTest {
         assertEquals(EdgeType.BACK_EDGE, classification.get(graph.getEdge(5, 1).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(5, 8).get()));
         assertEquals(EdgeType.FORWARD_EDGE, classification.get(graph.getEdge(1, 8).get()));
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 8));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 8));
     }
 
     @Test
@@ -197,10 +197,10 @@ public class EdgeClassificationTest {
          *      4
          * */
 
-        DfsTraversal dfsTraversal = new DfsTraversal();
-        dfsTraversal.dfsTraversal(graph);
-        dfsTraversal.printResult();
-        var classification = dfsTraversal.classification;
+        GraphTraversal graphTraversal = new GraphTraversal();
+        graphTraversal.dfsTraversal(graph);
+        graphTraversal.printResult();
+        var classification = graphTraversal.classification;
 
         assertEquals(5, classification.keySet().size());
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(1, 2).get()));
@@ -208,6 +208,6 @@ public class EdgeClassificationTest {
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(4, 5).get()));
         assertEquals(EdgeType.FORWARD_EDGE, classification.get(graph.getEdge(1, 5).get()));
         assertEquals(EdgeType.TREE_EDGE, classification.get(graph.getEdge(1, 8).get()));
-        GraphUtils.assertListsAreSame(dfsTraversal.result, List.of(1, 2, 4, 5, 8));
+        GraphUtils.assertListsAreSame(graphTraversal.result, List.of(1, 2, 4, 5, 8));
     }
 }

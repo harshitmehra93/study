@@ -377,7 +377,7 @@ public class DirectedIntegerGraphTest {
 
     @Test
     void dfs_nodeDoesNotExist_throws() {
-        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        GraphTraversal<Integer> traversal = new GraphTraversal<>();
         traversal.dfsTraversalIterative(graph);
         assertEquals(0, traversal.result.size());
     }
@@ -386,7 +386,7 @@ public class DirectedIntegerGraphTest {
     void dfs_nodeExist_returnsList() {
         graph.addNode(1);
 
-        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        GraphTraversal<Integer> traversal = new GraphTraversal<>();
         traversal.dfsTraversalIterative(graph);
 
         GraphUtils.assertListsAreSame(traversal.result, List.of(1));
@@ -398,7 +398,7 @@ public class DirectedIntegerGraphTest {
         graph.addNode(2);
         graph.addEdge(1, 2);
 
-        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        GraphTraversal<Integer> traversal = new GraphTraversal<>();
         traversal.dfsTraversalIterative(graph);
 
         GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2));
@@ -408,7 +408,7 @@ public class DirectedIntegerGraphTest {
     void dfs_happy_2() {
         graph = GraphUtils.buildSmallTree(graph);
 
-        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        GraphTraversal<Integer> traversal = new GraphTraversal<>();
         traversal.dfsTraversalIterative(graph);
 
         GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2, 4, 5, 3));
@@ -419,7 +419,7 @@ public class DirectedIntegerGraphTest {
         graph = GraphUtils.buildSmallTree(graph);
         graph.addEdge(5, 1); // make a cycle
 
-        DfsTraversal<Integer> traversal = new DfsTraversal<>();
+        GraphTraversal<Integer> traversal = new GraphTraversal<>();
         traversal.dfsTraversalIterative(graph);
 
         GraphUtils.assertListsAreSame(traversal.result, List.of(1, 2, 4, 5, 3));
@@ -450,11 +450,11 @@ public class DirectedIntegerGraphTest {
          *
          * */
 
-        DfsTraversal<Integer> dfsTraversal = new DfsTraversal<>();
-        dfsTraversal.dfsTraversal(graph);
+        GraphTraversal<Integer> graphTraversal = new GraphTraversal<>();
+        graphTraversal.dfsTraversal(graph);
 
         var result =
-                dfsTraversal.connectedComponents.entrySet().stream()
+                graphTraversal.connectedComponents.entrySet().stream()
                         .collect(
                                 Collectors.groupingBy(
                                         entry -> entry.getValue(),
@@ -496,7 +496,7 @@ public class DirectedIntegerGraphTest {
         graph.addEdge("pants", "shoes");
         graph.addEdge("socks", "shoes");
 
-        DfsTraversal<String> traversal = new DfsTraversal<>();
+        GraphTraversal<String> traversal = new GraphTraversal<>();
         traversal.topologicalSort(graph);
 
         // [GraphNode(undershorts), GraphNode(socks), GraphNode(watch), GraphNode(pants),
@@ -519,13 +519,54 @@ public class DirectedIntegerGraphTest {
     void simplePathTest() {
         Graph<String> G = simplePathsSetup();
 
-        DfsTraversal traversal = new DfsTraversal();
+        GraphTraversal traversal = new GraphTraversal();
         traversal.topologicalSort(G);
 
         // expected - p, n, o, s, m, r, y, v, x, w, z, u, q, t.
         assertListsAreSame(
                 traversal.topologicalSortResult,
                 List.of("p", "n", "o", "s", "m", "r", "y", "v", "x", "w", "z", "u", "q", "t"));
+    }
+
+    @Test
+    void simplePathTest_p_to_v() {
+        Graph<String> G = simplePathsSetup();
+
+        GraphTraversal traversal = new GraphTraversal();
+        assertEquals(4, traversal.countSimplePaths(G, G.getNode("p"), G.getNode("v")));
+    }
+
+    @Test
+    void simplePathTest_1_to_10() {
+        for (int i = 1; i <= 11; i++) graph.addNode(i);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 5);
+        graph.addEdge(1, 3);
+
+        graph.addEdge(2, 4);
+        graph.addEdge(2, 5);
+
+        graph.addEdge(4, 8);
+        graph.addEdge(4, 9);
+        graph.addEdge(4, 5);
+        graph.addEdge(4, 1); // back edge
+
+        graph.addEdge(5, 9);
+
+        graph.addEdge(3, 5);
+        graph.addEdge(3, 6);
+        graph.addEdge(3, 7);
+
+        graph.addEdge(6, 10);
+
+        graph.addEdge(7, 10);
+        graph.addEdge(7, 11);
+        graph.addEdge(7, 3); // back edge
+
+        graph.addEdge(11, 10);
+
+        GraphTraversal traversal = new GraphTraversal();
+        assertEquals(3, traversal.countSimplePaths(graph, graph.getNode(1), graph.getNode(10)));
     }
 
     Graph<String> simplePathsSetup() {
@@ -565,6 +606,7 @@ public class DirectedIntegerGraphTest {
 
         graph.addEdge("o", "r");
         graph.addEdge("o", "s");
+        graph.addEdge("o", "v");
 
         graph.addEdge("v", "x");
         graph.addEdge("v", "w");
@@ -579,6 +621,26 @@ public class DirectedIntegerGraphTest {
 
         return graph;
     }
+
+    //    @Test
+    //    void bipartite_graph() {
+    //        Graph<String> G = new DirectedGraph<>();
+    //        G.addNode("W1");
+    //        G.addNode("W2");
+    //        G.addNode("W3");
+    //        G.addNode("T1");
+    //        G.addNode("T2");
+    //        G.addNode("T3");
+    //        G.addEdge("W1", "T1");
+    //        G.addEdge("W1", "T2");
+    //        G.addEdge("W2", "T1");
+    //        G.addEdge("W3", "T2");
+    //        G.addEdge("W3", "T3");
+    //
+    //        BipartiteGraphTraversal<String> bg = new BipartiteGraphTraversal<>();
+    //        bg.maximumMatching(G);
+    //        bg.isBiPartiteGraph(G);
+    //    }
 
     public <T extends Comparable> void assertListsAreSame(
             List<GraphNode<T>> result, List<T> expectedList) {

@@ -3,7 +3,7 @@ package study.neetcode.coreskills.graph;
 import java.util.*;
 import study.model.*;
 
-public class DfsTraversal<T extends Comparable> {
+public class GraphTraversal<T extends Comparable> {
     public List<GraphNode<T>> result = new ArrayList<>();
     public Map<GraphNode<T>, NodeColor> nodeColorMap = new HashMap<>();
     public Map<Edge<T>, EdgeType> classification = new HashMap<>();
@@ -124,6 +124,31 @@ public class DfsTraversal<T extends Comparable> {
         }
     }
 
+    // Need revision of Bipartite
+    //    boolean isBipartiteGraph(Graph<T> graph, GraphNode<T> start){
+    //        init();
+    //        initColorDiscoveryAndFinishTime(graph);
+    //
+    //        Queue<GraphNode<T>> q = new ArrayDeque<>();
+    //        q.offer(start);
+    //        counter++;
+    //        discoveryTime.put(start,counter);
+    //        nodeColorMap.put(start,NodeColor.GREY);
+    //        while(!q.isEmpty()){
+    //            var node = q.poll();
+    //            for(var nei : graph.getNeighbours(node.getValue())){
+    //                if(nodeColorMap.get(nei)==NodeColor.WHITE){
+    //                    q.offer(nei);
+    //                    counter++;
+    //                    discoveryTime.put(nei,counter);
+    //                    nodeColorMap.put(nei,NodeColor.GREY);
+    //                }
+    //            }
+    //            nodeColorMap.put(node,NodeColor.BLACK);
+    //        }
+    //
+    //    }
+
     public void topologicalSort(Graph<T> graph) {
         init();
         initColorDiscoveryAndFinishTime(graph);
@@ -147,6 +172,38 @@ public class DfsTraversal<T extends Comparable> {
         counter++;
         finishTime.put(node, counter);
         topologicalSortResult.addFirst(node);
+    }
+
+    public int countSimplePaths(Graph<T> graph, GraphNode<T> start, GraphNode<T> end) {
+        return countSimplePath(graph, start, end, new HashMap<>(), new HashSet<>());
+    }
+
+    // assuming no back edges
+    public int countSimplePath(
+            Graph<T> graph,
+            GraphNode<T> start,
+            GraphNode<T> end,
+            Map<GraphNode<T>, Integer> memo,
+            Set<GraphNode<T>> path) {
+        System.out.println("visiting " + start.getValue());
+        if (path.contains(start)) return 0;
+        if (memo.containsKey(start)) {
+            System.out.println("returning cached node " + start.getValue() + " " + memo.get(start));
+            return memo.get(start);
+        }
+        if (start.equals(end)) {
+            return 1;
+        }
+        path.add(start);
+        int count = 0;
+        for (var node : graph.getNeighbours(start.getValue())) {
+            System.out.println("exploring neighbours of " + start.getValue());
+            count += countSimplePath(graph, node, end, memo, path);
+        }
+        memo.put(start, count);
+        path.remove(start);
+        System.out.println("count of " + start.getValue() + " is " + count);
+        return count;
     }
 }
 
