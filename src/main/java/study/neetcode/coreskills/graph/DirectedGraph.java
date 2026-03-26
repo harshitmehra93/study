@@ -88,4 +88,9 @@ public class DirectedGraph<T extends Comparable> extends Graph<T> {
     public Set<Edge<T>> getEdges() {
         return edges;
     }
+
+    @Override
+    public boolean hasCycles() {
+        return false;
+    }
 }

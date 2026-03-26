@@ -83,6 +83,11 @@ public class UndirectedGraph<T extends Comparable> extends Graph<T> {
         return this.edges;
     }
 
+    @Override
+    public boolean hasCycles() {
+        return new GraphTraversal<T>().undirectedGraphHasCycles(this);
+    }
+
     // This method explores all paths with back tracking
     // Find reason why this solution is in factorial runtime ?
     // For a 6 node complete graph

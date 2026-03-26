@@ -137,6 +137,11 @@ public class UndirectedGraphWithAdjMatrix<T extends Comparable> extends Graph<T>
         return null;
     }
 
+    @Override
+    public boolean hasCycles() {
+        return false;
+    }
+
     private boolean isOverloaded() {
         return (double) nodesMap.size() / initialCapacity > LOAD_THRESHOLD;
     }

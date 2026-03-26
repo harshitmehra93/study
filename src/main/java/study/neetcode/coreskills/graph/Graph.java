@@ -138,4 +138,6 @@ public abstract class Graph<T extends Comparable> {
     public abstract Optional<Edge<T>> getEdge(T node1, T node2);
 
     public abstract Set<Edge<T>> getEdges();
+
+    public abstract boolean hasCycles();
 }

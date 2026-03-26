@@ -205,6 +205,34 @@ public class GraphTraversal<T extends Comparable> {
         System.out.println("count of " + start.getValue() + " is " + count);
         return count;
     }
+
+    public boolean undirectedGraphHasCycles(UndirectedGraph<T> graph) {
+        boolean containsBackEdge = false;
+        HashSet<GraphNode<T>> visited = new HashSet<>();
+        for(var node:graph.getGraphNodes()){
+            if(visited.add(node))
+                containsBackEdge = dfsVisitHasCycle(graph,node, null, visited);
+            if(containsBackEdge) break;
+        }
+        return containsBackEdge;
+    }
+
+    private boolean dfsVisitHasCycle(UndirectedGraph<T> graph, GraphNode<T> node,GraphNode<T> parent, Set<GraphNode<T>> visited) {
+            visited.add(node);
+
+            boolean hasCycles = false;
+
+            for(var nei:graph.getNeighbours(node.getValue())) {
+                if(nei.equals(parent)) continue;
+
+                if (visited.add(nei) ) {
+                    hasCycles = dfsVisitHasCycle(graph, nei, node, visited);
+                    if(hasCycles) return true;
+                }else return true;
+            }
+
+            return hasCycles;
+    }
 }
 
 enum NodeColor {

@@ -534,6 +534,61 @@ class GraphWithAdjacencyListTest extends UndirectedIntegerGraphTest {
 
         assertTrue(graph.getEdge(1, 2).isEmpty());
     }
+
+    @Test
+    void hasCycle(){
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addNode(3);
+        graph.addEdge(1,2);
+        graph.addEdge(2,3);
+
+        assertFalse(graph.hasCycles());
+    }
+
+    @Test
+    void hasCycle_2(){
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addNode(3);
+        graph.addEdge(1,2);
+        graph.addEdge(2,3);
+        graph.addEdge(1,3);
+
+        assertTrue(graph.hasCycles());
+    }
+
+    @Test
+    void hasCycle_3(){
+        graph.addNode(1);
+
+        assertFalse(graph.hasCycles());
+    }
+
+    @Test
+    void hasCycle_4(){
+        assertFalse(graph.hasCycles());
+    }
+
+    @Test
+    void hasCycle_5(){
+        graph.addNode(1);
+        graph.addNode(2);
+        graph.addNode(3);
+        graph.addNode(4);
+        graph.addNode(5);
+        // 1 - 2 - 3 - 4 - 5
+        //         |       |
+        //          - - - -
+        graph.addEdge(1,2);
+        graph.addEdge(2,3);
+        graph.addEdge(3,4);
+        graph.addEdge(4,5);
+        graph.addEdge(3,5);
+
+
+        assertTrue(graph.hasCycles());
+    }
 }
 
 class GraphWithAdjacencyMatrixTest extends UndirectedIntegerGraphTest {
