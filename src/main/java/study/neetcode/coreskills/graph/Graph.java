@@ -18,6 +18,11 @@ public abstract class Graph<T extends Comparable> {
 
     public abstract void addEdge(T a, T b);
 
+    public void addEdge(T a, T b, int weight) {
+        addEdge(a,b);
+        getEdge(a,b).get().setWeight(weight);
+    }
+
     public abstract void addEdge(GraphNode<T> a, GraphNode<T> b);
 
     public void addNode(T node) {

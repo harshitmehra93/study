@@ -3,7 +3,7 @@ package study.model;
 public class Edge<T extends Comparable> {
     public GraphNode<T> vertice1;
     public GraphNode<T> vertice2;
-    int weight;
+    private int weight;
 
     public Edge(GraphNode<T> a, GraphNode<T> b) {
         vertice1 = a;
@@ -17,6 +17,10 @@ public class Edge<T extends Comparable> {
         this.weight = weight;
     }
 
+    public void setWeight(int weight){
+        this.weight=weight;
+    }
+
     @Override
     public int hashCode() {
         return vertice1.hashCode() + vertice2.hashCode();
@@ -24,6 +28,7 @@ public class Edge<T extends Comparable> {
 
     @Override
     public String toString() {
-        return "edge : (" + vertice1 + ", " + vertice2 + ") ";
+        if (weight != 0) return "edge : (" + vertice1 + ", " + vertice2 + ") weight="+weight+"";
+        else return "edge : (" + vertice1 + ", " + vertice2 + ")";
     }
 }
