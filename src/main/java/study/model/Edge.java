@@ -17,8 +17,8 @@ public class Edge<T extends Comparable> {
         this.weight = weight;
     }
 
-    public void setWeight(int weight){
-        this.weight=weight;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Edge<T extends Comparable> {
 
     @Override
     public String toString() {
-        if (weight != 0) return "edge : (" + vertice1 + ", " + vertice2 + ") weight="+weight+"";
+        if (weight != 0) return "edge : (" + vertice1 + ", " + vertice2 + ") weight=" + weight + "";
         else return "edge : (" + vertice1 + ", " + vertice2 + ")";
     }
 }
