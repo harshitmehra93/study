@@ -6,6 +6,10 @@ public class DirectedEdge<T extends Comparable> extends Edge<T> {
         super(a, b);
     }
 
+    public DirectedEdge(GraphNode<T> a, GraphNode<T> b, int weight) {
+        super(a, b, weight);
+    }
+
     @Override
     public boolean equals(Object e1) {
         if (e1 instanceof DirectedEdge<?> edge) {

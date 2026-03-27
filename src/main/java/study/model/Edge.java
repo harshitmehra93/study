@@ -3,10 +3,18 @@ package study.model;
 public class Edge<T extends Comparable> {
     public GraphNode<T> vertice1;
     public GraphNode<T> vertice2;
+    int weight;
 
     public Edge(GraphNode<T> a, GraphNode<T> b) {
         vertice1 = a;
         vertice2 = b;
+        weight = 0;
+    }
+
+    public Edge(GraphNode<T> a, GraphNode<T> b, int weight) {
+        vertice1 = a;
+        vertice2 = b;
+        this.weight = weight;
     }
 
     @Override
