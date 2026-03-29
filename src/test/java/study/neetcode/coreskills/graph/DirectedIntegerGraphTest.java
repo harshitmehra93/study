@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import study.model.Edge;
@@ -435,15 +434,19 @@ public class DirectedIntegerGraphTest {
         graph.addNode(6);
         graph.addNode(7);
         graph.addNode(8);
+        graph.addNode(9);
+        // setA
         graph.addEdge(1, 2);
         graph.addEdge(2, 3);
         graph.addEdge(3, 4);
-        //        graph.addEdge(5,2);
+
+        // setB
         graph.addEdge(5, 6);
         graph.addEdge(6, 7);
         graph.addEdge(7, 8);
-        /*
-         *   1 -> 2       5 -> 6
+        graph.addEdge(9, 6);
+        /*   SetA         SetB
+         *   1 -> 2       5 -> 6 <- 9
          *        |            |
          *        \/           \/
          *   4 <- 3       8 <- 7
@@ -451,27 +454,26 @@ public class DirectedIntegerGraphTest {
          * */
 
         GraphTraversal<Integer> graphTraversal = new GraphTraversal<>();
-        graphTraversal.dfsTraversal(graph);
+        var disjointSets = graphTraversal.computeConnectedComponents(graph);
 
-        var result =
-                graphTraversal.connectedComponents.entrySet().stream()
-                        .collect(
-                                Collectors.groupingBy(
-                                        entry -> entry.getValue(),
-                                        Collectors.mapping(
-                                                entry -> entry.getKey(), Collectors.toList())));
-        assertEquals(2, result.size());
-        var connectedComponent1 = result.get(1);
-        assertTrue(connectedComponent1.contains(graph.getNode(1)));
-        assertTrue(connectedComponent1.contains(graph.getNode(2)));
-        assertTrue(connectedComponent1.contains(graph.getNode(3)));
-        assertTrue(connectedComponent1.contains(graph.getNode(4)));
+        assertEquals(2, disjointSets.getSize());
+        study.neetcode.coreskills.sets.Set<GraphNode<Integer>> setA =
+                disjointSets.findSet(graph.getNode(1)).get();
+        study.neetcode.coreskills.sets.Set<GraphNode<Integer>> setB =
+                disjointSets.findSet(graph.getNode(5)).get();
 
-        var connectedComponent2 = result.get(2);
-        assertTrue(connectedComponent2.contains(graph.getNode(5)));
-        assertTrue(connectedComponent2.contains(graph.getNode(6)));
-        assertTrue(connectedComponent2.contains(graph.getNode(7)));
-        assertTrue(connectedComponent2.contains(graph.getNode(8)));
+        assertEquals(4, setA.size());
+        assertTrue(setA.contains(graph.getNode(1)));
+        assertTrue(setA.contains(graph.getNode(2)));
+        assertTrue(setA.contains(graph.getNode(3)));
+        assertTrue(setA.contains(graph.getNode(4)));
+
+        assertEquals(5, setB.size());
+        assertTrue(setB.contains(graph.getNode(5)));
+        assertTrue(setB.contains(graph.getNode(6)));
+        assertTrue(setB.contains(graph.getNode(7)));
+        assertTrue(setB.contains(graph.getNode(8)));
+        assertTrue(setB.contains(graph.getNode(9)));
     }
 
     @Test

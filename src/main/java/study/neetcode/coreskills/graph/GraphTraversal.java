@@ -2,6 +2,8 @@ package study.neetcode.coreskills.graph;
 
 import java.util.*;
 import study.model.*;
+import study.neetcode.coreskills.sets.DisjointSets;
+import study.neetcode.coreskills.sets.LinkedListDisjointSets;
 
 public class GraphTraversal<T extends Comparable> {
     public List<GraphNode<T>> result = new ArrayList<>();
@@ -18,11 +20,9 @@ public class GraphTraversal<T extends Comparable> {
         init();
         initColorDiscoveryAndFinishTime(graph);
 
-        int connectedComponentNumber = 0;
         for (var node : graph.getGraphNodes()) {
             if (nodeColorMap.get(node) == NodeColor.WHITE) {
-                connectedComponentNumber++;
-                dfsVisit(null, node, graph, connectedComponentNumber);
+                dfsVisit(null, node, graph);
             }
         }
     }
@@ -45,11 +45,7 @@ public class GraphTraversal<T extends Comparable> {
         counter = 0;
     }
 
-    private void dfsVisit(
-            GraphNode<T> parent,
-            GraphNode<T> node,
-            Graph<T> graph,
-            Integer connectedComponentNumber) {
+    private void dfsVisit(GraphNode<T> parent, GraphNode<T> node, Graph<T> graph) {
         Optional<Edge<T>> edge = Optional.empty();
         if (parent != null) {
             edge = graph.getEdge(parent.getValue(), node.getValue());
@@ -61,10 +57,9 @@ public class GraphTraversal<T extends Comparable> {
             result.add(node);
             treeEdgeParents.put(node, parent);
             edge.ifPresent(e -> classification.put(e, EdgeType.TREE_EDGE));
-            connectedComponents.put(node, connectedComponentNumber);
 
             for (var nei : graph.getNeighbours(node.getValue())) {
-                dfsVisit(node, nei, graph, connectedComponentNumber);
+                dfsVisit(node, nei, graph);
             }
             counter++;
             finishTime.put(node, counter);
@@ -235,6 +230,19 @@ public class GraphTraversal<T extends Comparable> {
         }
 
         return hasCycles;
+    }
+
+    public DisjointSets<GraphNode<T>> computeConnectedComponents(Graph<T> graph) {
+        DisjointSets<GraphNode<T>> disjointSets = new LinkedListDisjointSets<>();
+        for (var node : graph.getGraphNodes()) {
+            disjointSets.makeSet(node);
+        }
+        for (var edge : graph.getEdges()) {
+            var setA = disjointSets.findSet(edge.vertice1).get();
+            var setB = disjointSets.findSet(edge.vertice2).get();
+            if (setA != setB) disjointSets.union(setA, setB);
+        }
+        return disjointSets;
     }
 }
 
