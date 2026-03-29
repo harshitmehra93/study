@@ -14,12 +14,4 @@ public abstract class Set<T> {
     public abstract List<T> getAllElements();
 
     public abstract int size();
-
-    public T getRepresentative() {
-        return representative;
-    }
-
-    public void setRepresentative(T rep) {
-        representative = rep;
-    }
 }

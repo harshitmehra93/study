@@ -8,7 +8,6 @@ public class LinkedListSet<T> extends Set<T> {
 
     @Override
     public void add(T a) {
-        if (size() == 0) setRepresentative(a);
         list.add(a);
     }
 
