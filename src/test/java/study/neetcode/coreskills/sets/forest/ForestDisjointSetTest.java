@@ -154,6 +154,24 @@ public class ForestDisjointSetTest {
         assertContainsElements(disjointSets.getAllElementsOfSet(1), List.of(1, 2));
     }
 
+    @Test
+    void findSet_deepChain_noPathCompression() {
+        int n = 10000;
+        for (int i = 1; i <= n; i++) {
+            disjointSets.makeSet(i);
+        }
+
+        // Create chain: 1 <- 2 <- 3 <- ... <- n
+        for (int i = 2; i <= n; i++) {
+            disjointSets.union(i - 1, i);
+        }
+
+        // This will be very slow or may stack overflow
+        assertEquals(1, disjointSets.findSet(1).get());
+        assertEquals(1, disjointSets.roots.size());
+        assertEquals(n, disjointSets.elementSet.size());
+    }
+
     private void assertContainsElements(Set<Integer> allElementsOfSet, List<Integer> integers) {
         for (var i : integers) assertTrue(allElementsOfSet.contains(i));
     }

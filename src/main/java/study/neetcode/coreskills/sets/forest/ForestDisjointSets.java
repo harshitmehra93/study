@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class ForestDisjointSets<T> extends DisjointSets<T> {
     Map<T, T> parentsMap = new HashMap<>();
     Set<T> elementSet = new HashSet<>();
+    Map<T, Integer> roots = new HashMap<>();
 
     @Override
     public void makeSet(T a) {
@@ -15,14 +16,20 @@ public class ForestDisjointSets<T> extends DisjointSets<T> {
         if (parentsMap.containsKey(a)) throw new IllegalArgumentException("node already exists");
         parentsMap.put(a, a);
         elementSet.add(a);
+        roots.put(a, 1);
     }
 
     @Override
     public Optional<T> findSet(T a) {
         if (isNull(a)) throw new IllegalArgumentException("node cannot be null");
         if (!parentsMap.containsKey(a)) return Optional.empty();
-        if (parentsMap.get(a).equals(a)) return Optional.of(a);
-        return findSet(parentsMap.get(a));
+        if (parentsMap.get(a).equals(a)) {
+            return Optional.of(a);
+        }
+        var root = findSet(parentsMap.get(a));
+        if (root.isEmpty()) return Optional.empty();
+        parentsMap.put(a, root.get());
+        return root;
     }
 
     @Override
@@ -30,8 +37,17 @@ public class ForestDisjointSets<T> extends DisjointSets<T> {
         Optional<T> aRepresentative = findSet(a);
         Optional<T> bRepresentative = findSet(b);
         if (aRepresentative.isPresent() && bRepresentative.isPresent()) {
-            parentsMap.put(bRepresentative.get(), aRepresentative.get());
-
+            int sizeOfA = roots.get(aRepresentative.get());
+            int sizeOfB = roots.get(bRepresentative.get());
+            var larger = sizeOfA > sizeOfB ? aRepresentative.get() : bRepresentative.get();
+            var smaller = sizeOfA < sizeOfB ? aRepresentative.get() : bRepresentative.get();
+            if (sizeOfB == sizeOfA) {
+                larger = aRepresentative.get();
+                smaller = bRepresentative.get();
+            }
+            parentsMap.put(smaller, larger);
+            roots.put(larger, sizeOfA + sizeOfB);
+            roots.remove(smaller);
         } else throw new IllegalArgumentException("node not present");
     }
 
