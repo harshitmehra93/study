@@ -457,10 +457,10 @@ public class DirectedIntegerGraphTest {
         var disjointSets = graphTraversal.computeConnectedComponents(graph);
 
         assertEquals(2, disjointSets.getSize());
-        study.neetcode.coreskills.sets.Set<GraphNode<Integer>> setA =
-                disjointSets.findSet(graph.getNode(1)).get();
-        study.neetcode.coreskills.sets.Set<GraphNode<Integer>> setB =
-                disjointSets.findSet(graph.getNode(5)).get();
+        Set<GraphNode<Integer>> setA =
+                disjointSets.getAllElementsOfSet(disjointSets.findSet(graph.getNode(1)).get());
+        Set<GraphNode<Integer>> setB =
+                disjointSets.getAllElementsOfSet(disjointSets.findSet(graph.getNode(5)).get());
 
         assertEquals(4, setA.size());
         assertTrue(setA.contains(graph.getNode(1)));

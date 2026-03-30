@@ -2,8 +2,7 @@ package study.neetcode.coreskills.graph;
 
 import java.util.*;
 import study.model.*;
-import study.neetcode.coreskills.sets.DisjointSets;
-import study.neetcode.coreskills.sets.LinkedListDisjointSets;
+import study.neetcode.coreskills.sets.forest.ForestDisjointSets;
 
 public class GraphTraversal<T extends Comparable> {
     public List<GraphNode<T>> result = new ArrayList<>();
@@ -232,15 +231,15 @@ public class GraphTraversal<T extends Comparable> {
         return hasCycles;
     }
 
-    public DisjointSets<GraphNode<T>> computeConnectedComponents(Graph<T> graph) {
-        DisjointSets<GraphNode<T>> disjointSets = new LinkedListDisjointSets<>();
-        for (var node : graph.getGraphNodes()) {
-            disjointSets.makeSet(node);
-        }
+    public ForestDisjointSets<GraphNode<T>> computeConnectedComponents(Graph<T> graph) {
+        ForestDisjointSets<GraphNode<T>> disjointSets = new ForestDisjointSets<>();
+        for (var node : graph.getGraphNodes()) disjointSets.makeSet(node);
         for (var edge : graph.getEdges()) {
-            var setA = disjointSets.findSet(edge.vertice1).get();
-            var setB = disjointSets.findSet(edge.vertice2).get();
-            if (setA != setB) disjointSets.union(setA, setB);
+            var aRepresentative = disjointSets.findSet(edge.vertice1).get();
+            var bRepresentative = disjointSets.findSet(edge.vertice2).get();
+            if (!aRepresentative.equals(bRepresentative)) {
+                disjointSets.union(aRepresentative, bRepresentative);
+            }
         }
         return disjointSets;
     }
