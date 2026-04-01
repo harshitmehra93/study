@@ -139,7 +139,7 @@ public class ForestDisjointSetTest {
     }
 
     @Test
-    void getAllelementsOfSet_happy() {
+    void getAllElementsOfSet_happy() {
         disjointSets.makeSet(1);
         disjointSets.makeSet(2);
 
@@ -155,8 +155,8 @@ public class ForestDisjointSetTest {
     }
 
     @Test
-    void findSet_deepChain_noPathCompression() {
-        int n = 10000;
+    void findSet_deepChain_pathCompression() {
+        int n = 1_000_000;
         for (int i = 1; i <= n; i++) {
             disjointSets.makeSet(i);
         }
@@ -166,7 +166,6 @@ public class ForestDisjointSetTest {
             disjointSets.union(i - 1, i);
         }
 
-        // This will be very slow or may stack overflow
         assertEquals(1, disjointSets.findSet(1).get());
         assertEquals(1, disjointSets.roots.size());
         assertEquals(n, disjointSets.elementSet.size());
