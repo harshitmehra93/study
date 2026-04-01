@@ -20,6 +20,7 @@ public class Edge<T extends Comparable> {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+
     public int getWeight() {
         return weight;
     }
