@@ -60,4 +60,96 @@ public class MinimumSpanningTreeTest {
         for (var expectedEdge : expected)
             assertTrue(minimumSpanningTree.minimumSpanningTree.contains(expectedEdge));
     }
+
+    @Test
+    void primTest() {
+        Graph<String> graph = new UndirectedGraph<>();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addNode("C");
+        graph.addNode("D");
+        graph.addNode("E");
+        graph.addNode("F");
+        graph.addEdge("A", "B", 1);
+        graph.addEdge("B", "C", 2);
+        graph.addEdge("C", "D", 3);
+        graph.addEdge("D", "E", 4);
+        graph.addEdge("E", "F", 5);
+        graph.addEdge("F", "A", 6);
+        graph.addEdge("B", "F", 7);
+        graph.addEdge("C", "E", 8);
+        graph.addEdge("B", "E", 9);
+        graph.addEdge("C", "F", 10);
+
+        /*
+              B  --2--    C
+          1/  |  \        | \3
+        A     |7   \     8|  D
+          6\  |      \9   | /4
+              F   --5--  E
+
+        w(C,F) = 10
+         */
+
+        MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree();
+        minimumSpanningTree.primMst(graph,graph.getNode("A"));
+
+        Set<Edge> expected =
+                Set.of(
+                        graph.getEdge("A", "B").get(),
+                        graph.getEdge("B", "C").get(),
+                        graph.getEdge("C", "D").get(),
+                        graph.getEdge("D", "E").get(),
+                        graph.getEdge("E", "F").get());
+        assertEquals(expected.size(), minimumSpanningTree.minimumSpanningTree.size());
+        System.out.println(minimumSpanningTree.minimumSpanningTree);
+        for (var expectedEdge : expected)
+            assertTrue(minimumSpanningTree.minimumSpanningTree.contains(expectedEdge));
+    }
+
+    @Test
+    void primTest2() {
+        Graph<String> graph = new UndirectedGraph<>();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addNode("C");
+        graph.addNode("D");
+        graph.addNode("E");
+        graph.addNode("F");
+        graph.addEdge("A", "B", 1);
+        graph.addEdge("B", "C", 6);
+        graph.addEdge("C", "D", 7);
+        graph.addEdge("D", "E", 9);
+        graph.addEdge("E", "F", 8);
+        graph.addEdge("F", "A", 10);
+        graph.addEdge("B", "F", 2);
+        graph.addEdge("C", "E", 5);
+        graph.addEdge("B", "E", 3);
+        graph.addEdge("C", "F", 4);
+
+        /*
+              B  --6--    C
+          1/  |  \        | \7
+        A     |2   \     5|  D
+         10\  |      \3   | /9
+              F   --8--  E
+
+        w(C,F) = 4
+         */
+
+        MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree();
+        minimumSpanningTree.primMst(graph,graph.getNode("A"));
+
+        Set<Edge> expected =
+                Set.of(
+                        graph.getEdge("A", "B").get(),
+                        graph.getEdge("B", "F").get(),
+                        graph.getEdge("B", "E").get(),
+                        graph.getEdge("F", "C").get(),
+                        graph.getEdge("C", "D").get());
+        assertEquals(expected.size(), minimumSpanningTree.minimumSpanningTree.size());
+        System.out.println(minimumSpanningTree.minimumSpanningTree);
+        for (var expectedEdge : expected)
+            assertTrue(minimumSpanningTree.minimumSpanningTree.contains(expectedEdge));
+    }
 }
