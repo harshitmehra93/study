@@ -46,10 +46,10 @@ public class MinimumSpanningTree {
         while(!q.isEmpty()){
             var node = q.poll();
             var parent = parentMap.get(node);
+            if(!visited.add(node)) continue;
             if(!isNull(parent)){
                 minimumSpanningTree.add(graph.getEdge(parent.getValue(),node.getValue()).get());
             }
-            visited.add(node);
 
             for(var nei: graph.getNeighbours(node.getValue())){
                 var edge = graph.getEdge(node.getValue(),nei.getValue()).get();
