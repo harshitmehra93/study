@@ -92,7 +92,7 @@ public class MinimumSpanningTreeTest {
          */
 
         MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree();
-        minimumSpanningTree.primMst(graph,graph.getNode("A"));
+        minimumSpanningTree.primMst(graph, graph.getNode("A"));
 
         Set<Edge> expected =
                 Set.of(
@@ -138,7 +138,7 @@ public class MinimumSpanningTreeTest {
          */
 
         MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree();
-        minimumSpanningTree.primMst(graph,graph.getNode("A"));
+        minimumSpanningTree.primMst(graph, graph.getNode("A"));
 
         Set<Edge> expected =
                 Set.of(

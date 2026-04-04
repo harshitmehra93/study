@@ -1,5 +1,7 @@
 package study.neetcode.coreskills.graph;
 
+import static java.util.Objects.isNull;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import study.model.Edge;
@@ -7,12 +9,9 @@ import study.model.GraphNode;
 import study.neetcode.coreskills.sets.forest.DisjointSets;
 import study.neetcode.coreskills.sets.forest.ForestDisjointSets;
 
-import static java.util.Objects.isNull;
-
 public class MinimumSpanningTree {
     Set<Edge> minimumSpanningTree = new HashSet<>();
-    Map<Edge,Integer> edgeToWeight = new HashMap<>();
-    Map<GraphNode,Integer> nodeToWeight = new HashMap<>();
+    Map<GraphNode, Integer> nodeToWeight = new HashMap<>();
 
     public <T extends Comparable<T>> void kruskalMst(Graph<T> graph) {
         minimumSpanningTree.clear();
@@ -32,32 +31,33 @@ public class MinimumSpanningTree {
         }
     }
 
-    public <T extends Comparable<T>> void primMst(Graph<T> graph, GraphNode<T> startingNode){
+    public <T extends Comparable<T>> void primMst(Graph<T> graph, GraphNode<T> startingNode) {
         minimumSpanningTree.clear();
-        for(var node:graph.getGraphNodes()) nodeToWeight.put(node,Integer.MAX_VALUE);
-        Comparator<GraphNode<T>> comparatorForNodes = (n1,n2)->nodeToWeight.get(n1)-nodeToWeight.get(n2);
+        for (var node : graph.getGraphNodes()) nodeToWeight.put(node, Integer.MAX_VALUE);
+        Comparator<GraphNode<T>> comparatorForNodes =
+                (n1, n2) -> nodeToWeight.get(n1) - nodeToWeight.get(n2);
         PriorityQueue<GraphNode<T>> q = new PriorityQueue<>(comparatorForNodes);
 
-        nodeToWeight.put(startingNode,0);
-        Map<GraphNode<T>,GraphNode<T>> parentMap = new HashMap<>();
+        nodeToWeight.put(startingNode, 0);
+        Map<GraphNode<T>, GraphNode<T>> parentMap = new HashMap<>();
         q.offer(startingNode);
-        parentMap.put(startingNode,null);
+        parentMap.put(startingNode, null);
         Set<GraphNode<T>> visited = new HashSet<>();
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             var node = q.poll();
             var parent = parentMap.get(node);
-            if(!visited.add(node)) continue;
-            if(!isNull(parent)){
-                minimumSpanningTree.add(graph.getEdge(parent.getValue(),node.getValue()).get());
+            if (!visited.add(node)) continue;
+            if (!isNull(parent)) {
+                minimumSpanningTree.add(graph.getEdge(parent.getValue(), node.getValue()).get());
             }
 
-            for(var nei: graph.getNeighbours(node.getValue())){
-                var edge = graph.getEdge(node.getValue(),nei.getValue()).get();
-                if(!visited.contains(nei) && nodeToWeight.get(nei)>edge.getWeight()){
-                        nodeToWeight.put(nei,edge.getWeight());
-                        parentMap.put(nei,node);
-                        if(q.contains(nei)) q.remove(nei);
-                        q.offer(nei);
+            for (var nei : graph.getNeighbours(node.getValue())) {
+                var edge = graph.getEdge(node.getValue(), nei.getValue()).get();
+                if (!visited.contains(nei) && nodeToWeight.get(nei) > edge.getWeight()) {
+                    nodeToWeight.put(nei, edge.getWeight());
+                    parentMap.put(nei, node);
+                    if (q.contains(nei)) q.remove(nei);
+                    q.offer(nei);
                 }
             }
         }
