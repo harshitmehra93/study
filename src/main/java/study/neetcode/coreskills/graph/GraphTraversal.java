@@ -146,6 +146,7 @@ public class GraphTraversal<T extends Comparable> {
     public void topologicalSort(Graph<T> graph) {
         init();
         initColorDiscoveryAndFinishTime(graph);
+        topologicalSortResult.clear();
         var visited = new HashSet<GraphNode<T>>();
 
         for (var node : graph.getGraphNodes()) {

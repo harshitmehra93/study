@@ -331,8 +331,8 @@ public class BinarySearchTreeImpl implements BinarySearchTree {
     private void postOrder(BstNode node, List<Integer> result) {
         if (node == null) return;
 
-        preOrder(node.left, result);
-        preOrder(node.right, result);
+        postOrder(node.left, result);
+        postOrder(node.right, result);
         result.add(node.val);
     }
 

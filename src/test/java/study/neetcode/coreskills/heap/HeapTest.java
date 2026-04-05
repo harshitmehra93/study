@@ -78,6 +78,14 @@ public class HeapTest {
         assertHeapIsSorted();
     }
 
+    @Test
+    void arrayConstructor_evenNumberOfElements_buildsHeap() {
+        h = new MinHeapArrayImpl(new int[] {2, 1});
+
+        assertEquals(1, h.get());
+        assertEquals(2, h.get());
+    }
+
     private void assertHeapIsSorted() {
         while (h.getSize() > 1) {
             Integer first = h.get();

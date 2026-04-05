@@ -117,6 +117,16 @@ class BinarySearchTreeTest {
     }
 
     @Test
+    void postOrderWalk_returnsLeftRightRootTraversal() {
+        BinarySearchTree bst =
+                new BinarySearchTreeImpl(new ArrayList<>(List.of(4, 2, 6, 1, 3, 5, 7)));
+
+        List<Integer> result = bst.postOrder();
+
+        assertEquals(List.of(1, 3, 2, 5, 7, 6, 4), result);
+    }
+
+    @Test
     void successfulSearch_returnsNode() {
         List<Integer> list = createBigList();
 

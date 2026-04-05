@@ -88,7 +88,7 @@ public class MinHeapArrayImpl implements Heap {
             if (left < size && heap[smallest] > heap[left]) {
                 smallest = left;
             }
-            if (left < size && heap[smallest] > heap[right]) {
+            if (right < size && heap[smallest] > heap[right]) {
                 smallest = right;
             }
             if (smallest != pointer) {
