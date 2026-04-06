@@ -58,6 +58,17 @@ public class SingleSourceShortestPath<T extends Comparable<T>> {
         return result;
     }
 
+    public List<GraphNode<T>> getShortestPathWithBfs(
+            GraphNode<T> s, GraphNode<T> t, Graph<T> graph) {
+        bfs(graph, s);
+        List<GraphNode<T>> result = new ArrayList<>();
+        GraphNode<T> pointer = t;
+        getPath(s, t, result);
+        if (result.get(0) != s && result.get(result.size() - 1) != t)
+            throw new IllegalStateException("No path exists");
+        return result;
+    }
+
     private void getPath(GraphNode<T> s, GraphNode<T> t, List<GraphNode<T>> result) {
         if (t != s) {
             getPath(s, parents.get(t), result);
@@ -115,6 +126,29 @@ public class SingleSourceShortestPath<T extends Comparable<T>> {
                 }
             }
             visited.add(node);
+        }
+    }
+
+    public void bfs(Graph<T> graph, GraphNode<T> s) {
+        visited.clear();
+        distanceFromSource.clear();
+        parents.clear();
+        for(var node: graph.getGraphNodes()) parents.put(node,null);
+        Queue<GraphNode<T>> q = new ArrayDeque<>();
+        q.offer(s);
+        int timer = 0;
+        distanceFromSource.put(s,timer);
+        visited.add(s);
+        while (!q.isEmpty()){
+            var node = q.poll();
+            timer++;
+            for(var nei: graph.getNeighbours(node.getValue())){
+                if(visited.add(nei)){
+                    distanceFromSource.put(nei,timer);
+                    parents.put(nei,node);
+                    q.offer(nei);
+                }
+            }
         }
     }
 }
