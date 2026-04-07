@@ -133,19 +133,19 @@ public class SingleSourceShortestPath<T extends Comparable<T>> {
         visited.clear();
         distanceFromSource.clear();
         parents.clear();
-        for(var node: graph.getGraphNodes()) parents.put(node,null);
+        for (var node : graph.getGraphNodes()) parents.put(node, null);
         Queue<GraphNode<T>> q = new ArrayDeque<>();
         q.offer(s);
         int timer = 0;
-        distanceFromSource.put(s,timer);
+        distanceFromSource.put(s, timer);
         visited.add(s);
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             var node = q.poll();
             timer++;
-            for(var nei: graph.getNeighbours(node.getValue())){
-                if(visited.add(nei)){
-                    distanceFromSource.put(nei,timer);
-                    parents.put(nei,node);
+            for (var nei : graph.getNeighbours(node.getValue())) {
+                if (visited.add(nei)) {
+                    distanceFromSource.put(nei, timer);
+                    parents.put(nei, node);
                     q.offer(nei);
                 }
             }

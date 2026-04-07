@@ -1,13 +1,13 @@
 package study.neetcode.algorithms;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class MaximumSubarrayTest {
 
     @Test
-    void noSolution2(){
+    void noSolution2() {
         int[] A = {};
 
         MaximumSubarray maximumSubarray = new MaximumSubarray();
@@ -19,7 +19,7 @@ class MaximumSubarrayTest {
     }
 
     @Test
-    void oneSolution(){
+    void oneSolution() {
         int[] A = {1};
 
         MaximumSubarray maximumSubarray = new MaximumSubarray();
@@ -31,7 +31,7 @@ class MaximumSubarrayTest {
     }
 
     @Test
-    void happyCase(){
+    void happyCase() {
         int[] A = {1, 2, 3};
 
         MaximumSubarray maximumSubarray = new MaximumSubarray();
@@ -43,7 +43,7 @@ class MaximumSubarrayTest {
     }
 
     @Test
-    void happyCase2(){
+    void happyCase2() {
         int[] A = {-2, 3, 4, -1, 2, -5};
 
         MaximumSubarray maximumSubarray = new MaximumSubarray();
@@ -53,5 +53,4 @@ class MaximumSubarrayTest {
         assertEquals(4, result.right());
         assertEquals(8, result.max());
     }
-
 }

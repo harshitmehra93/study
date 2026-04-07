@@ -134,13 +134,14 @@ public class SingleSourceShortestPathTest {
         graph.addEdge("b", "t");
 
         SingleSourceShortestPath singleSourceShortestPath = new SingleSourceShortestPath();
-        singleSourceShortestPath.bfs(graph,graph.getNode("s"));
+        singleSourceShortestPath.bfs(graph, graph.getNode("s"));
 
         var s = graph.getNode("s");
         var a = graph.getNode("a");
         var b = graph.getNode("b");
         var t = graph.getNode("t");
-        assertEquals(List.of(s,a,t),singleSourceShortestPath.getShortestPathWithBfs(s,t,graph));
+        assertEquals(
+                List.of(s, a, t), singleSourceShortestPath.getShortestPathWithBfs(s, t, graph));
     }
 
     @Test
@@ -157,13 +158,14 @@ public class SingleSourceShortestPathTest {
         graph.addEdge("b", "t");
 
         SingleSourceShortestPath singleSourceShortestPath = new SingleSourceShortestPath();
-        singleSourceShortestPath.bfs(graph,graph.getNode("s"));
+        singleSourceShortestPath.bfs(graph, graph.getNode("s"));
 
         var s = graph.getNode("s");
         var a = graph.getNode("a");
         var b = graph.getNode("b");
         var t = graph.getNode("t");
-        assertEquals(List.of(s,a,t),singleSourceShortestPath.getShortestPathWithBfs(s,t,graph));
+        assertEquals(
+                List.of(s, a, t), singleSourceShortestPath.getShortestPathWithBfs(s, t, graph));
     }
 
     @Test
