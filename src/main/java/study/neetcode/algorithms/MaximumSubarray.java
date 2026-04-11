@@ -50,6 +50,11 @@ public class MaximumSubarray {
         }
     }
 
+    public MaximumSubarrayResult optimisedSolution(){
+
+        return new MaximumSubarrayResult(0,0,0);
+    }
+
     record MaximumSubarrayResult(Integer left, Integer right, Integer max) {
         public int compareTo(MaximumSubarrayResult rec) {
             return this.max - rec.max;
