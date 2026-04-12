@@ -15,7 +15,7 @@ class RodCuttingTest {
         Map<Integer,Integer> priceIndex = new HashMap<>();
         priceIndex.put(5,5);
         var lengthOfRod = 5;
-        List<Integer> result = rodCutting.giveMaxSplit(lengthOfRod, priceIndex);
+        List<Integer> result = rodCutting.giveBestSplit(lengthOfRod, priceIndex);
 
         assertEquals(1, result.size());
         assertEquals(List.of(5), result);
