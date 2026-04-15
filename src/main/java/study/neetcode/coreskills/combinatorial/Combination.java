@@ -10,13 +10,18 @@ public class Combination {
         return result;
     }
 
-    void combination(List<Integer> input, List<List<Integer>> result, int r, int currentIndex, List<Integer> intermediateResult){
-        if(intermediateResult.size()==r){
+    void combination(
+            List<Integer> input,
+            List<List<Integer>> result,
+            int r,
+            int currentIndex,
+            List<Integer> intermediateResult) {
+        if (intermediateResult.size() == r) {
             result.add(new ArrayList<>(intermediateResult));
-        }else{
-            for(int i=currentIndex;i<input.size();i++){
+        } else {
+            for (int i = currentIndex; i < input.size(); i++) {
                 intermediateResult.add(input.get(i));
-                combination(input, result, r, i+1, intermediateResult);
+                combination(input, result, r, i + 1, intermediateResult);
                 intermediateResult.remove(input.get(i));
             }
         }
