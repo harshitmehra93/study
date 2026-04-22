@@ -1,5 +1,7 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
+import java.util.Arrays;
+
 public class RodCutting {
     /*
     * 🧩 Problem
@@ -31,26 +33,25 @@ public class RodCutting {
     * */
     int[] memo;
 
-    public int giveBestSplit(int rodLength, int[] priceList){
-        memo=new int[rodLength+1];
+    public int giveBestSplit(int rodLength, int[] priceList) {
+        memo = new int[rodLength + 1];
         Arrays.fill(memo, -2);
         return helper(rodLength, priceList);
     }
 
     public int helper(int rodLength, int[] priceList) {
-        if(rodLength<0) return -1;
-        if(memo[rodLength]!=-2) return memo[rodLength];
-        if(rodLength==0) return 0;
+        if (rodLength < 0) return -1;
+        if (memo[rodLength] != -2) return memo[rodLength];
+        if (rodLength == 0) return 0;
         int max = Integer.MIN_VALUE;
-        for(int i=1;i<=priceList.length;i++){
-            int interim = helper(rodLength-i,priceList);
-            if (interim==-1) continue;
-            max = Math.max(max, priceList[i-1] + interim);
+        for (int i = 1; i <= priceList.length; i++) {
+            int interim = helper(rodLength - i, priceList);
+            if (interim == -1) continue;
+            max = Math.max(max, priceList[i - 1] + interim);
         }
-        if(max == Integer.MIN_VALUE){
-            return memo[rodLength]=-1;
+        if (max == Integer.MIN_VALUE) {
+            return memo[rodLength] = -1;
         }
-        return memo[rodLength]=max;
+        return memo[rodLength] = max;
     }
-
 }
