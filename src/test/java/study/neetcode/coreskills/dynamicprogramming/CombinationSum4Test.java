@@ -38,7 +38,7 @@ class CombinationSum4Test {
                 Arguments.of(new int[] {4, 5}, 3, 0),
 
                 // Repeated use allowed
-                Arguments.of(new int[] {3, 4, 7}, 7, 2),
+                Arguments.of(new int[] {3, 4, 7}, 7, 3),
                 // (7), (3+4)
 
                 // Slightly bigger
