@@ -29,20 +29,28 @@ public class RodCutting {
         10
     *
     * */
-    public int giveBestSplit(int lengthOfRod, int[] prices) {
-        return helper(lengthOfRod, prices);
+    int[] memo;
+
+    public int giveBestSplit(int rodLength, int[] priceList){
+        memo=new int[rodLength+1];
+        Arrays.fill(memo, -2);
+        return helper(rodLength, priceList);
     }
 
-    private int helper(int lengthOfRod, int[] prices) {
-        if (lengthOfRod < 0) return -1;
-        if (lengthOfRod == 0) return 0;
+    public int helper(int rodLength, int[] priceList) {
+        if(rodLength<0) return -1;
+        if(memo[rodLength]!=-2) return memo[rodLength];
+        if(rodLength==0) return 0;
         int max = Integer.MIN_VALUE;
-        for (int i = 1; i <= lengthOfRod; i++) {
-            int intermediateMaximum = helper(lengthOfRod - i, prices);
-            if (intermediateMaximum == -1) continue;
-            max = Math.max(intermediateMaximum + prices[i - 1], max);
+        for(int i=1;i<=priceList.length;i++){
+            int interim = helper(rodLength-i,priceList);
+            if (interim==-1) continue;
+            max = Math.max(max, priceList[i-1] + interim);
         }
-        if (max == Integer.MIN_VALUE) return -1;
-        return max;
+        if(max == Integer.MIN_VALUE){
+            return memo[rodLength]=-1;
+        }
+        return memo[rodLength]=max;
     }
+
 }
