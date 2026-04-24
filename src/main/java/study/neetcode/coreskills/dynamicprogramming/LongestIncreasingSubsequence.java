@@ -1,5 +1,7 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
+import java.util.Arrays;
+
 public class LongestIncreasingSubsequence {
 
     //    🧩 Problem: Longest Increasing Subsequence (LIS)
@@ -24,8 +26,31 @@ public class LongestIncreasingSubsequence {
     //
     //    Input: [7,7,7,7,7]
     //    Output: 1
+    int[] memo;
 
     public int longestIncreasingSubsequence(int[] nums) {
-        return 0;
+        memo = new int[nums.length];
+        Arrays.fill(memo, -1);
+
+        helper(nums, 0);
+
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) max = Math.max(memo[i], max);
+        return max;
+    }
+
+    private int helper(int[] nums, int index) {
+        if (index >= nums.length) return 0;
+        if (memo[index] != -1) return memo[index];
+
+        int subsequence = 0;
+        for (int i = index + 1; i < nums.length; i++) {
+            int interim = helper(nums, i);
+            if (nums[i] > nums[index]) {
+                subsequence = Math.max(interim, subsequence);
+            }
+        }
+
+        return memo[index] = 1 + subsequence;
     }
 }
