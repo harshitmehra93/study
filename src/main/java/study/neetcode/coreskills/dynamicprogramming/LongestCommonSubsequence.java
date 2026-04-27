@@ -1,10 +1,9 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class LongestCommonSubsequence {
-
-    HashMap<Pair, Integer> memo;
 
     public int lcs(String s1, String s2) {
         String str1 = s1.length() > s2.length() ? s1 : s2;
@@ -34,6 +33,8 @@ public class LongestCommonSubsequence {
         return lcs;
     }
 
+    Map<State, Integer> memo;
+
     public int lcs2(String s1, String s2) {
         memo = new HashMap<>();
         return helper(s1, s2, 0, 0);
@@ -41,21 +42,20 @@ public class LongestCommonSubsequence {
 
     private int helper(String s1, String s2, int i, int j) {
         if (i >= s1.length() || j >= s2.length()) return 0;
-        Pair pair = new Pair(i, j);
-        if (memo.containsKey(pair)) return memo.get(pair);
+        State state = new State(i, j);
+        if (memo.containsKey(state)) return memo.get(state);
 
-        int max = 0;
         if (s1.charAt(i) == s2.charAt(j)) {
-            max = Math.max(helper(s1, s2, i + 1, j + 1) + 1, max);
-        } else {
-            int skippingI = helper(s1, s2, i + 1, j);
-            int skippingJ = helper(s1, s2, i, j + 1);
-            max = Math.max(max, Math.max(skippingI, skippingJ));
+            return 1 + helper(s1, s2, i + 1, j + 1);
         }
 
-        memo.put(pair, max);
+        int skipI = helper(s1, s2, i + 1, j);
+        int skipJ = helper(s1, s2, i, j + 1);
+        int max = Math.max(skipJ, skipI);
+
+        memo.put(state, max);
         return max;
     }
 
-    record Pair(int i, int j) {}
+    record State(int i, int j) {}
 }
