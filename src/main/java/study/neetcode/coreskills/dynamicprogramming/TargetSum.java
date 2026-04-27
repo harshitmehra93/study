@@ -21,7 +21,8 @@ public class TargetSum {
     //        You can choose either +nums[i] or -nums[i].
     //        Order of elements remains the same.
 
-    Map<State, Integer> memo ;
+    Map<State, Integer> memo;
+
     public int targetSum(int[] nums, int target) {
         memo = new HashMap<>();
         return helper(nums, 0, 0, target);
@@ -31,7 +32,7 @@ public class TargetSum {
         if (index == nums.length && current == target) return 1;
         if (index >= nums.length) return 0;
         State state = new State(index, current);
-        if(memo.containsKey(state)) return memo.get(state);
+        if (memo.containsKey(state)) return memo.get(state);
 
         int minus = helper(nums, index + 1, current - nums[index], target);
         int plus = helper(nums, index + 1, current + nums[index], target);
@@ -40,5 +41,5 @@ public class TargetSum {
         return minus + plus;
     }
 
-    record State(int index, int current){}
+    record State(int index, int current) {}
 }
