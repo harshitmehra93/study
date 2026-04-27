@@ -42,6 +42,10 @@ class CombinationSum4Test {
                 // (7), (3+4)
 
                 // Slightly bigger
-                Arguments.of(new int[] {1, 2, 3}, 10, 274));
+                Arguments.of(new int[] {1, 2, 3}, 10, 274),
+                Arguments.of(new int[] {1, 2, 3}, 20, 121415),
+                Arguments.of(new int[] {1, 2, 3}, 25, 2555757),
+                Arguments.of(new int[] {1, 2}, 30, 1346269),
+                Arguments.of(new int[] {1, 2, 3}, 32, 181997601));
     }
 }

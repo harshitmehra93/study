@@ -24,24 +24,37 @@ public class CoinChange {
         Output = 3
         Explanation: 5 + 5 + 1
     * */
-    Map<Integer, Integer> memo = new HashMap<>();
+    Map<Integer, Integer> memo;
 
     public int coinChange(int[] coins, int target) {
-        if (target < 0) return -1;
         if (target == 0) return 0;
-        System.out.println(target);
+        memo = new HashMap<>();
+        return helper(coins, target);
+    }
+
+    public int helper(int[] coins, int target) {
         if (memo.containsKey(target)) return memo.get(target);
+        if (target == 0) {
+            memo.put(0, 0);
+            return 0;
+        }
+        if (target < 0) {
+            memo.put(target, -1);
+            return -1;
+        }
+
         int min = Integer.MAX_VALUE;
         for (int i = 0; i < coins.length; i++) {
-            int intermediateMin = coinChange(coins, target - coins[i]);
-            if (intermediateMin == -1) continue;
-            min = Math.min(intermediateMin, min);
+            int interim = helper(coins, target - coins[i]);
+            if (interim == -1) continue;
+            min = Math.min(interim, min);
         }
         if (min == Integer.MAX_VALUE) {
             memo.put(target, -1);
             return -1;
         }
-        memo.put(target, min + 1);
-        return memo.get(target);
+
+        memo.put(target, 1 + min);
+        return 1 + min;
     }
 }

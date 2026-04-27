@@ -20,29 +20,25 @@ public class TargetSum {
     //        Each number must be used exactly once.
     //        You can choose either +nums[i] or -nums[i].
     //        Order of elements remains the same.
-    Map<Pair, Integer> memo;
 
+    Map<State, Integer> memo ;
     public int targetSum(int[] nums, int target) {
         memo = new HashMap<>();
         return helper(nums, 0, 0, target);
     }
 
-    private int helper(int[] nums, int index, int current, int finalTarget) {
-        Pair pair = new Pair(index, current);
-        if (memo.containsKey(pair)) return memo.get(pair);
+    private int helper(int[] nums, int index, int current, int target) {
+        if (index == nums.length && current == target) return 1;
+        if (index >= nums.length) return 0;
+        State state = new State(index, current);
+        if(memo.containsKey(state)) return memo.get(state);
 
-        if (index == nums.length) {
-            int res = (current == finalTarget) ? 1 : 0;
-            memo.put(pair, res);
-            return res;
-        }
+        int minus = helper(nums, index + 1, current - nums[index], target);
+        int plus = helper(nums, index + 1, current + nums[index], target);
 
-        int minus = helper(nums, index + 1, current - nums[index], finalTarget);
-        int plus = helper(nums, index + 1, current + nums[index], finalTarget);
-
-        memo.put(pair, minus + plus);
+        memo.put(state, minus + plus);
         return minus + plus;
     }
 
-    record Pair(int index, int current) {}
+    record State(int index, int current){}
 }

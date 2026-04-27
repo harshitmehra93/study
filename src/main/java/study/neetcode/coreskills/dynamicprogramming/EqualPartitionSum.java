@@ -21,35 +21,34 @@ public class EqualPartitionSum {
     //    📥 Examples
     //        Input: [1, 5, 11, 5]
     //        Output: true
-
-    Map<Pair, Boolean> memo = new HashMap<>();
+    Map<State, Boolean> memo;
 
     public boolean canBePartitionedEqually(int[] nums) {
-        memo = new HashMap<>();
         if (nums.length < 2) return false;
 
         int sum = 0;
-        for (int i = 0; i < nums.length; i++) sum += nums[i];
+        for (int num : nums) {
+            sum += num;
+        }
         if (sum % 2 != 0) return false;
-        int target = sum / 2;
-        System.out.println("target=" + target);
 
-        return helper(nums, target, 0);
+        memo = new HashMap<>();
+        return helper(nums, 0, sum / 2);
     }
 
-    private boolean helper(int[] nums, int target, int index) {
-        if (target < 0) return false;
+    private boolean helper(int[] nums, int index, int target) {
         if (target == 0) return true;
+        if (target < 0) return false;
         if (index >= nums.length) return false;
-        Pair pair = new Pair(target, index);
-        if (memo.containsKey(pair)) return memo.get(pair);
+        State state = new State(index, target);
+        if (memo.containsKey(state)) return memo.get(state);
 
-        boolean take = helper(nums, target - nums[index], index + 1);
-        boolean skip = helper(nums, target, index + 1);
+        boolean take = helper(nums, index + 1, target - nums[index]);
+        boolean skip = helper(nums, index + 1, target);
 
-        memo.put(pair, take || skip);
+        memo.put(state, take || skip);
         return take || skip;
     }
 
-    record Pair(int target, int index) {}
+    record State(int index, int target) {}
 }
