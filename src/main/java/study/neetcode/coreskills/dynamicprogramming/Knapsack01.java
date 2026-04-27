@@ -1,5 +1,8 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Knapsack01 {
 
     //    🧩 Problem: 0/1 Knapsack
@@ -31,13 +34,17 @@ public class Knapsack01 {
     //    Total weight = 7
     //    Total value = 9
 
+    Map<State, Integer> memo;
+
     public int knapsack(int[] weights, int[] values, int capacity) {
+        memo = new HashMap<>();
         return helper(weights, values, capacity, 0);
     }
 
     private int helper(int[] weights, int[] values, int currentCapacity, int index) {
-        if (currentCapacity < 0) return 0;
         if (index >= weights.length) return 0;
+        State state = new State(index, currentCapacity);
+        if (memo.containsKey(state)) return memo.get(state);
 
         int take = Integer.MIN_VALUE;
         if (weights[index] <= currentCapacity) {
@@ -48,6 +55,10 @@ public class Knapsack01 {
 
         int skip = helper(weights, values, currentCapacity, index + 1);
 
-        return Math.max(take, skip);
+        int max = Math.max(take, skip);
+        memo.put(state, max);
+        return max;
     }
+
+    record State(int index, int currentCapacity) {}
 }
