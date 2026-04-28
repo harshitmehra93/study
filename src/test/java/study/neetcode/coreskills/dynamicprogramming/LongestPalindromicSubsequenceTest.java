@@ -1,12 +1,11 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LongestPalindromicSubsequenceTest {
 
@@ -21,9 +20,9 @@ class LongestPalindromicSubsequenceTest {
         return Stream.of(
 
                 // Basic
-                Arguments.of("abcbd", 3),   // bcb
-                Arguments.of("bbbab", 4),   // bbbb
-                Arguments.of("cbbd", 2),    // bb
+                Arguments.of("abcbd", 3), // bcb
+                Arguments.of("bbbab", 4), // bbbb
+                Arguments.of("cbbd", 2), // bb
 
                 // Single / empty
                 Arguments.of("a", 1),
@@ -44,10 +43,10 @@ class LongestPalindromicSubsequenceTest {
                 Arguments.of("abcba", 5),
 
                 // 🔴 Greedy trap
-                Arguments.of("agbdba", 5),  // abdba
+                Arguments.of("agbdba", 5), // abdba
 
                 // 🔴 Skip both sides needed
-                Arguments.of("abcda", 3),   // aca or ada
+                Arguments.of("abcda", 3), // aca or ada
 
                 // 🔴 Inner subsequence important
                 Arguments.of("character", 5), // carac
@@ -68,7 +67,6 @@ class LongestPalindromicSubsequenceTest {
                 Arguments.of("abcdefgfedxyz", 7), // defgfed
 
                 // Stress-like repeated pattern
-                Arguments.of("abababababababab", 15)
-        );
+                Arguments.of("abababababababab", 15));
     }
 }

@@ -34,24 +34,33 @@ public class Knapsack01 {
     //    Total weight = 7
     //    Total value = 9
     Map<State, Integer> memo;
+
     public int knapsack(int[] weights, int[] values, int capacity) {
         memo = new HashMap<>();
         return helper(weights, values, 0, 0, capacity);
     }
 
     private int helper(int[] weights, int[] values, int index, int currentCapacity, int capacity) {
-        if(index>=weights.length) return 0;
+        if (index >= weights.length) return 0;
         State state = new State(index, currentCapacity);
-        if(memo.containsKey(state)) return memo.get(state);
+        if (memo.containsKey(state)) return memo.get(state);
 
         int take = Integer.MIN_VALUE;
-        if(currentCapacity + weights[index]<=capacity){
-            take = values[index]+ helper(weights, values, index+1, currentCapacity+weights[index],capacity);
+        if (currentCapacity + weights[index] <= capacity) {
+            take =
+                    values[index]
+                            + helper(
+                                    weights,
+                                    values,
+                                    index + 1,
+                                    currentCapacity + weights[index],
+                                    capacity);
         }
-        int skip = helper(weights, values, index+1, currentCapacity, capacity);
+        int skip = helper(weights, values, index + 1, currentCapacity, capacity);
 
-        memo.put(state, Math.max(take,skip));
-        return Math.max(take,skip);
+        memo.put(state, Math.max(take, skip));
+        return Math.max(take, skip);
     }
-    record State(int index, int currentCapacity){}
+
+    record State(int index, int currentCapacity) {}
 }
