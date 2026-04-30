@@ -1,9 +1,6 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
-import java.util.Map;
-
 public class MinimumAsciiDeleteSumTwoStrings {
-
 
     //    Minimum ASCII Delete Sum for Two Strings
     //
@@ -21,29 +18,30 @@ public class MinimumAsciiDeleteSumTwoStrings {
     //    Delete 't' → ASCII 116
     //    Total = 231
     Integer[][] memo;
+
     public int minimumDeleteSum(String s1, String s2) {
-        memo = new Integer[s1.length()+1][s2.length()+1];
-        return helper(s1,s2,0,0);
+        memo = new Integer[s1.length() + 1][s2.length() + 1];
+        return helper(s1, s2, 0, 0);
     }
 
     private int helper(String s1, String s2, int i, int j) {
-        if(memo[i][j]!=null) return memo[i][j];
-        if(i==s1.length()) return sumTillEnd(s2,j);
-        if(j==s2.length()) return sumTillEnd(s1,i);
+        if (memo[i][j] != null) return memo[i][j];
+        if (i == s1.length()) return sumTillEnd(s2, j);
+        if (j == s2.length()) return sumTillEnd(s1, i);
 
-        if(s1.charAt(i)==s2.charAt(j)){
-            return memo[i][j]=helper(s1,s2,i+1,j+1);
+        if (s1.charAt(i) == s2.charAt(j)) {
+            return memo[i][j] = helper(s1, s2, i + 1, j + 1);
         }
 
-        int deleteI = s1.charAt(i) + helper(s1,s2,i+1,j);
-        int deleteJ = s2.charAt(j) + helper(s1,s2,i,j+1);
+        int deleteI = s1.charAt(i) + helper(s1, s2, i + 1, j);
+        int deleteJ = s2.charAt(j) + helper(s1, s2, i, j + 1);
 
-        return memo[i][j]=Math.min(deleteI, deleteJ);
+        return memo[i][j] = Math.min(deleteI, deleteJ);
     }
 
     private int sumTillEnd(String s, int index) {
         int sum = 0;
-        for (;index<s.length();index++) sum+=s.charAt(index);
+        for (; index < s.length(); index++) sum += s.charAt(index);
         return sum;
     }
 }
