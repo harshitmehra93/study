@@ -2,12 +2,10 @@ package study.neetcode.coreskills.dynamicprogramming;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 class DistinctSubsequencesTest {
 
@@ -17,6 +15,7 @@ class DistinctSubsequencesTest {
         DistinctSubsequences test = new DistinctSubsequences();
         assertEquals(result, test.distinctSubsequences(source, target));
     }
+
     static Stream<Arguments> testCases() {
         return Stream.of(
 
@@ -45,8 +44,8 @@ class DistinctSubsequencesTest {
                 Arguments.of("aaaaa", "a", 5),
 
                 // Combinations
-                Arguments.of("aaaaa", "aa", 10),   // C(5,2)
-                Arguments.of("aaaaa", "aaa", 10),  // C(5,3)
+                Arguments.of("aaaaa", "aa", 10), // C(5,2)
+                Arguments.of("aaaaa", "aaa", 10), // C(5,3)
 
                 // Interleaving classic
                 Arguments.of("babgbag", "bag", 5),
@@ -105,7 +104,6 @@ class DistinctSubsequencesTest {
                 Arguments.of("xxxxxxxa", "a", 1),
 
                 // Impossible due to order
-                Arguments.of("bac", "abc", 0)
-        );
+                Arguments.of("bac", "abc", 0));
     }
 }

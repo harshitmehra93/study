@@ -1,8 +1,5 @@
 package study.neetcode.coreskills.dynamicprogramming;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class DeleteOperationForTwoString {
     //    Delete Operation for Two Strings
     //
@@ -26,24 +23,25 @@ public class DeleteOperationForTwoString {
     //    eat → ea  (delete 't')
 
     Integer[][] memo;
+
     public int deleteOperations(String s1, String s2) {
-        memo = new Integer[s1.length()+1][s2.length()+1];
-        return helper(s1,s2,0,0);
+        memo = new Integer[s1.length() + 1][s2.length() + 1];
+        return helper(s1, s2, 0, 0);
     }
 
     private int helper(String s1, String s2, int i, int j) {
-        if(i>=s1.length()&&j>=s2.length()) return 0;
-        if(memo[i][j]!=null)return memo[i][j];
-        if(i==s1.length()) return s2.length()-j;
-        if(j==s2.length()) return s1.length()-i;
+        if (i >= s1.length() && j >= s2.length()) return 0;
+        if (memo[i][j] != null) return memo[i][j];
+        if (i == s1.length()) return s2.length() - j;
+        if (j == s2.length()) return s1.length() - i;
 
-        if(s1.charAt(i)==s2.charAt(j)){
-            return memo[i][j] = helper(s1,s2,i+1,j+1);
+        if (s1.charAt(i) == s2.charAt(j)) {
+            return memo[i][j] = helper(s1, s2, i + 1, j + 1);
         }
 
-        int deleteI = helper(s1,s2,i+1,j);
-        int deleteJ = helper(s1,s2,i,j+1);
+        int deleteI = helper(s1, s2, i + 1, j);
+        int deleteJ = helper(s1, s2, i, j + 1);
 
-        return memo[i][j] = 1 + Math.min(deleteI,deleteJ);
+        return memo[i][j] = 1 + Math.min(deleteI, deleteJ);
     }
 }
