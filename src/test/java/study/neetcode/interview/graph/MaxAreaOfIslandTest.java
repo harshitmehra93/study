@@ -1,8 +1,8 @@
 package study.neetcode.interview.graph;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class MaxAreaOfIslandTest {
     @Test
@@ -10,7 +10,8 @@ class MaxAreaOfIslandTest {
         MaxAreaOfIsland test = new MaxAreaOfIsland();
         assertEquals(
                 4,
-                test.maxAreaOfIsland(new char[][] {{'1', '1', '0'}, {'1', '1', '0'}, {'0', '0', '0'}}));
+                test.maxAreaOfIsland(
+                        new char[][] {{'1', '1', '0'}, {'1', '1', '0'}, {'0', '0', '0'}}));
     }
 
     @Test
@@ -20,11 +21,11 @@ class MaxAreaOfIslandTest {
                 9,
                 test.maxAreaOfIsland(
                         new char[][] {
-                                {'1', '1', '0', '0', '1'},
-                                {'1', '1', '0', '0', '0'},
-                                {'0', '0', '0', '0', '0'},
-                                {'1', '1', '1', '1', '1'},
-                                {'1', '1', '0', '1', '1'}
+                            {'1', '1', '0', '0', '1'},
+                            {'1', '1', '0', '0', '0'},
+                            {'0', '0', '0', '0', '0'},
+                            {'1', '1', '1', '1', '1'},
+                            {'1', '1', '0', '1', '1'}
                         }));
     }
 }
