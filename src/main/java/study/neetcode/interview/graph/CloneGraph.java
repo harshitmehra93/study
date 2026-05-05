@@ -41,8 +41,6 @@ public class CloneGraph {
         public int val;
         private List<Node> neighbors;
 
-        public Node() {}
-
         public Node(int _val, List<Node> _neighbors) {
             val = _val;
             neighbors = _neighbors;
