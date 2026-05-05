@@ -1,6 +1,11 @@
 package study.neetcode.interview.graph;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class RottingOranges {
+    private int freshOranges;
+    private boolean[][] visited;
     //    Problem: Rotting Oranges
     //
     //    You are given an m x n grid:
@@ -17,86 +22,49 @@ public class RottingOranges {
     //    If impossible, return -1.
 
     public int orangesRotting(int[][] grid) {
-        // find is there any unreachable cluster if yes then return -1, if there are no fresh
-        // oranges return 0, -> O(2*m*n)
-        int freshOranges = 0;
+        Queue<Cell> q = new ArrayDeque<>();
+        freshOranges = 0;
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == 1) {
-                    freshOranges++;
-                    if (!adjacentRottenOrangeExists(grid, i, j)) {
-                        return -1;
-                    }
-                }
+                if (grid[i][j] == 2) q.offer(new Cell(i, j));
+                if (grid[i][j] == 1) freshOranges++;
             }
         }
-
-        if (freshOranges == 0) return 0;
-
-        // For each rotten orange, rot adjacent fresh oranges for each iteration count 1
+        Queue<Cell> childQ = new ArrayDeque<>();
         int minutes = 0;
-        while (freshOrangesExist(grid)) { // O(2((m*n)^2))
-            boolean visited[][] = new boolean[grid.length][grid[0].length];
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[0].length; j++) {
-                    if (grid[i][j] == 2 && !visited[i][j]) {
-                        visited[i][j] = true;
-                        rotAdjacent(grid, i, j, visited);
-                    }
-                }
+        while (!q.isEmpty() && freshOranges > 0) {
+            int size = q.size();
+
+            for (int k = 0; k < size; k++) {
+                Cell cell = q.poll();
+                rotAdjacentAndAddToQ(grid, cell, q);
             }
+
             minutes++;
         }
-
+        if (freshOranges != 0) return -1;
         return minutes;
     }
 
-    private boolean freshOrangesExist(int[][] grid) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == 1) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private void rotAdjacentAndAddToQ(int[][] grid, Cell cell, Queue<Cell> q) {
+        addToQIfWithinBoundsAndIsFresh(grid, q, cell.i, cell.j - 1);
+        addToQIfWithinBoundsAndIsFresh(grid, q, cell.i, cell.j + 1);
+        addToQIfWithinBoundsAndIsFresh(grid, q, cell.i - 1, cell.j);
+        addToQIfWithinBoundsAndIsFresh(grid, q, cell.i + 1, cell.j);
     }
 
-    private void rotAdjacent(int[][] grid, int i, int j, boolean[][] visited) {
-        markRottenifNotOutsideBoundsOfGridAndIsFreshOrangeAndIsNotVisited(grid, i, j - 1, visited);
-        markRottenifNotOutsideBoundsOfGridAndIsFreshOrangeAndIsNotVisited(grid, i, j + 1, visited);
-        markRottenifNotOutsideBoundsOfGridAndIsFreshOrangeAndIsNotVisited(grid, i - 1, j, visited);
-        markRottenifNotOutsideBoundsOfGridAndIsFreshOrangeAndIsNotVisited(grid, i + 1, j, visited);
-    }
-
-    private void markRottenifNotOutsideBoundsOfGridAndIsFreshOrangeAndIsNotVisited(
-            int[][] grid, int i, int j, boolean[][] visited) {
-        if (isOutsideBoundsOfGrid(grid, i, j)) return;
-        if (grid[i][j] == 1 && !visited[i][j]) {
+    void addToQIfWithinBoundsAndIsFresh(int[][] grid, Queue<Cell> q, int i, int j) {
+        if (isOutsideBounds(grid, i, j)) return;
+        if (grid[i][j] == 1) {
             grid[i][j] = 2;
-            visited[i][j] = true;
+            q.offer(new Cell(i, j));
+            freshOranges--;
         }
     }
 
-    private boolean adjacentRottenOrangeExists(int[][] grid, int i, int j) {
-        boolean visited[][] = new boolean[grid.length][grid[0].length];
-        return isRottenOrangeReachable(grid, i, j, visited);
-    }
-
-    public boolean isRottenOrangeReachable(int[][] grid, int i, int j, boolean[][] visited) {
-        if (isOutsideBoundsOfGrid(grid, i, j)) return false;
-        if (visited[i][j]) return false;
-        if (grid[i][j] == 0) return false;
-
-        visited[i][j] = true;
-        if (grid[i][j] == 2) return true;
-        return isRottenOrangeReachable(grid, i, j - 1, visited)
-                || isRottenOrangeReachable(grid, i, j + 1, visited)
-                || isRottenOrangeReachable(grid, i - 1, j, visited)
-                || isRottenOrangeReachable(grid, i + 1, j, visited);
-    }
-
-    private static boolean isOutsideBoundsOfGrid(int[][] grid, int i, int j) {
+    private static boolean isOutsideBounds(int[][] grid, int i, int j) {
         return i < 0 || j < 0 || i >= grid.length || j >= grid[0].length;
     }
+
+    record Cell(int i, int j) {}
 }
