@@ -36,34 +36,34 @@ public class CloneGraph {
 
         return cloneSet.get(node);
     }
-}
 
-class Node {
-    public int val;
-    private List<Node> neighbors;
+    public static class Node {
+        public int val;
+        private List<Node> neighbors;
 
-    public Node() {}
+        public Node() {}
 
-    public Node(int _val, List<Node> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
+        public Node(int _val, List<Node> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
+        }
 
-    public Node(int _val) {
-        val = _val;
-        neighbors = new ArrayList<>();
-    }
+        public Node(int _val) {
+            val = _val;
+            neighbors = new ArrayList<>();
+        }
 
-    public List<Node> getNeighbours() {
-        return neighbors;
-    }
+        public List<Node> getNeighbours() {
+            return neighbors;
+        }
 
-    public void setNeighbours(List<Node> _neighbors) {
-        neighbors = _neighbors;
-    }
+        public void setNeighbours(List<Node> _neighbors) {
+            neighbors = _neighbors;
+        }
 
-    @Override
-    public String toString() {
-        return String.valueOf(val);
+        @Override
+        public String toString() {
+            return String.valueOf(val);
+        }
     }
 }

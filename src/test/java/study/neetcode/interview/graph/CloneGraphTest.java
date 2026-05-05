@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import org.junit.jupiter.api.Test;
+import study.neetcode.interview.graph.CloneGraph.Node;
 
 class CloneGraphTest {
 
