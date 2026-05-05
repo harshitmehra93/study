@@ -8,6 +8,7 @@ import java.util.Map;
 public class CourseSchedule {
     private Map<Node, Integer> discoveryTime;
     private Map<Node, Integer> finishTime;
+    private int time;
     //    Problem: Course Schedule
 
     //    You are given numCourses courses labeled:
@@ -36,11 +37,11 @@ public class CourseSchedule {
 
         discoveryTime = new HashMap<>();
         finishTime = new HashMap<>();
-        int time = 0;
+        time = 0;
         for (var node : graph.values()) {
             if (!discoveryTime.containsKey(node)) {
                 try {
-                    dfsVisit(node, null, time);
+                    dfsVisit(node, null);
                 } catch (IllegalStateException e) {
                     return false;
                 }
@@ -49,22 +50,22 @@ public class CourseSchedule {
         return true;
     }
 
-    private void dfsVisit(Node node, Node parent, int time) {
+    private void dfsVisit(Node node, Node parent) {
         if (!discoveryTime.containsKey(node)) { // white | tree
             time++;
             discoveryTime.put(node, time);
             for (var child : node.adj) {
-                dfsVisit(child, node, time);
+                dfsVisit(child, node);
             }
             time++;
             finishTime.put(node, time);
         } else {
             if (finishTime.containsKey(node)) { // black | cross/forward
                 if (discoveryTime.get(parent) < discoveryTime.get(node)) {
-                    System.out.printf("%d -> %d forward", parent.name, node.name);
+                    System.out.printf("%d -> %d forward\n", parent.name, node.name);
                 }
                 if (discoveryTime.get(parent) > discoveryTime.get(node)) {
-                    System.out.printf("%d -> %d cross", parent.name, node.name);
+                    System.out.printf("%d -> %d cross\n", parent.name, node.name);
                 }
             } else { // grey | back
                 throw new IllegalStateException("Back edge found");
