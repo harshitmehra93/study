@@ -1,14 +1,8 @@
 package study.neetcode.interview.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CourseSchedule {
-    private Map<Node, Integer> discoveryTime;
-    private Map<Node, Integer> finishTime;
-    private int time;
     //    Problem: Course Schedule
 
     //    You are given numCourses courses labeled:
@@ -24,61 +18,45 @@ public class CourseSchedule {
     //
     //    Function signature
     //    boolean canFinish(int numCourses, int[][] prerequisites);
-    public boolean canFinishCourse(int numOfCourse, int[][] preReq) {
-        Map<Integer, Node> graph = new HashMap<>();
-        for (int i = 0; i < numOfCourse; i++) {
-            var node = new Node(i);
-            graph.put(i, node);
-        }
-        for (int i = 0; i < preReq.length; i++) {
-            graph.get(preReq[i][0]).adj.add(graph.get(preReq[i][1]));
-            if (preReq[i][0] == preReq[i][1]) return false; // self loop
-        }
 
-        discoveryTime = new HashMap<>();
-        finishTime = new HashMap<>();
-        time = 0;
-        for (var node : graph.values()) {
-            if (!discoveryTime.containsKey(node)) {
-                try {
-                    dfsVisit(node, null);
-                } catch (IllegalStateException e) {
-                    return false;
-                }
+    private HashSet<Integer> visited;
+    private int[] state;
+
+    public boolean canFinishCourse(int numOfCourse, int[][] preReq) {
+        state = new int[numOfCourse];
+        Arrays.fill(state, 1);
+
+        List<List<Integer>> adj = new ArrayList<>(); // course with no prereq will have null adj
+        for (int i = 0; i < numOfCourse; i++) adj.add(i, new ArrayList<>());
+        for (int i = 0; i < preReq.length; i++) {
+            int course = preReq[i][0];
+            int requirement = preReq[i][1];
+            adj.get(course).add(requirement);
+        }
+        for (int i = 0; i < numOfCourse; i++) {
+            if (state[i] == 1) {
+                boolean hasBackEdge = dfsVisitAndCheckBackEdge(i, adj);
+                if (hasBackEdge) return false;
             }
         }
+
         return true;
     }
 
-    private void dfsVisit(Node node, Node parent) {
-        if (!discoveryTime.containsKey(node)) { // white | tree
-            time++;
-            discoveryTime.put(node, time);
-            for (var child : node.adj) {
-                dfsVisit(child, node);
-            }
-            time++;
-            finishTime.put(node, time);
-        } else {
-            if (finishTime.containsKey(node)) { // black | cross/forward
-                if (discoveryTime.get(parent) < discoveryTime.get(node)) {
-                    System.out.printf("%d -> %d forward\n", parent.name, node.name);
-                }
-                if (discoveryTime.get(parent) > discoveryTime.get(node)) {
-                    System.out.printf("%d -> %d cross\n", parent.name, node.name);
-                }
-            } else { // grey | back
-                throw new IllegalStateException("Back edge found");
-            }
+    private boolean dfsVisitAndCheckBackEdge(int course, List<List<Integer>> adj) {
+        System.out.printf("%d is in state %d\n", course, state[course]);
+        if (state[course] == 2) { // grey
+            return true; // found back edge
         }
-    }
-
-    public static class Node {
-        int name;
-        List<Node> adj = new ArrayList<>();
-
-        Node(int name) {
-            this.name = name;
+        if (state[course] == 1) { // white
+            state[course] = 2; // mark grey
+            boolean hasBackEdge = false;
+            for (var preReq : adj.get(course)) {
+                hasBackEdge = dfsVisitAndCheckBackEdge(preReq, adj);
+                if (hasBackEdge) return true;
+            }
+            state[course] = 3;
         }
+        return false;
     }
 }
