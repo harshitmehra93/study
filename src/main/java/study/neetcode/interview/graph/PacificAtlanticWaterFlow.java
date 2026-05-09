@@ -39,21 +39,26 @@ public class PacificAtlanticWaterFlow {
     public List<List<Integer>> waterflow(int[][] heights) {
         nodesReachableFromAtlantic = new boolean[heights.length][heights[0].length];
         nodesReachableFromPacific = new boolean[heights.length][heights[0].length];
-        
+
         // pacific traversals
         for (int j = 0; j < heights[0].length; j++) {
-            dfsVisit(heights,0,j, nodesReachableFromPacific,Integer.MIN_VALUE);
+            dfsVisit(heights, 0, j, nodesReachableFromPacific, Integer.MIN_VALUE);
         }
         for (int i = 0; i < heights.length; i++) {
-            dfsVisit(heights,i,0, nodesReachableFromPacific,Integer.MIN_VALUE);
+            dfsVisit(heights, i, 0, nodesReachableFromPacific, Integer.MIN_VALUE);
         }
 
         // atlantic traversals
         for (int j = 0; j < heights[0].length; j++) {
-            dfsVisit(heights,heights.length-1,j, nodesReachableFromAtlantic,Integer.MIN_VALUE);
+            dfsVisit(heights, heights.length - 1, j, nodesReachableFromAtlantic, Integer.MIN_VALUE);
         }
         for (int i = 0; i < heights.length; i++) {
-            dfsVisit(heights,i,heights[0].length-1, nodesReachableFromAtlantic,Integer.MIN_VALUE);
+            dfsVisit(
+                    heights,
+                    i,
+                    heights[0].length - 1,
+                    nodesReachableFromAtlantic,
+                    Integer.MIN_VALUE);
         }
 
         List<List<Integer>> result = new ArrayList<>();
@@ -67,18 +72,19 @@ public class PacificAtlanticWaterFlow {
         return result;
     }
 
-    private void dfsVisit(int[][] heights, int i, int j, boolean[][] isReachable, int previousValue) {
-        if(i<0||j<0||i>=heights.length||j>=heights[0].length) return;
-        if(heights[i][j]<previousValue) return; // water flow is reversed
+    private void dfsVisit(
+            int[][] heights, int i, int j, boolean[][] isReachable, int previousValue) {
+        if (i < 0 || j < 0 || i >= heights.length || j >= heights[0].length) return;
+        if (heights[i][j] < previousValue) return; // water flow is reversed
         if (isReachable[i][j]) {
             return;
         }
-        
-        isReachable[i][j]=true;
 
-        dfsVisit(heights,i,j-1,isReachable,heights[i][j]);
-        dfsVisit(heights,i,j+1,isReachable,heights[i][j]);
-        dfsVisit(heights,i-1,j,isReachable,heights[i][j]);
-        dfsVisit(heights,i+1,j,isReachable,heights[i][j]);
+        isReachable[i][j] = true;
+
+        dfsVisit(heights, i, j - 1, isReachable, heights[i][j]);
+        dfsVisit(heights, i, j + 1, isReachable, heights[i][j]);
+        dfsVisit(heights, i - 1, j, isReachable, heights[i][j]);
+        dfsVisit(heights, i + 1, j, isReachable, heights[i][j]);
     }
 }
