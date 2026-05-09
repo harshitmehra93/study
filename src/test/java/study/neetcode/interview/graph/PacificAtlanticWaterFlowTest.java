@@ -3,6 +3,7 @@ package study.neetcode.interview.graph;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
@@ -14,25 +15,24 @@ class PacificAtlanticWaterFlowTest {
 
         int[][] heights =
                 new int[][] {
-                    {1, 2, 2, 3, 5},
-                    {3, 2, 3, 4, 4},
-                    {2, 4, 5, 3, 1},
-                    {6, 7, 1, 4, 5},
-                    {5, 1, 1, 2, 4}
+                        {1, 2, 2, 3, 5},
+                        {3, 2, 3, 4, 4},
+                        {2, 4, 5, 3, 1},
+                        {6, 7, 1, 4, 5},
+                        {5, 1, 1, 2, 4}
                 };
 
-        int[][] expected =
-                new int[][] {
-                    {0, 4},
-                    {1, 3},
-                    {1, 4},
-                    {2, 2},
-                    {3, 0},
-                    {3, 1},
-                    {4, 0}
-                };
+        List<List<Integer>> expected =
+                List.of(
+                        List.of(0, 4),
+                        List.of(1, 3),
+                        List.of(1, 4),
+                        List.of(2, 2),
+                        List.of(3, 0),
+                        List.of(3, 1),
+                        List.of(4, 0));
 
-        int[][] result = test.waterflow(heights);
+        List<List<Integer>> result = test.waterflow(heights);
 
         assertResultHasExpectedCells(expected, result);
     }
@@ -43,9 +43,9 @@ class PacificAtlanticWaterFlowTest {
 
         int[][] heights =
                 new int[][] {
-                    {1, 1, 1},
-                    {1, 1, 2},
-                    {2, 1, 1}
+                        {1, 1, 1},
+                        {1, 1, 2},
+                        {2, 1, 1}
                 };
 
         /*
@@ -64,36 +64,39 @@ class PacificAtlanticWaterFlowTest {
          *
          * Your memoized version can incorrectly miss [2,2].
          */
-        int[][] expected =
-                new int[][] {
-                    {0, 0},
-                    {0, 1},
-                    {0, 2},
-                    {1, 0},
-                    {1, 1},
-                    {1, 2},
-                    {2, 0},
-                    {2, 1},
-                    {2, 2}
-                };
+        List<List<Integer>> expected =
+                List.of(
+                        List.of(0, 0),
+                        List.of(0, 1),
+                        List.of(0, 2),
+                        List.of(1, 0),
+                        List.of(1, 1),
+                        List.of(1, 2),
+                        List.of(2, 0),
+                        List.of(2, 1),
+                        List.of(2, 2));
 
-        int[][] result = test.waterflow(heights);
+        List<List<Integer>> result = test.waterflow(heights);
 
         assertResultHasExpectedCells(expected, result);
     }
 
-    private void assertResultHasExpectedCells(int[][] expected, int[][] result) {
+    private void assertResultHasExpectedCells(
+            List<List<Integer>> expected, List<List<Integer>> result) {
         Set<String> expectedCells = toCellSet(expected);
         Set<String> resultCells = toCellSet(result);
 
         assertEquals(expectedCells, resultCells);
     }
 
-    private Set<String> toCellSet(int[][] cells) {
+    private Set<String> toCellSet(List<List<Integer>> cells) {
         Set<String> set = new HashSet<>();
-        for (int[] cell : cells) {
-            set.add(cell[0] + "," + cell[1]);
+
+        for (List<Integer> cell : cells) {
+            assertEquals(2, cell.size(), "Each cell should contain exactly [row, col]");
+            set.add(cell.get(0) + "," + cell.get(1));
         }
+
         return set;
     }
 }

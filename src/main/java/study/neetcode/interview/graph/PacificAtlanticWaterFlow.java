@@ -33,68 +33,52 @@ public class PacificAtlanticWaterFlow {
     //              [3,1],
     //              [4,0]
     //            ]
-    Boolean[][] atlanticMemo;
-    Boolean[][] pacificMemo;
+    boolean[][] nodesReachableFromAtlantic;
+    boolean[][] nodesReachableFromPacific;
 
-    public int[][] waterflow(int[][] heights) {
-        atlanticMemo = new Boolean[heights.length][heights[0].length];
-        pacificMemo = new Boolean[heights.length][heights[0].length];
-        List<Pair> resultList = new ArrayList<>();
+    public List<List<Integer>> waterflow(int[][] heights) {
+        nodesReachableFromAtlantic = new boolean[heights.length][heights[0].length];
+        nodesReachableFromPacific = new boolean[heights.length][heights[0].length];
+        
+        // pacific traversals
+        for (int j = 0; j < heights[0].length; j++) {
+            dfsVisit(heights,0,j, nodesReachableFromPacific,Integer.MIN_VALUE);
+        }
+        for (int i = 0; i < heights.length; i++) {
+            dfsVisit(heights,i,0, nodesReachableFromPacific,Integer.MIN_VALUE);
+        }
+
+        // atlantic traversals
+        for (int j = 0; j < heights[0].length; j++) {
+            dfsVisit(heights,heights.length-1,j, nodesReachableFromAtlantic,Integer.MIN_VALUE);
+        }
+        for (int i = 0; i < heights.length; i++) {
+            dfsVisit(heights,i,heights[0].length-1, nodesReachableFromAtlantic,Integer.MIN_VALUE);
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < heights.length; i++) {
             for (int j = 0; j < heights[0].length; j++) {
-                boolean isPacificReachable =
-                        isPacificReachable(i, j, heights, Integer.MAX_VALUE, new HashSet<>());
-                boolean isAtlanticReachable =
-                        isAtlanticReachable(i, j, heights, Integer.MAX_VALUE, new HashSet<>());
-                if (isAtlanticReachable && isPacificReachable) {
-                    resultList.add(new Pair(i, j));
+                if (nodesReachableFromAtlantic[i][j] && nodesReachableFromPacific[i][j]) {
+                    result.add(List.of(i, j));
                 }
             }
-        }
-        int[][] result = new int[resultList.size()][2];
-        for (int i = 0; i < result.length; i++) {
-            var pair = resultList.get(i);
-            result[i][0] = pair.i();
-            result[i][1] = pair.j();
         }
         return result;
     }
 
-    private boolean isPacificReachable(
-            int i, int j, int[][] heights, int previousValue, Set<Pair> visited) {
-        if (i < 0 || j < 0 || i >= heights.length || j >= heights[0].length) return false;
-        Pair pair = new Pair(i, j);
-        if (visited.contains(pair)) return false;
-        if (heights[i][j] > previousValue) return false;
-        if (i == 0 || j == 0) return true;
-        if (pacificMemo[i][j] != null) return pacificMemo[i][j];
+    private void dfsVisit(int[][] heights, int i, int j, boolean[][] isReachable, int previousValue) {
+        if(i<0||j<0||i>=heights.length||j>=heights[0].length) return;
+        if(heights[i][j]<previousValue) return; // water flow is reversed
+        if (isReachable[i][j]) {
+            return;
+        }
+        
+        isReachable[i][j]=true;
 
-        visited.add(pair);
-        int currentCell = heights[i][j];
-        return pacificMemo[i][j] =
-                isPacificReachable(i, j - 1, heights, currentCell, visited)
-                        || isPacificReachable(i, j + 1, heights, currentCell, visited)
-                        || isPacificReachable(i - 1, j, heights, currentCell, visited)
-                        || isPacificReachable(i + 1, j, heights, currentCell, visited);
+        dfsVisit(heights,i,j-1,isReachable,heights[i][j]);
+        dfsVisit(heights,i,j+1,isReachable,heights[i][j]);
+        dfsVisit(heights,i-1,j,isReachable,heights[i][j]);
+        dfsVisit(heights,i+1,j,isReachable,heights[i][j]);
     }
-
-    private boolean isAtlanticReachable(
-            int i, int j, int[][] heights, int previousValue, Set<Pair> visited) {
-        if (i < 0 || j < 0 || i >= heights.length || j >= heights[0].length) return false;
-        Pair pair = new Pair(i, j);
-        if (visited.contains(pair)) return false;
-        if (heights[i][j] > previousValue) return false;
-        if (i == heights.length - 1 || j == heights[0].length - 1) return true;
-        if (atlanticMemo[i][j] != null) return atlanticMemo[i][j];
-
-        visited.add(pair);
-        int currentCell = heights[i][j];
-        return atlanticMemo[i][j] =
-                isAtlanticReachable(i, j - 1, heights, currentCell, visited)
-                        || isAtlanticReachable(i, j + 1, heights, currentCell, visited)
-                        || isAtlanticReachable(i - 1, j, heights, currentCell, visited)
-                        || isAtlanticReachable(i + 1, j, heights, currentCell, visited);
-    }
-
-    record Pair(int i, int j) {}
 }
