@@ -1,9 +1,6 @@
 package study.neetcode.interview.graph;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /*
 **Accounts Merge**
@@ -63,18 +60,59 @@ Before coding, give me the graph model:
  */
 public class AccountMerge {
 
-  public List<List<String>> accountsMerge(List<List<String>> accounts) {
-    Map<String , String> map = new HashMap<>();
-    for (List<String> account : accounts) {
-      for(int i = 1; i < account.size(); i++){
-        if(map.containsKey(account.get(i)) &&
-            !Objects.equals(map.get(account.get(i)), account.get(0))){
-           mergeAccount
-        }else {
-          map.put(account.get(i), account.get(0));
-        }
+  private Map<String, String> emailToPersonMap;
+  private HashSet<Node> visited;
+  private HashMap<String, Set<Node>> personToEmails;
+  private HashMap<String, Node> nodes;
+  int connectedComponents = 0;
+  private Map<Node, Integer> components;
 
+  public List<List<String>> accountsMerge(List<List<String>> accounts) {
+    nodes = new HashMap<>();
+    personToEmails = new HashMap<>();
+    for(var account : accounts){
+      String person = account.get(0);
+      for(int i=1;i<account.size();i++){
+        String email = account.get(i);
+        if(!nodes.containsKey(email)) {
+          nodes.put(email,new Node(email,person));
+        }
+        if(!personToEmails.containsKey(person)) personToEmails.put(person, new HashSet<>());
+        personToEmails.get(person).add(nodes.get(email));
+      }
+    }
+
+    visited = new HashSet<>();
+    components = new HashMap<>();
+    for(var node: nodes.values()){
+      if(!visited.contains(node)){
+        dfsVisit(node);
       }
     }
   }
+
+  public static class Node{
+    String email;
+    String person;
+    List<Node> adjList = new ArrayList<>();
+
+    Node(String email, String person){
+      this.email=email;
+      this.person=person;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if(obj instanceof Node node){
+        return node.email.equals(email);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode(){
+      return email.hashCode();
+    }
+  }
+
 }
