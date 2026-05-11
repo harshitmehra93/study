@@ -1,4 +1,10 @@
 package study.neetcode.interview.graph;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 /*
 **Accounts Merge**
 
@@ -55,4 +61,20 @@ Before coding, give me the graph model:
 - Failure condition
 - Complexity
  */
-public class AccountMerge {}
+public class AccountMerge {
+
+  public List<List<String>> accountsMerge(List<List<String>> accounts) {
+    Map<String , String> map = new HashMap<>();
+    for (List<String> account : accounts) {
+      for(int i = 1; i < account.size(); i++){
+        if(map.containsKey(account.get(i)) &&
+            !Objects.equals(map.get(account.get(i)), account.get(0))){
+           mergeAccount
+        }else {
+          map.put(account.get(i), account.get(0));
+        }
+
+      }
+    }
+  }
+}
