@@ -60,34 +60,61 @@ Before coding, give me the graph model:
  */
 public class AccountMerge {
 
-  private Map<String, String> emailToPersonMap;
-  private HashSet<Node> visited;
-  private HashMap<String, Set<Node>> personToEmails;
-  private HashMap<String, Node> nodes;
-  int connectedComponents = 0;
-  private Map<Node, Integer> components;
-
   public List<List<String>> accountsMerge(List<List<String>> accounts) {
-    nodes = new HashMap<>();
-    personToEmails = new HashMap<>();
-    for(var account : accounts){
-      String person = account.get(0);
-      for(int i=1;i<account.size();i++){
-        String email = account.get(i);
-        if(!nodes.containsKey(email)) {
-          nodes.put(email,new Node(email,person));
+    Map<String, Node> emailToNode = new HashMap<>();
+
+    for (var account : accounts) {
+      var person = account.get(0);
+      Node root = null;
+
+      for (int i = 1; i < account.size(); i++) {
+        var email = account.get(i);
+
+        if (!emailToNode.containsKey(email)) {
+          emailToNode.put(email, new Node(email, person));
         }
-        if(!personToEmails.containsKey(person)) personToEmails.put(person, new HashSet<>());
-        personToEmails.get(person).add(nodes.get(email));
+
+        Node emailNode = emailToNode.get(email);
+
+        if (i == 1) {
+          root = emailNode;
+        } else {
+          root.adjList.add(emailNode);
+          emailNode.adjList.add(root);
+        }
       }
     }
 
-    visited = new HashSet<>();
-    components = new HashMap<>();
-    for(var node: nodes.values()){
-      if(!visited.contains(node)){
-        dfsVisit(node);
+    List<List<String>> result = new ArrayList<>();
+    Set<Node> visited = new HashSet<>();
+
+    for (var node : emailToNode.values()) {
+      if (!visited.contains(node)) {
+        List<String> emails = new ArrayList<>();
+
+        dfsVisit(node, visited, emails);
+
+        Collections.sort(emails);
+
+        List<String> mergedAccount = new ArrayList<>();
+        mergedAccount.add(node.person);
+        mergedAccount.addAll(emails);
+
+        result.add(mergedAccount);
       }
+    }
+
+    return result;
+  }
+
+  private void dfsVisit(Node node, Set<Node> visited, List<String> emails) {
+    if (visited.contains(node)) return;
+
+    visited.add(node);
+    emails.add(node.email);
+
+    for (var nei : node.adjList) {
+      dfsVisit(nei, visited, emails);
     }
   }
 
