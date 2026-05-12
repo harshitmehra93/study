@@ -127,7 +127,8 @@ class AccountMergeTest {
 
         normalized.sort(
                 Comparator.comparing((List<String> account) -> account.get(0))
-                        .thenComparing(account -> String.join(",", account.subList(1, account.size()))));
+                        .thenComparing(
+                                account -> String.join(",", account.subList(1, account.size()))));
 
         return normalized;
     }

@@ -60,86 +60,85 @@ Before coding, give me the graph model:
  */
 public class AccountMerge {
 
-  public List<List<String>> accountsMerge(List<List<String>> accounts) {
-    Map<String, Node> emailToNode = new HashMap<>();
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        Map<String, Node> emailToNode = new HashMap<>();
 
-    for (var account : accounts) {
-      var person = account.get(0);
-      Node root = null;
+        for (var account : accounts) {
+            var person = account.get(0);
+            Node root = null;
 
-      for (int i = 1; i < account.size(); i++) {
-        var email = account.get(i);
+            for (int i = 1; i < account.size(); i++) {
+                var email = account.get(i);
 
-        if (!emailToNode.containsKey(email)) {
-          emailToNode.put(email, new Node(email, person));
+                if (!emailToNode.containsKey(email)) {
+                    emailToNode.put(email, new Node(email, person));
+                }
+
+                Node emailNode = emailToNode.get(email);
+
+                if (i == 1) {
+                    root = emailNode;
+                } else {
+                    root.adjList.add(emailNode);
+                    emailNode.adjList.add(root);
+                }
+            }
         }
 
-        Node emailNode = emailToNode.get(email);
+        List<List<String>> result = new ArrayList<>();
+        Set<Node> visited = new HashSet<>();
 
-        if (i == 1) {
-          root = emailNode;
-        } else {
-          root.adjList.add(emailNode);
-          emailNode.adjList.add(root);
+        for (var node : emailToNode.values()) {
+            if (!visited.contains(node)) {
+                List<String> emails = new ArrayList<>();
+
+                dfsVisit(node, visited, emails);
+
+                Collections.sort(emails);
+
+                List<String> mergedAccount = new ArrayList<>();
+                mergedAccount.add(node.person);
+                mergedAccount.addAll(emails);
+
+                result.add(mergedAccount);
+            }
         }
-      }
+
+        return result;
     }
 
-    List<List<String>> result = new ArrayList<>();
-    Set<Node> visited = new HashSet<>();
+    private void dfsVisit(Node node, Set<Node> visited, List<String> emails) {
+        if (visited.contains(node)) return;
 
-    for (var node : emailToNode.values()) {
-      if (!visited.contains(node)) {
-        List<String> emails = new ArrayList<>();
+        visited.add(node);
+        emails.add(node.email);
 
-        dfsVisit(node, visited, emails);
-
-        Collections.sort(emails);
-
-        List<String> mergedAccount = new ArrayList<>();
-        mergedAccount.add(node.person);
-        mergedAccount.addAll(emails);
-
-        result.add(mergedAccount);
-      }
+        for (var nei : node.adjList) {
+            dfsVisit(nei, visited, emails);
+        }
     }
 
-    return result;
-  }
+    public static class Node {
+        String email;
+        String person;
+        List<Node> adjList = new ArrayList<>();
 
-  private void dfsVisit(Node node, Set<Node> visited, List<String> emails) {
-    if (visited.contains(node)) return;
+        Node(String email, String person) {
+            this.email = email;
+            this.person = person;
+        }
 
-    visited.add(node);
-    emails.add(node.email);
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Node node) {
+                return node.email.equals(email);
+            }
+            return false;
+        }
 
-    for (var nei : node.adjList) {
-      dfsVisit(nei, visited, emails);
+        @Override
+        public int hashCode() {
+            return email.hashCode();
+        }
     }
-  }
-
-  public static class Node{
-    String email;
-    String person;
-    List<Node> adjList = new ArrayList<>();
-
-    Node(String email, String person){
-      this.email=email;
-      this.person=person;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if(obj instanceof Node node){
-        return node.email.equals(email);
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode(){
-      return email.hashCode();
-    }
-  }
-
 }
