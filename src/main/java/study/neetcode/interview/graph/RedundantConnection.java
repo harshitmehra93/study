@@ -60,8 +60,13 @@ public class RedundantConnection {
     }
 
     private Node getParent(Node node) {
-        while (nodeParentMap.get(node) != null) node = nodeParentMap.get(node);
-        return node;
+        Node parent = nodeParentMap.get(node);
+
+        if (parent == null) return node;
+
+        Node root = getParent(parent);
+        nodeParentMap.put(node, root);
+        return root;
     }
 
     private Node getOrCreate(Integer value, HashMap<Integer, Node> nodes) {
