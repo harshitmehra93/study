@@ -98,4 +98,34 @@ class RedundantConnectionTest {
 
         assertEquals(List.of(2, 3), redundantConnection);
     }
+
+    @Test
+    void test_mergingTwoExistingComponentsThenCycle() {
+        RedundantConnection test = new RedundantConnection();
+
+        var graph = new ArrayList<List<Integer>>();
+        graph.add(List.of(1, 2));
+        graph.add(List.of(3, 4));
+        graph.add(List.of(2, 3));
+        graph.add(List.of(1, 4));
+
+        List<Integer> redundantConnection = test.getRedundantConnection(graph);
+
+        assertEquals(List.of(1, 4), redundantConnection);
+    }
+
+    @Test
+    void test_mustUnionRootsNotOriginalNode() {
+        RedundantConnection test = new RedundantConnection();
+
+        var graph = new ArrayList<List<Integer>>();
+        graph.add(List.of(1, 2));
+        graph.add(List.of(4, 3));
+        graph.add(List.of(2, 3));
+        graph.add(List.of(1, 4));
+
+        List<Integer> redundantConnection = test.getRedundantConnection(graph);
+
+        assertEquals(List.of(1, 4), redundantConnection);
+    }
 }

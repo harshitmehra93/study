@@ -1,7 +1,6 @@
 package study.neetcode.interview.graph;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
 Problem: Redundant Connection
@@ -33,98 +32,73 @@ Output:
  */
 public class RedundantConnection {
 
-    private HashSet<Node> visited;
-    private List<List<Integer>> nonTreeEdges;
-    private Map<Node, NodeColor> nodeColorMap;
+    private Map<Node, Node> nodeParentMap;
 
-    public List<Integer> getRedundantConnection(List<List<Integer>> graph){
-        if(graph.size()==0) return new ArrayList<>();
-        Map<Integer, Node> nodes = new HashMap<>();
-        for(var edge : graph){
-            Integer u = edge.get(0);
-            Integer v = edge.get(1);
-            if(!nodes.containsKey(u)) nodes.put(u,new Node(u));
-            if(!nodes.containsKey(v)) nodes.put(v,new Node(v));
-            Node U = nodes.get(u);
-            Node V = nodes.get(v);
-            U.adjList.add(V);
-            V.adjList.add(U);
+    public List<Integer> getRedundantConnection(List<List<Integer>> edges) {
+        HashMap<Integer, Node> nodes = new HashMap<>();
+        List<UndirectedEdge> undirectedEdges = new ArrayList<>();
+        for (var edge : edges) {
+            Node u = getOrCreate(edge.get(0), nodes);
+            Node v = getOrCreate(edge.get(1), nodes);
+            UndirectedEdge undirectedEdge = new UndirectedEdge(u, v);
+            undirectedEdges.add(undirectedEdge);
+        }
+        nodeParentMap = new HashMap<>();
+        for (var node : nodes.values()) {
+            nodeParentMap.put(node, null);
         }
 
-        nodeColorMap = new HashMap<>();
-        for(var node:nodes.values()){
-            nodeColorMap.put(node,NodeColor.WHITE);
-        }
-
-        nonTreeEdges = new ArrayList<>();
-        for(var node : nodes.values()){
-            if(nodeColorMap.get(node)==NodeColor.WHITE)
-                dfsVisit(node,null);
-        }
-        if(nonTreeEdges.size()>1){
-            return getlastEdgeInInput(graph);
-        }else if(nonTreeEdges.size()==1){
-            return nonTreeEdges.get(0);
-        }
-        return new ArrayList<>();
-    }
-
-    private List<Integer> getlastEdgeInInput(List<List<Integer>> graph) {
-        Collections.reverse(graph);
-        return graph.stream()
-                .filter(list -> IsInNonTreeEdges(list))
-                .findFirst().get();
-    }
-
-    private boolean IsInNonTreeEdges(List<Integer> list) {
-        for(var edge : nonTreeEdges){
-            Integer u = edge.get(0);
-            Integer v = edge.get(1);
-            if(list.get(0)==u&&list.get(1)==v || list.get(0)==v&&list.get(1)==u) return true;
-        }
-        return false;
-    }
-
-    private void dfsVisit(Node node, Node parent) {
-        System.out.printf("parent=%d node=%d\n",parent==null?0:parent.value,node.value);
-        var nodeColor = nodeColorMap.get(node);
-        if(nodeColor==NodeColor.WHITE) {
-            nodeColorMap.put(node,NodeColor.GREY);
-            for(var nei : node.adjList){
-                if(nei!=parent)
-                    dfsVisit(nei,node);
+        for (var undirectedEdge : undirectedEdges) {
+            Node parentOfU = getParent(undirectedEdge.u);
+            Node parentOfV = getParent(undirectedEdge.v);
+            if (parentOfU == parentOfV) {
+                return List.of(undirectedEdge.u.value, undirectedEdge.v.value);
             }
-            nodeColorMap.put(node,NodeColor.BLACK);
+            nodeParentMap.put(parentOfV, parentOfU);
         }
-        if(nodeColor==NodeColor.GREY||nodeColor==NodeColor.BLACK){
-            nonTreeEdges.add(List.of(parent.value,node.value));
+        return List.of();
+    }
+
+    private Node getParent(Node node) {
+        while (nodeParentMap.get(node) != null) node = nodeParentMap.get(node);
+        return node;
+    }
+
+    private Node getOrCreate(Integer value, HashMap<Integer, Node> nodes) {
+        if (nodes.containsKey(value)) return nodes.get(value);
+        Node node = new Node(value);
+        nodes.put(value, node);
+        return node;
+    }
+
+    public static class Node {
+        Integer value;
+
+        Node(Integer value) {
+            this.value = value;
         }
     }
 
-    public static class Node{
-        Integer value;
-        List<Node> adjList = new ArrayList<>();
-        Node(int value){
-            this.value = value;
+    public static class UndirectedEdge {
+        Node u;
+        Node v;
+
+        UndirectedEdge(Node u, Node v) {
+            this.u = u;
+            this.v = v;
         }
 
         @Override
-        public boolean equals(Object obj){
-            if(obj instanceof Node node){
-                return node.value==value;
+        public boolean equals(Object obj) {
+            if (obj instanceof UndirectedEdge edge) {
+                return edge.u == u && edge.v == v || edge.u == v && edge.v == u;
             }
             return false;
         }
 
         @Override
-        public int hashCode(){
-            return value.hashCode();
+        public int hashCode() {
+            return u.value.hashCode() + v.value.hashCode();
         }
-    }
-
-    enum NodeColor{
-        WHITE,
-        GREY,
-        BLACK;
     }
 }
