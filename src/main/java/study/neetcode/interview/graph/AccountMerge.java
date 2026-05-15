@@ -60,85 +60,68 @@ Before coding, give me the graph model:
  */
 public class AccountMerge {
 
+    private Set<Node> visited = new HashSet<>();
+    ;
+
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-        Map<String, Node> emailToNode = new HashMap<>();
-
-        for (var account : accounts) {
-            var person = account.get(0);
-            Node root = null;
-
-            for (int i = 1; i < account.size(); i++) {
-                var email = account.get(i);
-
-                if (!emailToNode.containsKey(email)) {
-                    emailToNode.put(email, new Node(email, person));
-                }
-
-                Node emailNode = emailToNode.get(email);
-
-                if (i == 1) {
-                    root = emailNode;
+        Map<String, Node> nodes = new HashMap<>();
+        for (List<String> account : accounts) {
+            String person = account.get(0);
+            String firstEmail = account.get(1);
+            Node first;
+            if (nodes.containsKey(firstEmail)) {
+                first = nodes.get(firstEmail);
+            } else {
+                first = new Node(firstEmail, person);
+            }
+            nodes.put(firstEmail, first);
+            for (int i = 2; i < account.size(); i++) {
+                String email = account.get(i);
+                Node node;
+                if (nodes.containsKey(email)) {
+                    node = nodes.get(email);
                 } else {
-                    root.adjList.add(emailNode);
-                    emailNode.adjList.add(root);
+                    node = new Node(email, person);
                 }
+                first.adjList.add(node);
+                node.adjList.add(first);
+                nodes.put(email, node);
             }
         }
 
         List<List<String>> result = new ArrayList<>();
-        Set<Node> visited = new HashSet<>();
+        for (var node : nodes.values()) {
 
-        for (var node : emailToNode.values()) {
             if (!visited.contains(node)) {
                 List<String> emails = new ArrayList<>();
-
-                dfsVisit(node, visited, emails);
-
+                dfsVisit(node, emails);
                 Collections.sort(emails);
-
-                List<String> mergedAccount = new ArrayList<>();
-                mergedAccount.add(node.person);
-                mergedAccount.addAll(emails);
-
-                result.add(mergedAccount);
+                emails.add(0, node.person);
+                result.add(emails);
             }
         }
-
         return result;
     }
 
-    private void dfsVisit(Node node, Set<Node> visited, List<String> emails) {
+    private void dfsVisit(Node node, List<String> emails) {
         if (visited.contains(node)) return;
 
         visited.add(node);
         emails.add(node.email);
 
         for (var nei : node.adjList) {
-            dfsVisit(nei, visited, emails);
+            dfsVisit(nei, emails);
         }
     }
 
     public static class Node {
         String email;
-        String person;
         List<Node> adjList = new ArrayList<>();
+        String person;
 
         Node(String email, String person) {
             this.email = email;
             this.person = person;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Node node) {
-                return node.email.equals(email);
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return email.hashCode();
         }
     }
 }
