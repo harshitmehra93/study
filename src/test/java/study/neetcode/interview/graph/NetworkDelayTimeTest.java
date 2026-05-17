@@ -2,7 +2,6 @@ package study.neetcode.interview.graph;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class NetworkDelayTimeTest {
@@ -100,7 +99,6 @@ class NetworkDelayTimeTest {
     }
 
     @Test
-    @Disabled
     void test_parallelEdges_chooseSmallerWeight() {
         NetworkDelayTime test = new NetworkDelayTime();
 

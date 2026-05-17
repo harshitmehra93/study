@@ -113,84 +113,113 @@ public int networkDelayTime(int[][] times, int n, int k)
  */
 public class NetworkDelayTime {
 
-    private HashMap<Integer, Node> nodes;
-    Map<Node, Integer> distanceFromSource;
+    private Map<Integer, Node> nodes;
+    private HashMap<Node, Integer> distanceFromSource;
 
     public int networkDelayTime(int[][] times, int totalNodes, int startingNode) {
         nodes = new HashMap<>();
         distanceFromSource = new HashMap<>();
         for (int i = 1; i <= totalNodes; i++) {
-            Node node = new Node(i);
-            nodes.put(i, node);
-            distanceFromSource.put(node, Integer.MAX_VALUE);
+            getOrCreate(i);
         }
         for (int[] edge : times) {
-            Node u = nodes.get(edge[0]);
-            Node v = nodes.get(edge[1]);
-            int w = edge[2];
-            DirectedEdge directedEdge = new DirectedEdge(u, v, w);
-            u.adjList.add(directedEdge);
+            Node u = getOrCreate(edge[0]);
+            Node v = getOrCreate(edge[1]);
+            Integer w = edge[2];
+            Edge e = new Edge(u, v, w);
+            u.adjList.add(e);
         }
 
-        PriorityQueue<Node> q =
-                new PriorityQueue<>(
-                        (n1, n2) -> distanceFromSource.get(n1) - distanceFromSource.get(n2));
+        Comparator<Node> comp = Comparator.comparingInt(distanceFromSource::get);
+        PriorityQueue<Node> q = new PriorityQueue<>(comp);
         Node source = nodes.get(startingNode);
         distanceFromSource.put(source, 0);
-        q.offer(source);
-        HashSet<Node> visited = new HashSet<>();
+        q.add(source);
+        Set<Node> visited = new HashSet<>();
         while (!q.isEmpty()) {
-            Node node = q.poll();
+            var node = q.poll();
 
             if (visited.contains(node)) continue;
-
             visited.add(node);
 
-            for (var edge : node.adjList) {
-                Node v = edge.v;
-
-                int weight = edge.weight;
-                Integer currentDistance = distanceFromSource.get(v);
-                int newDistance = distanceFromSource.get(node) + weight;
-
-                if (currentDistance == Integer.MAX_VALUE || currentDistance > newDistance) {
-                    distanceFromSource.put(v, newDistance);
-                    q.offer(v);
-                }
+            for (Edge edge : node.adjList) {
+                if (relaxEdge(edge)) q.offer(edge.v);
             }
         }
 
-        int max = Integer.MIN_VALUE;
-        for (var val : distanceFromSource.values()) {
-            if (val == Integer.MAX_VALUE) return -1;
-            max = Math.max(max, val);
+        int max = 0;
+        for (int value : distanceFromSource.values()) {
+            if (value == Integer.MAX_VALUE) return -1;
+            max = Math.max(max, value);
         }
         return max;
     }
 
-    public static class DirectedEdge {
-        Node u;
-        Node v;
-        int weight;
-
-        DirectedEdge(Node u, Node v, int weight) {
-            this.u = u;
-            this.v = v;
-            this.weight = weight;
+    private boolean relaxEdge(Edge edge) {
+        Integer distanceOfU = distanceFromSource.get(edge.u);
+        Integer oldDistance = distanceFromSource.get(edge.v);
+        int newDistance = distanceOfU + edge.weight;
+        if (newDistance < oldDistance) {
+            distanceFromSource.put(edge.v, newDistance);
+            return true;
         }
+        return false;
     }
 
-    public static class Node implements Comparable<Node> {
-        Integer value;
-        List<DirectedEdge> adjList = new ArrayList<>();
+    private Node getOrCreate(int value) {
+        if (nodes.containsKey(value)) {
+            return nodes.get(value);
+        }
+        Node node = new Node(value);
+        nodes.put(value, node);
+        distanceFromSource.put(node, Integer.MAX_VALUE);
+        return node;
+    }
 
-        Node(int value) {
+    static class Node {
+        Integer value;
+        List<Edge> adjList = new ArrayList<>();
+
+        Node(Integer value) {
             this.value = value;
         }
 
         @Override
-        public int compareTo(Node node) {
-            return value.compareTo(node.value);
+        public boolean equals(Object obj) {
+            if (obj instanceof Node node) {
+                return node.value.equals(value);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return value.hashCode();
+        }
+    }
+
+    static class Edge {
+        Node u;
+        Node v;
+        Integer weight;
+
+        Edge(Node u, Node v, Integer weight) {
+            this.u = u;
+            this.v = v;
+            this.weight = weight;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Edge edge) {
+                return edge.u.equals(u) && edge.v.equals(v) && edge.weight.equals(weight);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return u.hashCode() + v.hashCode() + weight.hashCode();
         }
     }
 }
