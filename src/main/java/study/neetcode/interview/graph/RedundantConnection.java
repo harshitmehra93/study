@@ -32,78 +32,72 @@ Output:
  */
 public class RedundantConnection {
 
-    private Map<Node, Node> nodeParentMap;
+    private Map<Integer, Node> nodes;
+    private Map<Node, Node> parentMap;
 
     public List<Integer> getRedundantConnection(List<List<Integer>> edges) {
-        HashMap<Integer, Node> nodes = new HashMap<>();
-        List<UndirectedEdge> undirectedEdges = new ArrayList<>();
+        parentMap = new HashMap<>();
+        nodes = new HashMap<>();
         for (var edge : edges) {
-            Node u = getOrCreate(edge.get(0), nodes);
-            Node v = getOrCreate(edge.get(1), nodes);
-            UndirectedEdge undirectedEdge = new UndirectedEdge(u, v);
-            undirectedEdges.add(undirectedEdge);
+            createIfNotExist(edge.get(0));
+            createIfNotExist(edge.get(1));
         }
-        nodeParentMap = new HashMap<>();
-        for (var node : nodes.values()) {
-            nodeParentMap.put(node, null);
-        }
-
-        for (var undirectedEdge : undirectedEdges) {
-            Node parentOfU = getParent(undirectedEdge.u);
-            Node parentOfV = getParent(undirectedEdge.v);
-            if (parentOfU == parentOfV) {
-                return List.of(undirectedEdge.u.value, undirectedEdge.v.value);
+        for (var edge : edges) {
+            Node u = nodes.get(edge.get(0));
+            Node v = nodes.get(edge.get(1));
+            Node rootOfU = findRoot(u);
+            Node rootOfV = findRoot(v);
+            if (isSameSet(rootOfU, rootOfV)) {
+                return List.of(u.value, v.value);
             }
-            nodeParentMap.put(parentOfV, parentOfU);
+            union(rootOfU, rootOfV);
         }
         return List.of();
     }
 
-    private Node getParent(Node node) {
-        Node parent = nodeParentMap.get(node);
+    private static boolean isSameSet(Node rootOfU, Node rootOfV) {
+        return rootOfU.equals(rootOfV);
+    }
 
+    private void union(Node rootOfU, Node rootOfV) {
+        parentMap.put(rootOfU, rootOfV);
+    }
+
+    Node findRoot(Node node) {
+        Node parent = parentMap.get(node);
         if (parent == null) return node;
 
-        Node root = getParent(parent);
-        nodeParentMap.put(node, root);
+        Node root = findRoot(parent);
+
+        parentMap.put(node, root);
         return root;
     }
 
-    private Node getOrCreate(Integer value, HashMap<Integer, Node> nodes) {
-        if (nodes.containsKey(value)) return nodes.get(value);
-        Node node = new Node(value);
-        nodes.put(value, node);
-        return node;
+    private void createIfNotExist(Integer nodeVal) {
+        if (nodes.containsKey(nodeVal)) return;
+        Node node = new Node(nodeVal);
+        nodes.put(nodeVal, node);
+        parentMap.put(node, null);
     }
 
     public static class Node {
         Integer value;
 
-        Node(Integer value) {
+        Node(int value) {
             this.value = value;
-        }
-    }
-
-    public static class UndirectedEdge {
-        Node u;
-        Node v;
-
-        UndirectedEdge(Node u, Node v) {
-            this.u = u;
-            this.v = v;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof UndirectedEdge edge) {
-                return edge.u == u && edge.v == v || edge.u == v && edge.v == u;
+            if (obj instanceof Node node) {
+                return value.equals(node.value);
             }
             return false;
         }
 
         @Override
         public int hashCode() {
-            return u.value.hashCode() + v.value.hashCode();
+            return value.hashCode();
         }
     }
 }
