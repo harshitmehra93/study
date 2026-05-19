@@ -56,10 +56,14 @@ stops = 1
 public class CheapestFlightWithinKStops {
 
     private Map<Integer, Node> nodes;
-    private List<List<Edge>> paths;
+    private Map<Node, Integer> distanceFromSource;
 
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         nodes = new HashMap<>();
+        distanceFromSource = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            distanceFromSource.put(getOrCreate(i), Integer.MAX_VALUE);
+        }
         Set<Edge> edges = new HashSet<>();
         for (int[] edge : flights) {
             Node u = getOrCreate(edge[0]);
@@ -70,42 +74,29 @@ public class CheapestFlightWithinKStops {
             edges.add(e);
         }
 
-        paths = new ArrayList<>();
-
-        backtrack(nodes.get(src), nodes.get(dst), new ArrayList<>());
-
-        int min = Integer.MAX_VALUE;
-        for (var path : paths) {
-            if (path.size() - 1 <= k) {
-                min = Math.min(min, calculateCost(path));
+        distanceFromSource.put(getOrCreate(src), 0);
+        for (int i = 0; i < k + 1; i++) {
+            Map<Node, Integer> current = new HashMap<>(distanceFromSource);
+            for (var edge : edges) {
+                relax(edge, current);
             }
+            distanceFromSource = current;
         }
-        if (min == Integer.MAX_VALUE) return -1;
-        return min;
+        Integer minDistanceOfTarget = distanceFromSource.get(getOrCreate(dst));
+        if (minDistanceOfTarget == Integer.MAX_VALUE) return -1;
+        return minDistanceOfTarget;
     }
 
-    private int calculateCost(List<Edge> path) {
-        int cost = 0;
-        for (var edge : path) {
-            cost += edge.weight;
-        }
-        return cost;
-    }
+    private void relax(Edge edge, Map<Node, Integer> newMap) {
+        Integer distanceOfU = distanceFromSource.get(edge.u);
+        if (distanceOfU == Integer.MAX_VALUE) return;
 
-    private void backtrack(Node node, Node target, ArrayList<Edge> path) {
-        System.out.println(node.value);
-        if (node.equals(target)) {
-            paths.add(new ArrayList<>(path));
-            return;
-        }
+        Integer distanceOfV = newMap.get(edge.v);
+        int currentDistance = distanceOfV;
+        int newDistance = distanceOfU + edge.weight;
 
-        for (var edge : node.adjList) {
-            Node v = edge.v;
-            if (!path.contains(edge)) {
-                path.add(edge);
-                backtrack(v, target, path);
-                path.remove(edge);
-            }
+        if (newDistance < currentDistance) {
+            newMap.put(edge.v, newDistance);
         }
     }
 
