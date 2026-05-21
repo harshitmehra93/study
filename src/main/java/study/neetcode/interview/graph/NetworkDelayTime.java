@@ -219,7 +219,7 @@ public class NetworkDelayTime {
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof DirectedEdge edge) {
-                return u.equals(edge.u) && v.equals(edge.v) || v.equals(edge.u) && u.equals(edge.v);
+                return u.equals(edge.u) && v.equals(edge.v) && weight.equals(edge.weight);
             }
             return false;
         }
