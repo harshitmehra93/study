@@ -31,73 +31,55 @@ Output:
 [2, 3]
  */
 public class RedundantConnection {
-
-    private Map<Integer, Node> nodes;
-    private Map<Node, Node> parentMap;
+    Map<Integer, Node> nodes;
+    Map<Node, Node> parents;
 
     public List<Integer> getRedundantConnection(List<List<Integer>> edges) {
-        parentMap = new HashMap<>();
+        // build graph
         nodes = new HashMap<>();
+        parents = new HashMap<>();
         for (var edge : edges) {
-            createIfNotExist(edge.get(0));
-            createIfNotExist(edge.get(1));
+            Node u = getOrCreate(edge.get(0));
+            Node v = getOrCreate(edge.get(1));
+            parents.put(u, null);
+            parents.put(v, null);
         }
+        // take edge one at a time see if it points to same set then thats the answer
         for (var edge : edges) {
-            Node u = nodes.get(edge.get(0));
-            Node v = nodes.get(edge.get(1));
-            Node rootOfU = findRoot(u);
-            Node rootOfV = findRoot(v);
-            if (isSameSet(rootOfU, rootOfV)) {
+            Node u = getOrCreate(edge.get(0));
+            Node v = getOrCreate(edge.get(1));
+            Node repU = findSetRepresentative(u);
+            Node repV = findSetRepresentative(v);
+            if (repU.equals(repV)) {
                 return List.of(u.value, v.value);
             }
-            union(rootOfU, rootOfV);
+            union(repU, repV);
         }
         return List.of();
     }
 
-    private static boolean isSameSet(Node rootOfU, Node rootOfV) {
-        return rootOfU.equals(rootOfV);
+    private void union(Node repU, Node repV) {
+        parents.put(repV, repU);
     }
 
-    private void union(Node rootOfU, Node rootOfV) {
-        parentMap.put(rootOfU, rootOfV);
-    }
-
-    Node findRoot(Node node) {
-        Node parent = parentMap.get(node);
+    private Node findSetRepresentative(Node node) {
+        Node parent = parents.get(node);
         if (parent == null) return node;
-
-        Node root = findRoot(parent);
-
-        parentMap.put(node, root);
-        return root;
+        var rep = findSetRepresentative(parent);
+        parents.put(node, rep);
+        return rep;
     }
 
-    private void createIfNotExist(Integer nodeVal) {
-        if (nodes.containsKey(nodeVal)) return;
-        Node node = new Node(nodeVal);
-        nodes.put(nodeVal, node);
-        parentMap.put(node, null);
+    private Node getOrCreate(Integer integer) {
+        if (!nodes.containsKey(integer)) nodes.put(integer, new Node(integer));
+        return nodes.get(integer);
     }
 
-    public static class Node {
+    class Node {
         Integer value;
 
-        Node(int value) {
+        Node(Integer value) {
             this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Node node) {
-                return value.equals(node.value);
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return value.hashCode();
         }
     }
 }
