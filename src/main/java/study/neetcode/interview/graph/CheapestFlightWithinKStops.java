@@ -55,14 +55,14 @@ stops = 1
  */
 public class CheapestFlightWithinKStops {
     Map<Integer, Node> nodes;
-    HashSet<DirectedEdge> edges;
+    List<DirectedEdge> edges;
     Map<Node, Integer> distanceFromSource;
 
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         // build graph with directional edges
         // init a distance from source map, with INF for each node
         nodes = new HashMap<>();
-        edges = new HashSet<>();
+        edges = new ArrayList<>();
         distanceFromSource = new HashMap<>();
         for (int i = 0; i < n; i++) {
             var node = getOrCreate(i);
@@ -73,7 +73,6 @@ public class CheapestFlightWithinKStops {
             Node v = getOrCreate(edge[1]);
             int weight = edge[2];
             var de = new DirectedEdge(u, v, weight);
-            u.adjList.add(de);
             edges.add(de);
         }
 
@@ -97,11 +96,11 @@ public class CheapestFlightWithinKStops {
 
     private void relax(DirectedEdge edge, Map<Node, Integer> copyMap) {
         int distU = distanceFromSource.get(edge.u);
+        if (distU == Integer.MAX_VALUE) return;
+
         int distV = copyMap.get(edge.v);
         int newDistance = distU + edge.weight;
-        if (distU == Integer.MAX_VALUE) return;
         if (newDistance < distV) {
-            System.out.printf("relaxed edge %d->%d\n", edge.u.value, edge.v.value);
             copyMap.put(edge.v, newDistance);
         }
     }
@@ -113,8 +112,6 @@ public class CheapestFlightWithinKStops {
 
     public static class Node {
         Integer value;
-        List<DirectedEdge> adjList = new ArrayList<>();
-
         Node(Integer i) {
             value = i;
         }
