@@ -11,7 +11,7 @@ You are given flights, where:
 
 flights[i] = [from, to, price]
 
-means there is a directed flight from from to to with cost price.
+means there is a directed flight from to with cost price.
 
 You are also given:
 
@@ -54,49 +54,55 @@ cost = 100 + 600
 stops = 1
  */
 public class CheapestFlightWithinKStops {
-
-    private Map<Integer, Node> nodes;
-    private Map<Node, Integer> distanceFromSource;
+    Map<Integer, Node> nodes;
+    HashSet<DirectedEdge> edges;
+    Map<Node, Integer> distanceFromSource;
 
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        // build graph with directional edges
+        // init a distance from source map, with INF for each node
         nodes = new HashMap<>();
+        edges = new HashSet<>();
         distanceFromSource = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            distanceFromSource.put(getOrCreate(i), Integer.MAX_VALUE);
+            var node = getOrCreate(i);
+            distanceFromSource.put(node, Integer.MAX_VALUE);
         }
-        Set<Edge> edges = new HashSet<>();
         for (int[] edge : flights) {
             Node u = getOrCreate(edge[0]);
             Node v = getOrCreate(edge[1]);
-            Integer weight = edge[2];
-            Edge e = new Edge(u, v, weight);
-            u.adjList.add(e);
-            edges.add(e);
+            int weight = edge[2];
+            var de = new DirectedEdge(u, v, weight);
+            u.adjList.add(de);
+            edges.add(de);
         }
 
-        distanceFromSource.put(getOrCreate(src), 0);
+        // bellman
+        // set source distance as 0
+        // relax all edges k+1 times
+        var source = getOrCreate(src);
+        distanceFromSource.put(source, 0);
         for (int i = 0; i < k + 1; i++) {
-            Map<Node, Integer> current = new HashMap<>(distanceFromSource);
+            Map<Node, Integer> copyMap = new HashMap<>(distanceFromSource);
             for (var edge : edges) {
-                relax(edge, current);
+                relax(edge, copyMap);
             }
-            distanceFromSource = current;
+            distanceFromSource = copyMap;
         }
-        Integer minDistanceOfTarget = distanceFromSource.get(getOrCreate(dst));
-        if (minDistanceOfTarget == Integer.MAX_VALUE) return -1;
-        return minDistanceOfTarget;
+
+        // return distance of dst, if its INF return -1
+        int result = distanceFromSource.get(getOrCreate(dst));
+        return result == Integer.MAX_VALUE ? -1 : result;
     }
 
-    private void relax(Edge edge, Map<Node, Integer> newMap) {
-        Integer distanceOfU = distanceFromSource.get(edge.u);
-        if (distanceOfU == Integer.MAX_VALUE) return;
-
-        Integer distanceOfV = newMap.get(edge.v);
-        int currentDistance = distanceOfV;
-        int newDistance = distanceOfU + edge.weight;
-
-        if (newDistance < currentDistance) {
-            newMap.put(edge.v, newDistance);
+    private void relax(DirectedEdge edge, Map<Node, Integer> copyMap) {
+        int distU = distanceFromSource.get(edge.u);
+        int distV = copyMap.get(edge.v);
+        int newDistance = distU + edge.weight;
+        if (distU == Integer.MAX_VALUE) return;
+        if (newDistance < distV) {
+            System.out.printf("relaxed edge %d->%d\n", edge.u.value, edge.v.value);
+            copyMap.put(edge.v, newDistance);
         }
     }
 
@@ -107,32 +113,30 @@ public class CheapestFlightWithinKStops {
 
     public static class Node {
         Integer value;
-        List<Edge> adjList = new ArrayList<>();
+        List<DirectedEdge> adjList = new ArrayList<>();
 
-        public Node(int value) {
-            this.value = value;
+        Node(Integer i) {
+            value = i;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof Node node) {
-                return node.value.equals(this.value);
-            }
+            if (obj instanceof Node node) return node.value.equals(value);
             return false;
         }
 
         @Override
         public int hashCode() {
-            return this.value.hashCode();
+            return value.hashCode();
         }
     }
 
-    public static class Edge {
+    public static class DirectedEdge {
         Node u;
         Node v;
         Integer weight;
 
-        Edge(Node u, Node v, int weight) {
+        DirectedEdge(Node u, Node v, int weight) {
             this.u = u;
             this.v = v;
             this.weight = weight;
@@ -140,17 +144,10 @@ public class CheapestFlightWithinKStops {
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof Edge edge) {
-                return edge.u.equals(this.u)
-                        && edge.v.equals(this.v)
-                        && edge.weight.equals(this.weight);
+            if (obj instanceof DirectedEdge edge) {
+                return edge.u.equals(u) && edge.v.equals(v) && edge.weight.equals(weight);
             }
             return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return this.u.hashCode() + this.v.hashCode() + this.weight.hashCode();
         }
     }
 }
