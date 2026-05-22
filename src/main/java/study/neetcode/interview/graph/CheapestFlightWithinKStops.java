@@ -112,6 +112,7 @@ public class CheapestFlightWithinKStops {
 
     public static class Node {
         Integer value;
+
         Node(Integer i) {
             value = i;
         }
