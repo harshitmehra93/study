@@ -135,4 +135,27 @@ class PathWithMinimalEffortTest {
          */
         assertEquals(1, test.minimumEffortPath(heights));
     }
+
+    @Test
+    void test_stepEffortIsNotPathEffort() {
+        PathWithMinimalEffort test = new PathWithMinimalEffort();
+
+        int[][] heights = {{1, 10, 11}};
+
+        /*
+         * Only one path exists:
+         *
+         * 1 -> 10 -> 11
+         *
+         * Step efforts:
+         * |1 - 10| = 9
+         * |10 - 11| = 1
+         *
+         * Path effort = max(9, 1) = 9
+         *
+         * This exposes the bug where Step.effort is stored as only the last edge effort.
+         * The final cell should have effort 9, not 1.
+         */
+        assertEquals(9, test.minimumEffortPath(heights));
+    }
 }

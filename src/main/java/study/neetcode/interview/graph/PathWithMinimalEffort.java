@@ -1,6 +1,7 @@
 package study.neetcode.interview.graph;
 
-import java.util.HashSet;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 /*
@@ -55,11 +56,77 @@ Efforts:
 Maximum effort on this path is 2.
  */
 public class PathWithMinimalEffort {
+
     public int minimumEffortPath(int[][] heights) {
-        return visit(0, 0, heights, 0, new HashSet<Index>());
+        // init DJ EffortMatrix
+        int[][] effort = new int[heights.length][heights[0].length];
+        for (int i = 0; i < heights.length; i++) {
+            for (int j = 0; j < heights[0].length; j++) {
+                effort[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        effort[0][0] = 0;
+
+        // Djikstras
+        // init PQ and set source effort as 0
+        // add source to PQ
+        // For each step extracted from DJ
+        // if visited continue
+        // mark visited
+        // relax unvisited adj nodes
+        // if relax is successful then add to PQ
+        Comparator<Step> effortComp = Comparator.comparingInt(Step::effort);
+        PriorityQueue<Step> Q = new PriorityQueue<>(effortComp);
+        Q.offer(new Step(0, 0, effort[0][0]));
+        boolean[][] visited = new boolean[heights.length][heights[0].length];
+        while (!Q.isEmpty()) {
+            var step = Q.poll();
+            if (visited[step.i][step.j]) continue;
+
+            visited[step.i][step.j] = true;
+
+            if (step.i == heights.length - 1 && step.j == heights[0].length - 1) {
+                return step.effort;
+            }
+
+            relax(step.i - 1, step.j, step, effort, step.effort(), heights, visited, Q);
+            relax(step.i + 1, step.j, step, effort, step.effort(), heights, visited, Q);
+            relax(step.i, step.j - 1, step, effort, step.effort(), heights, visited, Q);
+            relax(step.i, step.j + 1, step, effort, step.effort(), heights, visited, Q);
+        }
+
+        // Return effor of E[heights.len][heights[0].len]
+        return effort[heights.length - 1][heights[0].length - 1];
     }
 
-    private int visit(int i, int j, int[][] heights, int maxEffort, Set<Index> visited) {
+    private void relax(
+            int i,
+            int j,
+            Step previousStep,
+            int[][] effort,
+            int previousBestEffort,
+            int[][] heights,
+            boolean[][] visited,
+            PriorityQueue<Step> Q) {
+        if (i < 0 || j < 0 || i >= heights.length || j >= heights[0].length) return;
+        if (visited[i][j]) return;
+
+        int effortToReachIJ = Math.abs(heights[previousStep.i][previousStep.j] - heights[i][j]);
+        int newMax = Math.max(effortToReachIJ, previousBestEffort);
+
+        if (newMax < effort[i][j]) {
+            effort[i][j] = newMax;
+            Q.offer(new Step(i, j, newMax));
+        }
+    }
+
+    record Step(int i, int j, int effort) {}
+
+    //    public int minimumEffortPath(int[][] heights) {
+    //        return visitBackTrack(0, 0, heights, 0, new HashSet<Index>());
+    //    }
+
+    private int visitBackTrack(int i, int j, int[][] heights, int maxEffort, Set<Index> visited) {
         if (isOutsideBounds(i, j, heights)) return -1;
         if (i == heights.length - 1 && j == heights[0].length - 1) return maxEffort;
         var index = new Index(i, j);
@@ -92,7 +159,7 @@ public class PathWithMinimalEffort {
             int i, int j, int[][] heights, int maxEffort, Set<Index> visited, int current) {
         if (isOutsideBounds(i, j, heights)) return -1;
         int effort = Math.abs(heights[i][j] - current);
-        return visit(i, j, heights, Math.max(maxEffort, effort), visited);
+        return visitBackTrack(i, j, heights, Math.max(maxEffort, effort), visited);
     }
 
     record Index(int i, int j) {}
