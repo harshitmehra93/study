@@ -58,76 +58,56 @@ Maximum effort on this path is 2.
 public class PathWithMinimalEffort {
 
     public int minimumEffortPath(int[][] heights) {
-        // init effort
         int rowLen = heights.length;
         int colLen = heights[0].length;
-        int[][] effort = new int[rowLen][colLen];
-        for (int i = 0; i < rowLen; i++) {
-            for (int j = 0; j < colLen; j++) {
-                effort[i][j] = Integer.MAX_VALUE;
-            }
-        }
+        int[][] maxEfforts = new int[rowLen][colLen];
+        for (int i = 0; i < rowLen; i++)
+            for (int j = 0; j < colLen; j++) maxEfforts[i][j] = Integer.MAX_VALUE;
 
-        // init PQ with comparator of step with minimum effort
-        // set source step as 0 effort
-        // add step to PQ
-        // For each step in PQ
-        // if target is reached then return effort of target index
-        // see if the index is visited
-        // if yes continue
-        // for each node reachable from the current node see if its not visited
-        // if not visited then relax the edge
-        // if relax is successful then add to PQ
-        Comparator<Step> stepComp = Comparator.comparingInt(Step::effort);
-        PriorityQueue<Step> q = new PriorityQueue<>(stepComp);
-        q.offer(new Step(0, 0, 0));
+        Comparator<ProposedStep> comp = Comparator.comparingInt(ProposedStep::proposedEffort);
+        PriorityQueue<ProposedStep> q = new PriorityQueue<>(comp);
+        q.offer(new ProposedStep(0, 0, 0));
+        maxEfforts[0][0] = 0;
         boolean[][] visited = new boolean[rowLen][colLen];
         while (!q.isEmpty()) {
-            var step = q.poll();
-            int i = step.i;
-            int j = step.j;
+            var proposedStep = q.poll();
+            int i = proposedStep.i;
+            int j = proposedStep.j;
             if (i == rowLen - 1 && j == colLen - 1) {
-                return step.effort;
+                return maxEfforts[i][j];
             }
             if (visited[i][j]) continue;
 
             visited[i][j] = true;
 
-            relax(i - 1, j, step.effort, visited, heights, heights[i][j], effort, q);
-            relax(i + 1, j, step.effort, visited, heights, heights[i][j], effort, q);
-            relax(i, j - 1, step.effort, visited, heights, heights[i][j], effort, q);
-            relax(i, j + 1, step.effort, visited, heights, heights[i][j], effort, q);
+            relax(i - 1, j, visited, proposedStep, maxEfforts, heights, q);
+            relax(i + 1, j, visited, proposedStep, maxEfforts, heights, q);
+            relax(i, j - 1, visited, proposedStep, maxEfforts, heights, q);
+            relax(i, j + 1, visited, proposedStep, maxEfforts, heights, q);
         }
-        return effort[rowLen - 1][colLen - 1];
+        return maxEfforts[rowLen - 1][colLen - 1];
     }
 
     private void relax(
             int i,
             int j,
-            int currentMaxEffort,
             boolean[][] visited,
+            ProposedStep parentStep,
+            int[][] maxEfforts,
             int[][] heights,
-            int previousHeight,
-            int[][] effort,
-            PriorityQueue<Step> q) {
+            PriorityQueue<ProposedStep> q) {
         if (i < 0 || j < 0 || i >= heights.length || j >= heights[0].length) return;
         if (visited[i][j]) return;
-
-        int effortToReachIJ = Math.abs(heights[i][j] - previousHeight);
-        int newMaxEffortToReachIJ = Math.max(currentMaxEffort, effortToReachIJ);
-        if (effort[i][j] > newMaxEffortToReachIJ) {
-            effort[i][j] = newMaxEffortToReachIJ;
-            q.offer(new Step(i, j, newMaxEffortToReachIJ));
+        int effortToReachIJ = Math.abs(heights[i][j] - heights[parentStep.i][parentStep.j]);
+        int previousMax = maxEfforts[parentStep.i][parentStep.j];
+        int newMaxForPath = Math.max(effortToReachIJ, previousMax);
+        if (maxEfforts[i][j] > newMaxForPath) {
+            maxEfforts[i][j] = newMaxForPath;
+            q.offer(new ProposedStep(i, j, newMaxForPath));
         }
     }
 
-    // relax
-    // record max effort of V
-    // get max Effort of U
-    // see if U>V then update V with new max
-
-    // create a step record with i and j and best known effort to reach it
-    record Step(int i, int j, int effort) {}
+    record ProposedStep(int i, int j, int proposedEffort) {}
 
     //    public int minimumEffortPath(int[][] heights) {
     //        return visitBackTrack(0, 0, heights, 0, new HashSet<Index>());
