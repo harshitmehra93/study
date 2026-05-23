@@ -58,68 +58,75 @@ Maximum effort on this path is 2.
 public class PathWithMinimalEffort {
 
     public int minimumEffortPath(int[][] heights) {
-        // init DJ EffortMatrix
-        int[][] effort = new int[heights.length][heights[0].length];
-        for (int i = 0; i < heights.length; i++) {
-            for (int j = 0; j < heights[0].length; j++) {
+        // init effort
+        int rowLen = heights.length;
+        int colLen = heights[0].length;
+        int[][] effort = new int[rowLen][colLen];
+        for (int i = 0; i < rowLen; i++) {
+            for (int j = 0; j < colLen; j++) {
                 effort[i][j] = Integer.MAX_VALUE;
             }
         }
-        effort[0][0] = 0;
 
-        // Djikstras
-        // init PQ and set source effort as 0
-        // add source to PQ
-        // For each step extracted from DJ
-        // if visited continue
-        // mark visited
-        // relax unvisited adj nodes
+        // init PQ with comparator of step with minimum effort
+        // set source step as 0 effort
+        // add step to PQ
+        // For each step in PQ
+        // if target is reached then return effort of target index
+        // see if the index is visited
+        // if yes continue
+        // for each node reachable from the current node see if its not visited
+        // if not visited then relax the edge
         // if relax is successful then add to PQ
-        Comparator<Step> effortComp = Comparator.comparingInt(Step::effort);
-        PriorityQueue<Step> Q = new PriorityQueue<>(effortComp);
-        Q.offer(new Step(0, 0, effort[0][0]));
-        boolean[][] visited = new boolean[heights.length][heights[0].length];
-        while (!Q.isEmpty()) {
-            var step = Q.poll();
-            if (visited[step.i][step.j]) continue;
-
-            visited[step.i][step.j] = true;
-
-            if (step.i == heights.length - 1 && step.j == heights[0].length - 1) {
+        Comparator<Step> stepComp = Comparator.comparingInt(Step::effort);
+        PriorityQueue<Step> q = new PriorityQueue<>(stepComp);
+        q.offer(new Step(0, 0, 0));
+        boolean[][] visited = new boolean[rowLen][colLen];
+        while (!q.isEmpty()) {
+            var step = q.poll();
+            int i = step.i;
+            int j = step.j;
+            if (i == rowLen - 1 && j == colLen - 1) {
                 return step.effort;
             }
+            if (visited[i][j]) continue;
 
-            relax(step.i - 1, step.j, step, effort, step.effort(), heights, visited, Q);
-            relax(step.i + 1, step.j, step, effort, step.effort(), heights, visited, Q);
-            relax(step.i, step.j - 1, step, effort, step.effort(), heights, visited, Q);
-            relax(step.i, step.j + 1, step, effort, step.effort(), heights, visited, Q);
+            visited[i][j] = true;
+
+            relax(i - 1, j, step.effort, visited, heights, heights[i][j], effort, q);
+            relax(i + 1, j, step.effort, visited, heights, heights[i][j], effort, q);
+            relax(i, j - 1, step.effort, visited, heights, heights[i][j], effort, q);
+            relax(i, j + 1, step.effort, visited, heights, heights[i][j], effort, q);
         }
-
-        // Return effor of E[heights.len][heights[0].len]
-        return effort[heights.length - 1][heights[0].length - 1];
+        return effort[rowLen - 1][colLen - 1];
     }
 
     private void relax(
             int i,
             int j,
-            Step previousStep,
-            int[][] effort,
-            int previousBestEffort,
-            int[][] heights,
+            int currentMaxEffort,
             boolean[][] visited,
-            PriorityQueue<Step> Q) {
+            int[][] heights,
+            int previousHeight,
+            int[][] effort,
+            PriorityQueue<Step> q) {
         if (i < 0 || j < 0 || i >= heights.length || j >= heights[0].length) return;
         if (visited[i][j]) return;
 
-        int effortToReachIJ = Math.abs(heights[previousStep.i][previousStep.j] - heights[i][j]);
-        int newMax = Math.max(effortToReachIJ, previousBestEffort);
-
-        if (newMax < effort[i][j]) {
-            effort[i][j] = newMax;
-            Q.offer(new Step(i, j, newMax));
+        int effortToReachIJ = Math.abs(heights[i][j] - previousHeight);
+        int newMaxEffortToReachIJ = Math.max(currentMaxEffort, effortToReachIJ);
+        if (effort[i][j] > newMaxEffortToReachIJ) {
+            effort[i][j] = newMaxEffortToReachIJ;
+            q.offer(new Step(i, j, newMaxEffortToReachIJ));
         }
     }
 
+    // relax
+    // record max effort of V
+    // get max Effort of U
+    // see if U>V then update V with new max
+
+    // create a step record with i and j and best known effort to reach it
     record Step(int i, int j, int effort) {}
 
     //    public int minimumEffortPath(int[][] heights) {
