@@ -56,7 +56,7 @@ public class SwimInRisingWater {
 
         Comparator<ProposedStep> comp = Comparator.comparingInt(ProposedStep::proposedMaxTime);
         PriorityQueue<ProposedStep> q = new PriorityQueue<>(comp);
-        q.offer(new ProposedStep(0, 0, 0));
+        q.offer(new ProposedStep(0, 0, grid[0][0]));
         visited = new boolean[rowLen][colLen];
         while (!q.isEmpty()) {
             var finalisedStep = q.poll();
