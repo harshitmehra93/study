@@ -104,7 +104,7 @@ class CombinationSumTest {
     }
 
     @Test
-    void test_avoidDuplicateOrderings() {
+    void test_avoidDuplicateOrderings_2() {
         CombinationSum test = new CombinationSum();
 
         int[] candidates = {2, 3};

@@ -27,7 +27,7 @@ Output:
 public class CombinationSum {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new LinkedList<>();
-        tryAllPaths(candidates, target, 0, 0,new LinkedList<Integer>(), result);
+        tryAllPaths(candidates, target, 0, 0, new LinkedList<Integer>(), result);
         return result;
     }
 
