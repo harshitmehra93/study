@@ -84,6 +84,8 @@ public class PathWithMinimalEffort {
             }
             if (visited[i][j]) continue;
 
+            visited[i][j] = true;
+
             relax(i - 1, j, finalisedStep, heights, q);
             relax(i + 1, j, finalisedStep, heights, q);
             relax(i, j - 1, finalisedStep, heights, q);
