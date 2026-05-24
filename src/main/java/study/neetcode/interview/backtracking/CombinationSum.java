@@ -39,7 +39,10 @@ public class CombinationSum {
             LinkedList<Integer> currentSelectedCandidates,
             List<List<Integer>> result) {
         if (currentSum > target) return;
-        if (currentSum == target) result.add(new LinkedList<>(currentSelectedCandidates));
+        if (currentSum == target) {
+            result.add(new LinkedList<>(currentSelectedCandidates));
+            return;
+        }
 
         for (int i = index; i < candidates.length; i++) {
             currentSelectedCandidates.add(candidates[i]);
