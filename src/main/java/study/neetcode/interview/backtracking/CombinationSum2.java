@@ -22,7 +22,7 @@ Output:
   [2,6]
 ]
  */
-public class CombinationSumII {
+public class CombinationSum2 {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> result = new LinkedList<>();
         Arrays.sort(candidates);
