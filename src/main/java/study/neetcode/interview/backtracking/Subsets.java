@@ -6,23 +6,20 @@ import java.util.List;
 public class Subsets {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> result = new LinkedList<>();
-        traverseSubsets(0, nums, new LinkedList<>(), result);
+        findAllSubsets(0, nums, new LinkedList<Integer>(), result);
         return result;
     }
 
-    private void traverseSubsets(
-            int index, int[] nums, LinkedList<Integer> set, List<List<Integer>> result) {
-        if (index == nums.length) {
-            result.add(new LinkedList<>(set));
-            return;
+    private void findAllSubsets(
+            int index, int[] nums, LinkedList<Integer> current, List<List<Integer>> result) {
+        result.add(new LinkedList<>(current));
+
+        for (int i = index; i < nums.length; i++) {
+            current.add(nums[i]);
+
+            findAllSubsets(i + 1, nums, current, result);
+
+            current.removeLast();
         }
-
-        // take index
-        set.add(nums[index]);
-        traverseSubsets(index + 1, nums, set, result);
-        set.removeLast();
-
-        // skip index
-        traverseSubsets(index + 1, nums, set, result);
     }
 }
