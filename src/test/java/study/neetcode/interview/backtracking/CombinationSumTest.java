@@ -103,24 +103,10 @@ class CombinationSumTest {
         assertCombinationsEqual(expected, test.combinationSum(candidates, target));
     }
 
-    @Test
-    void test_avoidDuplicateOrderings_2() {
-        CombinationSum test = new CombinationSum();
-
-        int[] candidates = {2, 3};
-        int target = 5;
-
-        List<List<Integer>> result = test.combinationSum(candidates, target);
-
-        assertEquals(1, result.size());
-        assertTrue(result.contains(List.of(2, 3)));
-        assertFalse(result.contains(List.of(3, 2)));
-    }
-
     private void assertCombinationsEqual(List<List<Integer>> expected, List<List<Integer>> actual) {
+        assertEquals(expected.size(), actual.size());
         Set<List<Integer>> expectedSet = normalize(expected);
         Set<List<Integer>> actualSet = normalize(actual);
-
         assertEquals(expectedSet, actualSet);
     }
 

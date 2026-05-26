@@ -25,35 +25,36 @@ Output:
 ]
  */
 public class CombinationSum {
+
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new LinkedList<>();
-        tryAllPaths(candidates, target, 0, 0, new LinkedList<Integer>(), result);
+        tryCombinationSum(0, 0, new LinkedList<>(), target, candidates, result);
         return result;
     }
 
-    private void tryAllPaths(
-            int[] candidates,
-            int target,
+    private void tryCombinationSum(
             int currentSum,
             int index,
-            LinkedList<Integer> currentSelectedCandidates,
+            LinkedList<Integer> selectedCandidates,
+            int target,
+            int[] candidates,
             List<List<Integer>> result) {
         if (currentSum > target) return;
         if (currentSum == target) {
-            result.add(new LinkedList<>(currentSelectedCandidates));
+            result.add(new LinkedList<>(selectedCandidates));
             return;
         }
 
         for (int i = index; i < candidates.length; i++) {
-            currentSelectedCandidates.add(candidates[i]);
-            tryAllPaths(
-                    candidates,
-                    target,
+            selectedCandidates.add(candidates[i]);
+            tryCombinationSum(
                     currentSum + candidates[i],
                     i,
-                    currentSelectedCandidates,
+                    selectedCandidates,
+                    target,
+                    candidates,
                     result);
-            currentSelectedCandidates.removeLast();
+            selectedCandidates.removeLast();
         }
     }
 }
