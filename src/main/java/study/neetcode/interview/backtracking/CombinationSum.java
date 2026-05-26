@@ -48,12 +48,7 @@ public class CombinationSum {
         for (int i = index; i < candidates.length; i++) {
             selectedCandidates.add(candidates[i]);
             tryCombinationSum(
-                    currentSum + candidates[i],
-                    i,
-                    selectedCandidates,
-                    target,
-                    candidates,
-                    result);
+                    currentSum + candidates[i], i, selectedCandidates, target, candidates, result);
             selectedCandidates.removeLast();
         }
     }
