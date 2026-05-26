@@ -26,37 +26,31 @@ public class CombinationSum2 {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> result = new LinkedList<>();
         Arrays.sort(candidates);
-        getAllCombinations(0, 0, target, new LinkedList<>(), candidates, result);
+        tryAllCombinationsTillTarget(0, 0, new LinkedList<Integer>(), target, candidates, result);
         return result;
     }
 
-    private void getAllCombinations(
+    private void tryAllCombinationsTillTarget(
             int index,
             int currentSum,
+            LinkedList<Integer> current,
             int target,
-            LinkedList<Integer> chosenCandidates,
             int[] candidates,
             List<List<Integer>> result) {
-        if (currentSum > target) return;
         if (currentSum == target) {
-            result.add(new LinkedList<>(chosenCandidates));
+            result.add(new LinkedList<>(current));
             return;
         }
-        if (index >= candidates.length) return;
+        if (currentSum > target) return;
 
         for (int i = index; i < candidates.length; i++) {
             if (i > index && candidates[i] == candidates[i - 1]) continue;
-            chosenCandidates.add(candidates[i]);
+            current.add(candidates[i]);
 
-            getAllCombinations(
-                    i + 1,
-                    currentSum + candidates[i],
-                    target,
-                    chosenCandidates,
-                    candidates,
-                    result);
+            tryAllCombinationsTillTarget(
+                    i + 1, currentSum + candidates[i], current, target, candidates, result);
 
-            chosenCandidates.removeLast();
+            current.removeLast();
         }
     }
 }
