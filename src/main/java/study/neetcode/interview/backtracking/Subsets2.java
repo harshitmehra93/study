@@ -27,22 +27,20 @@ public class Subsets2 {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         List<List<Integer>> result = new LinkedList<>();
         Arrays.sort(nums);
-        traverseSubsets(0, new LinkedList<>(), nums, result);
+        trySubsets(0, new LinkedList<Integer>(), nums, result);
         return result;
     }
 
-    private void traverseSubsets(
-            int index, LinkedList<Integer> selected, int[] nums, List<List<Integer>> result) {
-
-        result.add(new LinkedList<>(selected));
+    private void trySubsets(
+            int index, LinkedList<Integer> set, int[] nums, List<List<Integer>> result) {
+        result.add(new LinkedList<>(set));
 
         for (int i = index; i < nums.length; i++) {
-            if (i > index && nums[i] == nums[i - 1]) continue;
-            selected.add(nums[i]);
+            if (i > index && nums[i - 1] == nums[i]) continue;
 
-            traverseSubsets(i + 1, selected, nums, result);
-
-            selected.removeLast();
+            set.add(nums[i]);
+            trySubsets(i + 1, set, nums, result);
+            set.removeLast();
         }
     }
 }
