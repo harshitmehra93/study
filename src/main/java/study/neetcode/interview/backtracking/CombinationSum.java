@@ -28,28 +28,29 @@ public class CombinationSum {
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new LinkedList<>();
-        tryCombinationSum(0, 0, new LinkedList<>(), target, candidates, result);
+        tryCombinations(0, 0, target, new LinkedList<Integer>(), candidates, result);
         return result;
     }
 
-    private void tryCombinationSum(
-            int currentSum,
+    void tryCombinations(
             int index,
-            LinkedList<Integer> selectedCandidates,
+            int currentSum,
             int target,
+            LinkedList<Integer> combination,
             int[] candidates,
             List<List<Integer>> result) {
-        if (currentSum > target) return;
         if (currentSum == target) {
-            result.add(new LinkedList<>(selectedCandidates));
+            result.add(new LinkedList<>(combination));
             return;
         }
+        if (currentSum > target) return;
 
         for (int i = index; i < candidates.length; i++) {
-            selectedCandidates.add(candidates[i]);
-            tryCombinationSum(
-                    currentSum + candidates[i], i, selectedCandidates, target, candidates, result);
-            selectedCandidates.removeLast();
+            combination.add(candidates[i]);
+
+            tryCombinations(i, currentSum + candidates[i], target, combination, candidates, result);
+
+            combination.removeLast();
         }
     }
 }
