@@ -82,18 +82,22 @@ public class WordSearch {
 
     private boolean wordExists(int i, int j, int indexOfWordToMatch, String word, char[][] board) {
         if (indexOfWordToMatch == word.length()) return true;
+
         if (i < 0 || j < 0 || i >= board.length || j >= board[0].length) return false;
         if (visited[i][j]) return false;
+        if (word.charAt(indexOfWordToMatch) != board[i][j]) return false;
 
         visited[i][j] = true;
 
-        if (word.charAt(indexOfWordToMatch) == board[i][j]) {
-            return wordExists(i + 1, j, indexOfWordToMatch + 1, word, board)
-                    || wordExists(i - 1, j, indexOfWordToMatch + 1, word, board)
-                    || wordExists(i, j + 1, indexOfWordToMatch + 1, word, board)
-                    || wordExists(i, j - 1, indexOfWordToMatch + 1, word, board);
-        }
-        return false;
+        boolean found =
+                wordExists(i + 1, j, indexOfWordToMatch + 1, word, board)
+                        || wordExists(i - 1, j, indexOfWordToMatch + 1, word, board)
+                        || wordExists(i, j + 1, indexOfWordToMatch + 1, word, board)
+                        || wordExists(i, j - 1, indexOfWordToMatch + 1, word, board);
+
+        visited[i][j] = false;
+
+        return found;
     }
 
     private void initVisited(int row, int col) {

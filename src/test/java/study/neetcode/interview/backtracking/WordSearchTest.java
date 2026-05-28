@@ -131,4 +131,49 @@ class WordSearchTest {
          */
         assertFalse(test.exist(board, "AAA"));
     }
+
+    @Test
+    void test_requiresBacktrackingUndo_returnsTrue() {
+        WordSearch test = new WordSearch();
+
+        char[][] board = {
+            {'A', 'B', 'A'},
+            {'B', 'A', 'B'}
+        };
+
+        /*
+         * word = "ABAB"
+         *
+         * There is a valid path:
+         * (0,0) A -> (1,0) B -> (1,1) A -> (1,2) B
+         *
+         * But if the search first explores:
+         * (0,0) A -> (0,1) B -> (0,2) A
+         * and that branch fails, then without unmarking visited,
+         * cells from the failed branch stay blocked.
+         */
+        assertTrue(test.exist(board, "ABAB"));
+    }
+
+    @Test
+    void test_missingVisitedUndo_breaksValidPath() {
+        WordSearch test = new WordSearch();
+
+        char[][] board = {
+            {'A', 'A', 'A'},
+            {'A', 'A', 'B'}
+        };
+
+        /*
+         * word = "AABAA"
+         *
+         * One valid path is:
+         * (0,1) A -> (0,2) A -> (1,2) B -> (1,1) A -> (1,0) A
+         *
+         * Your current implementation can fail because failed branches permanently
+         * mark cells as visited. visited must mean "used in the current path",
+         * not "globally visited during this search".
+         */
+        assertTrue(test.exist(board, "AABAA"));
+    }
 }
