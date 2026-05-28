@@ -1,7 +1,7 @@
 package study.neetcode.interview.trees.commons;
 
 public class TreeNode {
-    Integer val;
+    public Integer val;
     public TreeNode left;
     public TreeNode right;
 
