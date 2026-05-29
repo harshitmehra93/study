@@ -54,12 +54,12 @@ public boolean isSubtree(TreeNode root, TreeNode subRoot)
  */
 public class SubtreeOfAnotherTree {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        if(subRoot==null) return true;
+        if (subRoot == null) return true;
         return findSameSubTree(root, subRoot);
     }
 
     private boolean findSameSubTree(TreeNode p, TreeNode targetRoot) {
-        if(p==null) return false;
+        if (p == null) return false;
         if (isSameTree(p, targetRoot)) return true;
         return findSameSubTree(p.left, targetRoot) || findSameSubTree(p.right, targetRoot);
     }
