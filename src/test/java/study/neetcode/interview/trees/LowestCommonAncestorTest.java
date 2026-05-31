@@ -24,8 +24,8 @@ class LowestCommonAncestorTest {
          * LCA = 3
          */
         TreeNode root = buildExampleTree();
-        TreeNode p = root.left;   // 5
-        TreeNode q = root.right;  // 1
+        TreeNode p = root.left; // 5
+        TreeNode q = root.right; // 1
 
         assertSame(root, test.lowestCommonAncestor(root, p, q));
     }
@@ -39,8 +39,8 @@ class LowestCommonAncestorTest {
          * LCA = 5
          */
         TreeNode root = buildExampleTree();
-        TreeNode p = root.left;              // 5
-        TreeNode q = root.left.right.right;  // 4
+        TreeNode p = root.left; // 5
+        TreeNode q = root.left.right.right; // 4
 
         assertSame(p, test.lowestCommonAncestor(root, p, q));
     }
@@ -54,8 +54,8 @@ class LowestCommonAncestorTest {
          * LCA = 2
          */
         TreeNode root = buildExampleTree();
-        TreeNode p = root.left.right.left;   // 7
-        TreeNode q = root.left.right.right;  // 4
+        TreeNode p = root.left.right.left; // 7
+        TreeNode q = root.left.right.right; // 4
         TreeNode expected = root.left.right; // 2
 
         assertSame(expected, test.lowestCommonAncestor(root, p, q));
@@ -73,8 +73,8 @@ class LowestCommonAncestorTest {
          * path(root) is shorter than path(q).
          */
         TreeNode root = buildExampleTree();
-        TreeNode p = root;                   // 3
-        TreeNode q = root.left.right.right;  // 4
+        TreeNode p = root; // 3
+        TreeNode q = root.left.right.right; // 4
 
         assertSame(root, test.lowestCommonAncestor(root, p, q));
     }
@@ -96,8 +96,8 @@ class LowestCommonAncestorTest {
          * can throw IndexOutOfBoundsException if it indexes pathOfQ beyond its size.
          */
         TreeNode root = buildExampleTree();
-        TreeNode p = root.left.right.right;  // 4
-        TreeNode q = root.left;              // 5
+        TreeNode p = root.left.right.right; // 4
+        TreeNode q = root.left; // 5
 
         assertSame(q, test.lowestCommonAncestor(root, p, q));
     }
@@ -136,13 +136,10 @@ class LowestCommonAncestorTest {
          * LCA = 3
          */
         TreeNode root =
-                new TreeNode(
-                        1,
-                        new TreeNode(2),
-                        new TreeNode(3, new TreeNode(4), new TreeNode(5)));
+                new TreeNode(1, new TreeNode(2), new TreeNode(3, new TreeNode(4), new TreeNode(5)));
 
-        TreeNode p = root.right.left;   // 4
-        TreeNode q = root.right.right;  // 5
+        TreeNode p = root.right.left; // 4
+        TreeNode q = root.right.right; // 5
         TreeNode expected = root.right; // 3
 
         assertSame(expected, test.lowestCommonAncestor(root, p, q));
@@ -160,13 +157,7 @@ class LowestCommonAncestorTest {
          */
         return new TreeNode(
                 3,
-                new TreeNode(
-                        5,
-                        new TreeNode(6),
-                        new TreeNode(2, new TreeNode(7), new TreeNode(4))),
-                new TreeNode(
-                        1,
-                        new TreeNode(0),
-                        new TreeNode(8)));
+                new TreeNode(5, new TreeNode(6), new TreeNode(2, new TreeNode(7), new TreeNode(4))),
+                new TreeNode(1, new TreeNode(0), new TreeNode(8)));
     }
 }

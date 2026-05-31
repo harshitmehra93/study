@@ -1,6 +1,5 @@
 package study.neetcode.interview.trees;
 
-import java.util.ArrayList;
 import study.neetcode.interview.trees.commons.TreeNode;
 
 /*
@@ -47,42 +46,14 @@ Method signature
 public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
  */
 public class LowestCommonAncestor {
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        ArrayList<TreeNode> pathOfP = new ArrayList<>();
-        findPathOfX(root, p, pathOfP, new ArrayList<>());
+    public TreeNode lowestCommonAncestor(TreeNode node, TreeNode p, TreeNode q) {
+        if (node == null) return null;
+        if (node == p || node == q) return node;
 
-        ArrayList<TreeNode> pathOfQ = new ArrayList<>();
-        findPathOfX(root, q, pathOfQ, new ArrayList<>());
+        var leftSearch = lowestCommonAncestor(node.left, p, q);
+        var rightSearch = lowestCommonAncestor(node.right, p, q);
 
-        // Find last common TreeNode
-        TreeNode lca = null;
-        var minSize = Math.min(pathOfQ.size(),pathOfP.size());
-        for (int i = 0; i < minSize; i++) {
-            if (pathOfP.get(i) == pathOfQ.get(i)) {
-                lca = pathOfP.get(i);
-            } else break;
-        }
-        return lca;
-    }
-
-    private void findPathOfX(
-            TreeNode node,
-            TreeNode target,
-            ArrayList<TreeNode> finalPath,
-            ArrayList<TreeNode> currentPath) {
-        if (finalPath.size() > 0) return;
-        if (node == null) return;
-
-        currentPath.add(node);
-
-        if (node == target) {
-            finalPath.addAll(currentPath);
-            return;
-        }
-
-        findPathOfX(node.left, target, finalPath, currentPath);
-        findPathOfX(node.right, target, finalPath, currentPath);
-
-        currentPath.remove(currentPath.size() - 1);
+        if (leftSearch != null && rightSearch != null) return node;
+        return leftSearch == null ? rightSearch : leftSearch;
     }
 }
