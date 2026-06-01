@@ -1,4 +1,4 @@
-package study.neetcode.interview.heap;
+package study.neetcode.interview.heapqueuearray;
 
 import static org.junit.jupiter.api.Assertions.*;
 
