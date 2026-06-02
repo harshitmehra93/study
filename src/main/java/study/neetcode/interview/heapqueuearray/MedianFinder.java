@@ -4,6 +4,14 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 // COPIED FROM CHATGPT Do this again yourself
+/*
+lower half              upper half
+maxHeap                 minHeap
+
+[small ... LEFT MID] | [RIGHT MID ... large]
+             ↑          ↑
+        maxHeap.peek   minHeap.peek
+ */
 public class MedianFinder {
     private final PriorityQueue<Integer> maxHeap;
     private final PriorityQueue<Integer> minHeap;
