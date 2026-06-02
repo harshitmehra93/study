@@ -31,15 +31,15 @@ Important: "pwke" is not valid because it is not contiguous.
  */
 public class LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
-        if(s.length()<=1) return s.length();
-        int i=0;
-        int j=1;
+        if (s.length() <= 1) return s.length();
+        int i = 0;
+        int j = 1;
         HashSet<Character> set = new HashSet<>();
         set.add(s.charAt(0));
         int max = 1;
         int currentLength = 1;
-        while(j!=s.length()){
-            if(i==j){
+        while (j != s.length()) {
+            if (i == j) {
                 j++;
                 set.add(s.charAt(i));
                 currentLength++;
@@ -49,12 +49,12 @@ public class LongestSubstringWithoutRepeatingCharacters {
             char I = s.charAt(i);
             char J = s.charAt(j);
 
-            if(!set.contains(J)){
+            if (!set.contains(J)) {
                 set.add(J);
                 currentLength++;
-                max=Math.max(max,currentLength);
+                max = Math.max(max, currentLength);
                 j++;
-            }else{
+            } else {
                 i++;
                 currentLength--;
                 set.remove(I);
