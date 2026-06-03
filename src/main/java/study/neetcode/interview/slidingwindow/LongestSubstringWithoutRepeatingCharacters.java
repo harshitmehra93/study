@@ -1,7 +1,6 @@
 package study.neetcode.interview.slidingwindow;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /*
 Longest Substring Without Repeating Characters — Sliding Window
@@ -32,18 +31,22 @@ Important: "pwke" is not valid because it is not contiguous.
  */
 public class LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
-        if (s.length() == 0) return 0;
+        if (s.isEmpty()) return 0;
+        int left = 0;
         int max = 1;
-        int left = 0, right = 1;
-        Set<Character> set = new HashSet<>();
+        HashSet<Character> set = new HashSet<>();
         set.add(s.charAt(0));
-        for (; right < s.length(); right++) {
-            while (set.contains(s.charAt(right))) {
-                set.remove(s.charAt(left));
+        for (int right = 1; right < s.length(); right++) {
+            char R = s.charAt(right);
+
+            while (set.contains(R)) {
+                char L = s.charAt(left);
+                set.remove(L);
                 left++;
             }
+
+            set.add(R);
             max = Math.max(max, right - left + 1);
-            set.add(s.charAt(right));
         }
         return max;
     }
