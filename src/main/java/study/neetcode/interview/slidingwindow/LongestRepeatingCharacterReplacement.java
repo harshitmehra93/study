@@ -26,17 +26,16 @@ Explanation: Replace one character in "AABA" to make "AAAA", or one character in
  */
 public class LongestRepeatingCharacterReplacement {
     public int characterReplacement(String s, int k) {
-        Map<Character, Integer> frequency = new HashMap<>();
         int left = 0;
-        frequency.put(s.charAt(0), 1);
-
         int max = 1;
+        Map<Character, Integer> freq = new HashMap<>();
+        freq.put(s.charAt(0), 1);
         for (int right = 1; right < s.length(); right++) {
             char R = s.charAt(right);
-            frequency.put(R, frequency.getOrDefault(R, 0) + 1);
-            while ((right - left + 1) - getMostFrequent(frequency) > k) {
+            freq.put(R, freq.getOrDefault(R, 0) + 1);
+            while (right - left + 1 - mostFrequent(freq) > k) {
                 char L = s.charAt(left);
-                frequency.put(L, frequency.get(L) - 1);
+                freq.put(L, freq.get(L) - 1);
                 left++;
             }
             max = Math.max(max, right - left + 1);
@@ -44,9 +43,9 @@ public class LongestRepeatingCharacterReplacement {
         return max;
     }
 
-    private int getMostFrequent(Map<Character, Integer> frequency) {
+    private int mostFrequent(Map<Character, Integer> freq) {
         int max = 0;
-        for (var count : frequency.values()) {
+        for (var count : freq.values()) {
             max = Math.max(max, count);
         }
         return max;
