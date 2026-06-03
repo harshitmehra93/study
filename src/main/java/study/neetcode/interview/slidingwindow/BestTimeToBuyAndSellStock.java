@@ -30,11 +30,12 @@ Constraints
 public class BestTimeToBuyAndSellStock {
 
     public int maxProfit(int[] prices) {
-        int minBuyPrice = prices[0];
+        int minBuy = prices[0];
         int maxProfit = 0;
         for (int i = 1; i < prices.length; i++) {
-            maxProfit = Math.max(maxProfit, prices[i] - minBuyPrice);
-            minBuyPrice = Math.min(minBuyPrice, prices[i]);
+            int profit = prices[i] - minBuy;
+            maxProfit = Math.max(maxProfit, profit);
+            minBuy = Math.min(minBuy, prices[i]);
         }
         return maxProfit;
     }
