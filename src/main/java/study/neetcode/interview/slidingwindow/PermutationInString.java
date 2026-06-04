@@ -26,32 +26,39 @@ s1 and s2 consist of lowercase English letters.
 public class PermutationInString {
     public boolean checkInclusion(String s1, String s2) {
         if (s2.length() < s1.length()) return false;
-        Map<Character, Integer> freq = getFrequencyMap(s1, new HashMap<>());
-        int left = 0, right = s1.length() - 1;
-        Map<Character, Integer> temp = new HashMap<>();
-        while (right < s2.length()) {
-            Map<Character, Integer> subsMap = getFrequencyMap(s2.substring(left, right + 1), temp);
-            if (areFrequencyMapsEqual(freq, subsMap)) return true;
+
+        Map<Character, Integer> target = new HashMap<>();
+        for (char c : s1.toCharArray()) {
+            target.put(c, target.getOrDefault(c, 0) + 1);
+        }
+
+        int left = 0;
+        int right = s1.length() - 1;
+        Map<Character, Integer> current = new HashMap<>();
+        for (char c : s2.substring(left, right).toCharArray()) {
+            current.put(c, current.getOrDefault(c, 0) + 1);
+        }
+        for (; right < s2.length(); right++) {
+            char R = s2.charAt(right);
+            current.put(R, current.getOrDefault(R, 0) + 1);
+
+            if (bothMapsMatch(current, target)) return true;
+
+            // move left forward
+            char L = s2.charAt(left);
+            current.put(L, current.get(L) - 1);
+            if (current.get(L) == 0) current.remove(L);
             left++;
-            right++;
         }
         return false;
     }
 
-    private boolean areFrequencyMapsEqual(
-            Map<Character, Integer> map1, Map<Character, Integer> map2) {
-        if (map1.size() != map2.size()) return false;
-        for (var key : map1.keySet()) {
-            if (map1.get(key) != map2.get(key)) return false;
+    private boolean bothMapsMatch(Map<Character, Integer> current, Map<Character, Integer> target) {
+        if (current.size() != target.size()) return false;
+        for (char c : target.keySet()) {
+            if (!current.containsKey(c)) return false;
+            if (!current.get(c).equals(target.get(c))) return false;
         }
         return true;
-    }
-
-    private Map<Character, Integer> getFrequencyMap(String s, Map<Character, Integer> freq) {
-        freq.clear();
-        for (char c : s.toCharArray()) {
-            freq.put(c, freq.getOrDefault(c, 0) + 1);
-        }
-        return freq;
     }
 }
