@@ -33,22 +33,21 @@ public class PermutationInString {
         }
 
         int left = 0;
-        int right = s1.length() - 1;
+
         Map<Character, Integer> current = new HashMap<>();
-        for (char c : s2.substring(left, right).toCharArray()) {
-            current.put(c, current.getOrDefault(c, 0) + 1);
-        }
-        for (; right < s2.length(); right++) {
+
+        for (int right = 0; right < s2.length(); right++) {
             char R = s2.charAt(right);
             current.put(R, current.getOrDefault(R, 0) + 1);
 
-            if (bothMapsMatch(current, target)) return true;
+            if (right - left + 1 > s1.length()) {
+                char L = s2.charAt(left);
+                current.put(L, current.get(L) - 1);
+                if (current.get(L) == 0) current.remove(L);
+                left++;
+            }
 
-            // move left forward
-            char L = s2.charAt(left);
-            current.put(L, current.get(L) - 1);
-            if (current.get(L) == 0) current.remove(L);
-            left++;
+            if (bothMapsMatch(current, target)) return true;
         }
         return false;
     }
