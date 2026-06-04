@@ -26,24 +26,23 @@ Output: ""
 public class MinimumWindowSubstring {
 
     public String minWindow(String s, String t) {
-        if(s.length()<t.length())return "";
+        if (s.length() < t.length()) return "";
 
         Map<Character, Integer> target = new HashMap<>();
-        for(char c:t.toCharArray()){
-            target.put(c,target.getOrDefault(c,0)+1);
+        for (char c : t.toCharArray()) {
+            target.put(c, target.getOrDefault(c, 0) + 1);
         }
 
-        int left=0;
+        int left = 0;
         String min = "";
         Map<Character, Integer> current = new HashMap<>();
-        for(int right=0;right<s.length();right++){
+        for (int right = 0; right < s.length(); right++) {
             char R = s.charAt(right);
-            current.put(R,current.getOrDefault(R,0)+1);
+            current.put(R, current.getOrDefault(R, 0) + 1);
 
-
-            while (currentContainsTarget(current,target)){
-                if(min==""||min.length()>right-left+1){
-                    min=s.substring(left,right+1);
+            while (currentContainsTarget(current, target)) {
+                if (min == "" || min.length() > right - left + 1) {
+                    min = s.substring(left, right + 1);
                 }
 
                 char L = s.charAt(left);
@@ -55,16 +54,17 @@ public class MinimumWindowSubstring {
     }
 
     private static void decrementFrequencyOfChar(Map<Character, Integer> current, char L) {
-        if(current.containsKey(L)){
-            current.put(L, current.get(L)-1);
-            if(current.get(L)==0) current.remove(L);
+        if (current.containsKey(L)) {
+            current.put(L, current.get(L) - 1);
+            if (current.get(L) == 0) current.remove(L);
         }
     }
 
-    private boolean currentContainsTarget(Map<Character, Integer> current, Map<Character, Integer> target) {
-        for(char c:target.keySet()){
-            if(!current.containsKey(c)) return false;
-            if(current.get(c) < target.get(c)) return false;
+    private boolean currentContainsTarget(
+            Map<Character, Integer> current, Map<Character, Integer> target) {
+        for (char c : target.keySet()) {
+            if (!current.containsKey(c)) return false;
+            if (current.get(c) < target.get(c)) return false;
         }
         return true;
     }
