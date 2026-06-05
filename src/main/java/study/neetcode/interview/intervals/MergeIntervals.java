@@ -20,7 +20,6 @@ Output: [[1,6],[8,10],[15,18]]
 public class MergeIntervals {
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-
         List<int[]> result = new ArrayList<>();
         result.add(intervals[0]);
         for (int i = 1; i < intervals.length; i++) {
@@ -28,7 +27,7 @@ public class MergeIntervals {
             int[] last = result.get(result.size() - 1);
 
             if (last[1] >= current[0]) {
-                last[1] = Math.max(last[1], current[1]);
+                last[1] = Math.max(current[1], last[1]);
             } else {
                 result.add(current);
             }
