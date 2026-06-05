@@ -27,18 +27,16 @@ public class TrappingRainWater {
         int rightMax = 0;
         int left = 0, right = height.length - 1;
         int water = 0;
-        while (left < right) {
-            int leftHeight = height[left];
-            int rightHeight = height[right];
-            leftMax = Math.max(leftMax, leftHeight);
-            rightMax = Math.max(rightMax, rightHeight);
 
-            int minOfTwoMaxes = Math.min(leftMax, rightMax);
+        while (left < right) {
+            leftMax = Math.max(leftMax, height[left]);
+            rightMax = Math.max(rightMax, height[right]);
+
             if (leftMax <= rightMax) {
-                water += minOfTwoMaxes - leftHeight;
+                water += leftMax - height[left];
                 left++;
             } else if (rightMax < leftMax) {
-                water += minOfTwoMaxes - rightHeight;
+                water += rightMax - height[right];
                 right--;
             }
         }
