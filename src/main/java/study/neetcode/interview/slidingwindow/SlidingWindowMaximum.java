@@ -1,9 +1,9 @@
 package study.neetcode.interview.slidingwindow;
 
-import java.util.PriorityQueue;
+import java.util.*;
 
 /*
-Sliding Window Maximum — Sliding Window / Monotonic Deque
+Sliding Window Maximum - Decreasing Monotonic Deque
 
 Given an integer array nums and an integer k, return an array of the maximum value in each sliding window of size k.
 
@@ -22,18 +22,24 @@ Windows:
  */
 public class SlidingWindowMaximum {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        PriorityQueue<Integer> q = new PriorityQueue<>((n1, n2) -> Integer.compare(n2, n1));
+        Deque<Integer> dq = new ArrayDeque<>();
         int left = 0;
         int[] result = new int[nums.length - k + 1];
-        int i = 0;
+        int resIndex = 0;
         for (int right = 0; right < nums.length; right++) {
-            q.offer(nums[right]);
-            if (q.size() == k) {
-                int max = q.peek();
-                result[i] = max;
-                i++;
+            while (dq.size() > 0 && nums[right] > nums[dq.peekLast()]) {
+                dq.pollLast();
+            }
 
-                q.remove(nums[left]);
+            dq.offerLast(right);
+
+            while (dq.peekFirst() < right - k + 1) {
+                dq.pollFirst();
+            }
+
+            if (right - left + 1 == k) {
+                result[resIndex] = (nums[dq.peekFirst()]);
+                resIndex++;
                 left++;
             }
         }
