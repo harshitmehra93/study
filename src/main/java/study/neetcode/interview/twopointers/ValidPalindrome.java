@@ -31,9 +31,7 @@ public class ValidPalindrome {
 
     public boolean isPalindrome(String s) {
         if (s.trim().isEmpty()) return true;
-
-        s = s.toLowerCase();
-
+        s = s.toLowerCase().trim();
         int left = 0, right = s.length() - 1;
         while (left < right) {
             char L = s.charAt(left);
@@ -43,13 +41,13 @@ public class ValidPalindrome {
                 left++;
                 continue;
             }
+
             if (!isAlphanumeric(R)) {
                 right--;
                 continue;
             }
 
             if (L != R) return false;
-
             left++;
             right--;
         }
@@ -57,6 +55,6 @@ public class ValidPalindrome {
     }
 
     private boolean isAlphanumeric(char c) {
-        return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9';
+        return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '0' && c <= '9';
     }
 }
