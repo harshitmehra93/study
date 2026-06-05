@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
-Find All Anagrams in a String — Sliding Window / Fixed-size Frequency Window
+/*Sliding Window / Fixed-size Frequency Window
 
 Given two strings s and p, return a list of all start indices of p’s anagrams in s.
 
@@ -31,38 +30,40 @@ Explanation:
 "ab", "ba", "ab"
  */
 public class FindAllAnagramsInAString {
-    public List<Integer> findAnagrams(String s, String targetS) {
-        if (targetS.length() > s.length()) return new ArrayList<>();
+    public List<Integer> findAnagrams(String s, String t) {
+        if (s.length() < t.length()) return new ArrayList<>();
 
         Map<Character, Integer> target = new HashMap<>();
-        for (char c : targetS.toCharArray()) {
+        for (char c : t.toCharArray()) {
             target.put(c, target.getOrDefault(c, 0) + 1);
         }
 
-        int left = 0;
         Map<Character, Integer> current = new HashMap<>();
+        int left = 0;
         List<Integer> result = new ArrayList<>();
         for (int right = 0; right < s.length(); right++) {
             char R = s.charAt(right);
             current.put(R, current.getOrDefault(R, 0) + 1);
 
-            if (right - left + 1 > targetS.length()) {
+            if (right - left + 1 == t.length()) {
+                if (mapsMatch(target, current)) {
+                    result.add(left);
+                }
+
                 char L = s.charAt(left);
-                current.put(L, current.getOrDefault(L, 0) - 1);
-                if (current.get(L) == 0) current.remove(L);
+                current.put(L, current.get(L) - 1);
+                if (current.get(L).equals(0)) current.remove(L);
                 left++;
             }
-
-            if (mapsMatch(target, current)) result.add(left);
         }
         return result;
     }
 
     private boolean mapsMatch(Map<Character, Integer> target, Map<Character, Integer> current) {
         if (target.size() != current.size()) return false;
-        for (char c : target.keySet()) {
-            if (!current.containsKey(c)) return false;
-            if (!current.get(c).equals(target.get(c))) return false;
+        for (char t : target.keySet()) {
+            if (!current.containsKey(t)) return false;
+            if (!target.get(t).equals(current.get(t))) return false;
         }
         return true;
     }
