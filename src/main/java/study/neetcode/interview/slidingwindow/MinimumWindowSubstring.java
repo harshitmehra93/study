@@ -40,27 +40,21 @@ public class MinimumWindowSubstring {
             char R = s.charAt(right);
             current.put(R, current.getOrDefault(R, 0) + 1);
 
-            while (currentContainsTarget(current, target)) {
-                if (min == "" || min.length() > right - left + 1) {
+            while (targetIsInsideCurrent(current, target)) {
+                if (min.isEmpty() || min.length() > right - left + 1) {
                     min = s.substring(left, right + 1);
                 }
 
                 char L = s.charAt(left);
-                decrementFrequencyOfChar(current, L);
+                current.put(L, current.get(L) - 1);
+                if (current.get(L).equals(0)) current.remove(L);
                 left++;
             }
         }
         return min;
     }
 
-    private static void decrementFrequencyOfChar(Map<Character, Integer> current, char L) {
-        if (current.containsKey(L)) {
-            current.put(L, current.get(L) - 1);
-            if (current.get(L) == 0) current.remove(L);
-        }
-    }
-
-    private boolean currentContainsTarget(
+    private boolean targetIsInsideCurrent(
             Map<Character, Integer> current, Map<Character, Integer> target) {
         for (char c : target.keySet()) {
             if (!current.containsKey(c)) return false;
