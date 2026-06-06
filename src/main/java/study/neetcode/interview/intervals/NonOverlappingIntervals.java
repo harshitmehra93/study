@@ -35,46 +35,27 @@ Output:
 public class NonOverlappingIntervals {
 
     public int eraseOverlapIntervals(int[][] intervals) {
+        if (intervals.length == 0) return 0;
+
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
 
-        Map<int[], Integer> overlaps = new HashMap<>();
-        for (int i = 0; i < intervals.length; i++) {
-            int j = i + 1;
-            while (j < intervals.length && intervals[j][0] < intervals[i][1]) {
-                overlaps.put(intervals[i], overlaps.getOrDefault(intervals[i], 0) + 1);
-                overlaps.put(intervals[j], overlaps.getOrDefault(intervals[j], 0) + 1);
-                j++;
-            }
-        }
+        int[] previous = intervals[0];
+        int removedIntervals = 0;
 
-        PriorityQueue<int[]> maxHeap =
-                new PriorityQueue<>((a, b) -> Integer.compare(overlaps.get(b), overlaps.get(a)));
-        for (int i = 0; i < intervals.length; i++) {
-            maxHeap.offer(intervals[i]);
-        }
+        for (int i = 1; i < intervals.length; i++) {
+            int[] current = intervals[i];
 
-        Set<int[]> removedIntervals = new HashSet<>();
-        while (!isNonOverlappingIgnoringRemoved(intervals, removedIntervals)) {
-            removedIntervals.add(maxHeap.poll());
-        }
-        return removedIntervals.size();
-    }
+            if (current[0] < previous[1]) {
+                removedIntervals++;
 
-    private boolean isNonOverlappingIgnoringRemoved(
-            int[][] intervals, Set<int[]> removedIntervals) {
-
-        for (int i = 0; i < intervals.length; i++) {
-            if (removedIntervals.contains(intervals[i])) continue;
-            int j = i + 1;
-            while (j < intervals.length) {
-                if (removedIntervals.contains(intervals[j])) {
-                    j++;
-                    continue;
+                if (current[1] < previous[1]) {
+                    previous = current;
                 }
-                if (intervals[j][0] < intervals[i][1]) return false;
-                j++;
+            } else {
+                previous = current;
             }
         }
-        return true;
+
+        return removedIntervals;
     }
 }

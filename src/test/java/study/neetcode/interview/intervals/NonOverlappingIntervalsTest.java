@@ -105,4 +105,17 @@ class NonOverlappingIntervalsTest {
 
         assertEquals(0, solver.eraseOverlapIntervals(intervals));
     }
+
+    @Test
+    void updatesPreviousWhenNoOverlapBeforeLaterOverlap() {
+        NonOverlappingIntervals solver = new NonOverlappingIntervals();
+
+        int[][] intervals = {
+            {1, 2},
+            {3, 100},
+            {4, 5}
+        };
+
+        assertEquals(1, solver.eraseOverlapIntervals(intervals));
+    }
 }
