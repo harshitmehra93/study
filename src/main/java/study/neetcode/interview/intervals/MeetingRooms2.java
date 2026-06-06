@@ -3,6 +3,7 @@ package study.neetcode.interview.intervals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /*
 Meeting Rooms II
@@ -22,28 +23,22 @@ Output = 2
  */
 public class MeetingRooms2 {
     public int minMeetingRooms(int[][] intervals) {
-        if (intervals.length == 0) return 0;
-        if (intervals.length == 1) return 1;
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
 
-        List<Integer> startTimes = new ArrayList<>();
-        for (int i = 0; i < intervals.length; i++) {
-            startTimes.add(intervals[i][0]);
-        }
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        int maxRooms = 0;
+        for(int i=0;i<intervals.length;i++){
+            int start = intervals[i][0];
+            int end = intervals[i][1];
 
-        int maxOverlap = 0;
-        for (int index = 0; index < startTimes.size(); index++) {
-            int time = startTimes.get(index);
-            if (index > 0 && startTimes.get(index - 1) == time) continue;
-
-            int overlap = 0;
-            for (int i = 0; i < intervals.length; i++) {
-                if (intervals[i][0] <= time && intervals[i][1] > time) {
-                    overlap++;
-                }
+            while(!minHeap.isEmpty()&&minHeap.peek()<=start){
+                minHeap.poll();
             }
-            maxOverlap = Math.max(maxOverlap, overlap);
+
+            minHeap.offer(end);
+
+            maxRooms=Math.max(maxRooms,minHeap.size());
         }
-        return maxOverlap;
+        return maxRooms;
     }
 }
