@@ -65,7 +65,7 @@ public class NonOverlappingIntervals {
 
         for (int i = 0; i < intervals.length; i++) {
             if (removedIntervals.contains(intervals[i])) continue;
-            int j = i+1;
+            int j = i + 1;
             while (j < intervals.length) {
                 if (removedIntervals.contains(intervals[j])) {
                     j++;
