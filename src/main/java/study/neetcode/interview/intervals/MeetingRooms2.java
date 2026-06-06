@@ -1,6 +1,8 @@
 package study.neetcode.interview.intervals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /*
 Meeting Rooms II
@@ -23,12 +25,17 @@ public class MeetingRooms2 {
         if (intervals.length == 0) return 0;
         if (intervals.length == 1) return 1;
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-        int endTime = 0;
+
+        List<Integer> startTimes = new ArrayList<>();
         for (int i = 0; i < intervals.length; i++) {
-            endTime = Math.max(endTime, intervals[i][1]);
+            startTimes.add(intervals[i][0]);
         }
+
         int maxOverlap = 0;
-        for (int time = intervals[0][0]; time <= endTime; time++) {
+        for (int index = 0; index < startTimes.size(); index++) {
+            int time = startTimes.get(index);
+            if (index > 0 && startTimes.get(index - 1) == time) continue;
+
             int overlap = 0;
             for (int i = 0; i < intervals.length; i++) {
                 if (intervals[i][0] <= time && intervals[i][1] > time) {
