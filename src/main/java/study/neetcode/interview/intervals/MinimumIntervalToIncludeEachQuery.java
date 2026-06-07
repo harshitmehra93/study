@@ -1,5 +1,8 @@
 package study.neetcode.interview.intervals;
 
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 /*
 Minimum Interval to Include Each Query
 
@@ -42,25 +45,36 @@ Output:
  */
 public class MinimumIntervalToIncludeEachQuery {
     public int[] minInterval(int[][] intervals, int[] queries) {
-        int[] result = new int[queries.length];
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        int[][] queryToOldIndex = new int[queries.length][2];
         for (int i = 0; i < queries.length; i++) {
-            result[i] = findMinIntervalContainingNumber(intervals, queries[i]);
+            queryToOldIndex[i][0] = queries[i];
+            queryToOldIndex[i][1] = i;
+        }
+        Arrays.sort(queryToOldIndex, (a, b) -> Integer.compare(a[0], b[0]));
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+        int index = 0;
+        int[] result = new int[queries.length];
+        for (int[] queryToIndex : queryToOldIndex) {
+            int query = queryToIndex[0];
+            int oldIndex = queryToIndex[1];
+
+            while (index < intervals.length && intervals[index][0] <= query) {
+                minHeap.offer(
+                        new int[] {
+                            intervals[index][1] - intervals[index][0] + 1, intervals[index][1]
+                        });
+                index++;
+            }
+
+            while (!minHeap.isEmpty() && minHeap.peek()[1] < query) {
+                minHeap.poll();
+            }
+
+            int minInterval = minHeap.isEmpty() ? -1 : minHeap.peek()[0];
+            result[oldIndex] = minInterval;
         }
         return result;
-    }
-
-    private int findMinIntervalContainingNumber(int[][] intervals, int query) {
-        int min = Integer.MAX_VALUE;
-        for (int i = 0; i < intervals.length; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            if (start <= query && query <= end) {
-                int interval = end - start + 1;
-                min = Math.min(min, interval);
-            }
-        }
-        if (min == Integer.MAX_VALUE) min = -1;
-        return min;
     }
 }
