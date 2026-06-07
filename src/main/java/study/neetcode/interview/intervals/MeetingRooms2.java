@@ -1,6 +1,5 @@
 package study.neetcode.interview.intervals;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
@@ -22,20 +21,20 @@ Output = 2
  */
 public class MeetingRooms2 {
     public int minMeetingRooms(int[][] intervals) {
-        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
         int maxActiveIntervals = 0;
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        for(int i=0;i<intervals.length;i++){
+        for (int i = 0; i < intervals.length; i++) {
             int start = intervals[i][0];
             int end = intervals[i][1];
 
-            while (!minHeap.isEmpty() && minHeap.peek()<=start){
+            while (!minHeap.isEmpty() && minHeap.peek() <= start) {
                 minHeap.poll();
             }
 
             minHeap.offer(end);
 
-            maxActiveIntervals = Math.max(maxActiveIntervals,minHeap.size());
+            maxActiveIntervals = Math.max(maxActiveIntervals, minHeap.size());
         }
         return maxActiveIntervals;
     }
