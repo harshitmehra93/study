@@ -22,15 +22,15 @@ Because the best subarray is:
  */
 public class MaximumSubarray {
     public int maxSubArray(int[] nums) {
-        int max = nums[0];
-        int sum = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] + sum > nums[i]) {
-                sum += nums[i];
-            } else {
-                sum = nums[i];
+        int max = Integer.MIN_VALUE;
+        int currentSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > currentSum + nums[i]) { // start new
+                currentSum = nums[i];
+            } else { // extend
+                currentSum += nums[i];
             }
-            max = Math.max(max, sum);
+            max = Math.max(currentSum, max);
         }
         return max;
     }
