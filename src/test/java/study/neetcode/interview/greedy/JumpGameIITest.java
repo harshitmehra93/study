@@ -95,4 +95,31 @@ class JumpGameIITest {
 
         assertEquals(3, solution.jump(nums));
     }
+
+    @Test
+    void improvingFarthestWithinSameJumpRangeShouldNotCountExtraJumps() {
+        JumpGameII solution = new JumpGameII();
+
+        int[] nums = {3, 4, 3, 2, 5, 4, 3};
+
+        assertEquals(3, solution.jump(nums));
+    }
+
+    @Test
+    void directReachImprovementIsNotSameAsJumpCount() {
+        JumpGameII solution = new JumpGameII();
+
+        int[] nums = {4, 1, 1, 3, 1, 1, 1};
+
+        assertEquals(2, solution.jump(nums));
+    }
+
+    @Test
+    void farthestImprovesMultipleTimesInsideSameJumpLayer() {
+        JumpGameII solution = new JumpGameII();
+
+        int[] nums = {2, 2, 2, 0, 0};
+
+        assertEquals(2, solution.jump(nums));
+    }
 }

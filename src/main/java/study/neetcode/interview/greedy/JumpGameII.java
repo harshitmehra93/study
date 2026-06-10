@@ -22,18 +22,19 @@ Because:
 public class JumpGameII {
 
     public int jump(int[] nums) {
-        int farthestBoundary = 0;
-        int currentFarthest = 0;
-        int steps = 0;
-        for (int i = 0; i < nums.length - 1; i++) {
-            int farthest = nums[i] + i;
-            currentFarthest = Math.max(currentFarthest, farthest);
+        int jumps = 0;
+        int currentJumpEnd = 0;
+        int farthest = 0;
 
-            if (i == farthestBoundary) {
-                steps++;
-                farthestBoundary = currentFarthest;
+        for (int i = 0; i < nums.length - 1; i++) {
+            farthest = Math.max(farthest, i + nums[i]);
+
+            if (i == currentJumpEnd) {
+                jumps++;
+                currentJumpEnd = farthest;
             }
         }
-        return steps;
+
+        return jumps;
     }
 }
