@@ -1,6 +1,7 @@
 package study.neetcode.interview.stack;
 
-import java.util.Arrays;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /*
 Daily Temperatures
@@ -39,19 +40,18 @@ Day 7: 73 -> no warmer future day, 0
  */
 public class DailyTemperatures {
     public int[] dailyTemperatures(int[] temperatures) {
-        int[] aux = new int[temperatures.length];
-        Arrays.fill(aux, -1);
-        for (int i = temperatures.length - 1; i >= 0; i--) {
-            int key = temperatures[i];
-            for (int j = i - 1; j >= 0; j--) {
-                if (temperatures[j] < key) aux[j] = i;
-            }
-        }
         int[] result = new int[temperatures.length];
+        Deque<Integer> stack = new ArrayDeque<>();
+
         for (int i = 0; i < temperatures.length; i++) {
-            if (aux[i] == -1) result[i] = 0;
-            else result[i] = aux[i] - i;
+            while (!stack.isEmpty() && temperatures[stack.peek()] < temperatures[i]) {
+                int index = stack.pop();
+                result[index] = i - index;
+            }
+
+            stack.push(i);
         }
+
         return result;
     }
 }
