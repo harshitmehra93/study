@@ -1,20 +1,6 @@
-# Session Workflow
+# Session Workflow Definitions
 
 ## DSA Session
-
-Before coding, require the model.
-
-For graph problems, Harshit should write:
-
-- Nodes
-- Edges
-- Source(s)
-- Target / success condition
-- Natural or reversed direction
-- Traversal
-- Visited meaning
-- Failure condition
-- Complexity
 
 During coding:
 
@@ -85,3 +71,6 @@ Count a problem as independent only if Harshit:
 
 If the solution needed heavy hints, mark it as guided and schedule recall later.
 
+## Recall Sessions
+
+Refer recall.md 

@@ -1,4 +1,4 @@
-# Teacher Profile: Harshit Mehra
+# Student Profile: Harshit Mehra
 
 ## Student Goal
 
@@ -43,9 +43,7 @@ Be direct but respectful. Useful calibration language:
 ## Risks
 
 - Expanding the syllabus into too many books and topics.
-- Returning to DP because it now feels safer.
 - Over-modeling when a smaller interview model is enough.
-- Delaying timed/mixed practice too long.
 - Under-packaging senior production stories.
 
 ## Default Teaching Posture
