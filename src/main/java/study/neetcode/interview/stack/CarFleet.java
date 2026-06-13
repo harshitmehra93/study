@@ -1,8 +1,6 @@
 package study.neetcode.interview.stack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 /*
 Car Fleet
@@ -57,51 +55,27 @@ Output:
 1
  */
 public class CarFleet {
-
-    private Map<Integer, Integer> sets;
-
     public int carFleet(int target, int[] position, int[] speed) {
-        // create sets of fleet and their speed
-        // remove fleets with 0 or negative times
-        // remove fleets which have already greater than destination, update result
-        // for fleets standing at the target merge them and increment result
-        sets = new ConcurrentHashMap<>();
-
-        for(int i=0;i<position.length;i++){
-            int minSpeed = speed[i];
-            if(minSpeed<=0) continue;
-            if(sets.containsKey(position[i])){
-                minSpeed = Math.min(sets.get(position[i]), speed[i]);
-            }
-            sets.put(position[i],minSpeed);
+        int[][] cars = new int[position.length][2];
+        for (int i = 0; i < position.length; i++) {
+            cars[i][0] = position[i];
+            cars[i][1] = speed[i];
         }
 
-        // run simulation of time
-        // at each hour add the speed to the sets
-        // if any set is at the same point then union the sets and update the sets Speed
-        // count sets which are the destination or greater than destination, and update result
-        int fleetsReachedDestination = 0;
-        while (!sets.isEmpty()){
-            for(int fleet : sets.keySet()){
-                if(fleet>=target) {
-                    fleetsReachedDestination++;
-                    sets.remove(fleet);
-                }
-            }
+        Arrays.sort(cars, (a, b) -> Integer.compare(b[0], a[0]));
+        Deque<Double> stack = new ArrayDeque<>();
+        double maxTimeOfCarInFront = 0;
+        for (int[] car : cars) {
+            int pos = car[0];
+            int s = car[1];
 
-            Map<Integer,Integer> updated = new ConcurrentHashMap<>();
-            for(int fleet : sets.keySet()){
-                int pos = fleet;
-                int s = sets.get(pos);
-                int newPos = pos + s;
-                int minSpeed = s;
-                if(updated.containsKey(newPos)){
-                    minSpeed = Math.min(updated.get(newPos), minSpeed);
-                }
-                updated.put(newPos,minSpeed);
+            double timeToTarget = (double) (target - pos) / s;
+
+            if (timeToTarget > maxTimeOfCarInFront) {
+                maxTimeOfCarInFront = timeToTarget;
+                stack.push(timeToTarget);
             }
-            sets = updated;
         }
-        return fleetsReachedDestination;
+        return stack.size();
     }
 }
