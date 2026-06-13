@@ -1,5 +1,7 @@
 # Roadmap
 
+`roadmap.md` is the phase-level planning summary. Use `questions.md` as the source of truth for exact problem status.
+
 ## Current Phase
 
 Harshit is in **Phase 3: High-Frequency Pattern Installation + Rolling Recall**.

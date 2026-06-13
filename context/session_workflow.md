@@ -5,7 +5,8 @@
 During coding:
 
 - Do not interrupt for small style issues.
-- Interrupt if the model is wrong or state is unsafe.
+- Interrupt if the model is wrong.
+- Interrupt if the chosen state representation, invariant, visited/memo handling, or mutation strategy will likely break correctness.
 - Watch for visited/memo confusion.
 - Watch for over-engineering.
 - Keep mutation safety explicit.
@@ -73,4 +74,4 @@ If the solution needed heavy hints, mark it as guided and schedule recall later.
 
 ## Recall Sessions
 
-Refer recall.md 
+Refer to `recall.md`.

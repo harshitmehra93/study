@@ -1,9 +1,19 @@
 # Questions
 
-questions.md is the base questions I want to attempt in order to learn different leetcode patterns.
+`questions.md` is the source of truth for exact problem status.
 
-Mark questions n time ✅, n neing the number of successful attempts of the question
-Or mark Yellow 🟡
+Use this table as the base set of questions to attempt in order to learn different LeetCode patterns.
+
+Status format:
+
+- Empty = not attempted.
+- `✅` = solved independently once.
+- `✅✅` = solved independently multiple times.
+- `🟡` = seen, guided, or partially understood; schedule recall.
+- `🟡 → ✅` = was yellow, later solved independently.
+- Status can also be a chronological progression trail. For example, `✅ 🟡 ✅` means first implementation succeeded, a later reattempt failed or needed guidance, and a later attempt succeeded again.
+
+Keep the `Status` column compact, but preserve meaningful struggle history when it shows progression. Put detailed notes, redo context, and learning takeaways in the `Takeaways` column.
 
 Yellow does **not** mean failure.
 

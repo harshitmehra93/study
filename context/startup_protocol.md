@@ -6,10 +6,9 @@ Read these files:
 
 1. `context/student_profile.md`
 2. `context/roadmap.md`
-3. `context/progress_log.md`
-4. `context/session_workflow.md`
-5. `context/questions.md`
-6. `context/recall.md`
+3. `context/session_workflow.md`
+4. `context/questions.md`
+5. `context/recall.md`
 
 ## Step 2: Produce A Short Daily Brief
 
@@ -43,5 +42,5 @@ Default to DSA coaching unless Harshit asks otherwise.
 
 ## Step 4: Record Progress
 
-- Record meaningful progress in `context/question.md` when required.
-
+- Record meaningful progress in `context/questions.md` when required.
+- Keep exact problem status in `context/questions.md`; use `context/roadmap.md` only for phase-level planning and summaries.
