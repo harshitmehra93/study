@@ -48,7 +48,7 @@ If a problem blocks too long:
 | 13 | DP | ✅ |  | Longest Palindromic Subsequence |  |
 | 14 | DP | ✅ |  | Delete Operation for Two Strings |  |
 | 15 | DP | ✅ |  | Minimum ASCII Delete Sum for Two Strings |  |
-| 16 | DP | ✅ |  | Distinct Subsequences |  |
+| 16 | DP | ✅ | L3 ✅ 2026-06-14 | Distinct Subsequences |  |
 | 17 | DP | ✅ |  | Longest Palindromic Substring |  |
 | 18 | DP | ✅ |  | Palindromic Substrings |  |
 | 19 | Graphs | ✅ |  | Number of Islands |  |
@@ -60,7 +60,7 @@ If a problem blocks too long:
 | 25 | Graphs | ✅ |  | Pacific Atlantic Water Flow |  |
 | 26 | Graphs | ✅ |  | Surrounded Regions |  |
 | 27 | Graphs | ✅ |  | Number of Enclaves |  |
-| 28 | Graphs | ✅ |  | Accounts Merge |  |
+| 28 | Graphs | ✅ | L3 ✅ 2026-06-14 | Accounts Merge |  |
 | 29 | Graphs | ✅ |  | Redundant Connection |  |
 | 30 | Graphs | ✅ |  | Graph Valid Tree |  |
 | 31 | Graphs | ✅ |  | Network Delay Time |  |
@@ -74,7 +74,7 @@ If a problem blocks too long:
 | 39 | Backtracking | ✅ |  | Combination Sum II |  |
 | 40 | Backtracking | ✅ |  | Generate Parentheses |  |
 | 41 | Backtracking | ✅ |  | Letter Combinations of a Phone Number |  |
-| 42 | Backtracking | 🟡 |  | Palindrome Partitioning — guided, reattempt later |  |
+| 42 | Backtracking | 🟡 → ✅ | L3 ✅ 2026-06-14 | Palindrome Partitioning — guided, reattempt later | Clean independent recall implementation. |
 | 43 | Backtracking | ✅ |  | Word Search |  |
 | 44 | Backtracking |  |  | N-Queens — optional later |  |
 | 45 | Trees | ✅ |  | Maximum Depth of Binary Tree |  |
