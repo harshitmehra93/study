@@ -91,7 +91,7 @@ If a problem blocks too long:
 | 56 | Trees | ✅ |  | Count Good Nodes in Binary Tree |  |
 | 57 | Trees | ✅ |  | Lowest Common Ancestor of Binary Tree |  |
 | 58 | Trees | ✅ |  | Construct Binary Tree from Preorder and Inorder Traversal |  |
-| 59 | Trees | 🟡 |  | Serialize and Deserialize Binary Tree — reattempt later |  |
+| 59 | Trees | 🟡 → ✅ | L3 ✅ 2026-06-14 | Serialize and Deserialize Binary Tree — reattempt later | Clean independent preorder implementation using explicit null markers. |
 | 60 | Trees |  |  | Binary Tree Maximum Path Sum — optional later |  |
 | 61 | Heap / Priority Queue | ✅ |  | Kth Largest Element in an Array |  |
 | 62 | Heap / Priority Queue | ✅ |  | Top K Frequent Elements |  |
@@ -134,7 +134,7 @@ If a problem blocks too long:
 | 99 | Stack | ✅ brute-force/update-all-previous solution correct; 🟡 redo with monotonic decreasing stack; ✅ redo done |  | Daily Temperatures |  |
 | 100 | Stack | ✅ 100th DSA roadmap problem; ✅ monotonic stack pattern connected with prior monotonic deque learning |  | Next Greater Element I |  |
 | 101 | Stack | 🟡 Modeling-heavy problem; ✅ Standard solution written; 🟡 Intuition not owned yet |  | Car Fleet |  |
-| 102 | Stack |  |  | Largest Rectangle in Histogram |  |
+| 102 | Stack | 🟡 standard monotonic-stack solution provided; redo later |  | Largest Rectangle in Histogram | Model each unresolved bar as `(start, height)`; popped taller bars transfer their earliest start to the current shorter bar. |
 | 103 | Stack |  |  | Online Stock Span |  |
 | 104 | Linked List |  |  | Reverse Linked List |  |
 | 105 | Linked List |  |  | Merge Two Sorted Lists |  |

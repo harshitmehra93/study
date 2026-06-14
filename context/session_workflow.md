@@ -10,6 +10,7 @@ During coding:
 - Watch for visited/memo confusion.
 - Watch for over-engineering.
 - Keep mutation safety explicit.
+- Give me unit tests to prove correctness of my solution when asked
 
 After coding, review in this order:
 
