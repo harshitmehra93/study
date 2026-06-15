@@ -137,7 +137,7 @@ If a problem blocks too long:
 | 102 | Stack | 🟡 standard monotonic-stack solution provided; redo later |  | Largest Rectangle in Histogram | Model each unresolved bar as `(start, height)`; popped taller bars transfer their earliest start to the current shorter bar. |
 | 103 | Stack | 🟡 correct O(n²) scan; ✅ optimized span compression implemented after guidance |  | Online Stock Span | Store `(price, span)`; permanently pop every price `<= current` and absorb its compressed span. Amortized O(1) per call. |
 | 104 | Linked List | 🟡 correct stack solution; ✅ O(1) pointer reversal implemented |  | Reverse Linked List | Clean constant-space mutation order: preserve the forward link before redirecting each `next`; old head becomes the tail. |
-| 105 | Linked List |  |  | Merge Two Sorted Lists |  |
+| 105 | Linked List | ✅ |  | Merge Two Sorted Lists | Reused existing nodes with a merged-tail pointer; append the remaining suffix when one input is exhausted. O(n + m) time, O(1) extra space. |
 | 106 | Linked List |  |  | Linked List Cycle |  |
 | 107 | Linked List |  |  | Reorder List |  |
 | 108 | Linked List |  |  | Remove Nth Node From End of List |  |
