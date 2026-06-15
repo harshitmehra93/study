@@ -1,7 +1,5 @@
 package study.neetcode.interview.linkedlist;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import study.neetcode.interview.commons.ListNode;
 
 /*
@@ -22,25 +20,53 @@ public class ReorderList {
     public void reorderList(ListNode head) {
         if (head == null) return;
 
-        Deque<ListNode> stack = new ArrayDeque<>();
-        var tmp = head;
-        int count = 0;
-        while (tmp != null) {
-            stack.push(tmp);
-            tmp = tmp.next;
-            count++;
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
         }
-        if (count < 3) return;
+
+        ListNode secondHead = slow.next;
+        slow.next = null;
+
+        // reverse Second List
+        secondHead = reverseList(secondHead);
+
+        // interleave
+        ListNode tail = head;
+        ListNode firstHead = head.next;
+        boolean chooseFirst = false;
+        while (firstHead != null && secondHead != null) {
+            if (chooseFirst) {
+                tail.next = firstHead;
+                tail = firstHead;
+                firstHead = firstHead.next;
+            } else {
+                tail.next = secondHead;
+                tail = secondHead;
+                secondHead = secondHead.next;
+            }
+            chooseFirst = !chooseFirst;
+        }
+        tail.next = firstHead;
+    }
+
+    private static ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
 
         ListNode nodeA = head;
         ListNode nodeB = head.next;
-        while (nodeA != stack.peek() && nodeB != stack.peek()) {
-            nodeA.next = stack.pop();
-            nodeA.next.next = nodeB;
+        ListNode nodeC = head.next.next;
+        while (nodeC != null) {
+            nodeB.next = nodeA;
+
             nodeA = nodeB;
-            nodeB = nodeA.next;
+            nodeB = nodeC;
+            nodeC = nodeC.next;
         }
-        if (count % 2 == 0) nodeB.next = null;
-        else nodeA.next = null;
+        nodeB.next = nodeA;
+        head.next = null;
+        return nodeB;
     }
 }
