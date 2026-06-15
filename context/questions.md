@@ -135,7 +135,7 @@ If a problem blocks too long:
 | 100 | Stack | ✅ 100th DSA roadmap problem; ✅ monotonic stack pattern connected with prior monotonic deque learning |  | Next Greater Element I |  |
 | 101 | Stack | 🟡 Modeling-heavy problem; ✅ Standard solution written; 🟡 Intuition not owned yet |  | Car Fleet |  |
 | 102 | Stack | 🟡 standard monotonic-stack solution provided; redo later |  | Largest Rectangle in Histogram | Model each unresolved bar as `(start, height)`; popped taller bars transfer their earliest start to the current shorter bar. |
-| 103 | Stack |  |  | Online Stock Span |  |
+| 103 | Stack | 🟡 correct O(n²) scan; ✅ optimized span compression implemented after guidance |  | Online Stock Span | Store `(price, span)`; permanently pop every price `<= current` and absorb its compressed span. Amortized O(1) per call. |
 | 104 | Linked List |  |  | Reverse Linked List |  |
 | 105 | Linked List |  |  | Merge Two Sorted Lists |  |
 | 106 | Linked List |  |  | Linked List Cycle |  |
