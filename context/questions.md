@@ -139,7 +139,7 @@ If a problem blocks too long:
 | 104 | Linked List | 🟡 correct stack solution; ✅ O(1) pointer reversal implemented |  | Reverse Linked List | Clean constant-space mutation order: preserve the forward link before redirecting each `next`; old head becomes the tail. |
 | 105 | Linked List | ✅ |  | Merge Two Sorted Lists | Reused existing nodes with a merged-tail pointer; append the remaining suffix when one input is exhausted. O(n + m) time, O(1) extra space. |
 | 106 | Linked List | ✅ |  | Linked List Cycle | Floyd slow/fast pointers implemented without mutation. If no cycle, fast reaches null; inside a cycle, the relative distance closes modulo the cycle length. O(n) time, O(1) space. |
-| 107 | Linked List |  |  | Reorder List |  |
+| 107 | Linked List | ✅ correct O(n) stack solution; 🟡 optimize to O(1) |  | Reorder List | Reordering and odd/even termination are correct; redo using constant-space pointer manipulation. |
 | 108 | Linked List |  |  | Remove Nth Node From End of List |  |
 | 109 | Linked List |  |  | Add Two Numbers |  |
 | 110 | Linked List |  |  | Copy List with Random Pointer |  |

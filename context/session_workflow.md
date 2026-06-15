@@ -4,6 +4,7 @@
 
 During coding:
 
+- In phase 2 and 3 - Goal is to install patterns of the given problem.
 - Do not interrupt for small style issues.
 - Interrupt if the model is wrong.
 - Interrupt if the chosen state representation, invariant, visited/memo handling, or mutation strategy will likely break correctness.
