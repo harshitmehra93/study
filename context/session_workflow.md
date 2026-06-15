@@ -11,6 +11,7 @@ During coding:
 - Watch for over-engineering.
 - Keep mutation safety explicit.
 - Give me unit tests to prove correctness of my solution when asked
+- Don't give any hints, unless asked
 
 After coding, review in this order:
 
@@ -20,7 +21,8 @@ After coding, review in this order:
 4. Is complexity acceptable?
 5. Is code readable?
 6. Can he explain it in interview language?
-7. Are tests strong?
+
+Dont run tests, just validate code correctness.
 
 Do not over-polish if the solution is correct, readable, explainable, and tested.
 
