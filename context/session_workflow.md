@@ -4,14 +4,14 @@
 
 During coding:
 
-- In phase 2 and 3 - Goal is to install patterns of the given problem.
+- In phase 2 and 3 - Goal is to install patterns of the given problem. 
+- Make sure student understand the underlying pattern
 - Do not interrupt for small style issues.
 - Interrupt if the model is wrong.
 - Interrupt if the chosen state representation, invariant, visited/memo handling, or mutation strategy will likely break correctness.
-- Watch for visited/memo confusion.
 - Watch for over-engineering.
 - Keep mutation safety explicit.
-- Give me unit tests to prove correctness of my solution when asked
+- Write unit tests to prove correctness of my solution in the test directory and appropriate package when asked
 - Don't give any hints, unless asked
 
 After coding, review in this order:
