@@ -1,7 +1,7 @@
 package study.neetcode.interview.trees;
 
 import java.util.ArrayList;
-import study.neetcode.interview.trees.commons.TreeNode;
+import study.neetcode.interview.commons.TreeNode;
 
 /*
 Kth Smallest Element in a BST.

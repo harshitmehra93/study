@@ -3,7 +3,7 @@ package study.neetcode.interview.trees;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import study.neetcode.interview.trees.commons.TreeNode;
+import study.neetcode.interview.commons.TreeNode;
 
 class SameTreeTest {
 

@@ -2,7 +2,7 @@ package study.neetcode.interview.heapqueuearray;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import study.neetcode.interview.heapqueuearray.commons.ListNode;
+import study.neetcode.interview.commons.ListNode;
 
 /*
 Merge K Sorted Lists

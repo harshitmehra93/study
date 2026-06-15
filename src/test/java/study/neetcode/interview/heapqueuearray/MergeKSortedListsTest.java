@@ -3,7 +3,7 @@ package study.neetcode.interview.heapqueuearray;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import study.neetcode.interview.heapqueuearray.commons.ListNode;
+import study.neetcode.interview.commons.ListNode;
 
 class MergeKSortedListsTest {
 

@@ -1,6 +1,6 @@
 package study.neetcode.interview.trees;
 
-import study.neetcode.interview.trees.commons.TreeNode;
+import study.neetcode.interview.commons.TreeNode;
 
 /*
 Diameter of Binary Tree

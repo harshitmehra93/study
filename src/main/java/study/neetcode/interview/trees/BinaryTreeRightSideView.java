@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import study.neetcode.interview.trees.commons.TreeNode;
+import study.neetcode.interview.commons.TreeNode;
 
 /*
 Binary Tree Right Side View

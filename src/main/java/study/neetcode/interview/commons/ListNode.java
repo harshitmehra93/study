@@ -1,4 +1,4 @@
-package study.neetcode.interview.heapqueuearray.commons;
+package study.neetcode.interview.commons;
 
 public class ListNode implements Comparable<ListNode> {
     public int val;

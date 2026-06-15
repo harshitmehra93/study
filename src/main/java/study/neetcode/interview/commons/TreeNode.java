@@ -1,4 +1,4 @@
-package study.neetcode.interview.trees.commons;
+package study.neetcode.interview.commons;
 
 public class TreeNode {
     public Integer val;
