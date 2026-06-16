@@ -141,7 +141,7 @@ If a problem blocks too long:
 | 106 | Linked List | ✅ |  | Linked List Cycle | Floyd slow/fast pointers implemented without mutation. If no cycle, fast reaches null; inside a cycle, the relative distance closes modulo the cycle length. O(n) time, O(1) space. |
 | 107 | Linked List | ✅ correct O(n) stack solution; 🟡 optimize to O(1) |  | Reorder List | Reordering and odd/even termination are correct; redo using constant-space pointer manipulation. |
 | 108 | Linked List | ✅ |  | Remove Nth Node From End of List | Two-pointer gap solution understood and rewritten into the clean dummy-node shape; dummy makes head deletion use the same `slow.next = slow.next.next` mutation path as every other deletion. Invalid `n > length` guard discussed separately from LeetCode constraints. |
-| 109 | Linked List |  |  | Add Two Numbers |  |
+| 109 | Linked List | 🟡 → ✅ |  | Add Two Numbers | Initial model converted lists into an integer, which overflows for long inputs; corrected to digit-by-digit addition with `carry`, dummy head, and output tail pointer. Loop can include `carry != 0` to handle the final carry uniformly. |
 | 110 | Linked List |  |  | Copy List with Random Pointer |  |
 | 111 | Linked List |  |  | LRU Cache |  |
 | 112 | Matrix |  |  | Set Matrix Zeroes |  |
