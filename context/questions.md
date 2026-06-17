@@ -142,7 +142,7 @@ If a problem blocks too long:
 | 107 | Linked List | ✅ correct O(n) stack solution; 🟡 optimize to O(1) |  | Reorder List | Reordering and odd/even termination are correct; redo using constant-space pointer manipulation. |
 | 108 | Linked List | ✅ |  | Remove Nth Node From End of List | Two-pointer gap solution understood and rewritten into the clean dummy-node shape; dummy makes head deletion use the same `slow.next = slow.next.next` mutation path as every other deletion. Invalid `n > length` guard discussed separately from LeetCode constraints. |
 | 109 | Linked List | 🟡 → ✅ |  | Add Two Numbers | Initial model converted lists into an integer, which overflows for long inputs; corrected to digit-by-digit addition with `carry`, dummy head, and output tail pointer. Loop can include `carry != 0` to handle the final carry uniformly. |
-| 110 | Linked List |  |  | Copy List with Random Pointer |  |
+| 110 | Linked List | ✅ |  | Copy List with Random Pointer | Correct HashMap model: map each original node identity to its copied node identity, then wire random pointers using that map. Duplicate values are irrelevant. |
 | 111 | Linked List |  |  | LRU Cache |  |
 | 112 | Matrix |  |  | Set Matrix Zeroes |  |
 | 113 | Matrix |  |  | Spiral Matrix |  |
