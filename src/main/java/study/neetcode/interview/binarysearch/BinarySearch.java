@@ -23,11 +23,9 @@ public class BinarySearch {
 
             if (target > nums[middle]) {
                 low = middle + 1;
-            }
-            if (target < nums[middle]) {
+            } else if (target < nums[middle]) {
                 high = middle - 1;
-            }
-            if (target == nums[middle]) return middle;
+            } else return middle;
         }
         return -1;
     }
