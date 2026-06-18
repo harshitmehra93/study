@@ -144,7 +144,7 @@ If a problem blocks too long:
 | 109 | Linked List | 🟡 → ✅ |  | Add Two Numbers | Initial model converted lists into an integer, which overflows for long inputs; corrected to digit-by-digit addition with `carry`, dummy head, and output tail pointer. Loop can include `carry != 0` to handle the final carry uniformly. |
 | 110 | Linked List | ✅ |  | Copy List with Random Pointer | Correct HashMap model: map each original node identity to its copied node identity, then wire random pointers using that map. Duplicate values are irrelevant. |
 | 111 | Linked List | 🟡 correct implementation after debugging; redo once for pointer fluency |  | LRU Cache | HashMap gives O(1) key-to-node lookup; doubly linked list maintains recency order with head as most recent and tail as least recent. On every get/update, detach node from current position before appending to head; inserting beyond capacity evicts tail. |
-| 112 | Matrix |  |  | Set Matrix Zeroes |  |
+| 112 | Matrix | ✅ O(m+n) space solution done; O(1) marker version optional later |  | Set Matrix Zeroes | Correct two-phase mutation model: first record original zero rows/columns, then mutate. Sets avoid duplicate row/column work, giving O(mn) time and O(m+n) space. O(1) version uses first row/first column as markers with separate first-row/first-column flags. |
 | 113 | Matrix |  |  | Spiral Matrix |  |
 | 114 | Matrix |  |  | Rotate Image |  |
 | 115 | Matrix |  |  | Search a 2D Matrix |  |
