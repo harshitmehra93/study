@@ -25,7 +25,7 @@ Most days, Level 1 or Level 2 is enough.
 
 Prioritize:
 
-1. Yellow problems.
+1. Yellow problems. I had started marking problems as yellow only after completing Heap section, so recall earlier green problems too.
 2. Older solved problems with no recent recall.
 3. High-frequency problems from the current or previous block.
 4. Problems where the model was guided rather than independently discovered.
