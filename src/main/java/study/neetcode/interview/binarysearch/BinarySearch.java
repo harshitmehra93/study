@@ -15,19 +15,21 @@ Output: -1
  */
 public class BinarySearch {
     public int search(int[] nums, int target) {
-        return binarySearch(nums, target, 0, nums.length - 1);
-    }
+        int low = 0;
+        int high = nums.length - 1;
 
-    private int binarySearch(int[] nums, int target, int low, int high) {
-        if (low > high) return -1;
-        int middle = low + (high - low) / 2;
+        while (low <= high) {
+            if (low > high) return -1;
+            int middle = low + (high - low) / 2;
 
-        if (target > nums[middle]) {
-            return binarySearch(nums, target, middle + 1, high);
+            if (target > nums[middle]) {
+                low = middle + 1;
+            }
+            if (target < nums[middle]) {
+                high = middle - 1;
+            }
+            if (target == nums[middle]) return middle;
         }
-        if (target < nums[middle]) {
-            return binarySearch(nums, target, low, middle - 1);
-        }
-        return middle;
+        return -1;
     }
 }

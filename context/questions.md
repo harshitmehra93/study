@@ -150,7 +150,7 @@ If a problem blocks too long:
 | 115 | Matrix | 🟡 → ✅ |  | Search a 2D Matrix | Valid two-stage binary-search model: find candidate row, then search within row. Main bug was binary-search termination: `i == j` still represents one candidate and must be checked; corrected to `i > j` as the empty-search-space condition. |
 | 116 | Matrix | ✅ |  | Word Search |  |
 | 117 | Matrix | ✅ |  | Number of Islands |  |
-| 118 | Binary Search |  |  | Binary Search |  |
+| 118 | Binary Search | ✅ |  | Binary Search | Clean recursive binary search with correct empty-search-space invariant `low > high`, safe midpoint, and inclusive bounds. |
 | 119 | Binary Search |  |  | Search in Rotated Sorted Array |  |
 | 120 | Binary Search |  |  | Find Minimum in Rotated Sorted Array |  |
 | 121 | Binary Search |  |  | Time Based Key-Value Store |  |
