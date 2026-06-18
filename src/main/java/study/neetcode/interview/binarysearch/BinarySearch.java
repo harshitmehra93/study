@@ -25,7 +25,9 @@ public class BinarySearch {
                 low = middle + 1;
             } else if (target < nums[middle]) {
                 high = middle - 1;
-            } else return middle;
+            } else {
+                return middle;
+            }
         }
         return -1;
     }
