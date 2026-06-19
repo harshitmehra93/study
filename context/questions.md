@@ -161,7 +161,7 @@ If a problem blocks too long:
 | 126 | Tries |  |  | Design Add and Search Words Data Structure |  |
 | 127 | Tries |  |  | Word Search II |  |
 | 128 | Math / Geometry / Bit | ✅ |  | Plus One | Correct carry handling without integer conversion. Cleaner interview shape: scan right-to-left, turn trailing 9s into 0, return immediately after incrementing first non-9; allocate `[1,0,...,0]` only if all digits were 9. |
-| 129 | Math / Geometry / Bit |  |  | Pow(x, n) |  |
+| 129 | Math / Geometry / Bit | 🟡 → ✅ |  | Pow(x, n) | First attempt used linear multiplication and had negative-base sign handling plus `Integer.MIN_VALUE` overflow issues. Guided binary exponentiation implemented: promote exponent to `long` before negation, invert base for negative exponent, and repeatedly consume odd exponent chunks while squaring base and halving exponent. Redo later for ownership. |
 | 130 | Math / Geometry / Bit |  |  | Number of 1 Bits |  |
 | 131 | Math / Geometry / Bit |  |  | Counting Bits |  |
 | 132 | Math / Geometry / Bit |  |  | Reverse Bits |  |
