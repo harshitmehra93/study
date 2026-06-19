@@ -155,7 +155,7 @@ If a problem blocks too long:
 | 120 | Binary Search | 🟡 → ✅ |  | Find Minimum in Rotated Sorted Array | Initial attempt used sorted-half recursion plus mutable global `min`. Final guided solution uses answer-in-range invariant: compare `nums[mid]` to `nums[high]`; if mid value is greater, minimum must be right of mid, otherwise minimum is at mid or to its left, so keep `mid`. |
 | 121 | Binary Search | 🟡 → ✅ |  | Time Based Key-Value Store | Correct data model: `Map<String, List<(value, timestamp)>>` with per-key timestamps increasing. Final guided solution uses floor search / rightmost-valid pattern: when `timestamp <= query`, store candidate answer and move right; otherwise move left. |
 | 122 | Binary Search | 🟡 → ✅ |  | Koko Eating Bananas | Boundary-search-over-answer pattern implemented: speed validity is monotonic, if `hours <= h` then try smaller speed, otherwise increase speed. Minor cleanup: no need to sort/mutate `piles`; use integer ceil division and consider `long` for accumulated hours. |
-| 123 | Binary Search |  |  | Capacity To Ship Packages Within D Days |  |
+| 123 | Binary Search | 🟡 → ✅ |  | Capacity To Ship Packages Within D Days | Boundary-search-over-answer structure completed. Feasibility check counts days by preserving package order and starting a new day whenever the next package would exceed capacity. Key bound: capacity range is `[max(weights), sum(weights)]`, because the ship must carry the heaviest package and can ship all packages in one day at total capacity. |
 | 124 | Binary Search |  |  | Median of Two Sorted Arrays — optional hard later |  |
 | 125 | Tries |  |  | Implement Trie |  |
 | 126 | Tries |  |  | Design Add and Search Words Data Structure |  |
