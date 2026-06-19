@@ -154,7 +154,7 @@ If a problem blocks too long:
 | 119 | Binary Search | 🟡 → ✅ |  | Search in Rotated Sorted Array | Initial pivot + translated-index model was logically valid but used O(n) pivot scan. Redone with one-pass sorted-half elimination: at each mid, one side must be sorted; use value range checks to decide which half can still contain target. Boundary issue around `mid - 1` corrected by comparing against `nums[mid]` after checking equality first. |
 | 120 | Binary Search | 🟡 → ✅ |  | Find Minimum in Rotated Sorted Array | Initial attempt used sorted-half recursion plus mutable global `min`. Final guided solution uses answer-in-range invariant: compare `nums[mid]` to `nums[high]`; if mid value is greater, minimum must be right of mid, otherwise minimum is at mid or to its left, so keep `mid`. |
 | 121 | Binary Search | 🟡 → ✅ |  | Time Based Key-Value Store | Correct data model: `Map<String, List<(value, timestamp)>>` with per-key timestamps increasing. Final guided solution uses floor search / rightmost-valid pattern: when `timestamp <= query`, store candidate answer and move right; otherwise move left. |
-| 122 | Binary Search |  |  | Koko Eating Bananas |  |
+| 122 | Binary Search | 🟡 → ✅ |  | Koko Eating Bananas | Boundary-search-over-answer pattern implemented: speed validity is monotonic, if `hours <= h` then try smaller speed, otherwise increase speed. Minor cleanup: no need to sort/mutate `piles`; use integer ceil division and consider `long` for accumulated hours. |
 | 123 | Binary Search |  |  | Capacity To Ship Packages Within D Days |  |
 | 124 | Binary Search |  |  | Median of Two Sorted Arrays — optional hard later |  |
 | 125 | Tries |  |  | Implement Trie |  |
