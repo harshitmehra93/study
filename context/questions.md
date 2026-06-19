@@ -152,7 +152,7 @@ If a problem blocks too long:
 | 117 | Matrix | ✅ |  | Number of Islands |  |
 | 118 | Binary Search | ✅ |  | Binary Search | Clean recursive binary search with correct empty-search-space invariant `low > high`, safe midpoint, and inclusive bounds. |
 | 119 | Binary Search | 🟡 → ✅ |  | Search in Rotated Sorted Array | Initial pivot + translated-index model was logically valid but used O(n) pivot scan. Redone with one-pass sorted-half elimination: at each mid, one side must be sorted; use value range checks to decide which half can still contain target. Boundary issue around `mid - 1` corrected by comparing against `nums[mid]` after checking equality first. |
-| 120 | Binary Search |  |  | Find Minimum in Rotated Sorted Array |  |
+| 120 | Binary Search | 🟡 → ✅ |  | Find Minimum in Rotated Sorted Array | Initial attempt used sorted-half recursion plus mutable global `min`. Final guided solution uses answer-in-range invariant: compare `nums[mid]` to `nums[high]`; if mid value is greater, minimum must be right of mid, otherwise minimum is at mid or to its left, so keep `mid`. |
 | 121 | Binary Search |  |  | Time Based Key-Value Store |  |
 | 122 | Binary Search |  |  | Koko Eating Bananas |  |
 | 123 | Binary Search |  |  | Capacity To Ship Packages Within D Days |  |
