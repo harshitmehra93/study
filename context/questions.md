@@ -160,7 +160,7 @@ If a problem blocks too long:
 | 125 | Tries |  |  | Implement Trie |  |
 | 126 | Tries |  |  | Design Add and Search Words Data Structure |  |
 | 127 | Tries |  |  | Word Search II |  |
-| 128 | Math / Geometry / Bit |  |  | Plus One |  |
+| 128 | Math / Geometry / Bit | ✅ |  | Plus One | Correct carry handling without integer conversion. Cleaner interview shape: scan right-to-left, turn trailing 9s into 0, return immediately after incrementing first non-9; allocate `[1,0,...,0]` only if all digits were 9. |
 | 129 | Math / Geometry / Bit |  |  | Pow(x, n) |  |
 | 130 | Math / Geometry / Bit |  |  | Number of 1 Bits |  |
 | 131 | Math / Geometry / Bit |  |  | Counting Bits |  |
