@@ -166,7 +166,7 @@ If a problem blocks too long:
 | 131 | Math / Geometry / Bit | ✅ |  | Counting Bits | Correct solution using per-number 32-bit hamming weight scan. Stronger pattern to own: `ans[i] = ans[i >> 1] + (i & 1)`, reusing the already-computed count after removing the lowest bit. |
 | 132 | Math / Geometry / Bit | 🟡 → ✅ |  | Reverse Bits | Initial approach over-modeled sign handling and two's-complement conversion. Correct model is raw bit transfer: repeat 32 times, append `num & 1` into `result` after left-shifting result, then unsigned-shift `num >>>= 1`. |
 | 133 | Math / Geometry / Bit | 🟡 → ✅ |  | Missing Number | First sorting solution was correct but mutated input and used O(n log n). Redone with XOR cancellation: initialize with `n`, then XOR each index `0..n-1` and each array value so paired values cancel and the missing number remains. |
-| 134 | Math / Geometry / Bit |  |  | Sum of Two Integers |  |
+| 134 | Math / Geometry / Bit | 🟡 → ✅ |  | Sum of Two Integers | Guided standard bit-addition model implemented: `a ^ b` gives partial sum without carry, `(a & b) << 1` gives carry shifted to the next column, repeat until carry is zero. Negative/two's-complement behavior not fully owned; schedule recall rather than grinding now. |
 | 135 | Math / Geometry / Bit |  |  | Bit Operator Drills: check, set, clear, toggle kth bit | Practice `&`, `|`, `^`, `~`, and `1 << k` directly before relying on pattern tricks. |
 | 136 | Math / Geometry / Bit |  |  | Single Number | XOR cancellation: `a ^ a = 0`, `a ^ 0 = a`; order does not matter. |
 | 137 | Math / Geometry / Bit |  |  | Hamming Distance | XOR the two numbers to find differing bit positions, then count set bits. |
