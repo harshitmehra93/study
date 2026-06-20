@@ -164,7 +164,7 @@ If a problem blocks too long:
 | 129 | Math / Geometry / Bit | 🟡 → ✅ |  | Pow(x, n) | First attempt used linear multiplication and had negative-base sign handling plus `Integer.MIN_VALUE` overflow issues. Guided binary exponentiation implemented: promote exponent to `long` before negation, invert base for negative exponent, and repeatedly consume odd exponent chunks while squaring base and halving exponent. Redo later for ownership. |
 | 130 | Math / Geometry / Bit | 🟡 → ✅ |  | Number of 1 Bits | Initial sign-bit-plus-magnitude model was incorrect for Java `int`; corrected to raw 32-bit two's-complement inspection using `(n & 1)` and unsigned right shift `>>>`. |
 | 131 | Math / Geometry / Bit | ✅ |  | Counting Bits | Correct solution using per-number 32-bit hamming weight scan. Stronger pattern to own: `ans[i] = ans[i >> 1] + (i & 1)`, reusing the already-computed count after removing the lowest bit. |
-| 132 | Math / Geometry / Bit |  |  | Reverse Bits |  |
+| 132 | Math / Geometry / Bit | 🟡 → ✅ |  | Reverse Bits | Initial approach over-modeled sign handling and two's-complement conversion. Correct model is raw bit transfer: repeat 32 times, append `num & 1` into `result` after left-shifting result, then unsigned-shift `num >>>= 1`. |
 | 133 | Math / Geometry / Bit |  |  | Missing Number |  |
 | 134 | Math / Geometry / Bit |  |  | Sum of Two Integers |  |
 | 135 | Math / Geometry / Bit |  |  | Bit Operator Drills: check, set, clear, toggle kth bit | Practice `&`, `|`, `^`, `~`, and `1 << k` directly before relying on pattern tricks. |
