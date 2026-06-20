@@ -16,30 +16,24 @@ toggleBit(10, 3) -> 2     // 0010
  */
 public class BitOperatorDrills {
     public boolean isBitSet(int n, int k) {
-        int mask = 1;
-        for (int i = 0; i < k; i++) mask = mask << 1;
+        int mask = 1 << k;
         return (n & mask) != 0;
     }
 
     public int setBit(int n, int k) {
         // turn kth bit to 1
-        int mask = 1;
-        for (int i = 0; i < k; i++) mask = mask << 1;
+        int mask = 1 << k;
         return n | mask;
     }
 
     public int clearBit(int n, int k) {
         // turn kth bit to 0
-        int allOnes = -1;
-        int mask = 1;
-        for (int i = 0; i < k; i++) mask = mask << 1;
-        mask = mask ^ allOnes;
-        return n & mask;
+        int mask = 1 << k;
+        return n & ~mask;
     }
 
     public int toggleBit(int n, int k) {
-        int mask = 1;
-        for (int i = 0; i < k; i++) mask = mask << 1;
+        int mask = 1 << k;
         return n ^ mask;
     }
 }
