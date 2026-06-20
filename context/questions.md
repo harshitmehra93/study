@@ -167,3 +167,10 @@ If a problem blocks too long:
 | 132 | Math / Geometry / Bit |  |  | Reverse Bits |  |
 | 133 | Math / Geometry / Bit |  |  | Missing Number |  |
 | 134 | Math / Geometry / Bit |  |  | Sum of Two Integers |  |
+| 135 | Math / Geometry / Bit |  |  | Bit Operator Drills: check, set, clear, toggle kth bit | Practice `&`, `|`, `^`, `~`, and `1 << k` directly before relying on pattern tricks. |
+| 136 | Math / Geometry / Bit |  |  | Single Number | XOR cancellation: `a ^ a = 0`, `a ^ 0 = a`; order does not matter. |
+| 137 | Math / Geometry / Bit |  |  | Hamming Distance | XOR the two numbers to find differing bit positions, then count set bits. |
+| 138 | Math / Geometry / Bit |  |  | Power of Two | Positive number with exactly one set bit: `n > 0 && (n & (n - 1)) == 0`. |
+| 139 | Math / Geometry / Bit |  |  | Bitwise AND of Numbers Range | Common-prefix problem; right-shift both bounds until equal, then shift prefix back. |
+| 140 | Math / Geometry / Bit |  |  | Subsets via Bitmask | Use each integer mask from `0` to `2^n - 1`; bit `i` decides whether `nums[i]` is included. |
+| 141 | Math / Geometry / Bit |  |  | Single Number II — optional later | Harder bit-counting variant; count each bit modulo 3. |
