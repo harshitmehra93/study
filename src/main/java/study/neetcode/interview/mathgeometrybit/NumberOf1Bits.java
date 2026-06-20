@@ -17,7 +17,7 @@ binary: 1111111111111111111111111111101
 output: 30
  */
 public class NumberOf1Bits {
-    public int hammingWeight(int n){
+    public int hammingWeight(int n) {
         int count = 0;
 
         for (int i = 0; i < 32; i++) {
