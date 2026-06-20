@@ -169,7 +169,7 @@ If a problem blocks too long:
 | 134 | Math / Geometry / Bit | 🟡 → ✅ |  | Sum of Two Integers | Guided standard bit-addition model implemented: `a ^ b` gives partial sum without carry, `(a & b) << 1` gives carry shifted to the next column, repeat until carry is zero. Negative/two's-complement behavior not fully owned; schedule recall rather than grinding now. |
 | 135 | Math / Geometry / Bit | ✅ |  | Bit Operator Drills: check, set, clear, toggle kth bit | Practiced `&`, `|`, `^`, `~`, and kth-bit masks. Key correction: use `(n & mask) != 0` instead of `> 0`, because checking the sign bit can produce a negative mask value. |
 | 136 | Math / Geometry / Bit | ✅ |  | Single Number | Clean XOR cancellation solution: XOR all values; paired duplicates cancel because `a ^ a = 0`, and the single value remains because `a ^ 0 = a`. |
-| 137 | Math / Geometry / Bit |  |  | Hamming Distance | XOR the two numbers to find differing bit positions, then count set bits. |
+| 137 | Math / Geometry / Bit | ✅ |  | Hamming Distance | Correct XOR model: `a ^ b` marks differing bit positions, then count set bits over 32 positions. Prefer `>>>` for raw-bit shifting, though fixed 32-iteration counting also works with `>>`. |
 | 138 | Math / Geometry / Bit |  |  | Power of Two | Positive number with exactly one set bit: `n > 0 && (n & (n - 1)) == 0`. |
 | 139 | Math / Geometry / Bit |  |  | Bitwise AND of Numbers Range | Common-prefix problem; right-shift both bounds until equal, then shift prefix back. |
 | 140 | Math / Geometry / Bit |  |  | Subsets via Bitmask | Use each integer mask from `0` to `2^n - 1`; bit `i` decides whether `nums[i]` is included. |
