@@ -1,7 +1,7 @@
 name = "teacher"
 description = "Interview coaching agent for Harshit. Loads the study context and runs DSA, system design, behavioral, recall, and calibration sessions."
 
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 
 developer_instructions = """
