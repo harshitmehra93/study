@@ -157,7 +157,7 @@ If a problem blocks too long:
 | 122 | Binary Search | 🟡 → ✅ |  | Koko Eating Bananas | Boundary-search-over-answer pattern implemented: speed validity is monotonic, if `hours <= h` then try smaller speed, otherwise increase speed. Minor cleanup: no need to sort/mutate `piles`; use integer ceil division and consider `long` for accumulated hours. |
 | 123 | Binary Search | 🟡 → ✅ |  | Capacity To Ship Packages Within D Days | Boundary-search-over-answer structure completed. Feasibility check counts days by preserving package order and starting a new day whenever the next package would exceed capacity. Key bound: capacity range is `[max(weights), sum(weights)]`, because the ship must carry the heaviest package and can ship all packages in one day at total capacity. |
 | 124 | Binary Search |  |  | Median of Two Sorted Arrays — optional hard later |  |
-| 125 | Tries |  |  | Implement Trie |  |
+| 125 | Tries | 🟡 |  | Implement Trie | Core insert/search/startsWith model attempted; strengthen delete edge cases: deleting a missing word, empty word, or prefix-only non-word should not mutate size or prune valid branches. |
 | 126 | Tries |  |  | Design Add and Search Words Data Structure |  |
 | 127 | Tries |  |  | Word Search II |  |
 | 128 | Math / Geometry / Bit | ✅ |  | Plus One | Correct carry handling without integer conversion. Cleaner interview shape: scan right-to-left, turn trailing 9s into 0, return immediately after incrementing first non-9; allocate `[1,0,...,0]` only if all digits were 9. |
