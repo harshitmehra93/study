@@ -81,18 +81,19 @@ public class TrieImpl implements Trie {
             node.isWord = false;
             size--;
 
-            for (int i = 0; i < node.nodes.length; i++) {
-                if (node.nodes[i] != null) return node;
-            }
-            return null;
+            return hasChildren(node) ? node : null;
         }
         char c = word.charAt(index);
         node.nodes[c] = delete(node.nodes[c], word, index + 1);
 
+        return node.isWord || hasChildren(node) ? node : null;
+    }
+
+    private boolean hasChildren(TrieNode node) {
         for (int i = 0; i < node.nodes.length; i++) {
-            if (node.nodes[i] != null) return node;
+            if (node.nodes[i] != null) return true;
         }
-        return node.isWord ? node : null;
+        return false;
     }
 
     private TrieNode get(TrieNode node, String prefix, int index) {
