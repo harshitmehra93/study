@@ -4,18 +4,19 @@
 
 ## Current Phase
 
-Harshit is in **Phase 3: High-Frequency Pattern Installation + Rolling Recall**.
+Harshit is in **Phase 3B / Phase 4 ramp: Rolling Recall + Mixed Timed Practice**.
 
-Active block: **Stack / Monotonic Stack**.
+Active block: **Rolling recall across all completed first-pass blocks**.
 
-Current milestone: approximately **100+ / 133 roadmap problems completed/touched**.
+Current milestone: **first pass through the required DSA roadmap is complete/touched**. Use `questions.md` for exact per-problem status and optional-problem exceptions.
 
 Immediate DSA focus:
 
-1. Finish Stack / Monotonic Stack.
-2. Allow hard modeling-heavy problems like **Car Fleet** and **Largest Rectangle in Histogram** to remain yellow.
-3. Move next into **Linked List**, then **Matrix**, **Binary Search**, **Tries**, and **Math / Bit**.
-4. Add rolling recall now instead of waiting until the full first pass is complete.
+1. Run rolling recall across yellow, guided, and older no-recall problems.
+2. Mix in core-skills algorithm recall from `context/core_recall.md`.
+3. Start mixed timed practice in small doses.
+4. Keep targeted redo for hard modeling problems.
+5. Avoid returning to block-by-block learning unless a recall failure exposes a real pattern gap.
 
 ---
 
@@ -25,9 +26,9 @@ Immediate DSA focus:
 | --- | --- | --- |
 | Phase 1 | Basic coding fluency | ✅ Done |
 | Phase 2 | Core hard foundations: DP, Graphs, Backtracking, Trees, Heaps | ✅ Mostly done |
-| Phase 3A | First-pass high-frequency pattern installation | 🟡 Active, late stage |
-| Phase 3B | Rolling recall while finishing first pass | 🟡 Starting now |
-| Phase 4 | Mixed timed practice | Not started |
+| Phase 3A | First-pass high-frequency pattern installation | ✅ Required first pass complete/touched |
+| Phase 3B | Rolling recall after first pass | 🟡 Active |
+| Phase 4 | Mixed timed practice | 🟡 Ready to start in small doses |
 | Phase 5 | Mock interview mode | Not started |
 
 ---
@@ -47,18 +48,18 @@ Immediate DSA focus:
 | Two Pointers | 75-80% |
 | Intervals | 70-75% coverage, some heap/greedy redo gaps |
 | Greedy | 60-65% coverage, 45-55% ownership |
-| Stack / Monotonic Stack | 🟡 Active, currently installing |
-| Linked List | Pending |
-| Matrix | Pending / partial overlap from graphs |
-| Binary Search | Pending |
-| Tries | Pending |
-| Math / Bit | Pending |
-| Pattern recall without labels | Early |
-| Mixed timed interview practice | Not started |
+| Stack / Monotonic Stack | 65-70% coverage, key recall gaps remain |
+| Linked List | 70-75% coverage, pointer-fluency redos remain |
+| Matrix | 70-75% coverage, boundary-model redos remain |
+| Binary Search | 70-75% coverage, answer-search/floor-search needs recall |
+| Tries | 60-65% coverage, Word Search II redo remains |
+| Math / Bit | 65-70% coverage, two's-complement recall gaps remain |
+| Pattern recall without labels | Active, early |
+| Mixed timed interview practice | Ready to begin |
 | System design | Foundation exists, interview packaging immature |
 | Behavioral stories | Strong raw material, needs packaging |
-| Overall Google L5 readiness | ~30-40% |
-| Overall Google L4 readiness | ~45-55% |
+| Overall Google L5 readiness | ~35-45% |
+| Overall Google L4 readiness | ~50-60% |
 
 ---
 
@@ -94,11 +95,11 @@ Greedy must be learned **proof-first**, not as tricks:
 | --- | --- |
 | Valid Parentheses | ✅ Basic stack pattern |
 | Min Stack | ✅ Auxiliary min-history stack solution implemented |
-| Daily Temperatures | ✅ brute-force/reverse update correct; 🟡 monotonic stack redo pending |
+| Daily Temperatures | ✅ monotonic stack redo completed |
 | Next Greater Element I | ✅ monotonic waiting-stack solution implemented |
-| Car Fleet | 🟡 standard solution written; intuition/modeling not fully owned |
-| Largest Rectangle in Histogram | Pending / expected yellow |
-| Online Stock Span | Pending |
+| Car Fleet | ✅ L3 recall completed after correcting merge invariant |
+| Largest Rectangle in Histogram | 🟡 L3 review; boundary invariant needs one more clean pass |
+| Online Stock Span | ✅ optimized span-compression solution implemented |
 
 Stack / monotonic stack learning hook:
 
@@ -119,43 +120,45 @@ Current high-priority yellow redo list:
 - Jump Game II
 - Gas Station
 - Partition Labels optimized version
-- Daily Temperatures monotonic stack
-- Car Fleet
 - Largest Rectangle in Histogram
 - Minimum Interval to Include Each Query
 - Sliding Window Maximum
 - Minimum Window Substring
 - Serialize and Deserialize Binary Tree
 - Find Median from Data Stream
+- Spiral Matrix
+- Reorder List O(1)
+- LRU Cache
+- Word Search II
+- Pow(x, n)
+- Sum of Two Integers
 
 ---
 
-## Remaining Phase 3 First-Pass Blocks
+## Phase 3 First-Pass Blocks
 
 | Block | Status |
 | --- | --- |
-| Stack / Monotonic Stack | 🟡 Active |
-| Linked List | Pending |
-| Matrix | Pending |
-| Binary Search | Pending |
-| Tries | Pending |
-| Math / Geometry / Bit | Pending |
+| Stack / Monotonic Stack | ✅ Complete/touched; yellow redos remain |
+| Linked List | ✅ Complete/touched; pointer-fluency redos remain |
+| Matrix | ✅ Complete/touched; boundary-model redos remain |
+| Binary Search | ✅ Complete/touched |
+| Tries | ✅ Complete/touched; Word Search II remains yellow |
+| Math / Geometry / Bit | ✅ Complete/touched; two's-complement redos remain |
 
 Immediate next sequence:
 
-1. Largest Rectangle in Histogram
-2. Online Stock Span
-3. Linked List block
-4. Matrix block
-5. Binary Search block
-6. Tries
-7. Math / Bit
+1. Rolling recall: yellow and guided problems across all blocks.
+2. Core-skills recall: graph algorithms, DSU, heap, BST, trie, hash table, dynamic array, linked list/deque.
+3. Mixed timed practice: 1 problem at a time, no pattern label.
+4. Targeted redo: only when recall exposes a specific invariant/modeling gap.
+5. Continue light system design and behavioral packaging in parallel.
 
 ---
 
 ## Phase 4: Mixed Timed Practice
 
-Start after first pass is complete and rolling recall has begun.
+Start now in small doses while rolling recall continues.
 
 Structure:
 

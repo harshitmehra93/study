@@ -17,25 +17,25 @@ area = 10
 public class LargestRectangleInHistogram {
     public int largestRectangleArea(int[] heights) {
         Deque<Integer> stack = new ArrayDeque<>();
-         int maxArea = 0;
+        int maxArea = 0;
 
-         for(int i=0;i<=heights.length;i++){
-             int current;
-             if(i!=heights.length){
-                 current = heights[i];
-             }else {
-                 current = 0;
-             }
+        for (int i = 0; i <= heights.length; i++) {
+            int current;
+            if (i != heights.length) {
+                current = heights[i];
+            } else {
+                current = 0;
+            }
 
-             while (!stack.isEmpty() && heights[stack.peek()]>current){
-                 Integer topIndex = stack.pop();
-                 int top = heights[topIndex];
-                 int leftBoundary = stack.isEmpty() ? -1 : stack.peek();
-                 int width = i - leftBoundary -1;
-                 maxArea = Math.max(maxArea, top * width);
-             }
-             stack.push(i);
-         }
-         return maxArea;
+            while (!stack.isEmpty() && heights[stack.peek()] > current) {
+                Integer topIndex = stack.pop();
+                int top = heights[topIndex];
+                int leftBoundary = stack.isEmpty() ? -1 : stack.peek();
+                int width = i - leftBoundary - 1;
+                maxArea = Math.max(maxArea, top * width);
+            }
+            stack.push(i);
+        }
+        return maxArea;
     }
 }

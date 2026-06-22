@@ -9,6 +9,7 @@ Read these files:
 3. `context/session_workflow.md`
 4. `context/questions.md`
 5. `context/recall.md`
+6. `context/core_recall.md`
 
 ## Step 2: Produce A Short Daily Brief
 

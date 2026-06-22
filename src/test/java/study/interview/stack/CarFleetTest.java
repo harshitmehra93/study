@@ -126,4 +126,15 @@ class CarFleetTest {
 
         assertEquals(1, solution.carFleet(target, position, speed));
     }
+
+    @Test
+    void mergingCarDoesNotReplaceFleetAheadArrivalTime() {
+        CarFleet solution = new CarFleet();
+
+        int target = 10;
+        int[] position = {4, 6, 8};
+        int[] speed = {4, 4, 1};
+
+        assertEquals(1, solution.carFleet(target, position, speed));
+    }
 }

@@ -56,24 +56,19 @@ Output:
  */
 public class CarFleet {
     public int carFleet(int target, int[] position, int[] speed) {
-        int[][] cars = new int[position.length][2];
+        double[][] timeToPosition = new double[position.length][2];
         for (int i = 0; i < position.length; i++) {
-            cars[i][0] = position[i];
-            cars[i][1] = speed[i];
+            int distanceLeft = target - position[i];
+            timeToPosition[i][0] = (double) distanceLeft / speed[i];
+            timeToPosition[i][1] = position[i];
         }
+        Arrays.sort(timeToPosition, (a, b) -> Double.compare(a[1], b[1]));
 
-        Arrays.sort(cars, (a, b) -> Integer.compare(b[0], a[0]));
         Deque<Double> stack = new ArrayDeque<>();
-        double maxTimeOfCarInFront = 0;
-        for (int[] car : cars) {
-            int pos = car[0];
-            int s = car[1];
-
-            double timeToTarget = (double) (target - pos) / s;
-
-            if (timeToTarget > maxTimeOfCarInFront) {
-                maxTimeOfCarInFront = timeToTarget;
-                stack.push(timeToTarget);
+        for (int i = timeToPosition.length - 1; i >= 0; i--) {
+            double currentTime = timeToPosition[i][0];
+            if (stack.isEmpty() || currentTime > stack.peek()) {
+                stack.push(currentTime); // new fleet
             }
         }
         return stack.size();

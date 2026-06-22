@@ -133,7 +133,7 @@ If a problem blocks too long:
 | 98 | Stack | 🟡 could not solve; ✅ auxiliary min-history stack solution implemented |  | Min Stack |  |
 | 99 | Stack | ✅ brute-force/update-all-previous solution correct; 🟡 redo with monotonic decreasing stack; ✅ redo done |  | Daily Temperatures |  |
 | 100 | Stack | ✅ 100th DSA roadmap problem; ✅ monotonic stack pattern connected with prior monotonic deque learning |  | Next Greater Element I |  |
-| 101 | Stack | 🟡 Modeling-heavy problem; ✅ Standard solution written; 🟡 Intuition not owned yet |  | Car Fleet |  |
+| 101 | Stack | 🟡 Modeling-heavy problem; ✅ Standard solution written; 🟡 Intuition not owned yet | L3 ✅ 2026-06-23 | Car Fleet | Correct recall implementation after fixing the conceptual bug: a car that catches a fleet ahead merges into it; it does not pop or replace the ahead fleet's arrival time. |
 | 102 | Stack | 🟡 standard monotonic-stack solution provided; redo later | L3 review 2026-06-23 | Largest Rectangle in Histogram | Model each unresolved bar as `(start, height)`; popped taller bars transfer their earliest start to the current shorter bar. |
 | 103 | Stack | 🟡 correct O(n²) scan; ✅ optimized span compression implemented after guidance |  | Online Stock Span | Store `(price, span)`; permanently pop every price `<= current` and absorb its compressed span. Amortized O(1) per call. |
 | 104 | Linked List | 🟡 correct stack solution; ✅ O(1) pointer reversal implemented |  | Reverse Linked List | Clean constant-space mutation order: preserve the forward link before redirecting each `next`; old head becomes the tail. |
