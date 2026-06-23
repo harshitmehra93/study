@@ -45,36 +45,6 @@ Output:
  */
 public class MinimumIntervalToIncludeEachQuery {
     public int[] minInterval(int[][] intervals, int[] queries) {
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-        int[][] queryToOldIndex = new int[queries.length][2];
-        for (int i = 0; i < queries.length; i++) {
-            queryToOldIndex[i][0] = queries[i];
-            queryToOldIndex[i][1] = i;
-        }
-        Arrays.sort(queryToOldIndex, (a, b) -> Integer.compare(a[0], b[0]));
-
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
-        int index = 0;
-        int[] result = new int[queries.length];
-        for (int[] queryToIndex : queryToOldIndex) {
-            int query = queryToIndex[0];
-            int oldIndex = queryToIndex[1];
-
-            while (index < intervals.length && intervals[index][0] <= query) {
-                minHeap.offer(
-                        new int[] {
-                            intervals[index][1] - intervals[index][0] + 1, intervals[index][1]
-                        });
-                index++;
-            }
-
-            while (!minHeap.isEmpty() && minHeap.peek()[1] < query) {
-                minHeap.poll();
-            }
-
-            int minInterval = minHeap.isEmpty() ? -1 : minHeap.peek()[0];
-            result[oldIndex] = minInterval;
-        }
-        return result;
+        return null;
     }
 }
