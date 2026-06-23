@@ -35,11 +35,14 @@ Most days, Level 1 or Level 2 is enough.
 
 Prioritize:
 
-1. Yellow problems. I had started marking problems as yellow only after completing Heap section, so recall earlier green problems too.
-2. Older solved problems with no recent recall.
-3. High-frequency problems from the current or previous block.
-4. Problems where the model was guided rather than independently discovered.
-5. Core algorithms/data structures that support interview explanation: graph traversal, shortest paths, MST, DSU, heap, hash table, BST, trie, dynamic array, linked list/deque.
+1. Older problems first. Recency must be weighed before status: prefer problems that have not been attempted or recalled for the longest time.
+2. Avoid selecting a problem attempted in the last 7 days unless Harshit explicitly requests it, it was a failed recall that needs immediate correction, or no suitable older item exists.
+3. Check available recency evidence before choosing: Recall Status dates, dated takeaways, recent Git history, and recently modified implementation files. A blank Recall Status does not mean the problem is old.
+4. Yellow problems. I had started marking problems as yellow only after completing Heap section, so recall earlier green problems too.
+5. Older solved problems with no recent recall.
+6. High-frequency problems from the current or previous block.
+7. Problems where the model was guided rather than independently discovered.
+8. Core algorithms/data structures that support interview explanation: graph traversal, shortest paths, MST, DSU, heap, hash table, BST, trie, dynamic array, linked list/deque.
 
 ## Update Progress
 
