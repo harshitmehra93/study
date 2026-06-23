@@ -27,33 +27,26 @@ public class CoinChange {
     Map<Integer, Integer> memo;
 
     public int coinChange(int[] coins, int target) {
-        if (target == 0) return 0;
         memo = new HashMap<>();
-        return helper(coins, target);
+        return getMinCoins(coins, target);
     }
 
-    public int helper(int[] coins, int target) {
+    private int getMinCoins(int[] coins, int target) {
+        if (target < 0) return -1;
+        if (target == 0) return 0;
         if (memo.containsKey(target)) return memo.get(target);
-        if (target == 0) {
-            memo.put(0, 0);
-            return 0;
-        }
-        if (target < 0) {
-            memo.put(target, -1);
-            return -1;
-        }
 
         int min = Integer.MAX_VALUE;
         for (int i = 0; i < coins.length; i++) {
-            int interim = helper(coins, target - coins[i]);
+            int interim = getMinCoins(coins, target - coins[i]);
             if (interim == -1) continue;
-            min = Math.min(interim, min);
+            min = Math.min(min, interim);
         }
+
         if (min == Integer.MAX_VALUE) {
             memo.put(target, -1);
             return -1;
         }
-
         memo.put(target, 1 + min);
         return 1 + min;
     }

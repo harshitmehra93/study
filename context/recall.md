@@ -44,6 +44,13 @@ Prioritize:
 7. Problems where the model was guided rather than independently discovered.
 8. Core algorithms/data structures that support interview explanation: graph traversal, shortest paths, MST, DSU, heap, hash table, BST, trie, dynamic array, linked list/deque.
 
+## Interleaving Rule
+
+- Mix topics during a recall session instead of giving consecutive questions from the same section or pattern.
+- Avoid same-topic follow-ups because the previous question can reveal the pattern and inflate apparent recall.
+- Use consecutive same-topic questions only when deliberately diagnosing a specific gap, comparing closely related models, or running a targeted redo block.
+- Do not reveal the pattern label before Harshit identifies the model during mixed recall.
+
 ## Update Progress
 
 After a LeetCode recall attempt, update the `Recall Status` column in `questions.md`.

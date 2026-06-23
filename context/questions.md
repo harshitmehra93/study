@@ -33,8 +33,8 @@ If a problem blocks too long:
 
 | # | Section | Status | Recall Status | Problem / Topic | Takeaways |
 | ---: | --- | --- | --- | --- | --- |
-| 1 | DP | ✅ |  | Coin Change |  |
-| 2 | DP | ✅ |  | Perfect Squares |  |
+| 1 | DP | ✅ | L3 ✅ 2026-06-24 | Coin Change | Clean top-down memoized implementation. Helper state returns the minimum coins needed for a remaining target, or `-1` if impossible. Complexity correction: brute-force recursion has branching factor `m` and height `amount / minCoin`, so `O(m^(amount/minCoin))`; memoization reduces this to `O(amount * m)` time and `O(amount)` space. |
+| 2 | DP | ✅ | L3 ✅ 2026-06-24 | Perfect Squares | Clean top-down memoized implementation. Brute-force recursion has maximum branching factor `sqrt(N)` and height `N`; the full-tree upper bound is `((sqrt(N))^(N+1) - 1) / (sqrt(N) - 1)`, or `O(N^(N/2))`. With memoization, total work is `sum(sqrt(x))` for `x = 1..N`, giving `Theta(N^(3/2))` time and `O(N)` space. |
 | 3 | DP | ✅ |  | Combination Sum IV |  |
 | 4 | DP | ✅ |  | Maximum Product Cutting |  |
 | 5 | DP | ✅ |  | Minimum Path Sum Grid |  |
