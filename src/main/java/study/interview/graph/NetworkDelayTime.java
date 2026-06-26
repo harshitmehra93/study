@@ -112,114 +112,108 @@ public int networkDelayTime(int[][] times, int n, int k)
 
  */
 public class NetworkDelayTime {
-    Map<Integer, Node> nodes;
-    Map<Node, Integer> distanceFromSource;
+
+    private Map<Node, Integer> distanceFromSource;
 
     public int networkDelayTime(int[][] times, int totalNodes, int startingNode) {
-        // build graph with totalnodes add weighted directed edges with times
-        nodes = new HashMap<>();
-        for (int i = 1; i <= totalNodes; i++) getOrCreate(i);
-
-        for (int[] edge : times) {
-            Node u = getOrCreate(edge[0]);
-            Node v = getOrCreate(edge[1]);
-            int weight = edge[2];
-            DirectedEdge directedEdge = new DirectedEdge(u, v, weight);
-            u.adjList.add(directedEdge);
+        distanceFromSource = new HashMap<>();
+        Map<Integer, Node> nodeMap = new HashMap<>();
+        for (int i = 1; i <= totalNodes; i++) {
+            var node = new Node(i);
+            nodeMap.put(i, node);
+            distanceFromSource.put(node, Integer.MAX_VALUE);
         }
 
-        // djikstras
-        // init all distance from source as INF
-        // set source distance as 0
-        // create a priority queue Q with comp as the distance from source
-        // for each Node which is not visited already, get all neighbours and relax the edge
-        // during relaxation if there is a reduction in node distance then add the node to Q
-        distanceFromSource = new HashMap<>();
-        for (int i = 1; i <= totalNodes; i++)
-            distanceFromSource.put(getOrCreate(i), Integer.MAX_VALUE);
+        for (int[] time : times) {
+            Node u = nodeMap.get(time[0]);
+            Node v = nodeMap.get(time[1]);
+            int w = time[2];
+            Edge e = new Edge(u, v, w);
+            u.adjList.add(e);
+        }
 
-        Node start = getOrCreate(startingNode);
-        distanceFromSource.put(start, 0);
-        Comparator<Node> comp = (n1, n2) -> distanceFromSource.get(n1) - distanceFromSource.get(n2);
-        PriorityQueue<Node> q = new PriorityQueue<>(comp);
-        q.add(start);
+        var source = nodeMap.get(startingNode);
+        distanceFromSource.put(source, 0);
+
+        PriorityQueue<Node> minHeap =
+                new PriorityQueue<>(
+                        (a, b) -> distanceFromSource.get(a) - distanceFromSource.get(b));
+        minHeap.offer(source);
         HashSet<Node> visited = new HashSet<>();
 
-        while (!q.isEmpty()) {
-            var node = q.poll();
-            if (visited.contains(node)) continue;
+        while (!minHeap.isEmpty()) {
+            var node = minHeap.poll();
 
-            visited.add(node);
+            if (!visited.add(node)) continue;
 
-            for (var edge : node.adjList) {
-                if (relax(edge)) {
-                    q.offer(edge.v);
+            for (Edge edge : node.adjList) {
+                Node v = edge.v;
+                if (!visited.contains(v)) {
+                    if (relax(edge)) {
+                        minHeap.offer(v);
+                    }
                 }
             }
         }
 
-        // get the max of distance from dource map
         int max = Integer.MIN_VALUE;
-        for (var node : nodes.values()) {
-            Integer dist = distanceFromSource.get(node);
-            if (dist == Integer.MAX_VALUE) return -1;
-            max = Math.max(max, dist);
+        for (int distances : distanceFromSource.values()) {
+            if (distances == Integer.MAX_VALUE) return -1;
+            max = Math.max(max, distances);
         }
         return max;
     }
 
-    private boolean relax(DirectedEdge edge) {
-        int distU = distanceFromSource.get(edge.u);
-        int distV = distanceFromSource.get(edge.v);
-        if (distU == Integer.MAX_VALUE) return false;
-        int newDistance = distU + edge.weight;
-        if (distV > newDistance) {
-            distanceFromSource.put(edge.v, newDistance);
+    private boolean relax(Edge edge) {
+        Node u = edge.u;
+        Node v = edge.v;
+        int newDistance = distanceFromSource.get(u) + edge.weight;
+
+        int oldDistance = distanceFromSource.get(v);
+        if (oldDistance == Integer.MAX_VALUE || oldDistance > newDistance) {
+            distanceFromSource.put(v, newDistance);
             return true;
         }
         return false;
     }
 
-    private Node getOrCreate(int i) {
-        if (!nodes.containsKey(i)) nodes.put(i, new Node(i));
-        return nodes.get(i);
-    }
-
     public static class Node {
-        Integer value;
-        List<DirectedEdge> adjList = new ArrayList<>();
+        Integer val;
+        List<Edge> adjList = new ArrayList<>();
 
-        Node(Integer value) {
-            this.value = value;
+        Node(int val) {
+            this.val = val;
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Node node) return node.value.equals(value);
+        public boolean equals(Object o) {
+            if (o instanceof Node node) {
+                return node.val.equals(val);
+            }
             return false;
         }
 
         @Override
         public int hashCode() {
-            return value.hashCode();
+            return val.hashCode();
         }
     }
 
-    public static class DirectedEdge {
+    public static class Edge {
         Node u;
         Node v;
         Integer weight;
 
-        DirectedEdge(Node u, Node v, Integer weight) {
+        Edge(Node u, Node v, int weight) {
             this.u = u;
             this.v = v;
             this.weight = weight;
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof DirectedEdge edge) {
-                return u.equals(edge.u) && v.equals(edge.v) && weight.equals(edge.weight);
+        public boolean equals(Object o) {
+            if (o instanceof Edge edge) {
+                return edge.u.equals(u) && edge.v.equals(v) && edge.weight.equals(weight);
             }
             return false;
         }

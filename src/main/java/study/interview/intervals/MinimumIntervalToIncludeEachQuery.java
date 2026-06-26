@@ -1,8 +1,5 @@
 package study.interview.intervals;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
-
 /*
 Minimum Interval to Include Each Query
 

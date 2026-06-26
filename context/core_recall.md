@@ -39,7 +39,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | 7 | Graph |  | Count simple paths in DAG | DFS + memoization, path set for cycle guard, recurrence over outgoing neighbors. |
 | 8 | Shortest Path |  | Relaxation primitive | `dist[v] > dist[u] + w(u,v)` update, parent update, unreachable guard. |
 | 9 | Shortest Path |  | BFS shortest path | Works for unweighted graphs; parent reconstruction; level-distance invariant. |
-| 10 | Shortest Path |  | Dijkstra | Non-negative weights, min-priority frontier, settled shortest-distance invariant. |
+| 10 | Shortest Path | L2 review 2026-06-26 | Dijkstra | Non-negative weights, min-priority frontier, settled shortest-distance invariant. Review exposed incorrect muscle memory: using a `PriorityQueue<Node>` whose comparator reads mutable external distances. Relearn textbook `decreaseKey` Dijkstra and Java lazy Dijkstra with immutable `(distance, node)` entries and stale-entry skipping. |
 | 11 | Shortest Path |  | Bellman-Ford | Repeated edge relaxation, negative-edge support, negative-cycle check concept. |
 | 12 | MST |  | Kruskal | Sort edges by weight, add safe edges that connect different DSU components. |
 | 13 | MST |  | Prim | Grow one tree from a start node using cheapest crossing edge / min-priority frontier. |
