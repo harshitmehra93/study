@@ -135,23 +135,30 @@ public class NetworkDelayTime {
         var source = nodeMap.get(startingNode);
         distanceFromSource.put(source, 0);
 
-        PriorityQueue<Node> minHeap =
+        PriorityQueue<State> minHeap =
                 new PriorityQueue<>(
-                        (a, b) -> distanceFromSource.get(a) - distanceFromSource.get(b));
-        minHeap.offer(source);
-        HashSet<Node> visited = new HashSet<>();
+                        (a, b) -> a.distanceFromSource - b.distanceFromSource);
+        minHeap.offer(new State(source, 0));
 
         while (!minHeap.isEmpty()) {
-            var node = minHeap.poll();
+            State state = minHeap.poll();
 
-            if (!visited.add(node)) continue;
+            Node node = state.node;
+            int currentDistance = state.distanceFromSource;
+
+            // stale entries are ignored lazily
+
+            if (currentDistance > distanceFromSource.get(node)) {
+                continue;
+            }
 
             for (Edge edge : node.adjList) {
                 Node v = edge.v;
-                if (!visited.contains(v)) {
-                    if (relax(edge)) {
-                        minHeap.offer(v);
-                    }
+                int newDistance = currentDistance + edge.weight;
+
+                if (newDistance < distanceFromSource.get(v)) {
+                    distanceFromSource.put(v, newDistance);
+                    minHeap.offer(new State(v, newDistance));
                 }
             }
         }
@@ -162,19 +169,6 @@ public class NetworkDelayTime {
             max = Math.max(max, distances);
         }
         return max;
-    }
-
-    private boolean relax(Edge edge) {
-        Node u = edge.u;
-        Node v = edge.v;
-        int newDistance = distanceFromSource.get(u) + edge.weight;
-
-        int oldDistance = distanceFromSource.get(v);
-        if (oldDistance == Integer.MAX_VALUE || oldDistance > newDistance) {
-            distanceFromSource.put(v, newDistance);
-            return true;
-        }
-        return false;
     }
 
     public static class Node {
@@ -198,6 +192,8 @@ public class NetworkDelayTime {
             return val.hashCode();
         }
     }
+
+    record State(Node node, Integer distanceFromSource){}
 
     public static class Edge {
         Node u;

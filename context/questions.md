@@ -63,7 +63,7 @@ If a problem blocks too long:
 | 28 | Graphs | ✅ | L3 ✅ 2026-06-14 | Accounts Merge |  |
 | 29 | Graphs | ✅ |  | Redundant Connection |  |
 | 30 | Graphs | ✅ |  | Graph Valid Tree |  |
-| 31 | Graphs | ✅ | L3 review 2026-06-26 | Network Delay Time | Recalled the Dijkstra model and produced a working implementation, but reused a nonstandard mutable-map priority comparator as muscle memory. The priority queue does not restore its heap invariant when mapped distances change; reinsertion can make tests pass, but the model is harder to reason about and should not be treated as owned. Relearn the two correct forms: textbook Dijkstra with one entry per vertex plus `decreaseKey`, and the conventional Java implementation with immutable `(distance, node)` entries, reinsertion after successful relaxation, and stale-entry skipping. Redo from a blank method. |
+| 31 | Graphs | ✅ | L2 review 2026-06-26 | Network Delay Time | Recalled the Dijkstra model, initially reused a nonstandard mutable-map priority comparator, then corrected the implementation to the conventional Java lazy Dijkstra model: immutable `(node, distance)` heap states, skip stale states when popped, and enqueue only after a successful relaxation. Still redo once from a blank method to replace the old muscle memory with the right invariant. |
 | 32 | Graphs | ✅ |  | Cheapest Flights Within K Stops |  |
 | 33 | Graphs | ✅ |  | Path With Minimum Effort |  |
 | 34 | Graphs | ✅ |  | Swim in Rising Water |  |
