@@ -2,10 +2,8 @@ package study.interview.intervals;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-@Disabled
 class MinimumIntervalToIncludeEachQueryTest {
 
     @Test
@@ -38,6 +36,25 @@ class MinimumIntervalToIncludeEachQueryTest {
         int[] queries = {2, 19, 5, 22};
 
         int[] expected = {2, -1, 4, 6};
+
+        assertArrayEquals(expected, solver.minInterval(intervals, queries));
+    }
+
+    @Test
+    void practiceRecallCase() {
+        MinimumIntervalToIncludeEachQuery solver = new MinimumIntervalToIncludeEachQuery();
+
+        int[][] intervals = {
+            {1, 4},
+            {2, 4},
+            {3, 6},
+            {2, 8},
+            {8, 10},
+            {10, 12}
+        };
+        int[] queries = {2, 3, 5, 9, 11, 13};
+
+        int[] expected = {3, 3, 4, 3, 3, -1};
 
         assertArrayEquals(expected, solver.minInterval(intervals, queries));
     }

@@ -1,5 +1,8 @@
 package study.interview.intervals;
 
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 /*
 Minimum Interval to Include Each Query
 
@@ -42,6 +45,40 @@ Output:
  */
 public class MinimumIntervalToIncludeEachQuery {
     public int[] minInterval(int[][] intervals, int[] queries) {
-        return null;
+        Arrays.sort(intervals, (i1, i2) -> i1[0] - i2[0]);
+        int queriesSorted[][] = new int[queries.length][2];
+        for (int i = 0; i < queries.length; i++) {
+            queriesSorted[i][0] = queries[i];
+            queriesSorted[i][1] = i;
+        }
+        Arrays.sort(queriesSorted, (i1, i2) -> i1[0] - i2[0]);
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> getSize(a) - getSize(b));
+        int index = 0;
+        int[] result = new int[queries.length];
+        for (int i = 0; i < queriesSorted.length; i++) {
+            int current = queriesSorted[i][0];
+            while (index < intervals.length && current >= intervals[index][0]) {
+                minHeap.offer(intervals[index]);
+                index++;
+            }
+
+            while (minHeap.size() > 0 && minHeap.peek()[1] < current) {
+                minHeap.poll();
+            }
+
+            var min = minHeap.peek();
+            int resIndex = queriesSorted[i][1];
+            if (min != null && min[0] <= current && min[1] >= current) {
+                result[resIndex] = getSize(min);
+            } else {
+                result[resIndex] = -1;
+            }
+        }
+        return result;
+    }
+
+    private int getSize(int[] interval) {
+        return interval[1] - interval[0] + 1;
     }
 }

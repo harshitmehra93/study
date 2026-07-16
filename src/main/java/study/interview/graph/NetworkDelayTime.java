@@ -136,8 +136,7 @@ public class NetworkDelayTime {
         distanceFromSource.put(source, 0);
 
         PriorityQueue<State> minHeap =
-                new PriorityQueue<>(
-                        (a, b) -> a.distanceFromSource - b.distanceFromSource);
+                new PriorityQueue<>((a, b) -> a.distanceFromSource - b.distanceFromSource);
         minHeap.offer(new State(source, 0));
 
         while (!minHeap.isEmpty()) {
@@ -193,7 +192,7 @@ public class NetworkDelayTime {
         }
     }
 
-    record State(Node node, Integer distanceFromSource){}
+    record State(Node node, Integer distanceFromSource) {}
 
     public static class Edge {
         Node u;
