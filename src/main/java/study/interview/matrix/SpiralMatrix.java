@@ -17,69 +17,43 @@ Input:
 Output: [1,2,3,6,9,8,7,4,5]
  */
 public class SpiralMatrix {
-    List<Integer> result;
-
     public List<Integer> spiralOrder(int[][] matrix) {
-        result = new ArrayList<>();
-        boolean[][] visited = new boolean[matrix.length][matrix[0].length];
-        int i = 0, j = 0;
-        while (true) {
-            if (isInvalidIndex(matrix, i, j)) break;
-            if (visited[i][j]) break;
-            j = rightTraversal(matrix, i, j, visited);
-            i = bottomTraversal(matrix, i + 1, j, visited);
-            j = leftTraversal(matrix, i, j - 1, visited);
-            i = upTraversal(matrix, i - 1, j, visited);
-            j++;
+        int top = 0;
+        int bottom = matrix.length - 1;
+        int left = 0;
+        int right = matrix[0].length - 1;
+        List<Integer> result = new ArrayList<>();
+
+        while (left <= right && top <= bottom) {
+            // top
+            for (int j = left; j <= right; j++) {
+                result.add(matrix[top][j]);
+            }
+
+            // right
+            for (int i = top + 1; i <= bottom; i++) {
+                result.add(matrix[i][right]);
+            }
+
+            // bottom
+            if (top < bottom) {
+                for (int j = right - 1; j >= left; j--) {
+                    result.add(matrix[bottom][j]);
+                }
+            }
+
+            // left
+            if (left < right) {
+                for (int i = bottom - 1; i > top; i--) {
+                    result.add(matrix[i][left]);
+                }
+            }
+
+            top++;
+            bottom--;
+            left++;
+            right--;
         }
         return result;
-    }
-
-    private int upTraversal(int[][] matrix, int i, int j, boolean[][] visited) {
-        if (isInvalidIndex(matrix, i, j)) return i;
-
-        for (; i >= 0; i--) {
-            if (visited[i][j]) return i + 1;
-            result.add(matrix[i][j]);
-            visited[i][j] = true;
-        }
-        return i + 1;
-    }
-
-    private int leftTraversal(int[][] matrix, int i, int j, boolean[][] visited) {
-        if (isInvalidIndex(matrix, i, j)) return j;
-
-        for (; j >= 0; j--) {
-            if (visited[i][j]) return j + 1;
-            result.add(matrix[i][j]);
-            visited[i][j] = true;
-        }
-        return j + 1;
-    }
-
-    private int bottomTraversal(int[][] matrix, int i, int j, boolean[][] visited) {
-        if (isInvalidIndex(matrix, i, j)) return i;
-
-        for (; i < matrix.length; i++) {
-            if (visited[i][j]) return i - 1;
-            result.add(matrix[i][j]);
-            visited[i][j] = true;
-        }
-        return i - 1;
-    }
-
-    private int rightTraversal(int[][] matrix, int i, int j, boolean[][] visited) {
-        if (isInvalidIndex(matrix, i, j)) return j;
-
-        for (; j < matrix[0].length; j++) {
-            if (visited[i][j]) return j - 1;
-            result.add(matrix[i][j]);
-            visited[i][j] = true;
-        }
-        return j - 1;
-    }
-
-    private static boolean isInvalidIndex(int[][] matrix, int i, int j) {
-        return i >= matrix.length || j >= matrix[0].length || i < 0 || j < 0;
     }
 }
