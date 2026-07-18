@@ -30,7 +30,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 
 | # | Area | Recall Status | Topic | What To Recall |
 | ---: | --- | --- | --- | --- |
-| 1 | Graph |  | BFS traversal / unweighted shortest path | Queue frontier, visited timing, parent map, distance levels, `O(V + E)`. |
+| 1 | Graph | L3 review 2026-07-19 | BFS traversal / unweighted shortest path | Correct full implementation using mark-on-enqueue, FIFO traversal, distance assignment, parent tracking, and backward path reconstruction. Recall initially marked visited on dequeue, described the frontier as an MST level, and gave `O(V)` time; corrected to the invariant that the queue holds vertices in nondecreasing shortest distance and to `O(V + E)` time with `O(V)` extra space. The first-discovery shortest-path proof required guidance, so redo that explanation independently. |
 | 2 | Graph |  | DFS recursive traversal | White/grey/black states, discovery/finish time, recursion stack, connected components, `O(V + E)`. |
 | 3 | Graph |  | DFS iterative traversal | Stack simulation, neighbor ordering, visited timing, difference from recursive DFS. |
 | 4 | Graph |  | Edge classification | Tree, back, forward, and cross edges using DFS colors and discovery times. |
