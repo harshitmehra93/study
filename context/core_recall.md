@@ -45,7 +45,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | 13 | MST |  | Prim | Grow one tree from a start node using cheapest crossing edge / min-priority frontier. |
 | 14 | DSU |  | Forest disjoint set | `makeSet`, `findSet`, `union`, parent pointers, rank/size idea, path compression. |
 | 15 | DSU |  | Linked-list disjoint set | Representative pointer, union cost tradeoff, why forest DSU is preferred. |
-| 16 | Heap |  | Min-heap operations | Shape invariant, heap-order invariant, sift-up/sift-down, push/pop complexity. |
+| 16 | Heap | L1 review 2026-07-19 | Min-heap operations | Correctly explained and traced insert, sift-up, extract-min, and sift-down after guidance. Heap-order knowledge was solid, but recall initially omitted the complete-tree shape invariant, did not state that sift-down must choose the smaller child, treated `heap[0] == null` as the emptiness source of truth instead of logical size, and gave `O(n log n)` for bottom-up construction. Rehearse: complete tree filled left-to-right; parent `(i - 1) / 2`, children `2i + 1` and `2i + 2`; `O(log n)` insert/extract, `O(1)` peek and iterative auxiliary space, `O(n)` bottom-up heapify, and `O(n)` backing storage. |
 | 17 | Hash Table |  | Hash table model | Bucket array, collision handling, load factor, resizing, average vs worst-case complexity. |
 | 18 | BST |  | BST traversal/search/min/max | Ordering invariant, inorder sorted order, height-dependent complexity. |
 | 19 | BST |  | Successor / predecessor | Right-subtree min case; ancestor walk case. |
