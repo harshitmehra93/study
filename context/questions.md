@@ -56,7 +56,7 @@ If a problem blocks too long:
 | 21 | Graphs | ✅ |  | Rotting Oranges |  |
 | 22 | Graphs | ✅ |  | Clone Graph |  |
 | 23 | Graphs | ✅ |  | Course Schedule I |  |
-| 24 | Graphs | ✅ |  | Course Schedule II |  |
+| 24 | Graphs | ✅ | L2 review 2026-07-20 | Course Schedule II | Independently recalled edge direction `prerequisite → dependent`, DFS finishing order, WHITE/GREY/BLACK states, back-edge cycle detection, and traversal from every unvisited course. Two implementation details needed correction: sorting explicit finish times adds O(V log V), so append on finish and reverse once (or add to the front); cycle detection must propagate through every recursive caller via a boolean/exception so callers do not continue marking nodes BLACK and appending them. O(V + E) build and traversal time, O(V + E) total space including adjacency storage, and O(V) auxiliary space if the graph is treated as input. |
 | 25 | Graphs | ✅ |  | Pacific Atlantic Water Flow |  |
 | 26 | Graphs | ✅ |  | Surrounded Regions |  |
 | 27 | Graphs | ✅ |  | Number of Enclaves |  |
