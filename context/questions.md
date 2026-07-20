@@ -42,7 +42,7 @@ If a problem blocks too long:
 | 7 | DP | ✅ |  | Target Sum |  |
 | 8 | DP | ✅ |  | Longest Increasing Subsequence |  |
 | 9 | DP | ✅ |  | Longest Common Subsequence |  |
-| 10 | DP | ✅ |  | Edit Distance |  |
+| 10 | DP | ✅ | L1 review 2026-07-20 | Edit Distance | Independently recalled the correct `(i, j)` state, base cases, and insert/delete/replace recurrence with memoization. Complexity follow-up: memo has `O(mn)` states, while recursive stack depth is `O(m+n)`, not `O(m)`. |
 | 11 | DP | ✅ |  | 0/1 Knapsack |  |
 | 12 | DP | ✅ |  | Unbounded Knapsack basics |  |
 | 13 | DP | ✅ |  | Longest Palindromic Subsequence |  |
@@ -51,9 +51,9 @@ If a problem blocks too long:
 | 16 | DP | ✅ | L3 ✅ 2026-06-14 | Distinct Subsequences |  |
 | 17 | DP | ✅ |  | Longest Palindromic Substring |  |
 | 18 | DP | ✅ |  | Palindromic Substrings |  |
-| 19 | Graphs | ✅ |  | Number of Islands |  |
+| 19 | Graphs | ✅ | L1 review 2026-07-20 | Number of Islands | Recalled the correct outer grid scan plus DFS/visited approach: each traversal consumes one four-directionally connected component and each newly discovered unvisited land cell starts one island. Precision follow-up: mark cells at discovery before pushing/recursing, and express the scan plus traversal as `O(RC)` time rather than `O(2n)`; separate visited storage and worst-case DFS depth are each `O(RC)`. |
 | 20 | Graphs | ✅ |  | Max Area of Island |  |
-| 21 | Graphs | ✅ |  | Rotting Oranges |  |
+| 21 | Graphs | ✅ | L1 review 2026-07-20 | Rotting Oranges | Recalled the correct multi-source BFS and two-frontier model: enqueue all initially rotten oranges, then process simultaneous infection waves. Minute accounting needed correction: mark a fresh orange rotten and decrement `remainingFresh` immediately when enqueuing it, and after a level increment minutes only if the next frontier is nonempty (or process levels only while the queue is nonempty and fresh oranges remain). This preserves `[[2]] -> 0` and `[[2,1]] -> 1`. Return `-1` iff fresh oranges remain after BFS. `O(RC)` time and `O(RC)` worst-case queue space. |
 | 22 | Graphs | ✅ |  | Clone Graph |  |
 | 23 | Graphs | ✅ |  | Course Schedule I |  |
 | 24 | Graphs | ✅ | L2 review 2026-07-20 | Course Schedule II | Independently recalled edge direction `prerequisite → dependent`, DFS finishing order, WHITE/GREY/BLACK states, back-edge cycle detection, and traversal from every unvisited course. Two implementation details needed correction: sorting explicit finish times adds O(V log V), so append on finish and reverse once (or add to the front); cycle detection must propagate through every recursive caller via a boolean/exception so callers do not continue marking nodes BLACK and appending them. O(V + E) build and traversal time, O(V + E) total space including adjacency storage, and O(V) auxiliary space if the graph is treated as input. |
@@ -71,7 +71,7 @@ If a problem blocks too long:
 | 36 | Backtracking | ✅ |  | Subsets II |  |
 | 37 | Backtracking | ✅ |  | Permutations |  |
 | 38 | Backtracking | ✅ |  | Combination Sum |  |
-| 39 | Backtracking | ✅ |  | Combination Sum II |  |
+| 39 | Backtracking | ✅ | L1 review 2026-07-20 | Combination Sum II | Recalled sorting, backtracking state `(start, remainingTarget, path)`, one-use index progression, base cases, and `O(n)` depth/path space. Duplicate handling needed correction: skip `candidates[i]` only when `i > start && candidates[i] == candidates[i - 1]`, which removes equal competing choices at the same recursion depth while allowing two equal values from distinct indices across depths. Recurse with `i + 1`; because the array is sorted, break the loop when a candidate exceeds the remaining target. Worst-case search is exponential, with path-copy/output costs commonly expressed as `O(n * 2^n)`. |
 | 40 | Backtracking | ✅ |  | Generate Parentheses |  |
 | 41 | Backtracking | ✅ |  | Letter Combinations of a Phone Number |  |
 | 42 | Backtracking | 🟡 → ✅ | L3 ✅ 2026-06-14 | Palindrome Partitioning — guided, reattempt later | Clean independent recall implementation. |
@@ -85,7 +85,7 @@ If a problem blocks too long:
 | 50 | Trees | ✅ |  | Binary Tree Level Order Traversal |  |
 | 51 | Trees | ✅ |  | Subtree of Another Tree |  |
 | 52 | Trees | ✅ |  | Lowest Common Ancestor of BST |  |
-| 53 | Trees | ✅ |  | Validate Binary Search Tree |  |
+| 53 | Trees | ✅ | L1 review 2026-07-20 | Validate Binary Search Tree | Recalled the correct recursive state `(node, minBound, maxBound)`, null base case, and ancestor-bound propagation: left gets `(minBound, node.value)` and right gets `(node.value, maxBound)`. Correctness follow-up: ordering is strict, so duplicates are invalid and reject `value <= minBound || value >= maxBound`. Space is `O(h)`, giving `O(log n)` for a balanced tree and `O(n)` for a skewed tree, not `O(1)`. |
 | 54 | Trees | ✅ |  | Kth Smallest Element in BST |  |
 | 55 | Trees | ✅ |  | Binary Tree Right Side View |  |
 | 56 | Trees | ✅ |  | Count Good Nodes in Binary Tree |  |
@@ -134,7 +134,7 @@ If a problem blocks too long:
 | 99 | Stack | ✅ brute-force/update-all-previous solution correct; 🟡 redo with monotonic decreasing stack; ✅ redo done |  | Daily Temperatures |  |
 | 100 | Stack | ✅ 100th DSA roadmap problem; ✅ monotonic stack pattern connected with prior monotonic deque learning |  | Next Greater Element I |  |
 | 101 | Stack | 🟡 Modeling-heavy problem; ✅ Standard solution written; 🟡 Intuition not owned yet | L3 ✅ 2026-06-23 | Car Fleet | Correct recall implementation after fixing the conceptual bug: a car that catches a fleet ahead merges into it; it does not pop or replace the ahead fleet's arrival time. |
-| 102 | Stack | 🟡 standard monotonic-stack solution provided; redo later | L3 review 2026-06-23 | Largest Rectangle in Histogram | Model each unresolved bar as `(start, height)`; popped taller bars transfer their earliest start to the current shorter bar. |
+| 102 | Stack | 🟡 standard monotonic-stack solution provided; redo later | L3 review 2026-06-23; L1 review 2026-07-20 | Largest Rectangle in Histogram | Recalled the unresolved `(height, earliestStart)` stack model and the transfer of the earliest popped start to the current shorter bar. Current recall initially calculated area using the current height rather than each popped height. When `(height, start)` is resolved at index `i`, its maximal width is `i - start` and its area is `height × (i - start)`. A virtual zero-height bar at index `n` flushes unresolved entries. Each bar is pushed once and popped once, so even roughly `2n` stack operations are O(n) worst-case amortized time; stack space is O(n). |
 | 103 | Stack | 🟡 correct O(n²) scan; ✅ optimized span compression implemented after guidance |  | Online Stock Span | Store `(price, span)`; permanently pop every price `<= current` and absorb its compressed span. Amortized O(1) per call. |
 | 104 | Linked List | 🟡 correct stack solution; ✅ O(1) pointer reversal implemented |  | Reverse Linked List | Clean constant-space mutation order: preserve the forward link before redirecting each `next`; old head becomes the tail. |
 | 105 | Linked List | ✅ |  | Merge Two Sorted Lists | Reused existing nodes with a merged-tail pointer; append the remaining suffix when one input is exhausted. O(n + m) time, O(1) extra space. |
