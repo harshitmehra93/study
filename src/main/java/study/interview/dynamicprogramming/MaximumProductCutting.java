@@ -1,30 +1,23 @@
 package study.interview.dynamicprogramming;
 
-import java.util.Arrays;
-
 public class MaximumProductCutting {
-    // Given a rod of length n, cut it into pieces to maximize the product of lengths.
-    int[] memo;
+
+    Integer[] memo;
 
     public int maximumProductCutting(int num) {
-        memo = new int[num + 1];
-        Arrays.fill(memo, -1);
+        if (num <= 2) return 1;
+        memo = new Integer[num + 1];
         return helper(num);
     }
 
-    int helper(int num) {
-        if (memo[num] != -1) return memo[num];
+    private int helper(int num) {
         if (num <= 2) return 1;
-
-        int max = Integer.MIN_VALUE;
+        if (memo[num] != null) return memo[num];
+        int max = 1;
         for (int i = 1; i < num; i++) {
-            int noCut = i * (num - i);
-            int cut = i * helper(num - i);
-
-            int interim = Math.max(noCut, cut);
+            int interim = Math.max(i * (num - i), i * helper(num - i));
             max = Math.max(interim, max);
         }
-
         return memo[num] = max;
     }
 }
