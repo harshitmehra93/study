@@ -4,7 +4,7 @@
 
 ## Current Phase
 
-Harshit is in **Phase 3B / Phase 4 ramp: Rolling Recall + Mixed Timed Practice**.
+Harshit is in **Phase 3B / Phase 4 ramp, with initial Phase 5 coding mocks started**.
 
 Active block: **Rolling recall across all completed first-pass blocks**.
 
@@ -28,8 +28,8 @@ Immediate DSA focus:
 | Phase 2 | Core hard foundations: DP, Graphs, Backtracking, Trees, Heaps | ✅ Mostly done |
 | Phase 3A | First-pass high-frequency pattern installation | ✅ Required first pass complete/touched |
 | Phase 3B | Rolling recall after first pass | 🟡 Active |
-| Phase 4 | Mixed timed practice | 🟡 Ready to start in small doses |
-| Phase 5 | Mock interview mode | Not started |
+| Phase 4 | Mixed timed practice | 🟡 Active in small doses |
+| Phase 5 | Mock interview mode | 🟡 Started 2026-07-23 |
 
 ---
 
@@ -55,7 +55,7 @@ Immediate DSA focus:
 | Tries | 60-65% coverage, Word Search II redo remains |
 | Math / Bit | 65-70% coverage, two's-complement recall gaps remain |
 | Pattern recall without labels | Active, early |
-| Mixed timed interview practice | Ready to begin |
+| Mixed timed interview practice | Active; two Exponent DSA mocks completed 2026-07-23 |
 | System design | Foundation exists, interview packaging immature |
 | Behavioral stories | Strong raw material, needs packaging |
 | Overall Google L5 readiness | ~35-45% |
@@ -73,7 +73,7 @@ Immediate DSA focus:
 | Jump Game | ✅ `farthestReachable` frontier solution correct |
 | Jump Game II | 🟡 BFS-level range compression understood, not fully owned |
 | Gas Station | ✅ brute force correct; 🟡 greedy failed-prefix lemma not fully owned |
-| Partition Labels | ✅ last-occurrence model understood; optimized boundary redo later |
+| Partition Labels | ✅ L2 recall completed with a linear first/last-interval scan |
 | Hand of Straights | ✅ smallest remaining card greedy implemented |
 | Merge Triplets to Form Target Triplet | ✅ safe-triplet feasibility solution implemented |
 
@@ -119,7 +119,6 @@ Current high-priority yellow redo list:
 
 - Jump Game II
 - Gas Station
-- Partition Labels optimized version
 - Largest Rectangle in Histogram
 - Minimum Interval to Include Each Query
 - Sliding Window Maximum
@@ -178,6 +177,8 @@ to:
 ---
 
 ## Phase 5: Mock Interview Mode
+
+Status: **Started on 2026-07-23** with two 20-30 minute Exponent DSA coding rounds. One problem was solved within the round and one was incomplete. Exact mock results and follow-ups are tracked in `context/mock_interviews.md`.
 
 Start after:
 
