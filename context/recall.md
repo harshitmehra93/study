@@ -35,14 +35,15 @@ Most days, Level 1 or Level 2 is enough.
 
 Prioritize:
 
-1. Older problems first. Recency must be weighed before status: prefer problems that have not been attempted or recalled for the longest time.
-2. Avoid selecting a problem attempted in the last 7 days unless Harshit explicitly requests it, it was a failed recall that needs immediate correction, or no suitable older item exists.
-3. Check available recency evidence before choosing: Recall Status dates, dated takeaways, recent Git history, and recently modified implementation files. A blank Recall Status does not mean the problem is old.
-4. Yellow problems. I had started marking problems as yellow only after completing Heap section, so recall earlier green problems too.
-5. Older solved problems with no recent recall.
-6. High-frequency problems from the current or previous block.
-7. Problems where the model was guided rather than independently discovered.
-8. Core algorithms/data structures that support interview explanation: graph traversal, shortest paths, MST, DSU, heap, hash table, BST, trie, dynamic array, linked list/deque.
+1. Problems and core-skills topics that have been attempted but never recalled. A blank Recall Status gets highest priority after recency is verified.
+2. Do not select anything attempted, implemented, reviewed, or recalled within the last 3 weeks (21 calendar days), unless Harshit explicitly requests that specific item.
+3. Among eligible items, prefer the one that has gone the longest without an attempt or recall.
+4. Check all available recency evidence before choosing: Recall Status dates, dated takeaways, recent Git history, and recently modified implementation files. A blank Recall Status does not by itself prove that the item is old enough.
+5. Yellow problems. I had started marking problems as yellow only after completing Heap section, so recall earlier green problems too.
+6. Older solved problems with prior recall.
+7. High-frequency problems from the current or previous block.
+8. Problems where the model was guided rather than independently discovered.
+9. Core algorithms/data structures that support interview explanation: graph traversal, shortest paths, MST, DSU, heap, hash table, BST, trie, dynamic array, linked list/deque.
 
 ## Interleaving Rule
 
