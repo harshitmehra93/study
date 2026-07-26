@@ -1,318 +1,114 @@
 # Roadmap
 
-`roadmap.md` is the phase-level planning summary. Use `questions.md` as the source of truth for exact problem status.
+Status date: **2026-07-26**
 
-## Current Phase
+This file owns phase-level planning, priorities, transition gates, and qualitative readiness. It does not own exact problem, recall, mixed-attempt, or mock results.
 
-Harshit is in **Phase 3B / Phase 4 ramp, with initial Phase 5 coding mocks started**.
+## Current Snapshot
 
-Active block: **Rolling recall across all completed first-pass blocks**.
+Primary DSA phase:
 
-Current milestone: **first pass through the required DSA roadmap is complete/touched**. Use `questions.md` for exact per-problem status and optional-problem exceptions.
+> **Phase 3B — complete the first full rolling-recall pass across the learned question bank.**
 
-Immediate DSA focus:
+Default next coaching mode:
 
-1. Run rolling recall across yellow, guided, and older no-recall problems.
-2. Mix in core-skills algorithm recall from `context/core_recall.md`.
-3. Start mixed timed practice in small doses.
-4. Keep targeted redo for hard modeling problems.
-5. Avoid returning to block-by-block learning unless a recall failure exposes a real pattern gap.
+> **Recall**
 
----
+At the last calibration, about 60% of the question bank had a first verified
+recall attempt recorded. This measures recall coverage, not mastery. Use
+non-empty `Latest Recall` values in `questions.md` for the current exact figure.
 
-## Current DSA Phase Map
+Parallel exposure:
+
+* **Phase 4 mixed transfer:** ramp planned; `mixed_practice.md` currently has 0 logged fresh attempts.
+* **Phase 5 coding mocks:** light exposure started on 2026-07-23; exact results belong in `mock_interviews.md`.
+* **System design:** foundation exists, but active interview packaging needs more repetitions.
+* **Behavioral:** strong raw material exists, but senior stories still need packaging.
+
+## Immediate Priorities
+
+1. Finish first-pass recall coverage across required problems in `questions.md`.
+2. Continue core algorithm and data-structure recall from `core_recall.md`.
+3. Use new pattern learning only when recall exposes a genuine missing foundation.
+4. Prepare the verified mixed candidate pool, but keep Recall as the default DSA mode until the transition gate.
+5. Continue light coding-mock, system-design, and behavioral exposure in parallel.
+
+## DSA Phase Map
 
 | Phase | Goal | Status |
 | --- | --- | --- |
 | Phase 1 | Basic coding fluency | ✅ Done |
-| Phase 2 | Core hard foundations: DP, Graphs, Backtracking, Trees, Heaps | ✅ Mostly done |
-| Phase 3A | First-pass high-frequency pattern installation | ✅ Required first pass complete/touched |
-| Phase 3B | Rolling recall after first pass | 🟡 Active |
-| Phase 4 | Mixed timed practice | 🟡 Active in small doses |
-| Phase 5 | Mock interview mode | 🟡 Started 2026-07-23 |
+| Phase 2 | Core DP, graphs, backtracking, trees, and heap foundations | 🟡 Mostly done |
+| Phase 3A | Required first-pass pattern installation | ✅ Required pass complete |
+| Phase 3B | First full rolling-recall pass | 🟡 Primary active block |
+| Phase 4 | Mixed / unseen transfer practice | Planned ramp; 0 fresh attempts logged |
+| Phase 5 | Formal mock consistency | Light calibration exposure started |
 
----
+## Phase 4 Transition
 
-## Approximate Readiness
+Make mixed practice the primary DSA mode after:
 
-| Area | Current Status |
-| --- | ---: |
-| Basic coding fluency | 80-85% |
-| Java implementation | 80-85% |
-| Dynamic Programming | 70-75% |
-| Graphs | 70-75% |
-| Backtracking | 65-70% |
-| Trees | 70-75% |
-| Heaps / Priority Queue | 65-70% |
-| Sliding Window | 70-75% coverage, some recall gaps |
-| Two Pointers | 75-80% |
-| Intervals | 70-75% coverage, some heap/greedy redo gaps |
-| Greedy | 60-65% coverage, 45-55% ownership |
-| Stack / Monotonic Stack | 65-70% coverage, key recall gaps remain |
-| Linked List | 70-75% coverage, pointer-fluency redos remain |
-| Matrix | 70-75% coverage, boundary-model redos remain |
-| Binary Search | 70-75% coverage, answer-search/floor-search needs recall |
-| Tries | 60-65% coverage, Word Search II redo remains |
-| Math / Bit | 65-70% coverage, two's-complement recall gaps remain |
-| Pattern recall without labels | Active, early |
-| Mixed timed interview practice | Active; two Exponent DSA mocks completed 2026-07-23 |
-| System design | Foundation exists, interview packaging immature |
-| Behavioral stories | Strong raw material, needs packaging |
-| Overall Google L5 readiness | ~35-45% |
-| Overall Google L4 readiness | ~50-60% |
+1. Every required learned problem has received its first recall attempt, subject to explicit optional exceptions in `questions.md`.
+2. Repeated recall gaps have been identified for targeted repair.
+3. A verified `Ready` candidate pool exists in `mixed_practice.md`.
 
----
-
-## Recently Completed / Advanced Blocks
-
-### Greedy
-
-| Problem | Status |
-| --- | --- |
-| Maximum Subarray | ✅ Kadane transition understood |
-| Jump Game | ✅ `farthestReachable` frontier solution correct |
-| Jump Game II | 🟡 BFS-level range compression understood, not fully owned |
-| Gas Station | ✅ brute force correct; 🟡 greedy failed-prefix lemma not fully owned |
-| Partition Labels | ✅ L2 recall completed with a linear first/last-interval scan |
-| Hand of Straights | ✅ smallest remaining card greedy implemented |
-| Merge Triplets to Form Target Triplet | ✅ safe-triplet feasibility solution implemented |
-
-Important greedy methodology update:
-
-Greedy must be learned **proof-first**, not as tricks:
-
-1. Understand the objective.
-2. Look at simple special cases.
-3. Guess a local choice.
-4. Break naive greedy choices with counterexamples.
-5. Find the real safe choice.
-6. Prove the choice using exchange, staying-ahead, induction, cut property, or elimination.
-7. Convert the proof into code: sorting, heap, scan, frontier, or interval merge.
-
-### Stack / Monotonic Stack
-
-| Problem | Status |
-| --- | --- |
-| Valid Parentheses | ✅ Basic stack pattern |
-| Min Stack | ✅ Auxiliary min-history stack solution implemented |
-| Daily Temperatures | ✅ monotonic stack redo completed |
-| Next Greater Element I | ✅ monotonic waiting-stack solution implemented |
-| Car Fleet | ✅ L3 recall completed after correcting merge invariant |
-| Largest Rectangle in Histogram | 🟡 L3 review; boundary invariant needs one more clean pass |
-| Online Stock Span | ✅ optimized span-compression solution implemented |
-
-Stack / monotonic stack learning hook:
-
-> Stack problems are “waiting / resolution” problems.
-
-Ask:
-
-1. What is waiting?
-2. What future/current event resolves it?
-3. Should the stack store value or index?
-4. When popping, what answer can be computed?
-5. What remains unresolved gets default answer.
-
----
-
-Current high-priority yellow redo list:
-
-- Jump Game II
-- Gas Station
-- Largest Rectangle in Histogram
-- Minimum Interval to Include Each Query
-- Sliding Window Maximum
-- Minimum Window Substring
-- Serialize and Deserialize Binary Tree
-- Find Median from Data Stream
-- Spiral Matrix
-- Reorder List O(1)
-- LRU Cache
-- Word Search II
-- Pow(x, n)
-- Sum of Two Integers
-
----
-
-## Phase 3 First-Pass Blocks
-
-| Block | Status |
-| --- | --- |
-| Stack / Monotonic Stack | ✅ Complete/touched; yellow redos remain |
-| Linked List | ✅ Complete/touched; pointer-fluency redos remain |
-| Matrix | ✅ Complete/touched; boundary-model redos remain |
-| Binary Search | ✅ Complete/touched |
-| Tries | ✅ Complete/touched; Word Search II remains yellow |
-| Math / Geometry / Bit | ✅ Complete/touched; two's-complement redos remain |
-
-Immediate next sequence:
-
-1. Rolling recall: yellow and guided problems across all blocks.
-2. Core-skills recall: graph algorithms, DSU, heap, BST, trie, hash table, dynamic array, linked list/deque.
-3. Mixed timed practice: 1 problem at a time, no pattern label.
-4. Targeted redo: only when recall exposes a specific invariant/modeling gap.
-5. Continue light system design and behavioral packaging in parallel.
-
----
-
-## Phase 4: Mixed Timed Practice
-
-Start now in small doses while rolling recall continues.
-
-Structure:
+After transition, use approximately:
 
 | Activity | Split |
 | --- | ---: |
-| Mixed timed problems | 70% |
-| Targeted yellow redo | 30% |
+| Fresh mixed / unseen problems | 70% |
+| Targeted recall, redo, and transfer-gap repair | 30% |
 
-Goal changes from:
+This is a training split, not a daily quota. Do not return to broad block-by-block learning unless repeated evidence exposes a genuine knowledge gap.
 
-> Can I learn this pattern?
+Phase 4 readiness is judged from the fresh-attempt metrics in `mixed_practice.md`, especially independent derivation, interview-level passes, hint dependency, major misses, and repeated gap categories.
 
-to:
+## Mock Cadence
 
-> Can I recognize the pattern without being told, solve in 30-40 minutes, explain clearly, and handle edge cases?
+While Phase 3B remains primary:
 
----
+> Approximately one coding mock every 1-2 weeks.
 
-## Phase 5: Mock Interview Mode
+After Phase 4 is active:
 
-Status: **Started on 2026-07-23** with two 20-30 minute Exponent DSA coding rounds. One problem was solved within the round and one was incomplete. Exact mock results and follow-ups are tracked in `context/mock_interviews.md`.
+> Start around one coding mock per week, then adjust from observed consistency.
 
-Start after:
+Mocks measure complete interview execution and remain separate from mixed-practice transfer results.
 
-1. First pass is complete.
-2. Rolling recall is active.
-3. Initial mixed timed practice has started.
+## Qualitative Readiness
 
-Initial mock cadence:
+Current strengths:
 
-- 1 coding mock every 1-2 weeks.
-- Increase frequency later.
+* solid basic coding and Java implementation
+* broad first-pass DSA coverage
+* strong infrastructure and cloud experience
 
-For Google-level readiness, focus on:
+Current gaps:
 
-- Pattern recognition
-- Clean code
-- Edge cases
-- Communication
-- Speed
-- Calm debugging
-
----
+* recall consistency is not yet established across the full bank
+* unseen transfer is not yet calibrated because no fresh mixed attempts are logged
+* mock evidence is sparse and currently uncalibrated
+* system-design judgment needs more active interview-format repetitions
+* senior behavioral experience needs concise story packaging
 
 ## System Design Track
 
-System design continues in parallel, but lighter than DSA.
+* URL Shortener work has reached the SLO/SLA area.
+* Partitioning and throughput basics have been covered.
+* The next need is active design repetitions rather than more passive reading.
+* Target cadence: around three sessions per week while DSA remains daily.
 
-Spine:
+## Behavioral Track
 
-> **Interview Kickstart Scalable Systems**
+Build senior stories from PITR ownership, Terraform provider delivery, ARM migration, shape work, Sev2 handling, region launches, and major-version upgrades.
 
-Selective support:
+* First story to polish: **PITR ownership**
+* Target cadence: one or two packaging sessions per week.
 
-- DDIA
-- SRE book/workbook
-- Alex Xu
+## Tracker Ownership
 
-Do not binge books linearly.
-
-System design session format:
-
-1. Attempt design first.
-2. Write FR/NFR.
-3. Estimate scale.
-4. Define API and data model.
-5. Design components.
-6. Identify bottlenecks.
-7. Discuss tradeoffs.
-8. Then watch/read and patch gaps.
-
-Current status:
-
-- URL Shortener arc completed through SLO/SLA area.
-- Partitioning and throughput basics covered.
-- Need more active design reps.
-
-Target:
-
-> Around 3 system design sessions per week while DSA remains daily.
-
----
-
-## Behavioral / Senior Stories Track
-
-Story packaging should run slowly in parallel.
-
-Target cadence:
-
-> 1-2 sessions per week.
-
-Story bank:
-
-- PITR for OCI PostgreSQL
-- Terraform provider GA early
-- ARM migration
-- AAIL / shape work
-- On-call Sev2 handling
-- Region launches
-- Major version upgrade lessons
-
-First story to polish:
-
-> **PITR ownership story**
-
-Use:
-
-1. Situation
-2. Task
-3. Action
-4. Result
-5. Technical tradeoffs
-6. Ambiguity
-7. Leadership signal
-
----
-
-## Work Execution Track
-
-Daily minimum:
-
-> One visible artifact per day.
-
-Examples:
-
-- Small PR
-- Debug note
-- Test result
-- Status update
-- Risk list
-- Design note
-- Next-step doc
-
-Rule:
-
-> Reduce ambiguity into one concrete artifact.
-
----
-
-## Weekly Structure
-
-| Track | Weekly Target |
-| --- | --- |
-| DSA recall + new problem | 4 days |
-| Yellow redo / cleanup | 1 day |
-| System design | 3 sessions |
-| Behavioral story packaging | 1-2 sessions |
-| Work execution | Daily visible artifact |
-
----
-
-## Final Plan
-
-Finish first-pass DSA while adding rolling recall, then transition into mixed timed practice, while system design and behavioral stories run in parallel, and daily work execution stays stable.
-
-Current immediate action:
-
-> Continue Stack / Monotonic Stack. Largest Rectangle can be yellow. Then finish Online Stock Span and move to Linked List.
+* `questions.md` — exact learned-problem and recall status
+* `core_recall.md` — core algorithm/data-structure recall
+* `mixed_practice.md` — candidate bank, fresh mixed attempts, and mixed reattempts
+* `mock_interviews.md` — formal mock evidence and follow-up
+* `roadmap.md` — phase-level status and meaningful transitions only

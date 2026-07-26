@@ -1,59 +1,115 @@
-# Rolling Recall Plan
+# Rolling Recall Protocol
 
-Use spaced recall for attempted problems in `questions.md`.
+Use spaced recall for:
 
-Also use `core_recall.md` for important algorithms and data structures practiced under `src/main/java/study/coreskills`.
+- learned interview problems in `questions.md`
+- core algorithms and data structures in `core_recall.md`
 
-Update the `Recall Status` column in `questions.md` using this format:
+`questions.md` owns current learned-problem status and selection data.
+`core_recall.md` owns current core-skill status and selection data. This file
+owns the shared recall protocol and recall-status format.
 
-- `L1 ✅ yyyy-mm-dd` = explained pattern, invariant, and complexity
-- `L2 ✅ yyyy-mm-dd` = wrote code skeleton
-- `L3 ✅ yyyy-mm-dd` = full implementation
-- `Lx review yyyy-mm-dd` = attempted but needs another recall
+Detailed historical evidence is archived in
+`context/history/question_history.md` and
+`context/history/core_recall_history.md`. Select from the compact tracker first,
+then load only the matching archive section for the chosen item.
 
-Give me full problem statements in the recall session and check my answer
+## Prompts
 
-For core-skills recall, give a concise prompt instead of a LeetCode statement:
+For a learned-problem recall:
 
-- operation/algorithm to explain or implement
-- invariant
+- give a complete, self-contained paraphrase of the problem rather than copying an external statement verbatim
+- include the input/output contract, constraints needed for reasoning, at least one example, and important edge conditions
+- do not reveal the pattern or expected algorithm before Harshit identifies the model
+
+For a core-skill recall, give a concise self-contained prompt containing:
+
+- the operation or algorithm to explain or implement
+- the required invariant
 - edge cases
 - complexity
 - one small example
 
-## Recall Levels
+## Recall Levels And Shared Status Format
 
-| Level | Description |
+| Level | Required work |
 | --- | --- |
-| Level 1 | Explain pattern, invariant, and complexity |
-| Level 2 | Write code skeleton |
-| Level 3 | Full implementation |
+| L1 | Explain the model or pattern, invariant, important edge cases, complexity, and a small example. |
+| L2 | Write a coherent code skeleton with the important state and control flow. |
+| L3 | Write a complete implementation and perform a brief correctness and edge-case check. |
 
-Most days, Level 1 or Level 2 is enough.
+Use exactly one latest recall value in each tracker:
 
-## Recall Priority
+- Empty = no verified recall attempt has been recorded.
+- `L1 ✅ yyyy-mm-dd`, `L2 ✅ yyyy-mm-dd`, or `L3 ✅ yyyy-mm-dd` = pass at that level.
+- `L1 review yyyy-mm-dd`, `L2 review yyyy-mm-dd`, or `L3 review yyyy-mm-dd` = attempted at that level but another recall is needed.
 
-Prioritize:
+A **pass** means Harshit completed the important reasoning required for the selected level without meaningful conceptual or algorithmic assistance. Self-correction and minor wording or syntax corrections do not invalidate a pass when the model, invariant, and essential control flow were independently sound.
 
-1. Problems and core-skills topics that have been attempted but never recalled. A blank Recall Status gets highest priority after recency is verified.
-2. Do not select anything attempted, implemented, reviewed, or recalled within the last 3 weeks (21 calendar days), unless Harshit explicitly requests that specific item.
-3. Among eligible items, prefer the one that has gone the longest without an attempt or recall.
-4. Check all available recency evidence before choosing: Recall Status dates, dated takeaways, recent Git history, and recently modified implementation files. A blank Recall Status does not by itself prove that the item is old enough.
-5. Yellow problems. I had started marking problems as yellow only after completing Heap section, so recall earlier green problems too.
-6. Older solved problems with prior recall.
-7. High-frequency problems from the current or previous block.
-8. Problems where the model was guided rather than independently discovered.
-9. Core algorithms/data structures that support interview explanation: graph traversal, shortest paths, MST, DSU, heap, hash table, BST, trie, dynamic array, linked list/deque.
+A **review** means the attempt was incomplete, materially incorrect, or required meaningful help with the model, invariant, recurrence, proof, data structure, or essential control flow. Correct final code after such help remains a review.
 
-## Interleaving Rule
+A **self-reported** item is one Harshit says he knows without demonstrating the
+selected recall level. Preserve that fact in the compact note and matching
+history section if useful, but do not write a latest-recall value, count it as a
+verified attempt, or use it to start the recall cooldown.
 
-- Mix topics during a recall session instead of giving consecutive questions from the same section or pattern.
-- Avoid same-topic follow-ups because the previous question can reveal the pattern and inflate apparent recall.
-- Use consecutive same-topic questions only when deliberately diagnosing a specific gap, comparing closely related models, or running a targeted redo block.
-- Do not reveal the pattern label before Harshit identifies the model during mixed recall.
+Most sessions should use L1 or L2. Use L3 when full implementation fluency is the target or when a prior review exposed an implementation gap.
 
-## Update Progress
+## Deterministic Eligibility And Priority
 
-After a LeetCode recall attempt, update the `Recall Status` column in `questions.md`.
+Determine recency only from dated evidence in the owning tracker:
 
-After a core-skills recall attempt, update `context/core_recall.md`.
+1. the date in `Latest Recall`
+2. a later explicit `Last practice: yyyy-mm-dd` entry in the compact current note
+
+Do not use Git history, filesystem modification times, or undocumented memory as recency evidence.
+
+The `last activity date` is the most recent tracker date above. If neither exists, the date is unknown.
+
+An item is eligible when:
+
+- its last activity date is unknown; or
+- at least 21 full calendar days have elapsed since its last activity date.
+
+For learned problems, consider only rows whose `Learning Status` is non-empty. An unattempted problem is pattern learning or mixed practice, not recall. Core rows are recall candidates because `core_recall.md` contains skills already practiced in the core-skills implementation area.
+
+Harshit may explicitly request a specific item before its eligibility date.
+
+Rank eligible items in this order:
+
+1. Items with an empty latest-recall field.
+2. Items whose latest recall is `review`.
+3. Items whose latest recall is a pass.
+4. Within the same tier, prefer a guided/partially owned learned problem over an independently owned one.
+5. Then treat an unknown activity date as oldest; otherwise choose the earliest activity date.
+6. Use the core-skill priority in `core_recall.md` when otherwise comparable.
+7. Prefer current/previous-block or high-frequency material only as a final tie-breaker.
+
+## Interleaved Learned-Problem Recall
+
+- Mix topics instead of presenting consecutive questions from the same section or pattern.
+- Avoid same-topic follow-ups because the previous question can reveal the model and inflate apparent recall.
+- Use consecutive same-topic questions only to diagnose a specific gap, compare closely related models, or run an explicit redo block.
+- “Interleaved learned-problem recall” still uses already learned problems. It is distinct from unseen Mixed Problem Practice.
+
+## Updating Progress
+
+After every demonstrated attempt:
+
+1. Replace the owning row's latest recall field with the new level, outcome, and date.
+2. Keep the compact current note focused on eligibility and the next action.
+3. Append meaningful evidence to the matching history section when it explains a
+   recurring gap or real progression; do not archive routine pass boilerplate.
+4. Record one concise next action when the result is `review`.
+
+For a learned interview problem:
+
+- update `questions.md`
+- change `Learning Status` from guided to independent only after an independent L3 solution demonstrates ownership of the intended interview solution
+- do not demote `Learning Status` after a weak recall; the latest recall field owns current retention
+
+For a core algorithm or data structure:
+
+- update `core_recall.md`
+
+Do not write the same recall attempt to mixed-practice or mock-interview trackers.
