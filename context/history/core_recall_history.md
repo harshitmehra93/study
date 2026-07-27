@@ -34,6 +34,8 @@ Recall 2026-07-27 (L2 review): The first skeleton modeled binary-tree preorder r
 
 Tree, back, forward, and cross edges using DFS colors and discovery times.
 
+Recall 2026-07-27 (L1 review): Harshit independently recalled the white/gray/black DFS states; tree, back, forward, and cross classifications; the self-loop case; disconnected traversal; and `O(V + E)` time with `O(V)` traversal space. The requested timestamped trace and classification of every example edge were not demonstrated after a focused follow-up. Storing classifications for all edges would require `O(E)` output space. Redo one complete timestamped trace independently.
+
 ## 5. Topological sort
 
 - Area: Graph
@@ -48,12 +50,16 @@ Correctly identified DFS topological sorting and cycle detection through an edge
 
 DFS with parent exclusion; visited neighbor that is not parent means cycle.
 
+Recall 2026-07-27 (L1 pass): Harshit gave a correct DFS forest trace and `O(V + E)` time. His initial gray-neighbor condition incorrectly included the reverse view of a tree edge. After that ambiguity was identified, he independently repaired the model using one shared visited identity per undirected edge: an unvisited edge to a gray vertex is a cycle, while an already processed edge is skipped. He then correctly accounted for the edge flags, colors, and recursion as `O(V + E)` auxiliary space. The standard parent-parameter variant avoids the `O(E)` edge-state overhead.
+
 ## 7. Count simple paths in DAG
 
 - Area: Graph
 - Latest recall at archival migration: Empty
 
 For a verified DAG and fixed destination, use base case `count(destination) = 1` and recurrence `count(u) = sum(count(v))` over outgoing neighbors, memoized by node. No path-set cycle guard is needed after the DAG precondition is established.
+
+Recall 2026-07-27 (L1 review): Harshit first produced a correct path-local backtracking enumeration but omitted memoization, leaving exponential recomputation on converging DAG branches. After that issue and the shared-suffix state were identified, he added the correct memo lookup/store around `count(node) = sum(count(neighbor))`, retained `count(target) = 1`, and recognized that dead ends yield zero. He initially gave `O(VE)` time, then corrected it to `O(V + E)` after edge-scan accounting feedback; memoization and recursion use `O(V)` auxiliary space. Redo the memoized suffix recurrence and complexity independently.
 
 ## 8. Relaxation primitive
 

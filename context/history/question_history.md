@@ -958,6 +958,8 @@ Recall 2026-07-27 (L2 review): First wrote correct recursive binary search, then
 
 Learning history: initially guided or partial, then solved independently. Initial pivot + translated-index model was logically valid but used O(n) pivot scan. Redone with one-pass sorted-half elimination: at each mid, one side must be sorted; use value range checks to decide which half can still contain target. Boundary issue around `mid - 1` corrected by comparing against `nums[mid]` after checking equality first.
 
+Recall 2026-07-27 (L1 review): Harshit began with the correct one-pass sorted-half direction but initially discarded a half using only comparison with `nums[mid]`, which failed the prompt example. After a counterexample, he added the full target-range tests. The target equality check then occurred after the sorted-half branches and could discard an exact midpoint match; after that was identified, he moved it first. A strict `nums[mid] > nums[left]` test still failed to advance on the two-element rotation `[3,1]`; after a focused boundary prompt, he changed it to the inclusive left-sorted test and produced correct control flow. Redo the equality-first order, inclusive sorted-half detection, and complete containment tests independently.
+
 ## 118. Find Minimum in Rotated Sorted Array
 
 - Section: Binary Search

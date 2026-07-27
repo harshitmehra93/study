@@ -122,7 +122,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 81 | Two Pointers | ✅✅ | L1 ✅ 2026-07-26 | Container With Most Water | Latest recall passed; load detailed history only when needed.                                                                 |
 | 82 | Two Pointers | ✅ | L1 review 2026-07-24 | Trapping Rain Water | Latest recall needs review; load the matching history section after selection.                                                |
 | 83 | Intervals | ✅ | L2 review 2026-07-26 | Merge Intervals | Latest recall needs review; load the matching history section after selection.                                                |
-| 84 | Intervals | ✅ |  | Insert Interval | Learned; first verified recall is not yet recorded.                                                                           |
+| 84 | Intervals | ✅ | L1 ✅ 2026-07-27 | Insert Interval | Latest recall passed; phase boundaries, overlap handling, invariant, and complexity were independently sound.                 |
 | 85 | Intervals | ✅ | L1 review 2026-07-26 | Non-overlapping Intervals | Latest recall needs review; load the matching history section after selection.                                                |
 | 86 | Intervals | ✅ |  | Meeting Rooms |                                                                                                                               |
 | 87 | Intervals | ✅ | L1 review 2026-07-24 | Meeting Rooms II | Latest recall needs review; load the matching history section after selection.                                                |
@@ -137,13 +137,13 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 96 | Greedy | ✅ | L1 review 2026-07-25 | Merge Triplets to Form Target Triplet | Latest recall needs review; load the matching history section after selection.                                                |
 | 97 | Stack | ✅ | L1 review 2026-07-26 | Valid Parentheses | Latest recall needs review; load the matching history section after selection.                                                |
 | 98 | Stack | ✅ | L2 review 2026-07-24 | Min Stack | Latest recall needs review; load the matching history section after selection.                                                |
-| 99 | Stack | ✅ |  | Daily Temperatures | Learned; first verified recall is not yet recorded.                                                                           |
+| 99 | Stack | ✅ | L1 ✅ 2026-07-27 | Daily Temperatures | Latest recall passed; stack invariant, strict comparison, and amortized complexity were independently sound.                  |
 | 100 | Stack | ✅ |  | Next Greater Element I | Learned; first verified recall is not yet recorded.                                                                           |
 | 101 | Stack | 🟡 | L1 review 2026-07-24 | Car Fleet | Independent ownership is not established; load the matching history section after selection.                                  |
 | 102 | Stack | 🟡 | L1 review 2026-07-20 | Largest Rectangle in Histogram | Independent ownership is not established; load the matching history section after selection.                                  |
 | 103 | Stack | 🟡 | L1 review 2026-07-27 | Online Stock Span | Active recall was not achieved and retrieval was unreasonably slow; redo the full model and amortized proof independently.    |
 | 104 | Linked List | ✅ | L2 review 2026-07-27 | Reverse Linked List | Redo the uniform `previous/current/next` loop, empty input, invariant, and complexity independently.                          |
-| 105 | Linked List | ✅ |  | Merge Two Sorted Lists | Self-reported familiarity only; no verified recall attempt.                                                                   |
+| 105 | Linked List | ✅ | L1 ✅ 2026-07-27 | Merge Two Sorted Lists | Latest recall passed; merge invariant, edge handling, and complexity were independently sound.                                |
 | 106 | Linked List | ✅ |  | Linked List Cycle | Learned; first verified recall is not yet recorded.                                                                           |
 | 107 | Linked List | 🟡 | L2 review 2026-07-20 | Reorder List | Independent ownership is not established; load the matching history section after selection.                                  |
 | 108 | Linked List | ✅ | L2 review 2026-07-25 | Remove Nth Node From End of List | Latest recall needs review; load the matching history section after selection.                                                |
@@ -155,7 +155,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 114 | Matrix | ✅ | L2 review 2026-07-26 | Rotate Image | Latest recall needs review; load the matching history section after selection.                                                |
 | 115 | Matrix | ✅ | L1 review 2026-07-26 | Search a 2D Matrix | Latest recall needs review; load the matching history section after selection.                                                |
 | 116 | Binary Search | ✅ | L2 review 2026-07-27 | Binary Search | Redo the iterative-only state updates and sorted-order elimination proof independently. |
-| 117 | Binary Search | ✅ |  | Search in Rotated Sorted Array | Learned; first verified recall is not yet recorded.                                                                           |
+| 117 | Binary Search | ✅ | L1 review 2026-07-27 | Search in Rotated Sorted Array | Redo equality-first control flow, inclusive sorted-half detection, and full range elimination independently.                  |
 | 118 | Binary Search | ✅ | L2 review 2026-07-24 | Find Minimum in Rotated Sorted Array | Latest recall needs review; load the matching history section after selection.                                                |
 | 119 | Binary Search | ✅ |  | Time Based Key-Value Store | Learned; first verified recall is not yet recorded.                                                                           |
 | 120 | Binary Search | ✅ | L1 review 2026-07-25 | Koko Eating Bananas | Latest recall needs review; load the matching history section after selection.                                                |
