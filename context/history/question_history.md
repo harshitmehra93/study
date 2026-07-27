@@ -298,7 +298,7 @@ Initial loop-based skeleton recursed with `index + 1` after selecting `nums[i]`,
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+2026-07-27 — L1 review. Began with a valid binary take/skip skeleton for distinct values but did not know how to prevent duplicate value-subsets. After meaningful guidance on sorting and duplicate-run handling, first applied a global adjacent-value condition that would lose repeated-value subsets such as `[2,2]`, then switched to the standard correct loop model: emit the current path, consider candidates from `index`, and skip equal candidates only at the same recursion depth. The final explanation still misstated the entry invariant as an empty list and gave polynomial rather than exponential time. Redo independently: at entry, the path contains the chosen prefix and `index` is the first remaining eligible position; sorting makes equal candidates adjacent; same-depth skipping chooses one representative for the next slot while deeper recursion still permits multiple copies; up to `2^n` distinct subsets with O(n) copying gives O(n × 2^n) time and returned-output space, with O(n) auxiliary recursion/path space.
 
 ## 37. Permutations
 

@@ -74,7 +74,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 33 | Graphs | ✅ |  | Path With Minimum Effort |                                                                                                                               |
 | 34 | Graphs | ✅ |  | Swim in Rising Water |                                                                                                                               |
 | 35 | Backtracking | ✅ | L2 review 2026-07-25 | Subsets | Latest recall needs review; load the matching history section after selection.                                                |
-| 36 | Backtracking | ✅ |  | Subsets II |                                                                                                                               |
+| 36 | Backtracking | ✅ | L1 review 2026-07-27 | Subsets II | Redo the recursion-state invariant, same-depth duplicate proof, and O(n × 2^n) output-sensitive complexity independently.     |
 | 37 | Backtracking | ✅ | L2 review 2026-07-26 | Permutations | Latest recall needs review; load the matching history section after selection.                                                |
 | 38 | Backtracking | ✅ |  | Combination Sum |                                                                                                                               |
 | 39 | Backtracking | ✅ | L1 review 2026-07-20 | Combination Sum II | Latest recall needs review; load the matching history section after selection.                                                |
@@ -83,7 +83,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 42 | Backtracking | ✅ | L3 ✅ 2026-06-14 | Palindrome Partitioning | Latest recall passed; load detailed history only when needed.                                                                 |
 | 43 | Backtracking / Matrix | ✅ |  | Word Search |                                                                                                                               |
 | 44 | Backtracking |  |  | N-Queens — optional later |                                                                                                                               |
-| 45 | Trees | ✅ |  | Maximum Depth of Binary Tree |                                                                                                                               |
+| 45 | Trees | ✅ | L1 ✅ 2026-07-27 | Maximum Depth of Binary Tree | Latest recall passed; recurrence and complexity were independently sound.                                                     |
 | 46 | Trees | ✅ | L1 ✅ 2026-07-25 | Same Tree | Latest recall passed; load detailed history only when needed.                                                                 |
 | 47 | Trees | ✅ |  | Invert Binary Tree |                                                                                                                               |
 | 48 | Trees | ✅ | L1 review 2026-07-21 | Diameter of Binary Tree | Latest recall needs review; load the matching history section after selection.                                                |

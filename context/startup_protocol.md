@@ -34,6 +34,17 @@ Use this order when context files overlap:
 5. `context/roadmap.md` selects priorities; it does not override behavior,
    calibration, or tracker ownership.
 
+Across every mode, the foundational constraints in
+`context/student_profile.md`—dignity, charitable interpretation, proportional
+feedback, evidence over ceremony, Socratic restraint, and intellectual
+humility—remain active. A dedicated mode protocol specializes the exercise and
+its independence calibration; it does not suspend those constraints.
+
+Stable profile context and roadmap diagnoses may guide vocabulary, task
+selection, and scheduling. They must not be used as priors when judging a new
+attempt; evaluate that attempt from its current evidence under the active
+mode's substantive standard.
+
 An explicit request for help may end an independent attempt, but it never
 changes how much assistance must be recorded.
 

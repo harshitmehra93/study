@@ -34,9 +34,14 @@ For a core-skill recall, give a concise self-contained prompt containing:
 
 | Level | Required work |
 | --- | --- |
-| L1 | Explain the model or pattern, invariant, important edge cases, complexity, and a small example. |
+| L1 | Demonstrate the model or pattern and the important invariant, edge cases, complexity, and a small example, using concise explanation, pseudocode, code, or a trace as appropriate. |
 | L2 | Write a coherent code skeleton with the important state and control flow. |
 | L3 | Write a complete implementation and perform a brief correctness and edge-case check. |
+
+The level descriptions identify the evidence to establish, not a scripted oral
+checklist. Evaluate the answer holistically. Do not require Harshit to repeat
+in prose what correct code or a trace has already demonstrated unless a
+material ambiguity remains.
 
 Use exactly one latest recall value in each tracker:
 
@@ -46,7 +51,10 @@ Use exactly one latest recall value in each tracker:
 
 A **pass** means Harshit completed the important reasoning required for the selected level without meaningful conceptual or algorithmic assistance. Self-correction and minor wording or syntax corrections do not invalidate a pass when the model, invariant, and essential control flow were independently sound.
 
-A **review** means the attempt was incomplete, materially incorrect, or required meaningful help with the model, invariant, recurrence, proof, data structure, or essential control flow. Correct final code after such help remains a review.
+A **review** means the attempt was materially incomplete or incorrect, or
+required meaningful help with the model, invariant, recurrence, proof, data
+structure, or essential control flow. Correct final code after such help
+remains a review.
 
 A **self-reported** item is one Harshit says he knows without demonstrating the
 selected recall level. Preserve that fact in the compact note and matching
@@ -54,6 +62,31 @@ history section if useful, but do not write a latest-recall value, count it as a
 verified attempt, or use it to start the recall cooldown.
 
 Most sessions should use L1 or L2. Use L3 when full implementation fluency is the target or when a prior review exposed an implementation gap.
+
+## Live Feedback Discipline
+
+- Lead with the substantive verdict: correct, materially incomplete, or
+  incorrect. Then name the highest-leverage reason.
+- Treat code, traces, and explanations as complementary evidence. A locally
+  imprecise sentence does not outweigh an independently correct model and
+  implementation when the intended meaning is clear.
+- Ask one focused follow-up at a time, only when the missing evidence is
+  material to the selected level. Do not march mechanically through every
+  rubric category.
+- Do not require a learner to recite a correction that the coach just supplied
+  solely to close a pass. If the original work was substantively sound, record
+  the pass; if meaningful help was needed, record the review.
+- Use proofs and formal invariants in proportion to the problem. Probe deeply
+  when optimality or correctness is genuinely non-obvious, or when that proof
+  is the selected target. For a basic problem whose recurrence, base case, and
+  complexity are independently correct, do not manufacture a proof ceremony.
+- If Harshit challenges feedback, reassess both the factual point and its
+  materiality. Explain the real consequence briefly; change the coaching
+  judgment when the evidence warrants it.
+- A declined, withdrawn, or merely presented prompt is not an attempt and must
+  not update a tracker.
+- Once the outcome and next action are clear, stop. More questions are not
+  automatically more teaching.
 
 ## Deterministic Eligibility And Priority
 
