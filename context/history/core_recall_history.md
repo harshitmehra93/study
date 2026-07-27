@@ -25,6 +25,8 @@ Independently recalled the DFS forest, WHITE/GREY/BLACK lifecycle, discovery and
 
 Stack simulation, neighbor ordering, visited timing, difference from recursive DFS.
 
+Recall 2026-07-27 (L2 review): The first skeleton modeled binary-tree preorder rather than adjacency-list DFS. After feedback, Harshit moved to graph neighbors and recovered a mark-on-pop duplicate guard; a temporary switch to FIFO required correction back to a stack. He then identified reverse adjacency iteration to reproduce recursive preorder. `O(V + E)` time was correct, but the claimed `O(V)` stack bound did not account for duplicate pending entries in the mark-on-pop version, and the stack invariant remained imprecise. Harshit clarified that exact iterative discovery/finish simulation using `(vertex, nextNeighborIndex)` frames had never been learned; the coach introduced it during this session. Do not treat that subtopic as failed recall or require it in the next ordinary iterative-DFS redo; defer it as optional later learning.
+
 ## 4. Edge classification
 
 - Area: Graph
@@ -178,4 +180,3 @@ Chose dummy head/tail sentinels and independently wrote correct O(1) `addFirst` 
 - Latest recall at archival migration: Empty
 
 Backtracking choice order, start index, include/exclude or loop recursion.
-

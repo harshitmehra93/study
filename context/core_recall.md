@@ -26,7 +26,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | ---: | --- | --- | --- | --- |
 | 1 | Graph | L3 review 2026-07-19 | BFS traversal and unweighted shortest-path proof | Redo independently; load the matching history section after selection. |
 | 2 | Graph | L1 ✅ 2026-07-24 | DFS recursive traversal | Latest recall passed; load detailed history only when needed. |
-| 3 | Graph |  | DFS iterative traversal | Stack simulation, neighbor ordering, visited timing, difference from recursive DFS. |
+| 3 | Graph | L2 review 2026-07-27 | DFS iterative traversal | Redo ordinary iterative preorder and visited/ordering tradeoffs. Exact frame-based finish simulation was newly taught, not recalled; defer as optional later learning. |
 | 4 | Graph |  | Edge classification | Tree, back, forward, and cross edges using DFS colors and discovery times. |
 | 5 | Graph | L1 review 2026-07-21 | Topological sort | Redo independently; load the matching history section after selection. |
 | 6 | Graph |  | Undirected cycle detection | DFS with parent exclusion; visited neighbor that is not parent means cycle. |

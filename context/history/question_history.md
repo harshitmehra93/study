@@ -152,6 +152,8 @@ Recalled a valid memoized interval-checking model that explores smaller interval
 
 _No detailed evidence was recorded._
 
+Recall 2026-07-27 (L1 review): Proposed interval recursion `R(i,j)` that adds the current palindrome and both smaller intervals, attempting to avoid their overlap by returning zero for previously seen states. This made the recurrence traversal-order dependent, and base intervals were not memoized, so `"aaa"` was overcounted. After the overlap flaw and the need for unique ownership were identified, Harshit explicitly requested the missing model. Teach expansion around odd and even centers; redo its invariant, one-center-per-palindrome proof, `"abba"` trace, and `O(n²)` time / `O(1)` auxiliary-space analysis independently.
+
 ## 19. Number of Islands
 
 - Section: Graphs / Matrix
@@ -239,6 +241,8 @@ _No detailed evidence was recorded._
 - Latest recall at archival migration: Empty
 
 _No detailed evidence was recorded._
+
+Recall 2026-07-27 (L1 review): Independently selected incremental disjoint sets and correctly proposed rejecting the first input edge whose endpoints already have the same representative. The attempt initially described a DSU component as an MST, used “back edge” without proving the existing-path cycle invariant, and did not establish why the accepted edges form one tree. The amortized path-compression plus union-by-rank/size bound was not known and Harshit explicitly requested help. Redo the accepted-forest/component invariant, connected-plus-acyclic proof, and `O(n α(n))` total time / `O(n)` space independently.
 
 ## 30. Graph Valid Tree
 
@@ -720,6 +724,8 @@ Prior learning-status trail: ✅ brute force understood; 🟡 optimal heap sweep
 
 Prior learning-status trail: ✅ correct greedy sort-by-end solution; 🟡 concept was hard; redo once later from memory.
 
+Recall 2026-07-27 (L1 review): Proposed sorting by start and maintaining active intervals in a min-end priority queue. The grouping approach became correct after independently changing the split test from `minEnd <= currentStart` to the strict closed-interval condition `minEnd < currentStart`. The attempt did not recover that the queue can be replaced by the scalar intersection boundary `minEnd`, nor the greedy commitment and global-optimality proof; Harshit explicitly requested the missing model. Redo the scalar invariant and proof independently.
+
 ## 90. Maximum Subarray
 
 - Section: Greedy
@@ -832,6 +838,8 @@ Prior learning-status trail: 🟡 standard monotonic-stack solution provided; re
 
 Prior learning-status trail: 🟡 correct O(n²) scan; ✅ optimized span compression implemented after guidance. Store `(price, span)`; permanently pop every price `<= current` and absorb its compressed span. Amortized O(1) per call.
 
+Recall 2026-07-27 (L1 review): Harshit explicitly reported that active recall was not achieved and retrieval took an unreasonably long time; do not treat the eventual reconstruction as fluent ownership. A decreasing stack of `(price, earliestIndex)` entries and the correct pop/compression control flow eventually emerged, but the first versions used an offline loop/result array rather than a coherent online return, and the ordering invariant and complexity analysis required repeated prompts. The dominance idea was substantially correct, but the amortized result followed after the push-once/pop-once fact was supplied. Redo the online contract, strict price ordering, earliest-index meaning, safe-discard argument, and `O(n)` worst-case call / `O(1)` amortized call / `O(n)` total analysis independently.
+
 ## 104. Reverse Linked List
 
 - Section: Linked List
@@ -839,6 +847,10 @@ Prior learning-status trail: 🟡 correct O(n²) scan; ✅ optimized span compre
 - Latest recall at archival migration: Empty
 
 Prior learning-status trail: 🟡 correct stack solution; ✅ O(1) pointer reversal implemented. Clean constant-space mutation order: preserve the forward link before redirecting each `next`; old head becomes the tail.
+
+On 2026-07-27 Harshit self-reported knowing the three-pointer solution and asked to move on without demonstrating the selected L2 or the required L1 reasoning. Preserve as familiarity only; no verified recall result or cooldown.
+
+Recall 2026-07-27 (L2 review): Harshit returned to demonstrate an implementation. Early versions failed to terminate the old head, creating a cycle, and either failed to connect or lost the final node; empty input was also not handled. After repeated trace-based feedback and a supplied uniform-loop invariant, he produced the correct non-empty loop using reversed-prefix head `A`, current node `B`, and saved `tmp`; only the leading `head == null` guard remained. Redo the standard uniform loop, invariant, edge cases, and `O(n)` time / `O(1)` auxiliary-space analysis independently.
 
 ## 105. Merge Two Sorted Lists
 
@@ -935,6 +947,8 @@ Learning history: initially guided or partial, then solved independently. Indepe
 - Latest recall at archival migration: Empty
 
 Clean recursive binary search with correct empty-search-space invariant `low > high`, safe midpoint, and inclusive bounds.
+
+Recall 2026-07-27 (L2 review): First wrote correct recursive binary search, then placed the same recursive returns inside a `while` loop. After feedback that an iterative search must mutate its bounds rather than recurse, produced the correct inclusive iterative control flow and stated the candidate-range invariant, `O(log n)` time, and `O(1)` space. The elimination explanation relied only on `mid` being unequal and did not use sorted order to exclude the entire discarded half; Harshit chose to move on rather than complete that proof. Redo the iterative state transitions, sorted-order elimination proof, and explicit empty/single-element behavior independently.
 
 ## 117. Search in Rotated Sorted Array
 
