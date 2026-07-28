@@ -316,6 +316,8 @@ Recalled the correct depth-by-depth choice model with a current path and a set o
 
 _No detailed evidence was recorded._
 
+Recall 2026-07-28 (L2 review): Harshit independently wrote the target-zero/negative base cases and correct choose–recurse–restore mechanics. The first skeleton restarted candidate iteration from zero in every call, generating permutations of the same combination. After a focused prompt he introduced a start index, but the recursive transition used `index + 1` rather than the chosen index and therefore did not model unlimited reuse correctly. When asked to choose the child start state, he reverted to the original zero-based loop. The coach supplied the canonical transition: iterate `i` from `start` and recurse with `i`, which permits reusing the chosen candidate while preventing earlier candidates from appearing later. Redo that state ownership, sorted pruning if used, and output-sensitive complexity independently.
+
 ## 39. Combination Sum II
 
 - Section: Backtracking
@@ -355,6 +357,8 @@ Learning history: initially guided or partial, then solved independently. The or
 - Latest recall at archival migration: Empty
 
 _No detailed evidence was recorded._
+
+Recall 2026-07-28 (L2 review): After initially skipping the prompt because recent Word Search II work covered similar board traversal, Harshit explicitly returned and wrote a start-from-every-cell DFS skeleton. The first version did not advance the word index and shared a visited set across sibling branches without restoration. After both issues were identified, he produced correct control flow: validate the current cell and character, mark it, recurse on four neighbors with `index + 1`, restore before returning, and preserve the path-local no-reuse invariant. He independently stated `O(mn × 4^L)` worst-case time and `O(L)` path/recursion space, bounded by the board size. Redo the index transition, unconditional restoration, invariant, and complexity independently.
 
 ## 44. N-Queens — optional later
 
@@ -516,6 +520,8 @@ Independently recovered a correct frequency-map plus max-heap solution and corre
 
 _No detailed evidence was recorded._
 
+Recall 2026-07-28 (L1 review): Harshit independently chose the intended size-`k` max-heap model and stated that the farthest retained point should be removed when the heap exceeds `k`. His first pseudocode implemented a min-heap and trimmed before insertion, allowing a final size of `k + 1`; after feedback he corrected both. Distance comparison initially used square root and unsafe subtraction; the overflow-safe squared-`long` comparison was supplied. He stated the correct retained-prefix invariant, then needed correction from `O(n log n)` / `O(n)` to the bounded-heap `O(n log k)` / `O(k)` analysis. Redo the implementation direction/order, safe distance comparison, and bounded-heap complexity independently.
+
 ## 64. Merge K Sorted Lists
 
 - Section: Heap / Priority Queue
@@ -595,6 +601,8 @@ Prior learning-status trail: 🟡 done but need to redo with standard pattern, r
 - Latest recall at archival migration: Empty
 
 Prior learning-status trail: 🟡 pattern understood, redo once later. ✅(redo done).
+
+Recall 2026-07-28 (L1 review): Harshit began with a frequency-map sliding window but tried to validate it by sorting frequency groups and spending `k` across them. The first `TreeSet` version dropped equal-frequency entries; replacing it with a priority queue preserved entries but remained unnecessarily complex, omitted the result maximum, and failed empty input. After focused prompting, he derived the correct replacement quantity `windowLength - maxFrequency`, but initially reversed the invalidity inequality and then used a single shrink with exact recomputation rather than restoring the valid-window invariant. The preloaded first character also made empty input fail and a one-character input return zero. Redo from an empty window using the invalidity test `windowLength - maxFrequency > k`, restore the chosen window invariant before recording the answer, and state `O(n)` time / fixed-alphabet space independently.
 
 ## 74. Permutation in String
 

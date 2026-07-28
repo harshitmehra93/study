@@ -76,12 +76,12 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 35 | Backtracking | ✅ | L2 review 2026-07-25 | Subsets | Latest recall needs review; load the matching history section after selection.                                                |
 | 36 | Backtracking | ✅ | L1 review 2026-07-27 | Subsets II | Redo the recursion-state invariant, same-depth duplicate proof, and O(n × 2^n) output-sensitive complexity independently.     |
 | 37 | Backtracking | ✅ | L2 review 2026-07-26 | Permutations | Latest recall needs review; load the matching history section after selection.                                                |
-| 38 | Backtracking | ✅ |  | Combination Sum |                                                                                                                               |
+| 38 | Backtracking | ✅ | L2 review 2026-07-28 | Combination Sum | Redo start-index ownership, same-index reuse, permutation-duplicate prevention, pruning, and complexity independently.        |
 | 39 | Backtracking | ✅ | L1 review 2026-07-20 | Combination Sum II | Latest recall needs review; load the matching history section after selection.                                                |
 | 40 | Backtracking | ✅ | L1 review 2026-07-24 | Generate Parentheses | Latest recall needs review; load the matching history section after selection.                                                |
 | 41 | Backtracking | ✅ |  | Letter Combinations of a Phone Number | Self-reported familiarity only; no verified recall attempt.                                                                   |
 | 42 | Backtracking | ✅ | L3 ✅ 2026-06-14 | Palindrome Partitioning | Latest recall passed; load detailed history only when needed.                                                                 |
-| 43 | Backtracking / Matrix | ✅ |  | Word Search |                                                                                                                               |
+| 43 | Backtracking / Matrix | ✅ | L2 review 2026-07-28 | Word Search | Redo `index + 1`, path-local restoration on every return path, helper invariant, and complexity independently.                |
 | 44 | Backtracking |  |  | N-Queens — optional later |                                                                                                                               |
 | 45 | Trees | ✅ | L1 ✅ 2026-07-27 | Maximum Depth of Binary Tree | Latest recall passed; recurrence and complexity were independently sound.                                                     |
 | 46 | Trees | ✅ | L1 ✅ 2026-07-25 | Same Tree | Latest recall passed; load detailed history only when needed.                                                                 |
@@ -94,14 +94,14 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 53 | Trees | ✅ | L1 review 2026-07-20 | Validate Binary Search Tree | Latest recall needs review; load the matching history section after selection.                                                |
 | 54 | Trees | ✅ | L1 review 2026-07-21 | Kth Smallest Element in BST | Latest recall needs review; load the matching history section after selection.                                                |
 | 55 | Trees | ✅ |  | Binary Tree Right Side View |                                                                                                                               |
-| 56 | Trees | ✅ |  | Count Good Nodes in Binary Tree |                                                                                                                               |
+| 56 | Trees | ✅ | L1 ✅ 2026-07-28 | Count Good Nodes in Binary Tree | Latest recall passed; path-maximum state, negative initialization, and traversal complexity were independently sound.         |
 | 57 | Trees | ✅ |  | Lowest Common Ancestor of Binary Tree |                                                                                                                               |
 | 58 | Trees | ✅ | L1 ✅ 2026-07-20 | Construct Binary Tree from Preorder and Inorder Traversal | Latest recall passed; load detailed history only when needed.                                                                 |
 | 59 | Trees | ✅ | L3 ✅ 2026-06-14 | Serialize and Deserialize Binary Tree | Latest recall passed; load detailed history only when needed.                                                                 |
 | 60 | Trees |  |  | Binary Tree Maximum Path Sum — optional later |                                                                                                                               |
 | 61 | Heap / Priority Queue | ✅ | L1 ✅ 2026-07-26 | Kth Largest Element in an Array | Latest recall passed; load detailed history only when needed.                                                                 |
 | 62 | Heap / Priority Queue | ✅ | L2 review 2026-07-24 | Top K Frequent Elements | Latest recall needs review; load the matching history section after selection.                                                |
-| 63 | Heap / Priority Queue | ✅ |  | K Closest Points to Origin |                                                                                                                               |
+| 63 | Heap / Priority Queue | ✅ | L1 review 2026-07-28 | K Closest Points to Origin | Redo max-heap direction, offer-then-trim order, overflow-safe squared distance, and `O(n log k)` / `O(k)` analysis independently. |
 | 64 | Heap / Priority Queue | ✅ | L1 review 2026-07-24 | Merge K Sorted Lists | Latest recall needs review; load the matching history section after selection.                                                |
 | 65 | Heap / Priority Queue | ✅ | L1 review 2026-07-21 | Find Median from Data Stream | Latest recall needs review; load the matching history section after selection.                                                |
 | 66 | Heap / Priority Queue |  |  | Task Scheduler — optional later |                                                                                                                               |
@@ -111,12 +111,12 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 70 | Heap / Priority Queue |  |  | Design Twitter — optional later |                                                                                                                               |
 | 71 | Sliding Window | ✅ | L1 review 2026-07-25 | Best Time to Buy and Sell Stock | Latest recall needs review; load the matching history section after selection.                                                |
 | 72 | Sliding Window | ✅ | L1 review 2026-07-25 | Longest Substring Without Repeating Characters | Latest recall needs review; load the matching history section after selection.                                                |
-| 73 | Sliding Window | ✅ |  | Longest Repeating Character Replacement | Learned; first verified recall is not yet recorded.                                                                           |
+| 73 | Sliding Window | ✅ | L1 review 2026-07-28 | Longest Repeating Character Replacement | Redo empty-window initialization, `length - maxFrequency > k`, valid-window shrinking, and complexity independently.          |
 | 74 | Sliding Window | ✅✅ |  | Permutation in String | Learned; first verified recall is not yet recorded.                                                                           |
 | 75 | Sliding Window | ✅✅ |  | Find All Anagrams in a String |                                                                                                                               |
 | 76 | Sliding Window | ✅ | L1 review 2026-07-19 | Minimum Window Substring | Latest recall needs review; load the matching history section after selection.                                                |
 | 77 | Sliding Window | 🟡 | L2 review 2026-07-22 | Sliding Window Maximum | Independent ownership is not established; load the matching history section after selection.                                  |
-| 78 | Two Pointers | ✅✅ |  | Valid Palindrome |                                                                                                                               |
+| 78 | Two Pointers | ✅✅ | L2 ✅ 2026-07-28 | Valid Palindrome | Latest recall passed; two-pointer filtering and invariant were sound, with a minor on-the-fly case-normalization optimization. |
 | 79 | Two Pointers | ✅ |  | Two Sum II — Input Array Is Sorted |                                                                                                                               |
 | 80 | Two Pointers | ✅ | L1 review 2026-07-25 | 3Sum | Latest recall needs review; load the matching history section after selection.                                                |
 | 81 | Two Pointers | ✅✅ | L1 ✅ 2026-07-26 | Container With Most Water | Latest recall passed; load detailed history only when needed.                                                                 |
@@ -166,7 +166,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 125 | Tries | 🟡 | L1 review 2026-07-20 | Word Search II | Independent ownership is not established; load the matching history section after selection.                                  |
 | 126 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-25 | Plus One | Latest recall passed; load detailed history only when needed.                                                                 |
 | 127 | Math / Geometry / Bit | ✅ | L1 review 2026-07-19 | Pow(x, n) | Latest recall needs review; load the matching history section after selection.                                                |
-| 128 | Math / Geometry / Bit | ✅ |  | Number of 1 Bits | Learned; first verified recall is not yet recorded.                                                                           |
+| 128 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-28 | Number of 1 Bits | Latest recall passed; fixed-width scan, unsigned shift, invariant, and complexity were independently sound.                    |
 | 129 | Math / Geometry / Bit | ✅ |  | Counting Bits | Learned; first verified recall is not yet recorded.                                                                           |
 | 130 | Math / Geometry / Bit | ✅ |  | Reverse Bits | Learned; first verified recall is not yet recorded.                                                                           |
 | 131 | Math / Geometry / Bit | ✅ |  | Missing Number | Learned; first verified recall is not yet recorded.                                                                           |
