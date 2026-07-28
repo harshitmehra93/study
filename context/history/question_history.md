@@ -224,7 +224,7 @@ Clean independent recall of the reverse-classification model: start DFS from eve
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 pass): The first draft started traversal from every cell, returned immediately on boundary cells, and counted visited interior land; `3 × 3` all-land showed that this counts an escaping center incorrectly. After that defect was identified, Harshit independently recovered the correct reverse-classification model: start from every boundary land cell, mark all reachable land, then count land not visited by any boundary traversal. The corrected helper returns only for out-of-bounds, water, or already visited cells and marks before recursing. `visited` therefore means boundary-reachable/escaping land, so its complement among land cells is exactly the enclave count. Time is `O(mn)` and auxiliary space is `O(mn)` for visited state plus a worst-case `O(mn)` recursion stack.
 
 ## 28. Accounts Merge
 
@@ -250,7 +250,9 @@ Recall 2026-07-27 (L1 review): Independently selected incremental disjoint sets 
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall history:
+
+- 2026-07-28 — L1 review. Independently selected disjoint sets, rejected an edge whose endpoints already shared a representative, and then repaired the initially missing connectivity condition by requiring all vertices to finish in one set. Harshit correctly identified union by rank and path compression but did not know their precise amortized bound; `O(α(n))` per operation and `O(n + m α(n))` total time had to be supplied. Space is `O(n)`. Redo the cycle-plus-connectivity sufficiency proof and optimized-DSU complexity independently.
 
 ## 31. Network Delay Time
 
@@ -266,7 +268,7 @@ Earlier recall: L2 review 2026-06-26. Recalled the Dijkstra model, initially reu
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 review): Selected bounded Bellman–Ford and correctly initialized the source to zero, other cities to infinity, and skipped edges whose source remained unreachable. The first draft ran only `k` rounds and did not specify snapshot isolation; feedback established that `k` stops allow `k+1` edges and that each round must read source distances from the completed previous round. Harshit then adopted previous/current maps and corrected the loop to `k+1` rounds. A material relaxation bug persisted: the candidate was repeatedly compared with `oldDistances[v]` rather than the best `updatedDistances[v]`, so multiple incoming candidates in one round could let a later higher cost overwrite an earlier lower cost. After a counterexample, the corrected comparison, and a plain worked example were supplied, Harshit completed the correct final skeleton: each candidate reads `old[u]` and competes with `updated[v]`. Canonical invariant: after round `r`, `dist[v]` is the minimum cost from `src` to `v` using at most `r` edges. With `k+1` rounds, copying `V` distances and scanning `E` flights per round costs `O((k+1)(V+E))` time and `O(V)` auxiliary distance space. Keep at review because the essential bounded-round relaxation structure required meaningful help; redo independently.
 
 ## 33. Path With Minimum Effort
 
@@ -274,7 +276,9 @@ _No detailed evidence was recorded._
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 review): Proposed path-local DFS over every simple grid path. The accumulated update incorrectly used `abs(cellValue - maxEffortOfThePath)`, comparing a height with an effort rather than comparing adjacent cell heights, and the initial `INF` would keep every path effort infinite. Feedback identified those defects, the exponential enumeration, and the need for a per-cell best state, but the same DFS and update were repeated. Canonical minimax-Dijkstra model had to be supplied: `best[r][c]` is the minimum possible maximum edge difference from the source to that cell; moving from `(r,c)` to `(nr,nc)` proposes `max(best[r][c], abs(height[r][c] - height[nr][nc]))`; improve and enqueue the neighbor when that candidate is smaller. A min-heap ordered by candidate effort settles cells in nondecreasing minimax cost, so the destination can be returned when settled. For `V = mn` cells and `E = O(mn)` neighbor edges, time is `O(mn log(mn))` and auxiliary space is `O(mn)`. Redo independently.
+
+Tracker override 2026-07-28: At Harshit's request, cleared this result from `Latest Recall` and scheduled a fresh independent recall for 2026-07-29. Preserve the guided-attempt evidence above, but do not count it as the current recall result or use it to start the recall cooldown.
 
 ## 34. Swim in Rising Water
 
@@ -342,6 +346,8 @@ Independently recovered the recursive remaining-open/remaining-close state and c
 
 Self-reported familiarity on 2026-07-26; no verified recall attempt was performed. Marked recalled at Harshit's request after he reported knowing the problem. No helper contract, recurrence, edge-case explanation, code skeleton, correctness argument, or complexity analysis was demonstrated in this session, therefore it does not count as a verified recall pass.
 
+Recall 2026-07-28 (L1 review): Independently wrote the correct choose–recurse–undo generator with state `(index, StringBuilder)`, one mapped-character choice per digit, terminal string materialization at `index == digits.length()`, and path restoration after every branch. The public empty-input guard was initially omitted, which would return `[""]` rather than `[]`, and was then added. Complexity needed meaningful correction: for `K` generated strings of length `n`, copying and storing each result gives `O(nK)` time and `O(nK)` returned-output space; recursion and the mutable path use `O(n)` auxiliary space. Since `K <= 4^n`, worst-case time and returned output are `O(n × 4^n)`. Redo the output-sensitive accounting independently.
+
 ## 42. Palindrome Partitioning
 
 - Section: Backtracking
@@ -390,7 +396,7 @@ Clean independent recall. The helper compares two corresponding nodes: both null
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 pass): Independently stated the correct recursive contract—swap the two children at every subtree root, then invert both resulting child subtrees. The pseudocode assigned `node.left` twice instead of assigning the saved original left child to `node.right`; this was treated as a localized typo because the swap intent and saved temporary state were explicit. Every node is processed once for `O(n)` time. Full auxiliary space is `O(h)` for recursion, giving `O(log n)` when balanced and `O(n)` when skewed; only non-stack working state is `O(1)`.
 
 ## 48. Diameter of Binary Tree
 
@@ -430,7 +436,7 @@ _No detailed evidence was recorded._
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 review): Independently wrote the correct top-down BST traversal after ordering the targets: descend left when both values are smaller, descend right when both are larger, and return the current node when the paths split or the current node equals a target. The initial correctness explanation relied on imprecise preorder wording; the clean invariant is that both existing targets and their LCA remain in the retained subtree while both values lie strictly on the same side. Complexity was stated only for a balanced tree and incorrectly assumed that every BST step removes half the nodes. The height-based bound had to be supplied: `O(h)` time and `O(h)` recursive stack space, which is `O(log n)` when balanced and `O(n)` when skewed; an iterative implementation uses `O(1)` auxiliary space. Redo the proof and worst-case bound independently.
 
 ## 53. Validate Binary Search Tree
 
@@ -454,7 +460,7 @@ Independently recalled inorder traversal, a visit counter, answer capture at the
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 pass): Independently selected level-order traversal, captured the last dequeued node from each fixed-size level, and clarified that children are enqueued left before right so queue order remains left-to-right. Empty input returns an empty result. Each of `n` nodes is processed once for `O(n)` time, and the queue uses `O(w)` auxiliary space for maximum tree width `w`.
 
 ## 56. Count Good Nodes in Binary Tree
 
@@ -612,6 +618,8 @@ Recall 2026-07-28 (L1 review): Harshit began with a frequency-map sliding window
 
 Prior learning-status trail: 🟡 pattern understood, redo once later. ✅(redo done) ✅(redo done).
 
+Recall 2026-07-28 (L1 pass): Independently identified the fixed-size window of `pattern.length()`, target and current character frequencies, the equality condition for a permutation, and adding the entering character while removing the leaving character. That model is sufficient for L1 and gives `O(|pattern| + |text|)` time with fixed 26-entry arrays and `O(1)` auxiliary space. An optional loop skeleton omitted both pointer increments and would run forever; this is an L2 implementation issue and did not invalidate the independently sound L1 model. Use an L2 recall later only if precise boundary-code fluency is the target.
+
 ## 75. Find All Anagrams in a String
 
 - Section: Sliding Window
@@ -650,7 +658,7 @@ _No detailed evidence was recorded._
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 pass): Independently wrote the correct endpoint-pointer scan over the sorted array: increase `left` when the sum is too small, decrease `right` when it is too large, and return one-based indices on equality. The concise explanation that sorted order makes moving left increase the sum was sufficient when read together with the symmetric code; a longer verbal elimination proof was not required. The loop is `O(n)` time and uses `O(1)` auxiliary space.
 
 ## 80. 3Sum
 
@@ -706,7 +714,7 @@ Prior learning-status trail: 🟡 first attempt over-modelled with heap; ✅ gre
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
 
-_No detailed evidence was recorded._
+Recall 2026-07-28 (L1 pass): Independently selected sorting by start time and rejecting when the current start is strictly less than the previous accepted end. Initially used an unnecessary stack, then reduced the scan to a scalar `lastEndTime`; because the processed prefix is already non-overlapping, only the immediately previous end can constrain the next interval. Added the initially omitted fewer-than-two-meetings guard and correctly treated end-equals-start as non-overlapping. Time is `O(n log n)` for sorting plus an `O(n)` scan. The scan uses `O(1)` auxiliary space; total sorting workspace depends on the chosen sort and is `O(1)` only under an explicitly in-place constant-workspace sort.
 
 ## 87. Meeting Rooms II
 
@@ -876,6 +884,8 @@ Self-reported familiarity on 2026-07-26; no verified recall attempt was performe
 
 Floyd slow/fast pointers implemented without mutation. If no cycle, fast reaches null; inside a cycle, the relative distance closes modulo the cycle length. O(n) time, O(1) space.
 
+Recall 2026-07-28 (L1 review): Independently selected slow/fast pointers and wrote correct null-safe control flow using `slow = head`, `fast = head.next.next`, one-step and two-step movement, and equality detection. The implementation correctly handles empty input, one- and two-node acyclic lists, self-cycles, and ordinary cycles. The meeting proof was not recalled: parity of the fixed node labels is irrelevant because both pointers move. Meaningful help supplied the invariant that on a cycle of length `L`, fast gains one node on slow per iteration, so their relative gap changes by one modulo `L` and becomes zero within at most `L` iterations. Time is `O(n)` and auxiliary space is `O(1)`. Redo the modular relative-gap proof independently.
+
 ## 107. Reorder List
 
 - Section: Linked List
@@ -984,6 +994,10 @@ Learning history: initially guided or partial, then solved independently. Recall
 
 Learning history: initially guided or partial, then solved independently. Correct data model: `Map<String, List<(value, timestamp)>>` with per-key timestamps increasing. Final guided solution uses floor search / rightmost-valid pattern: when `timestamp <= query`, store candidate answer and move right; otherwise move left.
 
+Recall history:
+
+- 2026-07-28 — L1 pass. Independently recalled the per-key ordered-history model and logarithmic lookup. The first draft left the candidate index unset when there was no exact timestamp; after that concrete defect was identified, Harshit independently corrected the search so its final midpoint represents either the floor or the ceiling, using the predecessor in the latter case. Missing keys and queries before, between, exactly at, and after stored timestamps were handled. Complexity was correctly identified as amortized `O(1)` for `set`, `O(log k)` for `get` with `k` entries for the key, and `O(n)` total storage.
+
 ## 120. Koko Eating Bananas
 
 - Section: Binary Search
@@ -999,6 +1013,8 @@ Learning history: initially guided or partial, then solved independently. Recall
 - Latest recall at archival migration: Empty
 
 Learning history: initially guided or partial, then solved independently. Boundary-search-over-answer structure completed. Feasibility check counts days by preserving package order and starting a new day whenever the next package would exceed capacity. Key bound: capacity range is `[max(weights), sum(weights)]`, because the ship must carry the heaviest package and can ship all packages in one day at total capacity.
+
+Recall 2026-07-28 (L1 review): Correctly identified a minimum-capacity search over a monotone days-needed function. The first feasibility helper started a new day after remaining capacity became `<= 0`, causing an exactly filled final package to be reprocessed indefinitely; this was corrected to trigger only on negative remaining capacity. The binary search remained materially incorrect after direct feedback: it searched from `0`/`1` instead of `max(weights)`, advanced `left` by one for an impossible capacity, treated `daysNeeded == targetDays` as an exact answer even though smaller capacities can require the same number of days, and assigned an infeasible midpoint as `bestCapacity`. The corrected rules and `[3,1,1], D=2` counterexample were supplied, but the same branches were repeated. Canonical search: bounds are `[max(weights), sum(weights)]`; `daysNeeded(capacity) <= D` is feasible, so retain `mid` and move the upper boundary left; otherwise move the lower boundary to `mid + 1`. Time is `O(n log(sum(weights) - max(weights) + 1))` and auxiliary space is `O(1)`. Redo independently.
 
 ## 122. Median of Two Sorted Arrays — optional hard later
 
@@ -1016,6 +1032,8 @@ _No detailed evidence was recorded._
 
 Learning history: initially guided or partial, then solved independently. Prefix path + `isWord` marker model installed. Delete pruning rule understood: after removing terminal marker, prune only nodes with no children that are not word endings. Using 256-character child array by chosen contract.
 
+Tracker note 2026-07-28: Marked as a duplicate of core recall #20, `Trie insert/search/prefix`. Both items exercise insertion, exact-word lookup, prefix lookup, and terminal-word state, including the same `"apple"` / `"app"` distinction. Exempt this row from learned-problem recall coverage; do not copy the core attempt into this tracker. Current recall evidence remains owned by `core_recall.md`, where the canonical item is `L2 review 2026-07-24`.
+
 ## 124. Design Add and Search Words Data Structure
 
 - Section: Tries
@@ -1023,6 +1041,8 @@ Learning history: initially guided or partial, then solved independently. Prefix
 - Latest recall at archival migration: Empty
 
 Wildcard trie DFS model installed: normal characters follow one child; `.` branches across all non-null children; base case must check `isWord` for exact-length match.
+
+Recall 2026-07-28 (L1 pass): Independently wrote correct recursive insertion and wildcard search. Ordinary characters follow one child, `.` explores every non-null child with short-circuit success, every branch consumes exactly one pattern character, and the terminal case returns `node.isWord` for exact-length matching. Insertion and literal lookup take `O(L)` time. Harshit identified `A^W` wildcard branching; the general safe bound was refined to `O(L × A^W)` for length `L`, alphabet size `A`, and `W` wildcard positions, with the all-wildcard case commonly summarized as `O(A^L)`. Recursion uses `O(L)` stack space. Trie storage is `O(S)` worst case for `S` total inserted characters, reduced in practice by shared prefixes.
 
 ## 125. Word Search II
 
@@ -1079,6 +1099,8 @@ Learning history: initially guided or partial, then solved independently. Initia
 - Latest recall at archival migration: Empty
 
 Learning history: initially guided or partial, then solved independently. First sorting solution was correct but mutated input and used O(n log n). Redone with XOR cancellation: initialize with `n`, then XOR each index `0..n-1` and each array value so paired values cancel and the missing number remains.
+
+Recall 2026-07-28 (L1 review): Proposed XORing only the present array values and returning that result, with a special case when the XOR was zero. This fails for `[0,1]`, whose missing value is `2` but whose present-value XOR is `1`. Harshit did not recall the missing construction after the counterexample. Meaningful help supplied the standard model: initialize `answer = n`, then for every array index `i`, XOR both `i` and `nums[i]`. This XORs the full candidate range `0..n` against all present values, so every present value appears twice and cancels while the missing value appears once. Time is `O(n)`, auxiliary space is `O(1)`, and XOR avoids arithmetic overflow. Redo independently.
 
 ## 132. Sum of Two Integers
 
