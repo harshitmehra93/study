@@ -1,6 +1,6 @@
 # Roadmap
 
-Status date: **2026-07-26**
+Status date: **2026-07-29**
 
 This file owns phase-level planning, priorities, transition gates, and qualitative readiness. It does not own exact problem, recall, mixed-attempt, or mock results.
 
@@ -8,29 +8,30 @@ This file owns phase-level planning, priorities, transition gates, and qualitati
 
 Primary DSA phase:
 
-> **Phase 3B — complete the first full rolling-recall pass across the learned question bank.**
+> **Phase 3B first-pass coverage complete — prepare the Phase 4 mixed-transfer transition.**
 
 Default next coaching mode:
 
-> **Recall**
+> **Recall**, targeted only while the verified Phase 4 candidate pool is prepared.
 
-At the last calibration, about 60% of the question bank had a first verified
-recall attempt recorded. This measures recall coverage, not mastery. Use
-non-empty `Latest Recall` values in `questions.md` for the current exact figure.
+The required learned-problem bank now has first-pass recall coverage for
+127/127 items, and the active core rotation has coverage for 24/24 items.
+Coverage is complete; this measures exposure, not mastery. Latest `review`
+results remain targeted consolidation work.
 
 Parallel exposure:
 
-* **Phase 4 mixed transfer:** ramp planned; `mixed_practice.md` currently has 0 logged fresh attempts.
+* **Phase 4 mixed transfer:** transition preparation is active; the verified `Ready` pool is still empty and `mixed_practice.md` has 0 logged fresh attempts.
 * **Phase 5 coding mocks:** light exposure started on 2026-07-23; exact results belong in `mock_interviews.md`.
 * **System design:** foundation exists, but active interview packaging needs more repetitions.
 * **Behavioral:** strong raw material exists, but senior stories still need packaging.
 
 ## Immediate Priorities
 
-1. Finish first-pass recall coverage across required problems in `questions.md`.
-2. Continue core algorithm and data-structure recall from `core_recall.md`.
-3. Use new pattern learning only when recall exposes a genuine missing foundation.
-4. Prepare the verified mixed candidate pool, but keep Recall as the default DSA mode until the transition gate.
+1. Build a verified Phase 4 pool of roughly 15-30 `Ready` mixed candidates.
+2. Make Mixed Problem Practice the primary DSA mode once that pool exists.
+3. Retain targeted recall for `review` results under the normal cooldown rather than restarting broad coverage.
+4. Use new pattern learning only when recall or transfer exposes a genuine missing foundation.
 5. Continue light coding-mock, system-design, and behavioral exposure in parallel.
 
 ## DSA Phase Map
@@ -40,8 +41,8 @@ Parallel exposure:
 | Phase 1 | Basic coding fluency | ✅ Done |
 | Phase 2 | Core DP, graphs, backtracking, trees, and heap foundations | 🟡 Mostly done |
 | Phase 3A | Required first-pass pattern installation | ✅ Required pass complete |
-| Phase 3B | First full rolling-recall pass | 🟡 Primary active block |
-| Phase 4 | Mixed / unseen transfer practice | Planned ramp; 0 fresh attempts logged |
+| Phase 3B | First full rolling-recall pass | ✅ Required learned and active core first-pass coverage complete |
+| Phase 4 | Mixed / unseen transfer practice | Transition preparation; `Ready` pool empty and 0 fresh attempts logged |
 | Phase 5 | Formal mock consistency | Light calibration exposure started |
 
 ## Phase 4 Transition
@@ -62,6 +63,12 @@ After transition, use approximately:
 This is a training split, not a daily quota. Do not return to broad block-by-block learning unless repeated evidence exposes a genuine knowledge gap.
 
 Phase 4 readiness is judged from the fresh-attempt metrics in `mixed_practice.md`, especially independent derivation, interview-level passes, hint dependency, major misses, and repeated gap categories.
+
+Current gate status:
+
+1. Required learned-problem first-pass coverage: complete.
+2. Recall gaps for targeted repair: identified in the latest `review` results.
+3. Verified `Ready` candidate pool: not yet established.
 
 ## Mock Cadence
 
@@ -85,7 +92,7 @@ Current strengths:
 
 Current gaps:
 
-* recall consistency is not yet established across the full bank
+* first-pass recall coverage is complete, but many latest results still require targeted independent redos
 * unseen transfer is not yet calibrated because no fresh mixed attempts are logged
 * mock evidence is sparse and currently uncalibrated
 * system-design judgment needs more active interview-format repetitions
