@@ -32,22 +32,75 @@ Inspect candidates in this order:
 4. Older Google-tagged questions only when they remain exceptionally strong
    interview problems.
 
-Frequency orders inspection; it does not guarantee admission.
+Frequency orders inspection; it does not guarantee admission. `Ready` is an
+assessment state, not a judgment that every other Google problem is
+unimportant.
 
-Reject a candidate when any of these is true:
+Before creating a record, check the learned bank, history, attempt logs,
+Candidate Bank, and both holding queues. Reuse an existing record instead of
+creating a duplicate active candidate.
 
-* it appears in `questions.md`, `context/history/question_history.md`, either
-  mixed-attempt log, or the existing candidate bank
+Permanently exclude a candidate from mixed-transfer use when:
+
+* it appears in `questions.md`, `context/history/question_history.md`, or
+  either mixed-attempt log
 * it is a structural near-duplicate of learned work: substantially the same
   state, control flow, and correctness argument with only the story changed
 * Harshit already recognizes it
-* it is Easy, SQL-only, domain-specific, trick-dependent, or an implementation
-  marathon
-* it cannot reasonably be modeled, implemented in Java, tested, and defended
-  in approximately 35-40 minutes
-* it primarily requires a technique not represented in the installed roadmap
+* it is Easy, SQL-only, domain-specific, or driven mainly by an obscure trick
 * its official statement, constraints, canonical editorial solution, and
   complexity analysis cannot be verified
+
+Do not admit a high-value candidate to `Ready` yet when:
+
+* its full scope cannot reasonably be modeled, implemented in Java, tested,
+  and defended in approximately 35-40 minutes; route it to the Extended / Mock
+  Queue
+* it primarily requires an important technique not represented in the
+  installed roadmap; route it to the Technique Installation Queue
+
+If the oversized problem is not valuable enough for extended work, or the
+uninstalled technique is not sufficiently reusable and interview-relevant,
+mark the candidate `Excluded` instead.
+
+### Non-Ready Routing
+
+Holding queues are private and do not count toward the 24 `Ready` candidates.
+Their titles and metadata remain hidden during live attempts.
+
+#### Technique Installation Queue
+
+Use this queue for a strong Google problem whose primary technique is important
+but not installed yet.
+
+1. Keep the held Google candidate unseen.
+2. Install the technique using a different canonical representative.
+3. Require an independent recall check of the technique.
+4. Re-evaluate the held candidate against the normal time, novelty, and quality
+   gates. Promote it to `Ready` only if it then qualifies.
+
+| ID | Problem | Link | Google tier | Difficulty | State |
+| -: | ------- | ---- | ----------- | ---------- | ----- |
+|    |         |      |             |            |       |
+
+Allowed states are `Held`, `Promoted`, and `Dropped`.
+
+#### Extended / Mock Queue
+
+Use this queue for a strong Google problem whose full version is too large or
+implementation-heavy for the normal 35-40 minute H0 format.
+
+* Run it only as explicitly unscored extended practice or under the formal
+  mock protocol in `mock_interviews.md`.
+* Do not copy its result into the fresh mixed-attempt log.
+* If a faithful, interview-sized scope can be defined without removing the
+  essential reasoning, re-evaluate that scope for `Ready`.
+
+| ID | Problem | Link | Google tier | Difficulty | State |
+| -: | ------- | ---- | ----------- | ---------- | ----- |
+|    |         |      |             |            |       |
+
+Allowed states are `Held`, `Promoted`, and `Dropped`.
 
 If an attempted problem nevertheless exposes a genuinely important unknown
 technique, record `NEW_TECHNIQUE` as a post-attempt diagnosis and exclude that

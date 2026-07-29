@@ -1,6 +1,6 @@
 # Roadmap
 
-Status date: **2026-07-29**
+Status date: **2026-07-30**
 
 This file owns phase-level planning, priorities, transition gates, and qualitative readiness. It does not own exact problem, recall, mixed-attempt, or mock results.
 
@@ -36,8 +36,9 @@ Parallel exposure:
    recall, redo, and transfer-gap repair.
 3. Replenish every `Attempted` or recognized candidate so the verified
    `Ready` inventory remains 24 whenever practical.
-4. Use new pattern learning only when recall or transfer exposes a genuine
-   missing foundation.
+4. Install a new technique when recall, transfer, or private Google-candidate
+   screening shows that it is an important missing foundation; keep a held
+   candidate unseen when practical.
 5. Continue light coding-mock, system-design, and behavioral exposure in
    parallel.
 
