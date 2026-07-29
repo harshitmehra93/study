@@ -103,6 +103,8 @@ This is a miss and need to be reread. Recall initially described Kruskal: global
 
 Correctly recalled the forest model, representative lookup, path compression, same-component no-op, and union-by-size direction. Initial trace attached node `2` beneath non-root argument `1`; corrected to the key invariant that union links representative roots only. With root-as-null convention, the final example has `1,2,3 → 0`, `4 → 3`, and `5` separate; `find(4)` compresses `4 → 0`. Complexity needed correction: `union` and `connected` include two finds. With union-by-size/rank plus path compression, operations are amortized O(α(n)) and storage is O(n).
 
+Recall 2026-07-29 (L1 review): Recalled a forest representation with parent pointers, `parent == null` for roots, and path compression. Material guidance was needed to distinguish the linked-list union cost from forest DSU, state that union links roots only, and give the union-by-rank/size plus path-compression amortized `O(α(n))` bound. Redo independently.
+
 ## 14. Linked-list disjoint set
 
 - Area: DSU
@@ -138,6 +140,8 @@ Recalled leftmost minimum, rightmost maximum, inorder `left → root → right`,
 
 Right-subtree min case; ancestor walk case.
 
+Recall 2026-07-29 (L1 review): Independently recalled the subtree cases: successor is the leftmost node in the right subtree, and predecessor is the rightmost node in the left subtree. Material guidance was needed for the ancestor cases: without a right (left) subtree, walk upward until first arriving from a left (right) child; reaching the root means no successor (predecessor). The final iterative parent-pointer algorithm has `O(h)` time and `O(1)` auxiliary space, not `O(h)` stack space. Redo independently.
+
 ## 19. BST insertion/deletion
 
 - Area: BST
@@ -159,6 +163,8 @@ Independently wrote correct recursive insertion and exact-word search using char
 
 DFS collection, delete pruning only when node has no children and is not terminal.
 
+Recall 2026-07-29 (L1 review): Independently recovered prefix-node lookup, DFS collection with a backtracked `StringBuilder`, and the core deletion return invariant: a child is prunable only when it has no children and is not terminal. Material guidance was needed for missing-child no-op handling, the child-presence scan, and the recursive bounds. `keysWithPrefix` takes `O(p + T)` time for prefix length `p` and total characters/nodes traversed across returned words `T`; its recursion uses depth-bounded stack space in addition to the output. Recursive deletion takes `O(L)` time and `O(L)` call-stack space for word length `L`. Redo independently.
+
 ## 22. Amortized resizing
 
 - Area: Dynamic Array
@@ -173,6 +179,8 @@ Correctly distinguished logical size from backing-array capacity and recalled O(
 
 Head/tail handling, insertion/deletion edge cases, pointer mutation order.
 
+Recall 2026-07-29 (L1 pass): Independently designed a singly linked list with `head`, `tail`, and `size`. Correctly handled front insertion, tail append, linear search, and delete for empty, one-node, head, tail, and absent-value cases; tail deletion reassigns `tail` to the predecessor. Endpoint insertions are `O(1)` time and `O(1)` auxiliary space; search and delete are `O(n)` time with `O(1)` auxiliary space.
+
 ## 24. Doubly linked deque operations
 
 - Area: Deque
@@ -186,3 +194,5 @@ Chose dummy head/tail sentinels and independently wrote correct O(1) `addFirst` 
 - Latest recall at archival migration: Empty
 
 Backtracking choice order, start index, include/exclude or loop recursion.
+
+Recall 2026-07-29 (L1 review): Initially restarted choices at `1` and used membership checks, generating permutations of each combination. Guided correction established the increasing-choice invariant: loop from `start` through `n`, choose `i`, and recurse with `i + 1`; this removes duplicates without `contains`. `k = 0` returns one empty combination, while `k > n` returns no combinations. The literal unpruned recursion visits `sum(C(n,j), j=0..k)` states, up to `O(2^n)`, plus `O(k * C(n,k))` output-copy work; auxiliary recursion/path space is `O(k)`. Bounding the loop by the number of remaining choices avoids hopeless branches and gives the usual output-sensitive `O(k * C(n,k))` time. Redo independently.

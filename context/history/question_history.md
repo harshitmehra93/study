@@ -280,6 +280,8 @@ Recall 2026-07-28 (L1 review): Proposed path-local DFS over every simple grid pa
 
 Tracker override 2026-07-28: At Harshit's request, cleared this result from `Latest Recall` and scheduled a fresh independent recall for 2026-07-29. Preserve the guided-attempt evidence above, but do not count it as the current recall result or use it to start the recall cooldown.
 
+Recall 2026-07-29 (L1 review): Began with a path-local DFS that correctly updated each path's effort as the maximum adjacent-height difference, aside from the initial source call. After the exponential-path issue was identified, proposed memoizing by cell, but the memo value was invalid because the result depends on the maximum effort already incurred and the active DFS path. Harshit then requested the answer. Canonical model: `best[r][c]` stores the smallest possible maximum edge effort among all source-to-cell paths. From a settled or popped cell, neighbor `(nr,nc)` receives `candidate = max(best[r][c], abs(heights[r][c] - heights[nr][nc]))`; update and enqueue only when `candidate < best[nr][nc]`. Process candidates in ascending effort with a min-heap; the target's first non-stale pop is optimal. For `mn` cells, time is `O(mn log(mn))` and auxiliary space is `O(mn)`. Redo independently.
+
 ## 34. Swim in Rising Water
 
 - Section: Graphs
@@ -287,6 +289,8 @@ Tracker override 2026-07-28: At Harshit's request, cleared this result from `Lat
 - Latest recall at archival migration: Empty
 
 _No detailed evidence was recorded._
+
+Recall 2026-07-29 (L1 review): Independently chose priority-ordered graph exploration and correctly used visited-on-pop with duplicate candidates. The initial relaxation added one unit per move, but time does not accumulate with path length; guided correction established `candidate = max(currentRequiredTime, neighborElevation)`. A popped state's time is the smallest known maximum elevation along a start-to-cell path. First-pop optimality follows because any lower-bottleneck alternative path would cross from the settled region at a candidate no larger than that alternative, which the min-heap would remove first. For an `n × n` grid, `V = n²` and `E = O(n²)`, so time is `O(n² log(n²)) = O(n² log n)` and auxiliary space is `O(n²)`. Redo independently.
 
 ## 35. Subsets
 
@@ -478,6 +482,8 @@ _No detailed evidence was recorded._
 
 _No detailed evidence was recorded._
 
+Recall 2026-07-29 (L1 pass): Independently derived a root-to-target path-set solution. Each `find` adds its target and every ancestor on the successful return path. The LCA descent follows the child contained in both sets; when the targets split across children, the current node is the LCA. A counterexample exposed that omitting a target from its own set breaks the ancestor case; Harshit repaired that representation himself. Use node identity rather than values because values can repeat. Two searches and the final descent are `O(n)` time overall; the two path sets and recursion are `O(n)` auxiliary space in the worst case (more precisely, path-set storage and recursion depth are `O(h)`).
+
 ## 58. Construct Binary Tree from Preorder and Inorder Traversal
 
 - Section: Trees
@@ -627,6 +633,8 @@ Recall 2026-07-28 (L1 pass): Independently identified the fixed-size window of `
 - Latest recall at archival migration: Empty
 
 _No detailed evidence was recorded._
+
+Recall 2026-07-29 (L1 review): Independently recovered the fixed-size sliding-window frequency model: build target counts, update the entering and leaving characters as the window moves, and emit an index when counts match. Initially described reversal as a brute-force anagram test; it was clarified that reversal is only one permutation. The complexity analysis assumed scanning all pattern counts at every window and therefore concluded `O(|text| × |pattern|)` time and `O(|pattern|)` space. Meaningful guidance established that, for lowercase English letters, two 26-entry frequency arrays compare in constant time, yielding `O(|text| + |pattern|)` time and `O(1)` auxiliary space. Redo the bounded-alphabet reasoning independently.
 
 ## 76. Minimum Window Substring
 
@@ -827,6 +835,8 @@ Prior learning-status trail: ✅ brute-force/update-all-previous solution correc
 - Section: Stack
 - Learning status at archival migration: ✅
 - Latest recall at archival migration: Empty
+
+Recall 2026-07-29 (L1 pass): Independently derived the right-to-left monotonic-stack lookup. After removing values `<= current`, the stack top is the nearest greater value to the right; each value is pushed and popped at most once. Used an index map into the `nums2`-aligned next-greater result for `nums1` lookups. Time is `O(|nums1| + |nums2|)`; auxiliary space is `O(|nums2|)` and total space including the returned output is `O(|nums1| + |nums2|)`. Covered empty inputs defensively.
 
 Prior learning-status trail: ✅ 100th DSA roadmap problem; ✅ monotonic stack pattern connected with prior monotonic deque learning.
 
@@ -1084,6 +1094,8 @@ Learning history: initially guided or partial, then solved independently. Initia
 
 Correct solution using per-number 32-bit hamming weight scan. Stronger pattern to own: `ans[i] = ans[i >> 1] + (i & 1)`, reusing the already-computed count after removing the lowest bit.
 
+Recall 2026-07-29 (L1 pass): Independently used a fixed 32-bit scan for every value from `0` through `n`: inspect the low bit with `num & 1`, count it when set, then advance with unsigned right shift `>>>`. Since the bit width is fixed, this is `O(n)` time with `O(1)` auxiliary space apart from the returned array.
+
 ## 130. Reverse Bits
 
 - Section: Math / Geometry / Bit
@@ -1091,6 +1103,8 @@ Correct solution using per-number 32-bit hamming weight scan. Stronger pattern t
 - Latest recall at archival migration: Empty
 
 Learning history: initially guided or partial, then solved independently. Initial approach over-modeled sign handling and two's-complement conversion. Correct model is raw bit transfer: repeat 32 times, append `num & 1` into `result` after left-shifting result, then unsigned-shift `num >>>= 1`.
+
+Recall 2026-07-29 (L1 review): Began with a correct high-input-mask/low-output-mask direction but required material guidance to avoid AND-ing bits at their original positions after selecting an output position. Final corrected model scans from bit 31 to bit 0 with `mask1 = 1 << 31`, ORs the corresponding `mask2` directly when the input bit is set, and advances masks with `>>>` and `<<`. Runs in fixed `O(1)` time and `O(1)` auxiliary space. Redo independently.
 
 ## 131. Missing Number
 
@@ -1118,6 +1132,8 @@ Learning history: initially guided or partial, then solved independently. Recall
 
 Practiced `&`, bitwise OR, `^`, and `~`, and kth-bit masks. Key correction: use `(n & mask) != 0` instead of `> 0`, because checking the sign bit can produce a negative mask value.
 
+Recall 2026-07-29 (L1 review): Recalled the correct set (`|`), clear (`& ~mask`), and toggle (`^`) operations. Material guidance was needed for the zero-based mask `1 << k`, Java's lack of a `<<<` operator, and the sign-safe check `(n & mask) != 0`. All four operations run in `O(1)` time and `O(1)` space. Redo independently.
+
 ## 134. Single Number
 
 - Section: Math / Geometry / Bit
@@ -1125,6 +1141,8 @@ Practiced `&`, bitwise OR, `^`, and `~`, and kth-bit masks. Key correction: use 
 - Latest recall at archival migration: Empty
 
 Clean XOR cancellation solution: XOR all values; paired duplicates cancel because `a ^ a = 0`, and the single value remains because `a ^ 0 = a`.
+
+Recall 2026-07-29 (L1 pass): Independently derived XOR reduction: equal values cancel through `a ^ a = 0`, and XOR with zero preserves the unique value. Negative values require no special handling because XOR operates on raw bit patterns. Time is `O(n)` with `O(1)` auxiliary space.
 
 ## 135. Hamming Distance
 

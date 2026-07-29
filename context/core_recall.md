@@ -36,16 +36,23 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | 10 | Shortest Path | L1 review 2026-07-25 | Bellman-Ford | Redo independently; load the matching history section after selection. |
 | 11 | MST | L1 review 2026-07-21 | Kruskal | Redo independently; load the matching history section after selection. |
 | 12 | MST | L1 review 2026-07-25 | Prim | Redo independently; load the matching history section after selection. |
-| 13 | DSU | L1 review 2026-07-19 | Forest disjoint set | Redo independently; load the matching history section after selection. |
-| 14 | DSU |  | Linked-list disjoint set | Representative pointer, union cost tradeoff, why forest DSU is preferred. |
+| 13 | DSU | L1 review 2026-07-29 | Forest disjoint set | Redo root-only union and `O(α(n))` amortized analysis independently. |
 | 15 | Heap | L1 review 2026-07-19 | Min-heap operations | Redo independently; load the matching history section after selection. |
 | 16 | Hash Table | L1 review 2026-07-21 | Hash table model | Redo independently; load the matching history section after selection. |
 | 17 | BST | L1 review 2026-07-26 | BST traversal/search/min/max | Redo independently; load the matching history section after selection. |
-| 18 | BST |  | Successor / predecessor | Right-subtree min case; ancestor walk case. |
+| 18 | BST | L1 review 2026-07-29 | Successor / predecessor | Redo both ancestor cases and iterative `O(1)` auxiliary-space analysis independently. |
 | 19 | BST | L1 review 2026-07-24 | BST insertion/deletion | Redo independently; load the matching history section after selection. |
 | 20 | Trie | L2 review 2026-07-24 | Trie insert/search/prefix | Redo independently; load the matching history section after selection. |
-| 21 | Trie |  | Trie keys/delete | DFS collection, delete pruning only when node has no children and is not terminal. |
+| 21 | Trie | L1 review 2026-07-29 | Trie keys/delete | Redo safe deletion and recursive collection/deletion complexity independently. |
 | 22 | Dynamic Array | L1 review 2026-07-21 | Amortized resizing | Redo independently; load the matching history section after selection. |
-| 23 | Linked List |  | Singly linked list operations | Head/tail handling, insertion/deletion edge cases, pointer mutation order. |
+| 23 | Linked List | L1 ✅ 2026-07-29 | Singly linked list operations | First verified recall passed; endpoint mutations, deletion cases, and bounds were independently sound. |
 | 24 | Deque | L2 review 2026-07-25 | Doubly linked deque operations | Redo independently; load the matching history section after selection. |
-| 25 | Combinatorial |  | Combinations generation | Backtracking choice order, start index, include/exclude or loop recursion. |
+| 25 | Combinatorial | L1 review 2026-07-29 | Combinations generation | Redo `i + 1` ownership, zero/impossible cases, pruning, and output-sensitive complexity independently. |
+
+## Reference-only topics
+
+These are retained for conceptual context but are excluded from recall rotation.
+
+| Area | Topic | Note |
+| --- | --- | --- |
+| DSU | Linked-list disjoint set | Historical contrast for representative-pointer and union-cost tradeoffs; forest DSU is the retained interview implementation. |

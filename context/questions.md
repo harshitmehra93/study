@@ -71,8 +71,8 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 30 | Graphs | ✅ | L1 review 2026-07-28 | Graph Valid Tree | Redo the cycle-plus-connectivity proof and `O(n + m α(n))` optimized-DSU bound independently.                                 |
 | 31 | Graphs | ✅ | L2 review 2026-07-22 | Network Delay Time | Latest recall needs review; load the matching history section after selection.                                                |
 | 32 | Graphs | ✅ | L1 review 2026-07-28 | Cheapest Flights Within K Stops | Redo `k+1` snapshot rounds, current-round destination minimum, bounded-edge invariant, and complexity independently.          |
-| 33 | Graphs | ✅ |  | Path With Minimum Effort | Fresh independent recall requested for 2026-07-29; today's guided attempt remains history only and starts no cooldown.        |
-| 34 | Graphs | ✅ |  | Swim in Rising Water |                                                                                                                               |
+| 33 | Graphs | ✅ | L1 review 2026-07-29 | Path With Minimum Effort | Redo the per-cell minimax state, relaxation rule, and priority-ordered exploration independently. |
+| 34 | Graphs | ✅ | L1 review 2026-07-29 | Swim in Rising Water | Redo minimax relaxation, first-pop optimality, and `n²`-cell complexity independently. |
 | 35 | Backtracking | ✅ | L2 review 2026-07-25 | Subsets | Latest recall needs review; load the matching history section after selection.                                                |
 | 36 | Backtracking | ✅ | L1 review 2026-07-27 | Subsets II | Redo the recursion-state invariant, same-depth duplicate proof, and O(n × 2^n) output-sensitive complexity independently.     |
 | 37 | Backtracking | ✅ | L2 review 2026-07-26 | Permutations | Latest recall needs review; load the matching history section after selection.                                                |
@@ -95,7 +95,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 54 | Trees | ✅ | L1 review 2026-07-21 | Kth Smallest Element in BST | Latest recall needs review; load the matching history section after selection.                                                |
 | 55 | Trees | ✅ | L1 ✅ 2026-07-28 | Binary Tree Right Side View | Latest recall passed; level boundaries, left-to-right queue order, empty input, and `O(n)`/`O(w)` bounds were sound.           |
 | 56 | Trees | ✅ | L1 ✅ 2026-07-28 | Count Good Nodes in Binary Tree | Latest recall passed; path-maximum state, negative initialization, and traversal complexity were independently sound.         |
-| 57 | Trees | ✅ |  | Lowest Common Ancestor of Binary Tree |                                                                                                                               |
+| 57 | Trees | ✅ | L1 ✅ 2026-07-29 | Lowest Common Ancestor of Binary Tree | Latest recall passed; path-set membership and the ancestor case were independently repaired after a counterexample. |
 | 58 | Trees | ✅ | L1 ✅ 2026-07-20 | Construct Binary Tree from Preorder and Inorder Traversal | Latest recall passed; load detailed history only when needed.                                                                 |
 | 59 | Trees | ✅ | L3 ✅ 2026-06-14 | Serialize and Deserialize Binary Tree | Latest recall passed; load detailed history only when needed.                                                                 |
 | 60 | Trees |  |  | Binary Tree Maximum Path Sum — optional later |                                                                                                                               |
@@ -113,7 +113,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 72 | Sliding Window | ✅ | L1 review 2026-07-25 | Longest Substring Without Repeating Characters | Latest recall needs review; load the matching history section after selection.                                                |
 | 73 | Sliding Window | ✅ | L1 review 2026-07-28 | Longest Repeating Character Replacement | Redo empty-window initialization, `length - maxFrequency > k`, valid-window shrinking, and complexity independently.          |
 | 74 | Sliding Window | ✅✅ | L1 ✅ 2026-07-28 | Permutation in String | Latest L1 recall passed; fixed-size frequency-window model was sound. Use L2 later only if boundary-code fluency is targeted. |
-| 75 | Sliding Window | ✅✅ |  | Find All Anagrams in a String |                                                                                                                               |
+| 75 | Sliding Window | ✅✅ | L1 review 2026-07-29 | Find All Anagrams in a String | Redo the fixed 26-count equality check and `O(|text| + |pattern|)` / `O(1)` analysis independently. |
 | 76 | Sliding Window | ✅ | L1 review 2026-07-19 | Minimum Window Substring | Latest recall needs review; load the matching history section after selection.                                                |
 | 77 | Sliding Window | 🟡 | L2 review 2026-07-22 | Sliding Window Maximum | Independent ownership is not established; load the matching history section after selection.                                  |
 | 78 | Two Pointers | ✅✅ | L2 ✅ 2026-07-28 | Valid Palindrome | Latest recall passed; two-pointer filtering and invariant were sound, with a minor on-the-fly case-normalization optimization. |
@@ -138,7 +138,7 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 97 | Stack | ✅ | L1 review 2026-07-26 | Valid Parentheses | Latest recall needs review; load the matching history section after selection.                                                |
 | 98 | Stack | ✅ | L2 review 2026-07-24 | Min Stack | Latest recall needs review; load the matching history section after selection.                                                |
 | 99 | Stack | ✅ | L1 ✅ 2026-07-27 | Daily Temperatures | Latest recall passed; stack invariant, strict comparison, and amortized complexity were independently sound.                  |
-| 100 | Stack | ✅ |  | Next Greater Element I | Learned; first verified recall is not yet recorded.                                                                           |
+| 100 | Stack | ✅ | L1 ✅ 2026-07-29 | Next Greater Element I | First verified recall passed; right-to-left monotonic-stack model, amortized analysis, and defensive empty-input handling were sound. |
 | 101 | Stack | 🟡 | L1 review 2026-07-24 | Car Fleet | Independent ownership is not established; load the matching history section after selection.                                  |
 | 102 | Stack | 🟡 | L1 review 2026-07-20 | Largest Rectangle in Histogram | Independent ownership is not established; load the matching history section after selection.                                  |
 | 103 | Stack | 🟡 | L1 review 2026-07-27 | Online Stock Span | Active recall was not achieved and retrieval was unreasonably slow; redo the full model and amortized proof independently.    |
@@ -167,11 +167,11 @@ Promote a mixed problem or technique here only when the promotion rules in `cont
 | 126 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-25 | Plus One | Latest recall passed; load detailed history only when needed.                                                                 |
 | 127 | Math / Geometry / Bit | ✅ | L1 review 2026-07-19 | Pow(x, n) | Latest recall needs review; load the matching history section after selection.                                                |
 | 128 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-28 | Number of 1 Bits | Latest recall passed; fixed-width scan, unsigned shift, invariant, and complexity were independently sound.                    |
-| 129 | Math / Geometry / Bit | ✅ |  | Counting Bits | Learned; first verified recall is not yet recorded.                                                                           |
-| 130 | Math / Geometry / Bit | ✅ |  | Reverse Bits | Learned; first verified recall is not yet recorded.                                                                           |
+| 129 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-29 | Counting Bits | First verified recall passed; fixed-width bit scan, `O(n)` analysis, and output-space distinction were sound. |
+| 130 | Math / Geometry / Bit | ✅ | L1 review 2026-07-29 | Reverse Bits | Redo the raw bit-placement loop and valid Java shift syntax independently. |
 | 131 | Math / Geometry / Bit | ✅ | L1 review 2026-07-28 | Missing Number | Redo XOR of the full `0..n` candidate range against all present values and its cancellation proof independently.              |
 | 132 | Math / Geometry / Bit | ✅ | L1 review 2026-07-23 | Sum of Two Integers | Latest recall needs review; load the matching history section after selection.                                                |
-| 133 | Math / Geometry / Bit | ✅ |  | Bit Operator Drills: check, set, clear, toggle kth bit | Learned; first verified recall is not yet recorded.                                                                           |
-| 134 | Math / Geometry / Bit | ✅ |  | Single Number | Learned; first verified recall is not yet recorded.                                                                           |
+| 133 | Math / Geometry / Bit | ✅ | L1 review 2026-07-29 | Bit Operator Drills: check, set, clear, toggle kth bit | Redo zero-based masks, sign-bit check, and Java shift operators independently. |
+| 134 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-29 | Single Number | First verified recall passed; XOR cancellation, negative-value handling, and bounds were independently sound. |
 | 135 | Math / Geometry / Bit | ✅ | L1 ✅ 2026-07-26 | Hamming Distance | Latest recall passed; load detailed history only when needed.                                                                 |
 | 136 | Math / Geometry / Bit | ✅ | L1 review 2026-07-26 | Power of Two | Latest recall needs review; load the matching history section after selection.                                                |
