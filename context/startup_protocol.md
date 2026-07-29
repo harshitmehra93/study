@@ -60,6 +60,7 @@ If Harshit explicitly requests a mode, use it. Otherwise use the
 | Mode | Additional context to load | Behavior owner | Primary progress owner |
 | --- | --- | --- | --- |
 | DSA Pattern Learning | `context/session_workflow.md`, `context/questions.md` | DSA section of `context/session_workflow.md` | `context/questions.md` |
+| Advanced DSA Topic Learning | `context/session_workflow.md`, `context/advanced_topics.md`, and only the relevant ownership trackers | DSA section of `context/session_workflow.md`; selection and safety rules in `context/advanced_topics.md` | `context/advanced_topics.md` until actual evidence justifies promotion to `questions.md` or `core_recall.md` |
 | Recall | `context/recall.md`, `context/questions.md`, `context/core_recall.md` | `context/recall.md` | Problem recall → `context/questions.md`; core recall → `context/core_recall.md` |
 | Mixed Problem Practice | `context/mixed_practice.md`, `context/questions.md` | `context/mixed_practice.md` | `context/mixed_practice.md` |
 | Coding Mock | `context/mock_interviews.md` | Run protocol in `context/mock_interviews.md` | `context/mock_interviews.md` |
@@ -69,6 +70,15 @@ If Harshit explicitly requests a mode, use it. Otherwise use the
 Review and calibration requests are direct tasks, not a separate exercise mode.
 Load only the relevant tracker or trackers, report the evidence, and do not
 change state unless the request includes an update.
+
+Treat explicit requests for `advanced topics` or `advanced DSA` as Advanced DSA
+Topic Learning. An audit row is not learned evidence: follow its cold-check,
+installation, spoiler-protection, and promotion rules before changing an
+ownership tracker.
+
+For an advanced-topic audit or status request, load `advanced_topics.md` as a
+direct review task without starting a learning exercise or changing queue
+state unless the request includes an update.
 
 Do not infer a general coaching mode from an `Active DSA block`; use the
 explicit `Default next coaching mode` field. Parallel priorities in the roadmap
@@ -105,6 +115,8 @@ Additional rules:
 * never inflate independence after meaningful guidance
 * do not duplicate one attempt across trackers
 * do not use `context/roadmap.md` as a detailed attempt log
+* do not duplicate attempt or recall evidence in `context/advanced_topics.md`;
+  retain a handoff reference to the owning tracker instead
 * do not automatically add mixed problems to `context/questions.md`
 * promote mixed work only under `context/mixed_practice.md`
 * update `context/roadmap.md` only when phase, gate, cadence, or qualitative

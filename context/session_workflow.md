@@ -40,6 +40,24 @@ Review in this order:
 Stop polishing once the solution is correct, readable, explainable, and
 appropriate for the interview target.
 
+### Advanced DSA Topic Learning
+
+When the selected task is an advanced topic, use
+`context/advanced_topics.md` as the selection and audit source while retaining
+the DSA Pattern Learning behavior above.
+
+* Treat every queue row as an audit hypothesis, not as failed recall or proof of
+  missing knowledge.
+* Run a cold check before teaching an item marked `Cold check`.
+* For an item marked `Install`, prefer a different canonical representative
+  when a motivating Google question should remain unseen.
+* Do not reveal a protected or held candidate's title, topic, or expected
+  direction.
+* Record whether the final model was independent or meaningfully guided.
+* Update learned/core ownership only after actual session evidence satisfies
+  the owning tracker. Until then, update only the advanced-topic audit state or
+  notes.
+
 ## System Design
 
 Do not let the session become passive reading.

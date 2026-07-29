@@ -23,6 +23,9 @@ Parallel exposure:
 
 * **Phase 4 mixed transfer:** active with 24 verified Google-tagged `Ready`
   candidates (18 Medium / 6 Hard) and 0 logged fresh attempts.
+* **Advanced DSA audit:** bounded missing-foundation and advanced Google-coverage
+  queue is preserved in `advanced_topics.md`; it is demand-triggered and does
+  not replace the Phase 4 operating split.
 * **Phase 5 coding mocks:** light exposure started on 2026-07-23; exact results belong in `mock_interviews.md`.
 * **System design:** foundation exists, but active interview packaging needs more repetitions.
 * **Behavioral:** strong raw material exists, but senior stories still need packaging.
@@ -38,7 +41,8 @@ Parallel exposure:
    `Ready` inventory remains 24 whenever practical.
 4. Install a new technique when recall, transfer, or private Google-candidate
    screening shows that it is an important missing foundation; keep a held
-   candidate unseen when practical.
+   candidate unseen when practical. Use `advanced_topics.md` for the dated
+   audit, bounded queue, and installation safety rules.
 5. Continue light coding-mock, system-design, and behavioral exposure in
    parallel.
 
@@ -99,6 +103,8 @@ Current gaps:
 
 * first-pass recall coverage is complete, but many latest results still require targeted independent redos
 * unseen transfer is not yet calibrated because no fresh mixed attempts are logged
+* a bounded advanced-topic audit exists, but its rows are hypotheses until cold
+  checks or learning sessions produce evidence
 * mock evidence is sparse and currently uncalibrated
 * system-design judgment needs more active interview-format repetitions
 * senior behavioral experience needs concise story packaging
@@ -122,5 +128,7 @@ Build senior stories from PITR ownership, Terraform provider delivery, ARM migra
 * `questions.md` — exact learned-problem and recall status
 * `core_recall.md` — core algorithm/data-structure recall
 * `mixed_practice.md` — candidate bank, fresh mixed attempts, and mixed reattempts
+* `advanced_topics.md` — missing-technique audits, advanced-topic queue, and
+  future diagnostic questions; not learned ownership
 * `mock_interviews.md` — formal mock evidence and follow-up
 * `roadmap.md` — phase-level status and meaningful transitions only

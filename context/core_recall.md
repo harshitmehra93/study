@@ -4,6 +4,10 @@ Track recall for algorithms and data structures practiced under `src/main/java/s
 
 Use this file for core algorithm recall. Use `questions.md` for learned interview-problem recall.
 
+Advanced-topic audit hypotheses and installation planning belong in
+`advanced_topics.md`. Add a core topic here only after an actual session
+establishes that it belongs in the active core rotation.
+
 `Latest Recall` uses the shared rules in `context/recall.md`. Detailed evidence lives in `context/history/core_recall_history.md`; keep `Current Target / Note` concise.
 
 ## Priority

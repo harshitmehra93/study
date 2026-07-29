@@ -37,8 +37,9 @@ assessment state, not a judgment that every other Google problem is
 unimportant.
 
 Before creating a record, check the learned bank, history, attempt logs,
-Candidate Bank, and both holding queues. Reuse an existing record instead of
-creating a duplicate active candidate.
+Candidate Bank, both holding queues, and the uninstalled-technique audit in
+`advanced_topics.md`. Reuse an existing record instead of creating a duplicate
+active candidate.
 
 Permanently exclude a candidate from mixed-transfer use when:
 
@@ -73,15 +74,19 @@ Their titles and metadata remain hidden during live attempts.
 Use this queue for a strong Google problem whose primary technique is important
 but not installed yet.
 
+`advanced_topics.md` may hold the reusable technique-level audit and diagnostic
+questions. This table remains the owner of problem-level holding state. Do not
+copy solution directions into either a `Ready` row or a live-attempt surface.
+
 1. Keep the held Google candidate unseen.
 2. Install the technique using a different canonical representative.
 3. Require an independent recall check of the technique.
 4. Re-evaluate the held candidate against the normal time, novelty, and quality
    gates. Promote it to `Ready` only if it then qualifies.
 
-| ID | Problem | Link | Google tier | Difficulty | State |
-| -: | ------- | ---- | ----------- | ---------- | ----- |
-|    |         |      |             |            |       |
+| Topic ID | Candidate ID | Problem | Link | Google tier | Difficulty | State |
+| -------- | -----------: | ------- | ---- | ----------- | ---------- | ----- |
+|          |              |         |      |             |            |       |
 
 Allowed states are `Held`, `Promoted`, and `Dropped`.
 
@@ -104,8 +109,9 @@ Allowed states are `Held`, `Promoted`, and `Dropped`.
 
 If an attempted problem nevertheless exposes a genuinely important unknown
 technique, record `NEW_TECHNIQUE` as a post-attempt diagnosis and exclude that
-attempt from transfer-rate denominators. Do not intentionally admit such a
-problem.
+attempt from transfer-rate denominators. Create or update its technique-level
+record in `advanced_topics.md`; keep problem-level holding state here. Do not
+intentionally admit such a problem.
 
 Maintain exactly 24 unattempted `Ready` candidates whenever practical:
 
@@ -216,6 +222,9 @@ when replenishing or scheduling later candidates.
   replace it immediately at the same difficulty.
 * If a `Ready` problem loses its current Google tag, mark it `Excluded`
   without scoring and replace it at the same difficulty.
+* After installing or drilling a technique, privately re-screen every
+  structurally affected `Ready` row. Exclude and replace a row when the new
+  learning removes its novelty or makes it a near-duplicate.
 * Keep 24 unattempted `Ready` rows whenever practical. Preserve `Attempted` and
   `Excluded` rows as history; the 24-row invariant applies only to `Ready`.
 

@@ -35,6 +35,11 @@ Do not automatically add every mixed-practice failure to the question bank.
 
 Promote a mixed problem or technique here only when the promotion rules in `context/mixed_practice.md` identify a reusable knowledge gap that should become part of the permanent learned-problem set.
 
+Advanced-topic audit hypotheses and installation planning belong in
+`context/advanced_topics.md`. Add or change a row here only after an actual
+learning or assessment session supplies evidence under this file's ownership
+rules.
+
 ## Questions
 
 | # | Section | Learning Status | Latest Recall | Problem / Topic | Current Note                                                                                                                  |
