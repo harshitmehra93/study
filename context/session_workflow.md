@@ -1,105 +1,63 @@
-# High-Level Session Workflows
+# Learning And Non-DSA Workflows
 
-`context/startup_protocol.md` owns routing and progress ownership. Dedicated
-protocols own Recall, Mixed Problem Practice, and Coding Mock behavior.
+`context/startup_protocol.md` owns routing, assistance vocabulary, and evidence
+ownership. Dedicated files own Recall, Mixed Practice, and Coding Mock.
 
-This file defines only the modes that do not have separate protocols.
+## DSA Learning / Repair
 
-## DSA Pattern Learning
+Use this for a new learned problem or core skill, or a targeted repair. Install
+the model rather than memorizing code.
 
-Use this mode for a genuinely new pattern or a targeted repair, including a
-Phase 4 repair supported by repeated transfer evidence.
-
-The goal is to install the underlying model rather than memorize code.
-
-During the live attempt:
+During the attempt:
 
 * let Harshit drive the model and implementation
-* do not interrupt for minor style issues
-* interrupt when the model, state, invariant, visited/memo handling, or mutation
-  strategy is likely to break correctness
-* distinguish identifying a flaw from supplying its solution
-* give algorithmic direction only after Harshit asks for help
-* record the work as guided when the supplied direction materially changes the
-  approach
-* watch for over-engineering and unsafe mutation
+* ignore minor style issues
+* interrupt a correctness-breaking model, state, invariant, or mutation
+* give algorithmic direction only after help is requested
+* record help using `None`, `Nudge`, `Major`, or `Unknown`
 
-Do not execute repository tests during the live attempt unless Harshit asks.
-During review, dry-run meaningful edge cases. Add or run repository tests only
-when explicitly requested.
+Do not run repository tests during the live attempt unless Harshit asks. In
+review, check correctness, model/invariant, edge cases, complexity,
+implementation clarity, and interview explanation. Stop once the result is
+correct, readable, and explainable.
 
-Review in this order:
+For an existing item, load its selected history section when one exists.
+Learned-problem work updates `context/questions.md`; core-skill work updates
+`context/core_recall.md`. Learning or repair does not change `Latest Recall`.
+Append detailed history only when it captures useful evidence or progression.
 
-1. correctness
-2. model and invariant
-3. hidden edge cases
-4. time and auxiliary-space complexity
-5. implementation clarity and mutation safety
-6. interview explanation
-
-Stop polishing once the solution is correct, readable, explainable, and
-appropriate for the interview target.
-
-### Advanced DSA Topic Learning
-
-When the selected task is an advanced topic, use
-`context/advanced_topics.md` as the selection and audit source while retaining
-the DSA Pattern Learning behavior above.
-
-* Treat every queue row as an audit hypothesis, not as failed recall or proof of
-  missing knowledge.
-* Run a cold check before teaching an item marked `Cold check`.
-* For an item marked `Install`, prefer a different canonical representative
-  when a motivating Google question should remain unseen.
-* Do not reveal a protected or held candidate's title, topic, or expected
-  direction.
-* Record whether the final model was independent or meaningfully guided.
-* Update learned/core ownership only after actual session evidence satisfies
-  the owning tracker. Until then, update only the advanced-topic audit state or
-  notes.
+For advanced work, retain this behavior and follow
+`context/advanced_topics.md` for cold checks, installation safety, spoiler
+protection, and queue disposition. Store learned/core evidence only in its
+eventual owner.
 
 ## System Design
 
-Do not let the session become passive reading.
-
-Use this sequence:
+Do not let the session become passive reading:
 
 1. Present the prompt.
-2. Let Harshit clarify functional and non-functional requirements.
-3. Estimate scale.
-4. Define APIs and the data model.
-5. Propose the architecture.
-6. Deep-dive into bottlenecks, failures, and trade-offs.
-7. Cover reliability, observability, and operations.
-8. Compare with a reliable reference and extract only actionable misses.
+2. Let Harshit clarify requirements and estimate scale.
+3. Define APIs and data.
+4. Propose the architecture.
+5. Deep-dive on bottlenecks, failures, and trade-offs.
+6. Cover reliability, observability, and operations.
+7. Compare with a reliable reference and extract actionable misses.
 
-Look for senior signal through judgment, prioritization, trade-off awareness,
-bottleneck reasoning, reliability, observability, and operational maturity.
+Judge prioritization, trade-offs, bottleneck reasoning, reliability, and
+operational maturity. Record a newly demonstrated attempt in
+`context/non_dsa.md`; historical review is read-only.
 
 ## Behavioral
 
-Convert real experience into concise senior-level stories.
-
-Useful source material includes OCI/Oracle infrastructure work, management
-plane and data plane decisions, PITR, integration tests, production workflows,
-deployment automation, reliability, observability, incident response, and
-cross-team delivery.
-
-For each story, establish:
+Turn real experience into concise senior-level stories. Establish:
 
 1. situation and stakes
 2. personal responsibility
 3. actions and judgment
-4. technical or organizational trade-offs
+4. trade-offs
 5. measurable result
-6. ambiguity and communication
-7. leadership signal
+6. ambiguity, communication, and leadership
 
 Challenge vague ownership, collective-only language, missing outcomes, and
-unsubstantiated impact.
-
-## Progress
-
-For System Design and Behavioral sessions, record detailed notes only in an
-explicitly selected design or story document. Update the roadmap only when a
-milestone or priority materially changes.
+unsupported impact. Record a newly demonstrated attempt in
+`context/non_dsa.md`; historical review is read-only.

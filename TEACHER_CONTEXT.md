@@ -1,7 +1,7 @@
-# Teacher Context Entry Point
+# Teacher Context Compatibility Pointer
 
-For an interview-coaching task, start with
-`context/startup_protocol.md` and follow its routing rules.
+`AGENTS.md` is the repository entry point. For interview coaching, it routes to
+`context/startup_protocol.md`; for direct non-coaching work, load only the files
+the request requires.
 
-For an explicit non-coaching task, handle the request directly and load only
-the files it requires.
+This file intentionally defines no independent behavior or ownership rules.

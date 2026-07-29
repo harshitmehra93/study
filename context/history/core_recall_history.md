@@ -1,27 +1,18 @@
 # Core-Recall Evidence Archive
 
-This file preserves detailed core-skill recall evidence. `context/core_recall.md`
-owns current status and selection data. Load only the section for the selected
-topic; do not load this archive during routine startup or candidate selection.
+Sparse cold storage for meaningful guidance, corrections, and progression.
+`context/core_recall.md` owns current state. Load only the selected item's
+section.
 
 ## 1. BFS traversal and unweighted shortest-path proof
-
-- Area: Graph
-- Latest recall at archival migration: L3 review 2026-07-19
 
 Correct full implementation using mark-on-enqueue, FIFO traversal, distance assignment, parent tracking, and backward path reconstruction. Recall initially marked visited on dequeue, described the frontier as an MST level, and gave `O(V)` time; corrected to the invariant that the queue holds vertices in nondecreasing shortest distance and to `O(V + E)` time with `O(V)` extra space. The first-discovery shortest-path proof required guidance, so redo that explanation independently.
 
 ## 2. DFS recursive traversal
 
-- Area: Graph
-- Latest recall at archival migration: L1 ✅ 2026-07-24
-
 Independently recalled the DFS forest, WHITE/GREY/BLACK lifecycle, discovery and finish timestamps, traversal from every remaining WHITE vertex, and O(V + E) time with O(V) color/time storage and O(V) worst-case recursion stack. The pseudocode initially called the helper unconditionally and used independent color branches, but Harshit identified this as omitted pseudocode detail rather than a model gap: recurse only across a WHITE edge, mark GREY on entry, and BLACK after all outgoing edges are examined. Correctly traced `0:(1,6)`, `1:(2,5)`, `2:(3,4)`, and disconnected root `3:(7,8)`.
 
 ## 3. DFS iterative traversal
-
-- Area: Graph
-- Latest recall at archival migration: Empty
 
 Stack simulation, neighbor ordering, visited timing, difference from recursive DFS.
 
@@ -29,24 +20,15 @@ Recall 2026-07-27 (L2 review): The first skeleton modeled binary-tree preorder r
 
 ## 4. Edge classification
 
-- Area: Graph
-- Latest recall at archival migration: Empty
-
 Tree, back, forward, and cross edges using DFS colors and discovery times.
 
 Recall 2026-07-27 (L1 review): Harshit independently recalled the white/gray/black DFS states; tree, back, forward, and cross classifications; the self-loop case; disconnected traversal; and `O(V + E)` time with `O(V)` traversal space. The requested timestamped trace and classification of every example edge were not demonstrated after a focused follow-up. Storing classifications for all edges would require `O(E)` output space. Redo one complete timestamped trace independently.
 
 ## 5. Topological sort
 
-- Area: Graph
-- Latest recall at archival migration: L1 review 2026-07-21
-
 Correctly identified DFS topological sorting and cycle detection through an edge to a GREY vertex. Recall needed correction on traversal across a DFS forest: there is no special starting vertex, all roots share one color array and result list, and vertices must be ordered by decreasing—not increasing—finish time. Appending each vertex on finish and reversing once is equivalent. For every DAG edge `u -> v`, `finish(u) > finish(v)`, including when `v` was completed by an earlier DFS root. O(V + E) time; O(V) auxiliary space for colors, result, and worst-case recursion stack, or O(V + E) total when adjacency storage is included.
 
 ## 6. Undirected cycle detection
-
-- Area: Graph
-- Latest recall at archival migration: Empty
 
 DFS with parent exclusion; visited neighbor that is not parent means cycle.
 
@@ -54,52 +36,31 @@ Recall 2026-07-27 (L1 pass): Harshit gave a correct DFS forest trace and `O(V + 
 
 ## 7. Count simple paths in DAG
 
-- Area: Graph
-- Latest recall at archival migration: Empty
-
 For a verified DAG and fixed destination, use base case `count(destination) = 1` and recurrence `count(u) = sum(count(v))` over outgoing neighbors, memoized by node. No path-set cycle guard is needed after the DAG precondition is established.
 
 Recall 2026-07-27 (L1 review): Harshit first produced a correct path-local backtracking enumeration but omitted memoization, leaving exponential recomputation on converging DAG branches. After that issue and the shared-suffix state were identified, he added the correct memo lookup/store around `count(node) = sum(count(neighbor))`, retained `count(target) = 1`, and recognized that dead ends yield zero. He initially gave `O(VE)` time, then corrected it to `O(V + E)` after edge-scan accounting feedback; memoization and recursion use `O(V)` auxiliary space. Redo the memoized suffix recurrence and complexity independently.
 
 ## 8. Relaxation primitive
 
-- Area: Shortest Path
-- Latest recall at archival migration: Empty
-
 `dist[v] > dist[u] + w(u,v)` update, parent update, unreachable guard.
 
 ## 9. Dijkstra
-
-- Area: Shortest Path
-- Latest recall at archival migration: L2 review 2026-06-26
 
 Non-negative weights, min-priority frontier, settled shortest-distance invariant. Review exposed incorrect muscle memory: using a `PriorityQueue<Node>` whose comparator reads mutable external distances. Corrected toward Java lazy Dijkstra with immutable `(node, distance)` states, successful-relaxation reinsertion, and stale-entry skipping. Still rehearse textbook `decreaseKey` vs Java lazy variants until the distinction is automatic.
 
 ## 10. Bellman-Ford
 
-- Area: Shortest Path
-- Latest recall at archival migration: L1 review 2026-07-25
-
 Independently recalled distance initialization, repeated edge relaxation, and parent updates. Corrections were needed to skip edges from infinite-distance sources, distinguish `V - 1` complete edge passes from individual relaxations, and prove the bound: without a reachable negative cycle, a shortest path can be simple and therefore has at most `V - 1` edges; after pass k, shortest routes using at most k edges are covered. Early termination requires an entire pass with no successful relaxation and means reachable distances have converged, not that unchanged nodes are necessarily unreachable. An extra successful pass implies a reachable negative cycle. Complexity is O(VE) time and O(V) distance/parent space. On the example, the negative edge `1 → 2 (-2)` produces the stable candidate `4 - 2 = 2`; it is not repeatedly subtracted. Final distances are `[0,4,2,5]`, and a negative edge alone is not a negative cycle.
 
 ## 11. Kruskal
-
-- Area: MST
-- Latest recall at archival migration: L1 review 2026-07-21
 
 Independently identified Kruskal's algorithm: process edges by increasing weight and accept an edge only when its endpoints are in different DSU components. Correctly selected `(0,1)`, `(2,3)`, and `(1,2)` for total weight 4. Completion detection needed correction: a visited-vertex set can contain every vertex while the selected forest is still disconnected; success requires exactly `V - 1` accepted edges or one remaining DSU component. Cycle safety comes from joining disjoint components, while minimum-weight optimality follows from the cut/exchange argument. Heap processing costs O(E log E) because up to E removals each cost O(log E); DSU operations are amortized O(alpha(V)), giving O(E log E) total time and O(E + V) auxiliary storage with a heap and DSU.
 
 ## 12. Prim
 
-- Area: MST
-- Latest recall at archival migration: L1 review 2026-07-25
-
 This is a miss and need to be reread. Recall initially described Kruskal: globally heapify all edges and join DSU components. Guided correction established Prim's defining invariant: start from one vertex and grow one connected tree; the priority queue contains crossing candidates added from visited vertices, and a candidate is accepted only when its destination is unvisited. Correctly traced edges `(0,1,1)`, `(1,2,2)`, and `(2,3,3)` for total weight 6. Textbook decrease-key Prim stores each unvisited vertex once with `key[v]` equal to its cheapest known connection from the tree and updates that record when a lighter crossing edge appears. Java lazy Prim instead inserts immutable `(vertex,weight,parent)` candidates and skips a record when its vertex is already visited. At most O(E) records give O(E log E), commonly O(E log V), time and O(V + E) auxiliary storage. If the heap empties before V vertices are visited, the graph is disconnected; restarting from each component produces a minimum spanning forest.
 
 ## 13. Forest disjoint set
-
-- Area: DSU
-- Latest recall at archival migration: L1 review 2026-07-19
 
 Correctly recalled the forest model, representative lookup, path compression, same-component no-op, and union-by-size direction. Initial trace attached node `2` beneath non-root argument `1`; corrected to the key invariant that union links representative roots only. With root-as-null convention, the final example has `1,2,3 → 0`, `4 → 3`, and `5` separate; `find(4)` compresses `4 → 0`. Complexity needed correction: `union` and `connected` include two finds. With union-by-size/rank plus path compression, operations are amortized O(α(n)) and storage is O(n).
 
@@ -107,36 +68,21 @@ Recall 2026-07-29 (L1 review): Recalled a forest representation with parent poin
 
 ## 14. Linked-list disjoint set
 
-- Area: DSU
-- Latest recall at archival migration: Empty
-
 Representative pointer, union cost tradeoff, why forest DSU is preferred.
 
 ## 15. Min-heap operations
-
-- Area: Heap
-- Latest recall at archival migration: L1 review 2026-07-19
 
 Correctly explained and traced insert, sift-up, extract-min, and sift-down after guidance. Heap-order knowledge was solid, but recall initially omitted the complete-tree shape invariant, did not state that sift-down must choose the smaller child, treated `heap[0] == null` as the emptiness source of truth instead of logical size, and gave `O(n log n)` for bottom-up construction. Rehearse: complete tree filled left-to-right; parent `(i - 1) / 2`, children `2i + 1` and `2i + 2`; `O(log n)` insert/extract, `O(1)` peek and iterative auxiliary space, `O(n)` bottom-up heapify, and `O(n)` backing storage.
 
 ## 16. Hash table model
 
-- Area: Hash Table
-- Latest recall at archival migration: L1 review 2026-07-21
-
 Correctly recalled bucket indexing, separate chaining, collision-list search, full rehashing into a doubled array, and average O(1) versus worst-case O(n) operations. The substantive correction was resize accounting: load factor is `entryCount / bucketCount`, not the proportion of non-null buckets; a table with many entries in one bucket can therefore reach its threshold while most buckets remain null. Normalize a possibly negative hash into `[0, capacity)` (for example with `Math.floorMod`), and recompute bucket indexes during resize because the capacity used by the index function changes.
 
 ## 17. BST traversal/search/min/max
 
-- Area: BST
-- Latest recall at archival migration: L1 review 2026-07-26
-
 Recalled leftmost minimum, rightmost maximum, inorder `left → root → right`, and height-dependent search bounds. With distinct keys, the ordering invariant needed correction from `left <= root < right` to strict `left < root < right`. The iterative search branches were initially reversed: when `node.value < target`, move right; when `node.value > target`, move left. Correct `search(7)` trace in the example is `8 → 3 → 6 → 7`. Empty search/min/max return null under the chosen contract. Search, minimum, and maximum take O(h): O(log n) balanced and O(n) skewed. Inorder always takes O(n) time, with O(h) recursion space—O(log n) balanced and O(n) skewed rather than always logarithmic. Redo the search skeleton independently after spacing.
 
 ## 18. Successor / predecessor
-
-- Area: BST
-- Latest recall at archival migration: Empty
 
 Right-subtree min case; ancestor walk case.
 
@@ -144,22 +90,13 @@ Recall 2026-07-29 (L1 review): Independently recalled the subtree cases: success
 
 ## 19. BST insertion/deletion
 
-- Area: BST
-- Latest recall at archival migration: L1 review 2026-07-24
-
 Correctly recalled leaf and one-child deletion and proposed a valid two-child alternative to successor-value copying: promote the deleted node's right subtree, find that subtree's minimum node, and attach the deleted node's old left subtree as the minimum node's left child. Precision corrections: the minimum/leftmost node need not be a leaf but has no left child; the strict BST invariant is `left values < node < right values`; all old-left values are below the deleted key and therefore below every old-right value, which proves the attachment is safe. Root deletion cannot merely skip the parent update—the external root reference must become null, the only child, or the promoted subtree. Runtime is O(h), giving O(log n) when balanced and O(n) when skewed; parent pointers make final rewiring O(1), not the search. Auxiliary space is O(1) iteratively or O(h) recursively.
 
 ## 20. Trie insert/search/prefix
 
-- Area: Trie
-- Latest recall at archival migration: L2 review 2026-07-24
-
 Independently wrote correct recursive insertion and exact-word search using character paths and an `isWord` terminal marker. Prefix lookup initially changed the boolean API into descendant enumeration and then reused exact-word search, which incorrectly makes `startsWith("app")` false after inserting only `"apple"`. Guided correction separated path existence from terminal-word membership. Correct trace: after inserting `"apple"`, exact `"apple"` is true, exact `"app"` is false, and prefix `"app"` is true; after inserting `"app"`, exact `"app"` becomes true. Operations take O(L) time. Because this implementation is recursive, each operation uses O(L) call-stack space rather than O(1); iterative traversal would use O(1). Insertion may allocate up to L new nodes, each with a fixed alphabet array, so O(A × L) worst-case allocation or O(L) for constant alphabet size A.
 
 ## 21. Trie keys/delete
-
-- Area: Trie
-- Latest recall at archival migration: Empty
 
 DFS collection, delete pruning only when node has no children and is not terminal.
 
@@ -167,15 +104,9 @@ Recall 2026-07-29 (L1 review): Independently recovered prefix-node lookup, DFS c
 
 ## 22. Amortized resizing
 
-- Area: Dynamic Array
-- Latest recall at archival migration: L1 review 2026-07-21
-
 Correctly distinguished logical size from backing-array capacity and recalled O(1) indexed get/set and O(n) storage. Recall initially mixed in the hash-table 75% load-factor threshold and then confused the new append with an existing-element copy. Correct trace from capacity one: appending `10,20,30,40,50` triggers resize-copy counts `0,1,2,0,4`, ending at capacity eight with seven existing elements copied. Across n appends, geometric resize copies `1 + 2 + 4 + ...` total O(n); adding n ordinary writes remains O(n), so append is amortized O(1) even though a resizing append is O(n).
 
 ## 23. Singly linked list operations
-
-- Area: Linked List
-- Latest recall at archival migration: Empty
 
 Head/tail handling, insertion/deletion edge cases, pointer mutation order.
 
@@ -183,15 +114,9 @@ Recall 2026-07-29 (L1 pass): Independently designed a singly linked list with `h
 
 ## 24. Doubly linked deque operations
 
-- Area: Deque
-- Latest recall at archival migration: L2 review 2026-07-25
-
 Chose dummy head/tail sentinels and independently wrote correct O(1) `addFirst` and `addLast` pointer rewiring. Initial `removeFirst` lacked empty handling, and the proposed `size == 0` guard required the additional invariant that size is initialized and updated on every mutation. After prompting, wrote a correct explicit `removeLast`: save `tail.prev`, move `tail.prev` to the removed node's predecessor, repair `newLast.next = tail`, decrement size, and return the removed node/value. With a successful-removal decrement added to `removeFirst`, the single-element case restores `head.next = tail` and `tail.prev = head`. Invariant: size equals the number of real nodes, reciprocal `next`/`prev` links are consistent, and `size == 0` iff both sentinels point directly to each other. All four endpoint operations are O(1); storage is O(n). Correctly traced `[10] → [20,10] → [20,10,30] → [10,30] → [10]`. Redo all four skeletons independently after spacing.
 
 ## 25. Combinations generation
-
-- Area: Combinatorial
-- Latest recall at archival migration: Empty
 
 Backtracking choice order, start index, include/exclude or loop recursion.
 

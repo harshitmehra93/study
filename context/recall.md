@@ -1,148 +1,99 @@
 # Rolling Recall Protocol
 
-Use spaced recall for:
-
-- learned interview problems in `questions.md`
-- core algorithms and data structures in `core_recall.md`
-
-`questions.md` owns current learned-problem status and selection data.
-`core_recall.md` owns current core-skill status and selection data. This file
-owns the shared recall protocol and recall-status format.
-
-Detailed historical evidence is archived in
-`context/history/question_history.md` and
-`context/history/core_recall_history.md`. Select from the compact tracker first,
-then load only the matching archive section for the chosen item.
+Use recall for learned interview problems in `questions.md` and active core
+skills in `core_recall.md`. Those trackers own current state. The matching files
+under `context/history/` are sparse cold storage; select an item first, then load
+its history only when prior corrections are useful.
 
 ## Prompts
 
-For a learned-problem recall:
+For a learned problem, give a complete self-contained paraphrase with the
+input/output contract, reasoning-relevant constraints, an example, and important
+edge cases. Do not reveal the pattern before Harshit identifies the model.
 
-- give a complete, self-contained paraphrase of the problem rather than copying an external statement verbatim
-- include the input/output contract, constraints needed for reasoning, at least one example, and important edge conditions
-- do not reveal the pattern or expected algorithm before Harshit identifies the model
+For a core skill, ask for the operation or algorithm, invariant, edge cases,
+complexity, and one small example.
 
-For a core-skill recall, give a concise self-contained prompt containing:
-
-- the operation or algorithm to explain or implement
-- the required invariant
-- edge cases
-- complexity
-- one small example
-
-## Recall Levels And Shared Status Format
+## Levels And Status
 
 | Level | Required work |
 | --- | --- |
-| L1 | Demonstrate the model or pattern and the important invariant, edge cases, complexity, and a small example, using concise explanation, pseudocode, code, or a trace as appropriate. |
+| L1 | Demonstrate the model, important invariant, edge cases, complexity, and a small example through explanation, code, pseudocode, or a trace. |
 | L2 | Write a coherent code skeleton with the important state and control flow. |
 | L3 | Write a complete implementation and perform a brief correctness and edge-case check. |
 
-The level descriptions identify the evidence to establish, not a scripted oral
-checklist. Evaluate the answer holistically. Do not require Harshit to repeat
-in prose what correct code or a trace has already demonstrated unless a
-material ambiguity remains.
+Evaluate the evidence holistically. Correct code or a trace need not be repeated
+in prose unless a material ambiguity remains.
 
-Use exactly one latest recall value in each tracker:
+Use one value in `Latest Recall`:
 
-- Empty = no verified recall attempt has been recorded.
-- `L1 ✅ yyyy-mm-dd`, `L2 ✅ yyyy-mm-dd`, or `L3 ✅ yyyy-mm-dd` = pass at that level.
-- `L1 review yyyy-mm-dd`, `L2 review yyyy-mm-dd`, or `L3 review yyyy-mm-dd` = attempted at that level but another recall is needed.
+- Empty = no verified recall attempt.
+- `L1 ✅ yyyy-mm-dd`, `L2 ✅ yyyy-mm-dd`, or `L3 ✅ yyyy-mm-dd` = pass.
+- `L1 review yyyy-mm-dd`, `L2 review yyyy-mm-dd`, or
+  `L3 review yyyy-mm-dd` = another recall is needed.
 
-A **pass** means Harshit completed the important reasoning required for the selected level without meaningful conceptual or algorithmic assistance. Self-correction and minor wording or syntax corrections do not invalidate a pass when the model, invariant, and essential control flow were independently sound.
+A pass requires the important reasoning for that level without meaningful
+conceptual or algorithmic help. Self-correction and minor wording or syntax
+repairs are compatible with a pass.
 
-A **review** means the attempt was materially incomplete or incorrect, or
-required meaningful help with the model, invariant, recurrence, proof, data
-structure, or essential control flow. Correct final code after such help
-remains a review.
+A review means the attempt was materially incomplete or incorrect, or needed
+meaningful help with the model, invariant, proof, data structure, recurrence, or
+essential control flow. Correct final code after that help remains a review.
 
-A **self-reported** item is one Harshit says he knows without demonstrating the
-selected recall level. Preserve that fact in the compact note and matching
-history section if useful, but do not write a latest-recall value, count it as a
-verified attempt, or use it to start the recall cooldown.
+Self-reported familiarity is not a verified attempt and does not update
+`Latest Recall`. A declined, withdrawn, or merely presented prompt is also not
+an attempt.
 
-Most sessions should use L1 or L2. Use L3 when full implementation fluency is the target or when a prior review exposed an implementation gap.
+Most sessions should use L1 or L2. Use L3 when implementation fluency or
+independent ownership is the target.
 
-## Live Feedback Discipline
+## Feedback
 
-- Lead with the substantive verdict: correct, materially incomplete, or
-  incorrect. Then name the highest-leverage reason.
-- Treat code, traces, and explanations as complementary evidence. A locally
-  imprecise sentence does not outweigh an independently correct model and
-  implementation when the intended meaning is clear.
-- Ask one focused follow-up at a time, only when the missing evidence is
-  material to the selected level. Do not march mechanically through every
-  rubric category.
-- Do not require a learner to recite a correction that the coach just supplied
-  solely to close a pass. If the original work was substantively sound, record
-  the pass; if meaningful help was needed, record the review.
-- Use proofs and formal invariants in proportion to the problem. Probe deeply
-  when optimality or correctness is genuinely non-obvious, or when that proof
-  is the selected target. For a basic problem whose recurrence, base case, and
-  complexity are independently correct, do not manufacture a proof ceremony.
-- If Harshit challenges feedback, reassess both the factual point and its
-  materiality. Explain the real consequence briefly; change the coaching
-  judgment when the evidence warrants it.
-- A declined, withdrawn, or merely presented prompt is not an attempt and must
-  not update a tracker.
-- Once the outcome and next action are clear, stop. More questions are not
-  automatically more teaching.
+- Lead with the verdict and the highest-leverage reason.
+- Treat explanation, code, and traces as complementary evidence.
+- Ask one focused follow-up only when material evidence is missing.
+- Do not force the learner to recite a correction supplied by the coach.
+- Probe proof depth in proportion to the problem.
+- If feedback is challenged, reassess both correctness and materiality.
+- Stop when the outcome and next action are clear.
 
-## Deterministic Eligibility And Priority
+## Soft Selection
 
-Determine recency only from dated evidence in the owning tracker:
+An explicit request wins. An item in the learned bank's Outside Recall Rotation
+table is not a recall candidate: redirect an alias to its canonical row, and
+treat an optional or unowned problem as learning. Reference-only core topics
+are also excluded.
 
-1. the date in `Latest Recall`
-2. a later explicit `Last practice: yyyy-mm-dd` entry in the compact current note
+Otherwise choose from the Active Recall Bank rows with non-empty
+`Learning Status`, plus the active core Recall Table. Use these soft preferences:
 
-Do not use Git history, filesystem modification times, or undocumented memory as recency evidence.
+1. Prefer `review` items over passes.
+2. Avoid repeating the same item within about 7 days when practical.
+3. Then prefer the oldest date in `Latest Recall`; treat an empty date as oldest.
+4. Use core priority only when candidates are otherwise comparable.
+5. Interleave topics and avoid consecutive same-pattern prompts unless
+   diagnosing a specific gap or running an explicit redo.
 
-The `last activity date` is the most recent tracker date above. If neither exists, the date is unknown.
+There is no computed due date or hard cooldown. `Latest Recall` is the only
+recency field; do not use Git timestamps, filesystem times, or undocumented
+memory.
 
-An item is eligible when:
+## Updating State
 
-- its last activity date is unknown; or
-- at least 21 full calendar days have elapsed since its last activity date.
+After a demonstrated recall attempt:
 
-For learned problems, consider only rows whose `Learning Status` is non-empty. An unattempted problem is pattern learning or mixed practice, not recall. Core rows are recall candidates because `core_recall.md` contains skills already practiced in the core-skills implementation area.
+1. Replace the owning row's `Latest Recall` with the level, outcome, and date.
+2. Keep the current note empty unless there is an item-specific next target or
+   ownership clarification.
+3. Archive only evidence worth teaching from: meaningful guidance, a correction,
+   a counterexample, or real progression. Routine passes need only the tracker.
 
-Harshit may explicitly request a specific item before its eligibility date.
+For a learned problem, promote `Learning Status` from guided to independent only
+after an independent L3 solution establishes ownership. Do not demote ownership
+after a weak recall; `Latest Recall` records retention.
 
-Rank eligible items in this order:
+Learning, guided repair, and ordinary practice do not change recall recency.
+They may update ownership or an item-specific note when justified, and may add
+meaningful cold-storage evidence, but they do not change `Latest Recall`.
 
-1. Items with an empty latest-recall field.
-2. Items whose latest recall is `review`.
-3. Items whose latest recall is a pass.
-4. Within the same tier, prefer a guided/partially owned learned problem over an independently owned one.
-5. Then treat an unknown activity date as oldest; otherwise choose the earliest activity date.
-6. Use the core-skill priority in `core_recall.md` when otherwise comparable.
-7. Prefer current/previous-block or high-frequency material only as a final tie-breaker.
-
-## Interleaved Learned-Problem Recall
-
-- Mix topics instead of presenting consecutive questions from the same section or pattern.
-- Avoid same-topic follow-ups because the previous question can reveal the model and inflate apparent recall.
-- Use consecutive same-topic questions only to diagnose a specific gap, compare closely related models, or run an explicit redo block.
-- “Interleaved learned-problem recall” still uses already learned problems. It is distinct from unseen Mixed Problem Practice.
-
-## Updating Progress
-
-After every demonstrated attempt:
-
-1. Replace the owning row's latest recall field with the new level, outcome, and date.
-2. Keep the compact current note focused on eligibility and the next action.
-3. Append meaningful evidence to the matching history section when it explains a
-   recurring gap or real progression; do not archive routine pass boilerplate.
-4. Record one concise next action when the result is `review`.
-
-For a learned interview problem:
-
-- update `questions.md`
-- change `Learning Status` from guided to independent only after an independent L3 solution demonstrates ownership of the intended interview solution
-- do not demote `Learning Status` after a weak recall; the latest recall field owns current retention
-
-For a core algorithm or data structure:
-
-- update `core_recall.md`
-
-Do not write the same recall attempt to mixed-practice or mock-interview trackers.
+Do not copy the same attempt into mixed-practice or mock-interview trackers.

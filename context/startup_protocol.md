@@ -1,123 +1,80 @@
 # Interview-Coaching Startup Protocol
 
-This file is the single router for interview-coaching tasks. It owns context
-loading, session selection, instruction precedence, and progress ownership.
+This is the single router for coaching tasks. Apply it once when a new coaching
+task starts.
 
-## Scope
+## Direct Work
 
-Apply this protocol once at the start of a new interview-coaching task.
+Handle repository work, framework explanations, audits, and status/history
+questions directly. Load only what the request needs; do not start an exercise,
+show a session brief, or update progress unless asked.
 
-Do not apply coaching-mode selection, a coaching-session brief, or tracker
-updates to explicit non-coaching work such as repository maintenance,
-instruction audits, explanations, or status questions. Handle those requests
-directly and load only the files they require.
+Reviewing old evidence is direct. Evaluating a newly supplied explanation,
+trace, solution, or code is a new attempt even if the request says `review`,
+`check`, or `calibrate`.
 
-## Base Context
+## Routing
 
-For a coaching task, first read:
+Choose a mode in this order:
 
-1. `context/student_profile.md`
-2. `context/roadmap.md`
+1. Use the explicitly requested mode.
+2. Otherwise infer it from the action and referenced artifact.
+3. Use `Default next coaching mode` in `context/roadmap.md` only for an
+   open-ended request such as `start coaching`.
 
-These files establish the coaching posture, current phase, and default next
-coaching mode.
+* Recall, quiz, or independent redo of an owned learned problem or tracked core
+  skill → Recall.
+* Teach, learn, or repair a learned problem or core skill → Learning / Repair.
+* An unowned problem or an optional row outside the active bank → Learning /
+  Repair; an alias outside the bank redirects to its canonical owner.
+* `advanced topics`, `advanced DSA`, or a named advanced-queue item → Advanced
+  DSA Learning.
+* A fresh unseen problem, or revisit of a logged mixed problem → Mixed Practice.
+* A formal timed round → Coding Mock.
+* A design prompt → System Design; a story prompt → Behavioral.
 
-## Instruction Precedence
+Artifact origin wins when wording is ambiguous: a mixed revisit remains mixed,
+and an advanced-queue item remains advanced.
 
-Use this order when context files overlap:
+## Minimal Loads And Owners
 
-1. Harshit's explicit request selects the task and session mode.
-2. A dedicated mode protocol controls that mode's behavior and calibration.
-3. `context/session_workflow.md` supplies high-level behavior where no
-   dedicated protocol exists.
-4. `context/student_profile.md` supplies general coaching style.
-5. `context/roadmap.md` selects priorities; it does not override behavior,
-   calibration, or tracker ownership.
+First load `context/student_profile.md` and `context/roadmap.md`.
 
-Across every mode, the foundational constraints in
-`context/student_profile.md`—dignity, charitable interpretation, proportional
-feedback, evidence over ceremony, Socratic restraint, and intellectual
-humility—remain active. A dedicated mode protocol specializes the exercise and
-its independence calibration; it does not suspend those constraints.
-
-Stable profile context and roadmap diagnoses may guide vocabulary, task
-selection, and scheduling. They must not be used as priors when judging a new
-attempt; evaluate that attempt from its current evidence under the active
-mode's substantive standard.
-
-An explicit request for help may end an independent attempt, but it never
-changes how much assistance must be recorded.
-
-Identifying an observed flaw is feedback. Supplying the missing abstraction,
-algorithmic direction, invariant, or implementation structure is a hint and
-must be calibrated according to the active mode.
-
-## Session Selection And Ownership
-
-If Harshit explicitly requests a mode, use it. Otherwise use the
-`Default next coaching mode` field in `context/roadmap.md`.
-
-| Mode | Additional context to load | Behavior owner | Primary progress owner |
+| Mode | Then load | Behavior owner | Evidence owner |
 | --- | --- | --- | --- |
-| DSA Pattern Learning | `context/session_workflow.md`, `context/questions.md` | DSA section of `context/session_workflow.md` | `context/questions.md` |
-| Advanced DSA Topic Learning | `context/session_workflow.md`, `context/advanced_topics.md`, and only the relevant ownership trackers | DSA section of `context/session_workflow.md`; selection and safety rules in `context/advanced_topics.md` | `context/advanced_topics.md` until actual evidence justifies promotion to `questions.md` or `core_recall.md` |
-| Recall | `context/recall.md`, `context/questions.md`, `context/core_recall.md` | `context/recall.md` | Problem recall → `context/questions.md`; core recall → `context/core_recall.md` |
-| Mixed Problem Practice | `context/mixed_practice.md`, `context/questions.md` | `context/mixed_practice.md` | `context/mixed_practice.md` |
-| Coding Mock | `context/mock_interviews.md` | Run protocol in `context/mock_interviews.md` | `context/mock_interviews.md` |
-| System Design | `context/session_workflow.md` and relevant design material | System-design section of `context/session_workflow.md` | Detailed notes only in an explicitly selected design document; `context/roadmap.md` only for meaningful milestones |
-| Behavioral | `context/session_workflow.md` and relevant story material | Behavioral section of `context/session_workflow.md` | Detailed notes only in an explicitly selected story document; `context/roadmap.md` only for meaningful milestones |
+| Learning / Repair | `context/session_workflow.md` and the relevant `context/questions.md` or `context/core_recall.md` | `context/session_workflow.md` | the relevant learned/core tracker |
+| Advanced DSA Learning | `context/session_workflow.md`, `context/advanced_topics.md`, and the relevant learned/core tracker | workflow plus advanced safety rules | the learned/core tracker; advanced stores disposition only |
+| Recall | `context/recall.md` and the relevant learned/core tracker | `context/recall.md` | the relevant learned/core tracker |
+| Mixed Practice | `context/mixed_practice.md` | `context/mixed_practice.md` | `context/mixed_practice.md` |
+| Coding Mock | `context/mock_interviews.md` | `context/mock_interviews.md` | `context/mock_interviews.md` |
+| System Design / Behavioral | `context/session_workflow.md`, `context/non_dsa.md` | `context/session_workflow.md` | `context/non_dsa.md` |
 
-Review and calibration requests are direct tasks, not a separate exercise mode.
-Load only the relevant tracker or trackers, report the evidence, and do not
-change state unless the request includes an update.
+For a coach-selected mock, also load only the compact exposure/source trackers
+named by `context/mock_interviews.md`.
 
-Treat explicit requests for `advanced topics` or `advanced DSA` as Advanced DSA
-Topic Learning. An audit row is not learned evidence: follow its cold-check,
-installation, spoiler-protection, and promotion rules before changing an
-ownership tracker.
+## Lazy History
 
-For an advanced-topic audit or status request, load `advanced_topics.md` as a
-direct review task without starting a learning exercise or changing queue
-state unless the request includes an update.
+Select from the compact tracker first. For recall, repair, or redo of an existing
+item, load its matching section, when present, from
+`context/history/question_history.md` or
+`context/history/core_recall_history.md`. Never load a full archive during
+routine startup or broad selection.
 
-Do not infer a general coaching mode from an `Active DSA block`; use the
-explicit `Default next coaching mode` field. Parallel priorities in the roadmap
-inform scheduling but do not silently replace an explicit request.
+## Assistance
 
-## Session Brief
+Use one vocabulary everywhere:
 
-Produce a short brief only when beginning an exercise or when the agent selected
-the mode. Do not prepend it to a narrow explicit request.
+| Help | Meaning |
+| --- | --- |
+| `None` | No solution help. Statement clarification or repeating an explicit constraint stays `None`. |
+| `Nudge` | A small question, observation, or counterexample that does not supply the solution structure. |
+| `Major` | Supplies the representation, algorithm, invariant, proof, or essential implementation direction. |
+| `Unknown` | The help record is insufficient. |
 
-Include:
+Only `None` can establish independence. `Nudge`, `Major`, and `Unknown` cannot.
 
-* current phase
-* selected task
-* why it matters
-* what success looks like
-* what to avoid
+## Evidence Integrity
 
-For mixed practice, reveal only what its dedicated protocol permits.
-
-## Progress Integrity
-
-Record the primary attempt only in its owning tracker.
-
-Update another tracker only for:
-
-* an explicit promotion or follow-up required by a dedicated protocol
-* a meaningful phase-level milestone
-* a separate activity that actually occurred
-
-Additional rules:
-
-* preserve meaningful chronological evidence
-* never inflate independence after meaningful guidance
-* do not duplicate one attempt across trackers
-* do not use `context/roadmap.md` as a detailed attempt log
-* do not duplicate attempt or recall evidence in `context/advanced_topics.md`;
-  retain a handoff reference to the owning tracker instead
-* do not automatically add mixed problems to `context/questions.md`
-* promote mixed work only under `context/mixed_practice.md`
-* update `context/roadmap.md` only when phase, gate, cadence, or qualitative
-  readiness meaningfully changes
+One attempt has one evidence owner. Other files may receive only a queue
+disposition, handoff link, or meaningful roadmap milestone. Never duplicate an
+attempt, and never record materially guided work as independent.

@@ -1,44 +1,54 @@
-# Mock Interview Tracker
+# Coding Mock Protocol And Log
 
-This file is the source of truth for timed formal mock-interview performance and follow-up. Track modeling, correctness, implementation, communication, debugging, and time management rather than only completion count.
+This file owns formal timed-round behavior and evidence. A mock outcome stays
+here; a later recall, repair, or mixed attempt is separate.
 
-Formal mocks are not ordinary mixed attempts. Keep the original result only here; a mock may create a separate recall, mixed-practice, implementation, or communication exercise.
+Use the assistance vocabulary in `context/startup_protocol.md`. Keep outcome,
+help, and observed timing separate.
 
-## Compact Run Protocol
+## Prompt Source
 
-1. State the interview format and timebox before starting.
-2. Let Harshit clarify, model, communicate, code, test, and debug under interview conditions.
-3. Keep interviewer intervention realistic and record every meaningful hint or correction.
-4. Record actual model-selection and total time when observable; use `unknown` rather than inferring elapsed work time.
-5. End or clearly mark the timed round at the timebox, then conduct the review.
-6. Record the first meaningful failure and one concrete follow-up, including a target date when a redo is appropriate.
+For an externally supplied prompt, record the provider and use the prompt as
+given. Reviewing an old result without a new timed round is read-only.
 
-## Calibration Axes
+For a coach-selected prompt:
 
-Record outcome separately from independence/evidence.
+1. Use a permitted private source, such as the Extended / Mock Queue in
+   `context/mixed_practice.md`.
+2. Check the compact learned, core, mixed, and mock trackers for exact prior
+   exposure. Search history headings only when needed; do not load an archive.
+3. Avoid exact or structural duplicates unless this is an explicit redo.
+4. Verify the statement, solution, complexity, scope, and time fit.
+5. Reveal only interview-visible information; keep source, tags, rationale, and
+   expected technique private.
 
-Outcome:
+If Harshit recognizes the prompt before meaningful work, replace it or label
+the round a redo. A source queue may update its disposition, but the mock result
+is recorded only here.
 
-* `Solved` — a viable solution was completed within the round.
-* `Incomplete` — a viable direction existed, but implementation or validation was not completed.
-* `Incorrect` — the submitted model or code was materially wrong.
-* `No solution` — no viable solution was reached.
+## Run
 
-Independence / evidence:
+1. State format and timebox.
+2. Let Harshit clarify, model, communicate, code, test, and debug.
+3. Keep intervention realistic and record the strongest help.
+4. Record model-selection and total time when observed; otherwise use
+   `unknown`.
+5. Mark the timed-round end, then review.
+6. Record the first material gap and one next action.
 
-* `✅ Independent` — no major algorithmic help, and correctness, edge cases, complexity, communication, and timing were sufficiently observed.
-* `🟡 Guided` — interviewer assistance materially affected the model or solution.
-* `Uncalibrated` — intervention level, correctness review, timing, or interviewer feedback is too incomplete to judge independence.
+## Outcomes
 
-Do not infer `✅ Independent` merely from `Solved`.
+* `Pass` — the requested round was completed correctly.
+* `Partial` — viable direction, but material work remained.
+* `Miss` — no viable correct result was reached.
+* `Unknown` — evidence is insufficient.
 
-## Mock Log
+## Log
 
-| # | Date | Provider | Track / Format | Problem | Timebox | Model / Total Time | Outcome | Hints / Intervention | Independence / Evidence | Primary Gap | Key Notes | Follow-up Status / Date |
-| ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 2026-07-23 | Exponent | DSA coding round | Decrypt Message | 20-30 min | unknown / unknown | Incorrect | Unknown; exact intervention not captured | Uncalibrated | `IMPLEMENTATION` — exact defect unknown | The high-level model was on the right track, but the code was incorrect within the round. Exact code defect and interviewer feedback are not yet captured. | Open — review the implementation, identify the first code-level failure, then redo under the same timebox; target date not set. |
-| 2 | 2026-07-23 | Exponent | DSA coding round | Drone Flight Planner | 20-30 min | unknown / unknown | Solved | Unknown; intervention not captured | Uncalibrated | Uncalibrated | Reported solved within the round; model, edge-case review, complexity explanation, and interviewer feedback are not yet captured. | Open — record the solution model and feedback before counting an independent pass; target date not set. |
+| # | Date | Source | Format | Prompt | Timebox | Model / Total | Outcome | Help | Primary Gap | Next Action |
+| ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 2026-07-23 | Exponent | DSA coding | Decrypt Message | 20-30 min | unknown / unknown | Miss | Unknown | Implementation defect unknown | Review the code, identify the first defect, then redo; date unset. |
+| 2 | 2026-07-23 | Exponent | DSA coding | Drone Flight Planner | 20-30 min | unknown / unknown | Pass | Unknown | Evidence incomplete | Capture the model and feedback before claiming independence. |
 
-## Review Rule
-
-Use the log to identify repeated gaps across mocks. Do not mechanically translate mock outcomes into `questions.md` or `mixed_practice.md` statuses. Create a cross-mode follow-up only when the review identifies a specific training need.
+Historical review may identify a follow-up, but record it elsewhere only after
+that separate activity occurs.
