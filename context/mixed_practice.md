@@ -19,38 +19,163 @@ It is not another syllabus or recall queue.
 
 The agent selects the problem. Harshit should not choose the topic.
 
-A candidate is eligible when:
+The exclusive source universe is LeetCode Premium's current Google-tagged
+catalog. LeetCode says company groupings are derived from continuously updated
+user interview surveys rather than official company disclosures; see
+[LeetCode's methodology](https://support.leetcode.com/hc/en-us/articles/360011985113-How-does-grouping-questions-by-company-work).
 
-* it is absent from `questions.md` and the fresh Attempt Log
-* Harshit does not clearly remember solving or studying it
-* it mainly uses concepts already represented in the roadmap
-* it is interview-relevant and reasonable for one interview-style session
-* it does not primarily require an obscure competitive-programming trick
+Inspect candidates in this order:
 
-Prefer Medium problems. Increase modeling difficulty gradually as transfer improves; use Hard problems selectively.
+1. Google-tagged in the last 30 days.
+2. Present in 3 months but not 30 days.
+3. Present in 6 months but not 3 months.
+4. Older Google-tagged questions only when they remain exceptionally strong
+   interview problems.
 
-An occasional problem may expose a genuinely important unknown technique. Record that cause as `NEW_TECHNIQUE`; do not score it as failed transfer.
+Frequency orders inspection; it does not guarantee admission.
 
-Prefer a mix of verified contest Q2/Q3 problems, relevant company-tagged problems, strong curated interview problems, and modeling-heavy combinations of familiar primitives. Avoid near-duplicates and visible pattern rotation.
+Reject a candidate when any of these is true:
 
-Maintain roughly 15-30 eligible `Ready` candidates when practical. Before adding one, check `questions.md`, the Attempt Log, existing candidates, and current difficulty. If external verification is unavailable, use only already-verified candidates. Never invent an external source, link, or company association.
+* it appears in `questions.md`, `context/history/question_history.md`, either
+  mixed-attempt log, or the existing candidate bank
+* it is a structural near-duplicate of learned work: substantially the same
+  state, control flow, and correctness argument with only the story changed
+* Harshit already recognizes it
+* it is Easy, SQL-only, domain-specific, trick-dependent, or an implementation
+  marathon
+* it cannot reasonably be modeled, implemented in Java, tested, and defended
+  in approximately 35-40 minutes
+* it primarily requires a technique not represented in the installed roadmap
+* its official statement, constraints, canonical editorial solution, and
+  complexity analysis cannot be verified
 
-| ID | Problem | Source | Link | Difficulty | State |
-| -: | ------- | ------ | ---- | ---------- | ----- |
-|    |         |        |      |            |       |
+If an attempted problem nevertheless exposes a genuinely important unknown
+technique, record `NEW_TECHNIQUE` as a post-attempt diagnosis and exclude that
+attempt from transfer-rate denominators. Do not intentionally admit such a
+problem.
+
+Maintain exactly 24 unattempted `Ready` candidates whenever practical:
+
+* 18 Medium
+* 6 Hard
+* 0 Easy
+
+A Hard qualifies only when it is interview-sized, has a clean canonical model,
+and is not driven mainly by an obscure trick or excessive implementation.
+
+### Quality Gate
+
+Score every candidate from 0-2 on each dimension:
+
+| Code | Dimension |
+| --- | --- |
+| `S` | Google-source confidence and recency |
+| `R` | Interview realism and time fit |
+| `N` | Novelty relative to learned work |
+| `M` | Modeling and correctness-reasoning depth |
+| `I` | Implementation and edge-case signal |
+| `F` | Follow-up and optimization potential |
+
+`2` means strong, `1` means acceptable, and `0` means the candidate fails that
+dimension. Admission requires at least 10/12 with no zero. Before setting
+`Ready`, verify the official statement, constraints, editorial, complexity,
+Java feasibility, and meaningful edge cases.
+
+The Google tier below is the earliest exact catalog window in which the problem
+was found. Frequency is the visible Google report count in the corresponding
+company interval on the official problem page. All rows were observed and
+re-verified on 2026-07-29.
+
+| ID | Problem | Link | Google tier | Visible frequency | Difficulty | Quality (`S/R/N/M/I/F`) | State |
+| -: | ------- | ---- | ----------- | ----------------- | ---------- | ------------------------- | ----- |
+| G01 | Longest Consecutive Sequence | [LeetCode](https://leetcode.com/problems/longest-consecutive-sequence/) | 30d | 0-3m: 23 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G02 | Decode String | [LeetCode](https://leetcode.com/problems/decode-string/) | 30d | 0-3m: 7 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G03 | Single Element in a Sorted Array | [LeetCode](https://leetcode.com/problems/single-element-in-a-sorted-array/) | 30d | 0-3m: 9 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G04 | Word Break | [LeetCode](https://leetcode.com/problems/word-break/) | 30d | 0-3m: 4 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G05 | Maximum Width of Binary Tree | [LeetCode](https://leetcode.com/problems/maximum-width-of-binary-tree/) | 30d | 0-3m: 3 | Medium | `2/2/1/2/2/2 = 11` | Ready |
+| G06 | Next Permutation | [LeetCode](https://leetcode.com/problems/next-permutation/) | 30d | 0-3m: 7 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G07 | Candy | [LeetCode](https://leetcode.com/problems/candy/) | 3m-only | 0-3m: 4 | Hard | `2/2/2/2/2/2 = 12` | Ready |
+| G08 | Maximum XOR of Two Numbers in an Array | [LeetCode](https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/) | 30d | 0-3m: 8 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G09 | Product of Array Except Self | [LeetCode](https://leetcode.com/problems/product-of-array-except-self/) | 30d | 0-3m: 8 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G10 | Alien Dictionary | [LeetCode](https://leetcode.com/problems/alien-dictionary/) | 6m-only | 0-6m: 3 | Hard | `2/2/1/2/2/2 = 11` | Ready |
+| G11 | Minimum Cost For Tickets | [LeetCode](https://leetcode.com/problems/minimum-cost-for-tickets/) | 30d | 0-3m: 3 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G12 | Subarray Sum Equals K | [LeetCode](https://leetcode.com/problems/subarray-sum-equals-k/) | 30d | 0-3m: 15 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G13 | Smallest Subsequence of Distinct Characters | [LeetCode](https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/) | 30d | 0-3m: 7 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G14 | Insert Delete GetRandom O(1) | [LeetCode](https://leetcode.com/problems/insert-delete-getrandom-o1/) | 3m-only | 0-3m: 6 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G15 | Sort an Array | [LeetCode](https://leetcode.com/problems/sort-an-array/) | 30d | 0-3m: 9 | Medium | `2/2/2/1/2/2 = 11` | Ready |
+| G16 | Find Peak Element | [LeetCode](https://leetcode.com/problems/find-peak-element/) | 30d | 0-3m: 7 | Medium | `2/2/2/2/2/1 = 11` | Ready |
+| G17 | Group Anagrams | [LeetCode](https://leetcode.com/problems/group-anagrams/) | 30d | 0-3m: 13 | Medium | `2/2/2/1/2/1 = 10` | Ready |
+| G18 | Sort Colors | [LeetCode](https://leetcode.com/problems/sort-colors/) | 3m-only | 0-3m: 7 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G19 | Find Original Array From Doubled Array | [LeetCode](https://leetcode.com/problems/find-original-array-from-doubled-array/) | 30d | 0-3m: 4 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G20 | Random Pick with Weight | [LeetCode](https://leetcode.com/problems/random-pick-with-weight/) | 30d | 0-3m: 4 | Medium | `2/2/2/2/2/2 = 12` | Ready |
+| G21 | Regular Expression Matching | [LeetCode](https://leetcode.com/problems/regular-expression-matching/) | 30d | 0-3m: 6 | Hard | `2/2/2/2/2/2 = 12` | Ready |
+| G22 | Maximum Profit in Job Scheduling | [LeetCode](https://leetcode.com/problems/maximum-profit-in-job-scheduling/) | 6m-only | 0-6m: 3 | Hard | `1/2/2/2/2/2 = 11` | Ready |
+| G23 | Basic Calculator | [LeetCode](https://leetcode.com/problems/basic-calculator/) | 3m-only | 0-3m: 2 | Hard | `1/2/2/2/2/2 = 11` | Ready |
+| G24 | Longest Increasing Path in a Matrix | [LeetCode](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/) | 6m-only | 0-6m: 7 | Hard | `2/2/1/2/2/2 = 11` | Ready |
+
+Initial acceptance audit on 2026-07-29:
+
+* 24/24 were visible in the authenticated Google catalog: 17 in 30d, 4 in
+  3m-only, and 3 in 6m-only.
+* 24/24 had an official statement, constraints, editorial, complexity
+  analysis, and a feasible Java implementation.
+* 24/24 passed the 10/12 gate with no zero; IDs, titles, and links are unique.
+* 0 exact or structural overlaps remained after comparison with the learned
+  bank, history, core inventory, and mixed logs.
+* 6/6 Hards passed the interview-sized, canonical-model, non-trick, and
+  non-marathon screen.
 
 Allowed states are `Ready`, `Attempted`, and `Excluded`. Do not store solution hints, expected patterns, or solution summaries for `Ready` problems.
 
 If Harshit recognizes a selected problem before meaningful work begins, mark it `Excluded` for mixed practice, do not score it, and choose another candidate.
+
+### First 10 Attempt Schedule
+
+The first ten attempts are precommitted by opaque candidate ID so the live
+attempt does not reveal a title or selection rationale.
+
+| Attempt | Candidate ID | Difficulty |
+| -: | ---: | ---------- |
+| 1 | G01 | Medium |
+| 2 | G02 | Medium |
+| 3 | G03 | Medium |
+| 4 | G04 | Medium |
+| 5 | G05 | Medium |
+| 6 | G06 | Medium |
+| 7 | G07 | Hard |
+| 8 | G08 | Medium |
+| 9 | G09 | Medium |
+| 10 | G10 | Hard |
+
+This is 8 Medium and 2 Hard; the first three are Medium, Hards are not
+consecutive, and at least six broad families are covered. The family audit is
+intentionally not persisted because it would reveal solution information. The
+first candidate also avoids the topic of the immediately preceding recall
+attempt. Continue avoiding the immediately preceding recall or mixed topic
+when replenishing or scheduling later candidates.
+
+### Rotation
+
+* After an attempt, mark the row `Attempted` and add a verified replacement.
+* Replace Medium with Medium and Hard with Hard unless calibration changes the
+  18/6 target.
+* If Harshit recognizes a problem, mark it `Excluded` without scoring and
+  replace it immediately at the same difficulty.
+* If a `Ready` problem loses its current Google tag, mark it `Excluded`
+  without scoring and replace it at the same difficulty.
+* Keep 24 unattempted `Ready` rows whenever practical. Preserve `Attempted` and
+  `Excluded` rows as history; the 24-row invariant applies only to `Ready`.
 
 ## Selection And Presentation
 
 For a fresh mixed session:
 
 1. Select one eligible `Ready` problem.
-2. Check recent fresh attempts to avoid obvious pattern clustering.
-3. Match difficulty to current rolling transfer results.
-4. Do not select from Harshit's stated strengths or the most recent recall pattern.
+2. Reverify that it is still Google-tagged before presenting it.
+3. Check recent fresh attempts to avoid obvious pattern clustering.
+4. Match difficulty to current rolling transfer results.
+5. Follow the precommitted schedule for attempts 1-10.
+6. Avoid the topic of the immediately preceding recall or mixed attempt.
 
 Present only interview-visible information:
 
@@ -59,7 +184,13 @@ Present only interview-visible information:
 * constraints
 * function signature when useful
 
-Do not reveal the topic, expected algorithm or data structure, source category, company tag, related known problems, difficulty commentary, selection reason, or hints.
+Do not reveal the candidate title, topic, expected algorithm or data structure,
+source category, company tag, related known problems, difficulty, frequency,
+selection reason, or hints. Do not open the Candidate Bank in front of Harshit
+during a live attempt; operate from the opaque candidate ID.
+
+Scored attempts must use no LeetCode AI assistance or intelligent
+autocomplete.
 
 ## Independent Attempt
 
@@ -152,7 +283,10 @@ Keep one immutable row per fresh mixed problem. Never replace its status, hint, 
 | -: | ---- | ------- | ------ | ---- | ------------------ | ----------- | ------- | ------------ |
 |   |      |         |        |      |                    |             |         |              |
 
-After logging a fresh attempt, mark its Candidate Bank row `Attempted`. Keep the takeaway to the observation that will affect future training; add longer notes only when needed.
+After logging a fresh attempt, mark its Candidate Bank row `Attempted` and
+replenish the `Ready` inventory under the Rotation rules. Keep the takeaway to
+the observation that will affect future training; add longer notes only when
+needed.
 
 ## Reattempts
 
@@ -190,7 +324,9 @@ A one-off failure on an already-known idea remains only in this file.
 
 ## Rolling Calibration
 
-Every 10 fresh attempts, report total fresh volume and calculate transfer metrics over **transfer-eligible fresh attempts**.
+After every 10 additional **transfer-eligible fresh attempts**, report total
+fresh volume and calculate transfer metrics over transfer-eligible fresh
+attempts.
 
 A transfer-eligible fresh attempt is one whose recorded cause is not `NEW_TECHNIQUE`. Report `NEW_TECHNIQUE` attempts separately; exclude them from every transfer-rate denominator.
 
@@ -203,10 +339,15 @@ A transfer-eligible fresh attempt is one whose recorded cause is not `NEW_TECHNI
 
 Also summarize failure stages and causes. Always use the immutable first-attempt status and hint; never substitute reattempt outcomes.
 
-Difficulty guidance:
+Difficulty guidance per ten transfer-eligible attempts:
 
-* Below roughly 40% independent derivation: favor direct-but-unlabeled Medium applications of installed ideas.
-* Roughly 40-70%: maintain broad mixed exposure.
-* Above roughly 70%: gradually add modeling-heavy Mediums, combinations, tighter timing, and occasional appropriate Hards.
+* Below 40% independent derivation: approximately 9 Medium / 1 Hard.
+* From 40-70%: approximately 7-8 Medium / 2-3 Hard.
+* Above 70%: approximately 6-7 Medium / 3-4 Hard, emphasizing
+  modeling-heavy questions and follow-ups.
+
+A Medium with substantial interviewer follow-ups may provide Hard-level signal
+without being counted as a Hard. When calibration changes the target ratio,
+replenish toward the new ratio rather than preserving 18/6 mechanically.
 
 Do not respond to isolated misses by adding large amounts of theory or making every problem harder.
