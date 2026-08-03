@@ -1,40 +1,37 @@
 # Coding Mock Protocol And Log
 
-This file owns formal timed-round behavior and evidence. A mock outcome stays
-here; a later recall, repair, or mixed attempt is separate.
+This file owns formal timed DSA coding rounds. Timed HLD/LLD work remains System
+Design. A mock result stays here; later recall, repair, or mixed work is separate.
 
 Use the assistance vocabulary in `context/startup_protocol.md`. Keep outcome,
 help, and observed timing separate.
 
 ## Prompt Source
 
-For an externally supplied prompt, record the provider and use the prompt as
-given. Reviewing an old result without a new timed round is read-only.
+For an external prompt, record the provider; use `Novelty=Unknown` unless prior
+exposure was checked. Reviewing an old result is read-only.
 
 For a coach-selected prompt:
 
-1. Use a permitted private source, such as the Extended / Mock Queue in
-   `context/mixed_practice.md`.
-2. Check the compact learned, core, mixed, and mock trackers for exact prior
-   exposure. Search history headings only when needed; do not load an archive.
-3. Avoid exact or structural duplicates unless this is an explicit redo.
-4. Verify the statement, solution, complexity, scope, and time fit.
-5. Reveal only interview-visible information; keep source, tags, rationale, and
-   expected technique private.
+1. Verify an interview-sized prompt, its solution, and time fit.
+2. Check compact learned, core, advanced, mixed, and mock exposure; avoid exact
+   or structural repeats.
+3. Use `Unseen`, `Known`, or `Unknown` for novelty.
+4. Reveal only interview-visible information.
 
-If Harshit recognizes the prompt before meaningful work, replace it or label
-the round a redo. A source queue may update its disposition, but the mock result
-is recorded only here.
+Declare one exact deadline for every new mock; historical ranges remain
+uncalibrated. If a mixed candidate is used, set `Consumed — Mock #N` there and
+record the attempt only here. If the prompt is recognized, replace it or record
+`Novelty=Known`; update a source disposition only when one exists.
 
 ## Run
 
-1. State format and timebox.
+1. State the deadline and expected implementation/testing deliverable.
 2. Let Harshit clarify, model, communicate, code, test, and debug.
-3. Keep intervention realistic and record the strongest help.
-4. Record model-selection and total time when observed; otherwise use
-   `unknown`.
-5. Mark the timed-round end, then review.
-6. Record the first material gap and one next action.
+3. Record the strongest help and close at the deadline under the shared attempt
+   boundary.
+4. Record timing as `deadline / model selection / total`, plus
+   implementation/testing evidence and one gap/next action.
 
 ## Outcomes
 
@@ -43,12 +40,14 @@ is recorded only here.
 * `Miss` — no viable correct result was reached.
 * `Unknown` — evidence is insufficient.
 
+A row is calibrated when novelty, deadline/total timing, outcome, help, and
+implementation/testing evidence are observed; model-selection time may remain
+`unknown`. It is satisfactory only with `Unseen`, `Pass`, `Help=None`,
+completion inside the deadline, and sufficient implementation/testing evidence.
+
 ## Log
 
-| # | Date | Source | Format | Prompt | Timebox | Model / Total | Outcome | Help | Primary Gap | Next Action |
-| ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 2026-07-23 | Exponent | DSA coding | Decrypt Message | 20-30 min | unknown / unknown | Miss | Unknown | Implementation defect unknown | Review the code, identify the first defect, then redo; date unset. |
-| 2 | 2026-07-23 | Exponent | DSA coding | Drone Flight Planner | 20-30 min | unknown / unknown | Pass | Unknown | Evidence incomplete | Capture the model and feedback before claiming independence. |
-
-Historical review may identify a follow-up, but record it elsewhere only after
-that separate activity occurs.
+| # | Date | Source | Prompt | Novelty | Timing | Outcome | Help | Implementation / Test Evidence | Gap / Next Action |
+| ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 2026-07-23 | Exponent | Decrypt Message | Unknown | 20-30 min / unknown / unknown | Miss | Unknown | Unknown | Implementation defect unknown; review the code, identify the first defect, then redo; date unset. |
+| 2 | 2026-07-23 | Exponent | Drone Flight Planner | Unknown | 20-30 min / unknown / unknown | Pass | Unknown | Unknown | Evidence incomplete; capture the model and feedback before claiming independence. |

@@ -1,8 +1,8 @@
 # Core Skills Recall
 
-Track recall for algorithms and data structures practiced under `src/main/java/study/coreskills`.
-
-Use this file for core algorithm recall. Use `questions.md` for learned interview-problem recall.
+Track recall for algorithms and data structures practiced under
+`src/main/java/study/coreskills`; use `questions.md` for learned interview
+problems.
 
 Advanced-topic audit hypotheses and installation planning belong in
 `advanced_topics.md`. Add a core topic here only after an actual session

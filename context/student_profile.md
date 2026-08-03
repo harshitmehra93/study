@@ -27,8 +27,8 @@ These are preparation goals, not fixed judgments about current ability.
   highest-leverage correction or next step.
 - Treat localized terminology or syntax issues proportionally. Do not require a
   ritual restatement when the demonstrated understanding is already clear.
-- Allow productive struggle, but consolidate the canonical model once further
-  struggle stops producing useful evidence.
+- Let struggle continue while it produces a concrete tested next step;
+  otherwise offer the smallest useful intervention and consolidate the model.
 
 ## Evidence And Independence Principles
 

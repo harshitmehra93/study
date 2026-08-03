@@ -8,19 +8,22 @@ its history only when prior corrections are useful.
 ## Prompts
 
 For a learned problem, give a complete self-contained paraphrase with the
-input/output contract, reasoning-relevant constraints, an example, and important
-edge cases. Do not reveal the pattern before Harshit identifies the model.
+input/output contract, reasoning-relevant constraints, and a statement-provided
+example. Do not add coach-derived edge cases or reveal the pattern before
+Harshit identifies the model.
 
-For a core skill, ask for the operation or algorithm, invariant, edge cases,
-complexity, and one small example.
+For a core skill, initially ask only for the named operation or algorithm. Keep
+the invariant, edge cases, complexity, and a small example as the evaluator
+checklist. If the initial response omits a dimension, ask a neutral completeness
+follow-up without supplying its content.
 
 ## Levels And Status
 
 | Level | Required work |
 | --- | --- |
 | L1 | Demonstrate the model, important invariant, edge cases, complexity, and a small example through explanation, code, pseudocode, or a trace. |
-| L2 | Write a coherent code skeleton with the important state and control flow. |
-| L3 | Write a complete implementation and perform a brief correctness and edge-case check. |
+| L2 | Complete L1 and write a coherent code skeleton with the important state and control flow. |
+| L3 | Complete L2, write a complete implementation, and perform a brief correctness and edge-case check. |
 
 Evaluate the evidence holistically. Correct code or a trace need not be repeated
 in prose unless a material ambiguity remains.
@@ -36,6 +39,9 @@ A pass requires the important reasoning for that level without meaningful
 conceptual or algorithmic help. Self-correction and minor wording or syntax
 repairs are compatible with a pass.
 
+A legacy pass with an unattributed correction keeps its outcome but counts as
+`Help=Unknown` for future readiness until an independent recall.
+
 A review means the attempt was materially incomplete or incorrect, or needed
 meaningful help with the model, invariant, proof, data structure, recurrence, or
 essential control flow. Correct final code after that help remains a review.
@@ -49,29 +55,24 @@ independent ownership is the target.
 
 ## Feedback
 
-- Lead with the verdict and the highest-leverage reason.
-- Treat explanation, code, and traces as complementary evidence.
-- Ask one focused follow-up only when material evidence is missing.
 - Do not force the learner to recite a correction supplied by the coach.
 - Probe proof depth in proportion to the problem.
-- If feedback is challenged, reassess both correctness and materiality.
-- Stop when the outcome and next action are clear.
 
 ## Soft Selection
 
-An explicit request wins. An item in the learned bank's Outside Recall Rotation
-table is not a recall candidate: redirect an alias to its canonical row, and
+An explicit eligible request wins. An item in the learned bank's Outside Recall
+Rotation is not a recall candidate: redirect an alias to its canonical row, and
 treat an optional or unowned problem as learning. Reference-only core topics
-are also excluded.
+are also excluded; admission follows the relevant tracker.
 
 Otherwise choose from the Active Recall Bank rows with non-empty
 `Learning Status`, plus the active core Recall Table. Use these soft preferences:
 
-1. Prefer `review` items over passes.
-2. Avoid repeating the same item within about 7 days when practical.
-3. Then prefer the oldest date in `Latest Recall`; treat an empty date as oldest.
-4. Use core priority only when candidates are otherwise comparable.
-5. Interleave topics and avoid consecutive same-pattern prompts unless
+1. Avoid repeating the same item within about 7 days when practical.
+2. Prefer `review` items, oldest first (empty is oldest), but periodically sample
+   an old pass.
+3. Use core priority only when candidates are otherwise comparable.
+4. Interleave topics and avoid consecutive same-pattern prompts unless
    diagnosing a specific gap or running an explicit redo.
 
 There is no computed due date or hard cooldown. `Latest Recall` is the only
@@ -85,15 +86,10 @@ After a demonstrated recall attempt:
 1. Replace the owning row's `Latest Recall` with the level, outcome, and date.
 2. Keep the current note empty unless there is an item-specific next target or
    ownership clarification.
-3. Archive only evidence worth teaching from: meaningful guidance, a correction,
-   a counterexample, or real progression. Routine passes need only the tracker.
+3. Archive `Nudge`, `Major`, or `Unknown` with the exact help label; archive other
+   detail only when it is useful. Routine `Help=None` passes need only the tracker.
 
-For a learned problem, promote `Learning Status` from guided to independent only
-after an independent L3 solution establishes ownership. Do not demote ownership
-after a weak recall; `Latest Recall` records retention.
+After an independent L3 learned-problem pass, apply the ownership transition in
+`context/questions.md`; a weak recall never demotes ownership.
 
-Learning, guided repair, and ordinary practice do not change recall recency.
-They may update ownership or an item-specific note when justified, and may add
-meaningful cold-storage evidence, but they do not change `Latest Recall`.
-
-Do not copy the same attempt into mixed-practice or mock-interview trackers.
+Learning, repair, and ordinary practice never change `Latest Recall`.

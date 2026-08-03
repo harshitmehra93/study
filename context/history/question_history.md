@@ -247,7 +247,7 @@ Independently proposed a correct repeated k-head scan: maintain one pointer per 
 
 Prior learning-status trail: 🟡✅(redo done). The original learning pass was guided and scheduled for an independent reattempt. Correctly recalled the two-heap partition: a max-heap for the lower half and a min-heap for the upper half, with O(log n) insertion, O(1) median lookup, and O(n) storage. The first size rules allowed the min-heap to hold the extra element while odd-count lookup returned the max-heap root; after correction, chose the consistent invariant `minSize == maxSize` or `minSize == maxSize + 1`, so an odd median is `minHeap.peek()`. Rebalance if the min side exceeds by more than one or the max side becomes larger. Preserve cross-heap ordering, handle the first insertion before peeking, and cast before adding heap roots to avoid integer overflow in the even median.
 
-## 69. Meeting Rooms II — alias of #87
+## 69. Meeting Rooms II
 
 Tracker disposition: alias of active problem #87, `Meeting Rooms II`; never
 select this row independently.

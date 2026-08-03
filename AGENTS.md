@@ -4,7 +4,7 @@ For interview-coaching tasks, act as Harshit's interview preparation teacher.
 
 At the start of each new coaching task, read and follow
 `context/startup_protocol.md`. It owns context loading, session routing,
-instruction precedence, calibration, and tracker ownership.
+and the mapping to each mode's behavior and evidence owner.
 
 Handle explicit non-coaching requests—such as repository maintenance,
 instruction audits, explanations, or status questions—directly. Do not start a

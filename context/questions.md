@@ -11,30 +11,23 @@ in a separate non-active table, so no per-row scope field is needed.
 - `✅` = independently solved in full once.
 - `✅✅` = independently solved in full multiple times.
 
+Only admitted active rows carry ownership status. Admit an optional or unowned
+item only when a session shows it belongs in the permanent bank. An independent
+complete solution with `Help=None` moves empty/`🟡` to `✅`, `✅` to `✅✅`, and
+leaves `✅✅` unchanged. Guided or partial work on an admitted row stays `🟡`;
+green ownership is never demoted.
+
 `Latest Recall` is the only recall-recency field and follows
 `context/recall.md`. Learning or repair work does not change it. Keep
 `Current Note` empty unless an item-specific target or ownership clarification
 is useful; detailed evidence belongs in `context/history/question_history.md`.
 
-Yellow does not mean failure. It means the intended solution is seen or partially understood but still needs an independent full pass.
-
-If a problem blocks too long, understand and write the standard solution once,
-mark it yellow, and revisit it later rather than stalling the roadmap.
-
 ## Phase 4 Boundary
 
-Ordinary unseen/mixed attempts belong in `context/mixed_practice.md`, not in this file.
-
-Do not automatically add every mixed-practice failure to the question bank.
-
-Promote a mixed problem or technique here only when the promotion rules in
-`context/mixed_practice.md` identify a reusable knowledge gap that should
-become part of the permanent learned-problem set.
-
-Advanced-topic audit hypotheses and installation planning belong in
-`context/advanced_topics.md`. Add or change a row here only after an actual
-learning or assessment session supplies evidence under this file's ownership
-rules.
+Unseen attempts stay in `context/mixed_practice.md`; a reusable gap may create a
+learning handoff, but admission still follows the rule above. Advanced planning
+stays in `context/advanced_topics.md`; only an actual session changes this
+tracker.
 
 ## Active Recall Bank
 
@@ -57,7 +50,7 @@ rules.
 | 15 | DP | ✅ | L1 review 2026-07-26 | Minimum ASCII Delete Sum for Two Strings | Redo the equal-character dominance proof, O(mn) boundary handling, and a careful ASCII trace. |
 | 16 | DP | ✅ | L3 ✅ 2026-06-14 | Distinct Subsequences |  |
 | 17 | DP | ✅ | L1 review 2026-07-26 | Longest Palindromic Substring |  |
-| 18 | DP | ✅ | L1 review 2026-07-27 | Palindromic Substrings | Could not recall at all. Redo odd/even center ownership, expansion invariant, uniqueness proof, and complexity independently. |
+| 18 | DP | ✅ | L1 review 2026-07-27 | Palindromic Substrings | No model or invariant was retrieved before the attempt ended. Redo odd/even center ownership, expansion invariant, uniqueness proof, and complexity independently. |
 | 19 | Graphs / Matrix | ✅ | L1 review 2026-07-20 | Number of Islands |  |
 | 20 | Graphs | ✅ | L1 ✅ 2026-07-25 | Max Area of Island |  |
 | 21 | Graphs | ✅ | L1 review 2026-07-20 | Rotting Oranges |  |
@@ -135,7 +128,7 @@ rules.
 | 100 | Stack | ✅ | L1 ✅ 2026-07-29 | Next Greater Element I |  |
 | 101 | Stack | 🟡 | L1 review 2026-07-24 | Car Fleet |  |
 | 102 | Stack | 🟡 | L1 review 2026-07-20 | Largest Rectangle in Histogram |  |
-| 103 | Stack | 🟡 | L1 review 2026-07-27 | Online Stock Span | Active recall was not achieved and retrieval was unreasonably slow; redo the full model and amortized proof independently. |
+| 103 | Stack | 🟡 | L1 review 2026-07-27 | Online Stock Span | No interview-usable model was produced before the attempt ended; redo the full model and amortized proof independently. |
 | 104 | Linked List | ✅ | L2 review 2026-07-27 | Reverse Linked List | Redo the uniform `previous/current/next` loop, empty input, invariant, and complexity independently. |
 | 105 | Linked List | ✅ | L1 ✅ 2026-07-27 | Merge Two Sorted Lists |  |
 | 106 | Linked List | ✅ | L1 review 2026-07-28 | Linked List Cycle | Redo the relative-gap-modulo-cycle proof and complexity independently; pointer implementation was correct. |
@@ -171,8 +164,8 @@ rules.
 ## Outside Recall Rotation
 
 These rows retain stable IDs but are never selected from the active recall
-bank. An optional item becomes a learning exercise only when requested. An
-alias redirects to its canonical tracker row.
+bank. Optional items become learning exercises only when requested; admission
+follows the rule above. Aliases redirect to their canonical owner.
 
 | # | Section | Problem / Topic | Disposition |
 | ---: | --- | --- | --- |

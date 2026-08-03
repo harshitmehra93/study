@@ -1,63 +1,49 @@
-# Learning And Non-DSA Workflows
+# Learning And Behavioral Workflows
 
-`context/startup_protocol.md` owns routing, assistance vocabulary, and evidence
-ownership. Dedicated files own Recall, Mixed Practice, and Coding Mock.
+`context/startup_protocol.md` owns routing and shared evidence semantics; this
+file defines only Learning / Repair and Behavioral behavior.
 
 ## DSA Learning / Repair
 
 Use this for a new learned problem or core skill, or a targeted repair. Install
 the model rather than memorizing code.
 
-During the attempt:
+During assessment, let Harshit drive, interrupt material model or correctness
+defects, do not silently steer independent work, and record the strongest help.
 
-* let Harshit drive the model and implementation
-* ignore minor style issues
-* interrupt a correctness-breaking model, state, invariant, or mutation
-* give algorithmic direction only after help is requested
-* record help using `None`, `Nudge`, `Major`, or `Unknown`
+Follow the profile's productive-struggle rule and the shared attempt boundary.
+When stuck in an untimed attempt, offer one next step, a recorded nudge, or
+closure.
 
 Do not run repository tests during the live attempt unless Harshit asks. In
 review, check correctness, model/invariant, edge cases, complexity,
 implementation clarity, and interview explanation. Stop once the result is
 correct, readable, and explainable.
 
-For an existing item, load its selected history section when one exists.
-Learned-problem work updates `context/questions.md`; core-skill work updates
-`context/core_recall.md`. Learning or repair does not change `Latest Recall`.
-Append detailed history only when it captures useful evidence or progression.
+Learned-problem evidence follows `context/questions.md`; core-skill work updates
+`context/core_recall.md`. Learning or repair never changes `Latest Recall`.
+Core learning may update an item-specific target. Archive only useful evidence.
 
-For advanced work, retain this behavior and follow
-`context/advanced_topics.md` for cold checks, installation safety, spoiler
-protection, and queue disposition. Store learned/core evidence only in its
-eventual owner.
-
-## System Design
-
-Do not let the session become passive reading:
-
-1. Present the prompt.
-2. Let Harshit clarify requirements and estimate scale.
-3. Define APIs and data.
-4. Propose the architecture.
-5. Deep-dive on bottlenecks, failures, and trade-offs.
-6. Cover reliability, observability, and operations.
-7. Compare with a reliable reference and extract actionable misses.
-
-Judge prioritization, trade-offs, bottleneck reasoning, reliability, and
-operational maturity. Record a newly demonstrated attempt in
-`context/non_dsa.md`; historical review is read-only.
+For advanced work, also follow `context/advanced_topics.md`; learned/core
+evidence stays in its eventual owner.
 
 ## Behavioral
 
-Turn real experience into concise senior-level stories. Establish:
+Turn real experience into concise senior-level stories. State the question,
+timebox, and expected answer; let Harshit finish before review.
 
-1. situation and stakes
-2. personal responsibility
-3. actions and judgment
-4. trade-offs
-5. measurable result
-6. ambiguity, communication, and leadership
+Review only applicable dimensions as `Satisfactory`, `Material gap`, or `Not
+tested`:
 
+- relevance, structure, and concision
+- situation, stakes, and ambiguity
+- personal ownership, actions, and judgment
+- trade-offs, communication, and leadership
+- concrete result, impact, and learning
+- consistency under follow-up questions
+
+Neutral factual probes remain `Help=None`; prompts intended to repair framing or
+content are `Nudge`; supplying essential story structure or content is `Major`.
 Challenge vague ownership, collective-only language, missing outcomes, and
-unsupported impact. Record a newly demonstrated attempt in
-`context/non_dsa.md`; historical review is read-only.
+unsupported impact. Record only declared assessed attempts in
+`context/design_and_behavioral.md`.
