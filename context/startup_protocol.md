@@ -30,7 +30,9 @@ Choose a mode in this order:
   DSA Learning.
 * A fresh unseen, untracked coding/DSA problem requested as a cold independent
   attempt, or a revisit of a logged mixed problem → Mixed Practice.
-* A formal timed coding round → Coding Mock.
+* A formal timed interview coding round → Coding Mock.
+* A live or virtual competitive-programming contest, a contest report or
+  debrief, or an upsolve/redo of a tracked contest problem → Contest Practice.
 * Any HLD or LLD coaching—including theory, revision, repair, a diagnostic,
   learning problem, exit gate, timed design mock, drill, or delayed reattempt →
   System Design.
@@ -49,6 +51,7 @@ First load `context/student_profile.md` and `context/roadmap.md`.
 | Recall | `context/recall.md` and the relevant learned/core tracker | `context/recall.md` | the relevant learned/core tracker |
 | Mixed Practice | `context/mixed_practice.md` | `context/mixed_practice.md` | `context/mixed_practice.md` |
 | Coding Mock | `context/mock_interviews.md` | `context/mock_interviews.md` | `context/mock_interviews.md` |
+| Contest Practice | `context/contest_practice.md`; also `context/session_workflow.md` when teaching an upsolve | `context/contest_practice.md`, plus the workflow for teaching | `context/contest_practice.md` |
 | System Design | the shared protocol and relevant track/phase in `context/system_design.md`, plus `context/design_and_behavioral.md` | `context/system_design.md` | `context/design_and_behavioral.md` |
 | Behavioral | `context/session_workflow.md`, `context/design_and_behavioral.md` | `context/session_workflow.md` | `context/design_and_behavioral.md` |
 
@@ -57,9 +60,11 @@ recall, load both compact tables. After selecting recall, repair, or redo work,
 load only that item's matching history section; never a full archive.
 
 For coach-selected mixed practice or coding mocks, scan only compact learned,
-core, advanced, mixed, and mock exposure trackers. For System Design, load
-shared behavior through Evidence Recording and only the active track and phase;
-load the Planning Envelope only for planning or status work.
+core, advanced, mixed, and mock exposure trackers. Contest problems and their
+upsolves remain in their contest owner and do not enter mixed/mock metrics. For
+System Design, load shared behavior through Evidence Recording and only the
+active track and phase; load the Planning Envelope only for planning or status
+work.
 
 ## Attempt Boundary
 
