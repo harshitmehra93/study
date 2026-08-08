@@ -1,4 +1,4 @@
-package study.codeforces.atcoder.contest462;
+package study.contest.atcoder.contest462;
 
 import java.io.IOException;
 import java.io.InputStream;

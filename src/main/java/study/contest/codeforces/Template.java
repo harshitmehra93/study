@@ -1,4 +1,4 @@
-package study.codeforces;
+package study.contest.codeforces;
 
 import java.io.*;
 import java.util.*;
