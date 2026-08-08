@@ -41,9 +41,7 @@ public class MaximizePairStrengthUsingGcd {
         long maxStrength = Long.MIN_VALUE;
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
-                long strength =
-                        (nums[i] * nums[j])
-                                / (long) Math.pow(gcd(nums[i], nums[j]), 2);
+                long strength = (nums[i] * nums[j]) / (long) Math.pow(gcd(nums[i], nums[j]), 2);
                 maxStrength = Math.max(maxStrength, strength);
             }
         }

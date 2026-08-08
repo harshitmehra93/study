@@ -9,11 +9,11 @@ import java.util.*;
  * <p>Maintain a permutation under swaps of two positions and operations that replace it with its
  * inverse permutation. Output the final permutation.
  *
- * <p>Constraints: {@code 2 <= N <= 5 * 10^5}; {@code 1 <= Q <= 5 * 10^5}; type-one queries
- * satisfy {@code 1 <= x < y <= N}.
+ * <p>Constraints: {@code 2 <= N <= 5 * 10^5}; {@code 1 <= Q <= 5 * 10^5}; type-one queries satisfy
+ * {@code 1 <= x < y <= N}.
  *
- * <p>Example: starting with {@code 2 1 3 5 4} and applying {@code (1,2,4), 2, (1,2,3),
- * (1,3,4), 2} produces {@code 4 5 2 1 3}.
+ * <p>Example: starting with {@code 2 1 3 5 4} and applying {@code (1,2,4), 2, (1,2,3), (1,3,4), 2}
+ * produces {@code 4 5 2 1 3}.
  *
  * @see <a href="https://atcoder.jp/contests/abc470/tasks/abc470_d?lang=en">Official problem</a>
  */

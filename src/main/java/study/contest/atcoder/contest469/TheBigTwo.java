@@ -6,10 +6,9 @@ import java.util.*;
 /**
  * AtCoder Beginner Contest 469 — D: The Big Two
  *
- * <p>There are {@code N} players and {@code M} tournaments. The finalists in tournament
- * {@code m} are players {@code A[m]} and {@code B[m]}. Count the pairs of players {@code (x, y)}
- * with {@code x < y} such that every tournament final contains at least one of {@code x} or
- * {@code y}.
+ * <p>There are {@code N} players and {@code M} tournaments. The finalists in tournament {@code m}
+ * are players {@code A[m]} and {@code B[m]}. Count the pairs of players {@code (x, y)} with {@code
+ * x < y} such that every tournament final contains at least one of {@code x} or {@code y}.
  *
  * <p>Input:
  *
@@ -23,8 +22,8 @@ import java.util.*;
  *
  * <p>Output the number of qualifying player pairs.
  *
- * <p>Constraints: {@code 2 <= N <= 2 * 10^5}, {@code 1 <= M <= 2 * 10^5}, and
- * {@code 1 <= A[i] < B[i] <= N}.
+ * <p>Constraints: {@code 2 <= N <= 2 * 10^5}, {@code 1 <= M <= 2 * 10^5}, and {@code 1 <= A[i] <
+ * B[i] <= N}.
  *
  * <p>Examples:
  *

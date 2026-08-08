@@ -30,7 +30,8 @@ package study.contest.leetcode.weeklycontest513;
  * <p>Constraints: {@code 1 <= tasks.length, shifts.length <= 100000} and {@code 1 <= tasks[i],
  * shifts[i] <= 1000000000}.
  *
- * @see <a href="https://leetcode.com/problems/count-of-unfinished-tasks-after-each-shift/">Problem</a>
+ * @see <a
+ *     href="https://leetcode.com/problems/count-of-unfinished-tasks-after-each-shift/">Problem</a>
  */
 public class CountOfUnfinishedTasksAfterEachShift {
     public int[] countTasks(int[] tasks, int[] shifts) {

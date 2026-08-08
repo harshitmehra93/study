@@ -6,9 +6,9 @@ import java.util.*;
 /**
  * AtCoder Beginner Contest 469 — B: Isolated Seats
  *
- * <p>There are {@code N} seats in a row. The {@code i}-th character of {@code S} is {@code o}
- * when the seat is occupied and {@code x} when it is empty. Count the empty seats whose adjacent
- * seats, when they exist, are also empty.
+ * <p>There are {@code N} seats in a row. The {@code i}-th character of {@code S} is {@code o} when
+ * the seat is occupied and {@code x} when it is empty. Count the empty seats whose adjacent seats,
+ * when they exist, are also empty.
  *
  * <p>Input:
  *
@@ -19,8 +19,8 @@ import java.util.*;
  *
  * <p>Output the number of empty seats with no occupied adjacent seat.
  *
- * <p>Constraints: {@code 1 <= N <= 100}; {@code S} has length {@code N} and consists of
- * {@code o} and {@code x}.
+ * <p>Constraints: {@code 1 <= N <= 100}; {@code S} has length {@code N} and consists of {@code o}
+ * and {@code x}.
  *
  * <p>Examples:
  *

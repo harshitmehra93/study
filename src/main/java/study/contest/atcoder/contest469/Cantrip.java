@@ -21,8 +21,8 @@ import java.util.*;
  *
  * <p>Output {@code N} lines; line {@code k} contains the answer for that value of {@code k}.
  *
- * <p>Constraints: {@code 1 <= N <= 8 * 10^5}; {@code S} has length {@code N} and consists of
- * {@code o} and {@code x}.
+ * <p>Constraints: {@code 1 <= N <= 8 * 10^5}; {@code S} has length {@code N} and consists of {@code
+ * o} and {@code x}.
  *
  * <p>Examples:
  *

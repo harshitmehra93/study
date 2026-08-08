@@ -15,12 +15,12 @@ public class Template {
     static void solve() {
         int n = fs.nextInt();
         int m = fs.nextInt();
-//        String a = fs.next();
+        //        String a = fs.next();
 
         // your logic here
 
-        out.println(n+m);
-//        out.println(a);
+        out.println(n + m);
+        //        out.println(a);
     }
 
     static class FastScanner {

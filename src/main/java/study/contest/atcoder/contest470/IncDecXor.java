@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * AtCoder Beginner Contest 470 — C: Inc, Dec, Xor
  *
- * <p>Maintain an initially zero sequence under point increments and operations that decrement
- * every positive element. Print the XOR of the sequence after every query.
+ * <p>Maintain an initially zero sequence under point increments and operations that decrement every
+ * positive element. Print the XOR of the sequence after every query.
  *
  * <p>Constraints: {@code 1 <= N,Q <= 5 * 10^5}; increment indices satisfy {@code 1 <= x <= N}.
  *
