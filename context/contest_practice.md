@@ -28,7 +28,7 @@ detail was not supplied.
 | --- | --- | --- | --- | --- | --- |
 | CT001 | 2026-08-01 | [AtCoder Beginner Contest 469](https://atcoder.jp/contests/abc469) | A-B correct; C correct simulation but `O(N^2)`; D incorrect; E-G not attempted | C model complete; D core reduction found but edge cases remain | Implement and verify C and D, then try E |
 | CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | None yet | Fix 4010 and 4012, then try 4013 |
-| CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C guided implementation incorrect | Repair and verify C |
+| CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 
 ## Notes
 
@@ -62,7 +62,8 @@ detail was not supplied.
 - **Upsolve:** After the coach supplied the efficient model, D was implemented
   with two inverse arrays and reference swapping, then passed all official
   samples and randomized comparison against brute force (`Major`). C's guided
-  implementation used a map of positive values, but removed entries during
-  enhanced iteration and did not store surviving decrements.
-- **Next:** Repair and verify C using an active-index array with in-place
-  compaction.
+  `ConcurrentHashMap` implementation passed the official samples and randomized
+  correctness checks, but exceeded five CPU seconds on a smaller adversarial
+  case because traversal scans the retained backing table.
+- **Next:** Replace C's map with an active-index array using in-place compaction,
+  then verify it.
