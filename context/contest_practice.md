@@ -27,7 +27,7 @@ detail was not supplied.
 | ID | Date | Contest | Performance | Upsolve | Next |
 | --- | --- | --- | --- | --- | --- |
 | CT001 | 2026-08-01 | [AtCoder Beginner Contest 469](https://atcoder.jp/contests/abc469) | A-B correct; C correct simulation but `O(N^2)`; D incorrect; E-G not attempted | C model complete; D core reduction found but edge cases remain | Implement and verify C and D, then try E |
-| CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010 verified; 4012 boundary repair pending (`Major`) | Repair and verify 4012, then try 4013 |
+| CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010 and 4012 verified (`Major`) | Attempt 4013 |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 
 ## Notes
@@ -58,9 +58,11 @@ detail was not supplied.
   too slow. The cumulative-progress and prefix-search model was then supplied
   (`Major`). The next implementation used that model correctly, but searched
   for the first prefix `>= workDone` instead of `> workDone` and used overflowing
-  `int` cumulative values.
-- **Next:** Repair and verify 4012's upper-bound boundary and `long` arithmetic,
-  then attempt 4013.
+  `int` cumulative values. After repairing both, 4012 passed official, boundary,
+  randomized, and maximum-constraint tests (`Major`). This introduced a new
+  pattern for Harshit: combining prefix sums with binary search over cumulative
+  completion boundaries.
+- **Next:** Attempt 4013.
 
 ### CT003 — AtCoder Beginner Contest 470
 

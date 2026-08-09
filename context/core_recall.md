@@ -55,6 +55,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | 23 | Linked List | L1 ✅ 2026-07-29 | Singly linked list operations |  |
 | 24 | Deque | L2 review 2026-07-25 | Doubly linked deque operations |  |
 | 25 | Combinatorial | L1 review 2026-07-29 | Combinations generation | Redo `i + 1` ownership, zero/impossible cases, pruning, and output-sensitive complexity independently. |
+| 26 | Prefix Sum / Binary Search |  | Prefix aggregates and cumulative-boundary search | Installed through guided CT002 repair; independently recall the half-open prefix invariant, positive-cost monotonicity, upper-bound boundary, reset semantics, `long` arithmetic, and complexity. |
 
 ## Reference-only topics
 

@@ -37,13 +37,13 @@ public class CountOfUnfinishedTasksAfterEachShift {
     public int[] countTasks(int[] tasks, int[] shifts) {
         int[] result = new int[shifts.length];
 
-        int[] prefixSum = new int[tasks.length];
+        long[] prefixSum = new long[tasks.length];
         prefixSum[0] = tasks[0];
         for (int i = 1; i < tasks.length; i++) {
             prefixSum[i] = prefixSum[i - 1] + tasks[i];
         }
 
-        int workDone = 0;
+        long workDone = 0;
         for (int i = 0; i < shifts.length; i++) {
             workDone += shifts[i];
 
@@ -53,22 +53,22 @@ public class CountOfUnfinishedTasksAfterEachShift {
                 continue;
             }
 
-            int lastTouchedTask = findFirstUnfinishedTask(prefixSum, workDone);
+            int lastTouchedTask = findTaskLastTouched(prefixSum, workDone);
             result[i] = tasks.length - lastTouchedTask;
         }
         return result;
     }
 
-    int findFirstUnfinishedTask(int[] prefixSum, int workDone) {
+    int findTaskLastTouched(long[] prefixSum, long workDone) {
         int l = 0, r = prefixSum.length - 1;
         while (l < r) {
             int mid = l + (r - l) / 2;
-            if (prefixSum[mid] < workDone) {
+            if (prefixSum[mid] <= workDone) {
                 l = mid + 1;
-            } else if (prefixSum[mid] >= workDone) {
+            } else if (prefixSum[mid] > workDone) {
                 r = mid;
             }
         }
-        return r;
+        return l;
     }
 }
