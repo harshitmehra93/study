@@ -27,7 +27,7 @@ detail was not supplied.
 | ID | Date | Contest | Performance | Upsolve | Next |
 | --- | --- | --- | --- | --- | --- |
 | CT001 | 2026-08-01 | [AtCoder Beginner Contest 469](https://atcoder.jp/contests/abc469) | A-B correct; C correct simulation but `O(N^2)`; D incorrect; E-G not attempted | C model complete; D core reduction found but edge cases remain | Implement and verify C and D, then try E |
-| CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010 and 4012 verified (`Major`) | Attempt 4013 |
+| CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010 and 4012 verified (`Major`); 4013 partial upsolve (`Nudge`) | Learn and implement 4013's ordered-prefix counting step |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 
 ## Notes
@@ -61,8 +61,18 @@ detail was not supplied.
   `int` cumulative values. After repairing both, 4012 passed official, boundary,
   randomized, and maximum-constraint tests (`Major`). This introduced a new
   pattern for Harshit: combining prefix sums with binary search over cumulative
-  completion boundaries.
-- **Next:** Attempt 4013.
+  completion boundaries. In the initial 4013 upsolve, independently
+  transformed even values to `+b` and odd values to `-a`, correctly reducing
+  the ratio condition to counting subarrays with transformed sum at most zero.
+  After a nudge, derived that earlier prefixes must be greater than the current
+  prefix but missed the equality case; the ordered counting structure was not
+  recovered. The partial implementation used a hash map, which cannot directly
+  count the required prefix inequality, and the local answer was `int` despite
+  the possible quadratic count. Assessed portion closed incomplete with
+  `Help=Nudge`; subsequent structure teaching is `Major`.
+- **Next:** Install Fenwick point-frequency updates and prefix-count queries on
+  a generic drill, then transfer coordinate-compressed counting to 4013 and
+  verify it.
 
 ### CT003 — AtCoder Beginner Contest 470
 

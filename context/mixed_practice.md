@@ -56,7 +56,7 @@ unobserved. Keep the gap and next action in plain language.
 | G09 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/) | 30d @ 2026-07-29 | Medium | Ready |
 | G10 | [Alien Dictionary](https://leetcode.com/problems/alien-dictionary/) | 6m-only @ 2026-07-29 | Hard | Ready |
 | G11 | [Minimum Cost For Tickets](https://leetcode.com/problems/minimum-cost-for-tickets/) | 30d @ 2026-07-29 | Medium | Ready |
-| G12 | [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/) | 30d @ 2026-07-29 | Medium | Held — AT07 |
+| G12 | [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/) | 30d @ 2026-07-29 | Medium | Excluded — advanced exposure |
 | G13 | [Smallest Subsequence of Distinct Characters](https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/) | 30d @ 2026-07-29 | Medium | Ready |
 | G14 | [Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/) | 3m-only @ 2026-07-29 | Medium | Ready |
 | G15 | [Sort an Array](https://leetcode.com/problems/sort-an-array/) | 30d @ 2026-07-29 | Medium | Ready |
@@ -70,9 +70,8 @@ unobserved. Keep the gap and next action in plain language.
 | G23 | [Basic Calculator](https://leetcode.com/problems/basic-calculator/) | 3m-only @ 2026-07-29 | Hard | Ready |
 | G24 | [Longest Increasing Path in a Matrix](https://leetcode.com/problems/longest-increasing-path-in-a-matrix/) | 6m-only @ 2026-07-29 | Hard | Ready |
 
-For held G12, install AT07 with a pool-safe representative, verify it
-independently, and then recheck G12 for novelty and interview fit before making
-it `Ready`.
+G12 was directly exposed while installing AT07 and is excluded from the mixed
+pool. Verify AT07 independently on a different pool-safe representative.
 
 Aim for at least 10 `Ready` candidates. Replenish before the pool would fall
 below 8; do not weaken novelty, fit, or source verification merely to increase

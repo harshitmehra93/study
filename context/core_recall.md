@@ -56,6 +56,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | 24 | Deque | L2 review 2026-07-25 | Doubly linked deque operations |  |
 | 25 | Combinatorial | L1 review 2026-07-29 | Combinations generation | Redo `i + 1` ownership, zero/impossible cases, pruning, and output-sensitive complexity independently. |
 | 26 | Prefix Sum / Binary Search |  | Prefix aggregates and cumulative-boundary search | Installed through guided CT002 repair; independently recall the half-open prefix invariant, positive-cost monotonicity, upper-bound boundary, reset semantics, `long` arithmetic, and complexity. |
+| 27 | Prefix Sum / Hash Map |  | Prefix-state frequency counting | Guided installation on Subarray Sum Equals K: independently recover the earlier-prefix frequency invariant, zero-prefix seed, query-before-insert order, `long` arithmetic, and `O(n)` complexity on a different representative. |
 
 ## Reference-only topics
 
