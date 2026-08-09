@@ -1,7 +1,6 @@
 package study.contest.leetcode.weeklycontest513;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,13 +34,14 @@ import java.util.List;
  */
 public class MaximizePairStrengthUsingGcd {
     List<Integer> primeFactors = new ArrayList<>();
-    HashMap<Pair, Integer> memo = new HashMap<>();
 
     public long maxPairStrength(int[] nums) {
         long maxStrength = Long.MIN_VALUE;
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
-                long strength = (nums[i] * nums[j]) / (long) Math.pow(gcd(nums[i], nums[j]), 2);
+                long strength =
+                        ((long) nums[i] * (long) nums[j])
+                                / (long) Math.pow(gcd(nums[i], nums[j]), 2);
                 maxStrength = Math.max(maxStrength, strength);
             }
         }
@@ -49,20 +49,7 @@ public class MaximizePairStrengthUsingGcd {
     }
 
     int gcd(int a, int b) {
-        Pair pair = new Pair(a, b);
-        if (memo.containsKey(pair)) return memo.get(pair);
-        int answer = 1;
-        int limit = Math.min(a, b);
-        for (int factor = 2; factor <= limit; factor++) {
-            while (a % factor == 0 && b % factor == 0) {
-                answer *= factor;
-                a /= factor;
-                b /= factor;
-            }
-        }
-        memo.put(pair, answer);
-        return answer;
+        if (b == 0) return a;
+        return gcd(b, a % b);
     }
-
-    record Pair(int i, int j) {}
 }

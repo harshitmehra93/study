@@ -37,32 +37,38 @@ public class CountOfUnfinishedTasksAfterEachShift {
     public int[] countTasks(int[] tasks, int[] shifts) {
         int[] result = new int[shifts.length];
 
-        int taskPointer = 0;
-        int currentTaskBalance = tasks[0];
+        int[] prefixSum = new int[tasks.length];
+        prefixSum[0] = tasks[0];
+        for (int i = 1; i < tasks.length; i++) {
+            prefixSum[i] = prefixSum[i - 1] + tasks[i];
+        }
+
+        int workDone = 0;
         for (int i = 0; i < shifts.length; i++) {
-            int shiftCapacity = shifts[i];
-            while (shiftCapacity != 0) {
-                if (currentTaskBalance == 0) {
-                    if (taskPointer == tasks.length - 1) taskPointer = 0;
-                    else taskPointer++;
+            workDone += shifts[i];
 
-                    currentTaskBalance = tasks[taskPointer];
-                }
-
-                if (shiftCapacity > currentTaskBalance) {
-                    shiftCapacity -= currentTaskBalance;
-                    currentTaskBalance = 0;
-                } else if (shiftCapacity == currentTaskBalance) {
-                    shiftCapacity = 0;
-                    currentTaskBalance = 0;
-                } else {
-                    shiftCapacity = 0;
-                    currentTaskBalance -= shiftCapacity;
-                }
+            if (workDone >= prefixSum[tasks.length - 1]) {
+                result[i] = 0;
+                workDone = 0;
+                continue;
             }
-            result[i] = tasks.length - taskPointer - 1;
-            if (currentTaskBalance > 0) result[i]++;
+
+            int lastTouchedTask = findFirstUnfinishedTask(prefixSum, workDone);
+            result[i] = tasks.length - lastTouchedTask;
         }
         return result;
+    }
+
+    int findFirstUnfinishedTask(int[] prefixSum, int workDone) {
+        int l = 0, r = prefixSum.length - 1;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (prefixSum[mid] < workDone) {
+                l = mid + 1;
+            } else if (prefixSum[mid] >= workDone) {
+                r = mid;
+            }
+        }
+        return r;
     }
 }

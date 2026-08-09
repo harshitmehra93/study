@@ -29,17 +29,15 @@ package study.contest.leetcode.weeklycontest513;
  */
 public class CountSubarraysWithEvenOddRatioI {
     public int countRatioSubarrays(int[] nums, int a, int b) {
-        double target = ((double) a) / b;
-
         int[] prefixCountOfOdds = new int[nums.length];
         int[] prefixCountOfEvens = new int[nums.length];
         int oddCount = 0;
         int evenCount = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] % 2 == 0) {
-                evenCount++;
+                evenCount += b;
             } else {
-                oddCount++;
+                oddCount += a;
             }
             prefixCountOfOdds[i] = oddCount;
             prefixCountOfEvens[i] = evenCount;
@@ -48,7 +46,6 @@ public class CountSubarraysWithEvenOddRatioI {
         int answer = 0;
         for (int i = 0; i < nums.length; i++) {
             for (int j = i; j < nums.length; j++) {
-                if (prefixCountOfOdds[j] == 0) continue;
                 int odds;
                 int evens;
                 if (i > 0) {
@@ -58,8 +55,7 @@ public class CountSubarraysWithEvenOddRatioI {
                     odds = prefixCountOfOdds[j];
                     evens = prefixCountOfEvens[j];
                 }
-                double candidate = ((double) evens) / odds;
-                if (candidate <= target) answer++;
+                if (evens - odds <= 0) answer++;
             }
         }
         return answer;
