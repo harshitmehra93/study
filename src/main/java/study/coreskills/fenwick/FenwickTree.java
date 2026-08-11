@@ -31,11 +31,12 @@ public class FenwickTree {
     }
 
     private void buildTree() {
-        for (int i = 0; i < arr.length; i++) {
-            int nextIndex = i + 1;
-            while (nextIndex != -1) {
-                fenwickTree[nextIndex] += arr[i];
-                nextIndex = getNext(nextIndex);
+        for (int i = 1; i <= size; i++) {
+            fenwickTree[i]+=arr[i-1];
+
+            int next = getNext(i);
+            if(next!=-1){
+                fenwickTree[next]+=fenwickTree[i];
             }
         }
     }

@@ -24,7 +24,7 @@ without an attempt row. The dated rationale is in
 | AT14 | Low | Per-bit counts modulo `k` | Cold check | Ask for fixed-width modulo counting; treat the compact finite-state formula as optional. |
 | AT15 | Low | Partition-based selection / Quickselect | Defer | Revisit only when partition invariants or selection optimization are a current goal. |
 | AT16 | Low | Combinatorial counting and modular `nCr` | Defer | Revisit after repeated interview evidence or an explicit target requires it. |
-| AT17 | High | Fenwick tree with coordinate-compressed order statistics | Install | Install point-frequency updates and prefix-count queries on a generic drill, then return to contest upsolve 4013 for transfer. |
+| AT17 | High | Fenwick tree with coordinate-compressed order statistics | Partial install | Core Fenwick point updates and prefix queries are implemented; next add coordinate compression and frequency-count queries on a generic drill, then return to contest upsolve 4013 for transfer. |
 
 ## Update Rule
 
