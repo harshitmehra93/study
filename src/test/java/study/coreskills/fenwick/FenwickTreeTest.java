@@ -25,7 +25,7 @@ class FenwickTreeTest {
 
     @Test
     void createTree_nullElements() {
-        assertThrows(IllegalArgumentException.class,()->new FenwickTree(null));
+        assertThrows(IllegalArgumentException.class, () -> new FenwickTree(null));
     }
 
     @Test
@@ -40,11 +40,11 @@ class FenwickTreeTest {
         int[] arr = {1, 2, 3};
         FenwickTree ft = new FenwickTree(arr);
         assertEquals(3, ft.getSize());
-        assertThat(ft.getArr()).isEqualTo(new int[]{1, 2, 3});
+        assertThat(ft.getArr()).isEqualTo(new int[] {1, 2, 3});
 
-        arr[0]=5;
+        arr[0] = 5;
 
-        assertThat(ft.getArr()).isEqualTo(new int[]{1, 2, 3});
+        assertThat(ft.getArr()).isEqualTo(new int[] {1, 2, 3});
     }
 
     @Test
@@ -255,7 +255,7 @@ class FenwickTreeTest {
         assertThat(ft.getFenwickTree()).isEqualTo(new int[] {0, 2, 4});
         assertThat(ft.getPrefixSum(0)).isEqualTo(2);
         assertThat(ft.getPrefixSum(1)).isEqualTo(4);
-        assertThat(ft.getArr()).isEqualTo(new int[]{2,2});
+        assertThat(ft.getArr()).isEqualTo(new int[] {2, 2});
 
         ft.updateIndex(1, 5);
 
@@ -263,7 +263,7 @@ class FenwickTreeTest {
         assertThat(ft.getFenwickTree()).isEqualTo(new int[] {0, 2, 7});
         assertThat(ft.getPrefixSum(0)).isEqualTo(2);
         assertThat(ft.getPrefixSum(1)).isEqualTo(7);
-        assertThat(ft.getArr()).isEqualTo(new int[]{2,5});
+        assertThat(ft.getArr()).isEqualTo(new int[] {2, 5});
 
         assertThrows(IllegalArgumentException.class, () -> ft.updateIndex(2, 1));
 
@@ -273,6 +273,6 @@ class FenwickTreeTest {
         assertThat(ft.getFenwickTree()).isEqualTo(new int[] {0, 10, 15});
         assertThat(ft.getPrefixSum(0)).isEqualTo(10);
         assertThat(ft.getPrefixSum(1)).isEqualTo(15);
-        assertThat(ft.getArr()).isEqualTo(new int[]{10,5});
+        assertThat(ft.getArr()).isEqualTo(new int[] {10, 5});
     }
 }

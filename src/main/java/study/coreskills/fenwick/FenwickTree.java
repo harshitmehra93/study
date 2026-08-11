@@ -1,7 +1,6 @@
 package study.coreskills.fenwick;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 public class FenwickTree {
 
@@ -11,23 +10,23 @@ public class FenwickTree {
 
     int[] arr;
 
-    public int[] getArr(){
+    public int[] getArr() {
         return arr.clone();
     }
 
-    public int[] getFenwickTree(){
+    public int[] getFenwickTree() {
         return fenwickTree.clone();
     }
 
     public FenwickTree(int[] arr) {
-        if(arr==null) throw new IllegalArgumentException("array cannot be null");
+        if (arr == null) throw new IllegalArgumentException("array cannot be null");
         this.arr = arr.clone();
         size = arr.length;
         fenwickTree = new int[arr.length + 1];
         buildTree();
     }
 
-    public FenwickTree(){
+    public FenwickTree() {
         this(new int[0]);
     }
 
@@ -82,7 +81,7 @@ public class FenwickTree {
     public void updateIndex(int index, int num) {
         if (index >= size || index < 0) throwIndexNotAvailableException();
         int diff = num - arr[index];
-        arr[index]=num;
+        arr[index] = num;
         int nextIndex = index + 1;
         while (nextIndex != -1) {
             fenwickTree[nextIndex] += diff;
