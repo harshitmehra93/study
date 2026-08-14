@@ -27,8 +27,9 @@ detail was not supplied.
 | ID | Date | Contest | Performance | Upsolve | Next |
 | --- | --- | --- | --- | --- | --- |
 | CT001 | 2026-08-01 | [AtCoder Beginner Contest 469](https://atcoder.jp/contests/abc469) | A-B correct; C correct simulation but `O(N^2)`; D incorrect; E-G not attempted | C model complete; D core reduction found but edge cases remain | Implement and verify C and D, then try E |
-| CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010 and 4012 verified (`Major`); 4013 partial upsolve (`Nudge`) | Learn and implement 4013's ordered-prefix counting step |
+| CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010, 4012, and 4013 verified (`Major`) | Independently redo and explain 4013's ordered-prefix model after spacing |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
+| CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 partial upsolve (`Nudge`) | Learn 3321's ordered-partition structure, then implement and verify 3320 and 3321 |
 
 ## Notes
 
@@ -69,10 +70,18 @@ detail was not supplied.
   recovered. The partial implementation used a hash map, which cannot directly
   count the required prefix inequality, and the local answer was `int` despite
   the possible quadratic count. Assessed portion closed incomplete with
-  `Help=Nudge`; subsequent structure teaching is `Major`.
-- **Next:** Install Fenwick point-frequency updates and prefix-count queries on
-  a generic drill, then transfer coordinate-compressed counting to 4013 and
-  verify it.
+  `Help=Nudge`; subsequent structure teaching is `Major`. In the 2026-08-12
+  guided transfer, the intended greater-than-or-equal earlier-prefix condition
+  was stated correctly and the solution used descending coordinate ranks with
+  a Fenwick frequency tree. It remained incorrect because ranks were read from
+  the sorted prefix array rather than the time-ordered prefix array, equal
+  prefixes were excluded, and the answer remained `int`; the official examples
+  returned `4, 1, 0` instead of `7, 3, 0`. After those three repairs, the latest
+  submitted solution passed the official examples, 10,000 randomized cases
+  against the quadratic 4011 solution, and a maximum-size all-odd case returning
+  `5,000,050,000` (`Major`).
+- **Next:** Independently redo and explain 4013's ordered-prefix model after
+  spacing.
 
 ### CT003 — AtCoder Beginner Contest 470
 
@@ -88,3 +97,35 @@ detail was not supplied.
   case because traversal scans the retained backing table.
 - **Next:** Replace C's map with an active-index array using in-place compaction,
   then verify it.
+
+### CT004 — LeetCode Weekly Contest 419 (practice)
+
+- **Contest:** For 3318, the submitted solution recognized the frequency map,
+  frequency/value ranking, and fixed-window structure, but it did not build a
+  complete first window, keyed frequency reads by pointer indices instead of
+  values, and evicted the highest-ranked heap entry. The assessed submission is
+  incorrect (`None`). A solution for 3319 was also presented and preserved; its
+  verdict was not reported. Timing and results for 3320 and 3321 were not reported.
+- **Upsolve:** The independent 3318 upsolve repaired the first-window construction,
+  value-keyed frequency updates, and heap direction. It passed the official
+  examples, boundary cases, and 100,000 randomized comparisons against a
+  sorting-based brute force (`Help=None`). The accepted independent 3319 upsolve
+  correctly identified perfect subtrees from perfect children of equal depth and
+  retained the largest `k` sizes with a bounded min-heap. It passed the
+  official examples, boundary cases, and 20,000 randomized tree comparisons
+  against a one-pass oracle (`Help=None`). The 3320 upsolve derived the correct
+  state, score transitions, no-repeat rule, and winning base case independently.
+  It passed both official examples and exhaustive brute-force comparison through
+  length eight, but a cyclic length-1000 input exhausted a 256 MB heap because
+  the quadratic state space was stored as boxed hash-map records. The assessed
+  upsolve is incomplete (`Help=None`); subsequent rolling-DP direction is guided
+  (`Major`). In 3321, the independent attempt correctly transferred the sliding
+  frequency map, ranking, and `long` sum from 3318, and recognized that the
+  ranking must be maintained incrementally. It still rebuilt the heap for every
+  window and used reference inequality for boxed frequencies. After a nudge to
+  reason about maintaining selected versus unselected entries, Harshit identified
+  the remaining blocker as an uninstalled data-structure pattern. The assessed
+  attempt closed incomplete (`Help=Nudge`); subsequent structure learning is
+  `Major`.
+- **Next:** Learn 3321's ordered-partition structure, then implement and verify
+  primitive rolling DP for 3320 and the incremental solution for 3321.
