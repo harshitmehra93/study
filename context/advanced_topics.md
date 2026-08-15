@@ -25,6 +25,7 @@ without an attempt row. The dated rationale is in
 | AT15 | Low | Partition-based selection / Quickselect | Defer | Revisit only when partition invariants or selection optimization are a current goal. |
 | AT16 | Low | Combinatorial counting and modular `nCr` | Defer | Revisit after repeated interview evidence or an explicit target requires it. |
 | AT17 | High | Fenwick tree with coordinate-compressed order statistics | Installed | Guided LeetCode 307 and 315 transfers are complete, and the guided contest 4013 transfer is verified. Independently recover the frequency/compression invariant after spacing. |
+| AT18 | Medium-low | Sliding-window mode with dynamically ordered frequencies | Retained — advanced recall candidate | After spacing, independently recover the ordered `(frequency, reverse value)` invariant, window updates, zero-frequency cleanup, and the Java performance tradeoff against a coordinate-compressed segment tree. |
 
 ## Update Rule
 

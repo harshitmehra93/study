@@ -6,15 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
-/**
- * AlgoZenith AZ101: Running Mean, Median and Mode
- *
- * <p>Maintain a multiset under insertions and removals, and answer mean, median, and mode queries.
- * Fractional answers are represented modulo {@code 1_000_000_007}. For tied modes, return the
- * smallest value.
- */
+/** AlgoZenith AZ101: Running Mean, Median and Mode. */
 public class RunningMeanMedianAndMode {
-    static double MOD = 1000000007;
+    static final long MOD = 1_000_000_007L;
     static FastScanner fs = new FastScanner(System.in);
     static PrintWriter out =
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
@@ -55,6 +49,12 @@ public class RunningMeanMedianAndMode {
                     main.dynamicMean.insert(num);
                     main.dynamicMedian.insert(num);
                     main.dynamicMode.insert(num);
+                } else if (query.startsWith("r")) {
+                    int num = Integer.parseInt(query.split(" ")[1]);
+
+                    main.dynamicMean.remove(num);
+                    main.dynamicMedian.remove(num);
+                    main.dynamicMode.remove(num);
                 } else if (query.equals("getMean")) {
                     out.println(main.dynamicMean.getMean());
                 } else if (query.equals("getMedian")) {
@@ -64,6 +64,21 @@ public class RunningMeanMedianAndMode {
                 }
             }
         }
+    }
+
+    static long modInverse(long number) {
+        long result = 1;
+        long power = MOD - 2;
+        number %= MOD;
+
+        while (power > 0) {
+            if ((power & 1) == 1) {
+                result = (result * number) % MOD;
+            }
+            number = (number * number) % MOD;
+            power >>= 1;
+        }
+        return result;
     }
 
     static class DynamicMode {
@@ -103,6 +118,7 @@ public class RunningMeanMedianAndMode {
         }
 
         int getMode() {
+            if (sortedFrequencies.isEmpty()) return -1;
             return sortedFrequencies.last().key();
         }
 
@@ -133,65 +149,85 @@ public class RunningMeanMedianAndMode {
     }
 
     static class DynamicMedian {
-        PriorityQueue<Integer> leftHalf =
-                new PriorityQueue<>((a, b) -> Integer.compare(b, a));
-        PriorityQueue<Integer> rightHalf = new PriorityQueue<>();
+        TreeMap<Integer, Integer> leftHalf = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<Integer, Integer> rightHalf = new TreeMap<>();
+        int leftSize;
+        int rightSize;
 
         void insert(int num) {
-            if (leftHalf.size() == 0 && rightHalf.size() == 0) {
-                rightHalf.offer(num);
+            if (leftSize == 0 && rightSize == 0) {
+                add(rightHalf, num);
+                rightSize++;
                 return;
             }
 
-            if (leftHalf.size() > 0 && leftHalf.peek() >= num) {
-                leftHalf.offer(num);
+            if (leftSize > 0 && leftHalf.firstKey() >= num) {
+                add(leftHalf, num);
+                leftSize++;
             } else {
-                rightHalf.offer(num);
+                add(rightHalf, num);
+                rightSize++;
             }
 
             balance();
         }
 
         void remove(int num) {
-            if (leftHalf.peek() <= num) {
-                rightHalf.remove(num);
+            if (leftSize > 0 && leftHalf.firstKey() >= num) {
+                removeOne(leftHalf, num);
+                leftSize--;
             } else {
-                leftHalf.remove(num);
+                removeOne(rightHalf, num);
+                rightSize--;
             }
             balance();
         }
 
         void balance() {
-            if (rightHalf.size() > leftHalf.size() + 1) {
-                leftHalf.offer(rightHalf.poll());
-            } else if (leftHalf.size() > rightHalf.size()) {
-                rightHalf.offer(leftHalf.poll());
-            } else if (rightHalf.size() < leftHalf.size()) {
-                rightHalf.offer(leftHalf.poll());
+            if (rightSize > leftSize + 1) {
+                int num = rightHalf.firstKey();
+                removeOne(rightHalf, num);
+                rightSize--;
+                add(leftHalf, num);
+                leftSize++;
+            } else if (leftSize > rightSize) {
+                int num = leftHalf.firstKey();
+                removeOne(leftHalf, num);
+                leftSize--;
+                add(rightHalf, num);
+                rightSize++;
             }
         }
 
         int getMedian() {
-            if (rightHalf.size() == 0) return -1;
+            if (rightSize == 0) return -1;
 
-            if (rightHalf.size() > leftHalf.size()) {
-                return rightHalf.peek();
+            if (rightSize > leftSize) {
+                return rightHalf.firstKey();
             } else {
-                int left = leftHalf.peek();
-                int right = rightHalf.peek();
-                double result = (double) (left + right) / 2;
-                result = (result / MOD) % MOD;
-                return (int) ((long) result);
+                long left = leftHalf.firstKey();
+                long right = rightHalf.firstKey();
+                return (int) ((((left + right) % MOD) * modInverse(2)) % MOD);
             }
+        }
+
+        void add(TreeMap<Integer, Integer> half, int num) {
+            half.put(num, half.getOrDefault(num, 0) + 1);
+        }
+
+        void removeOne(TreeMap<Integer, Integer> half, int num) {
+            int count = half.get(num);
+            if (count == 1) half.remove(num);
+            else half.put(num, count - 1);
         }
     }
 
     static class DynamicMean {
-        int sum;
+        long sum;
         int size;
 
         DynamicMean() {
-            sum = 0;
+            sum = 0L;
             size = 0;
         }
 
@@ -206,8 +242,8 @@ public class RunningMeanMedianAndMode {
         }
 
         int getMean() {
-            double mean = (double) sum / size;
-            return (int) ((long) (mean / MOD) % MOD);
+            if (size == 0) return -1;
+            return (int) (((sum % MOD) * modInverse(size)) % MOD);
         }
     }
 

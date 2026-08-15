@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
 
@@ -15,41 +14,6 @@ public class Main {
     static void solve() {
         int N = fs.nextInt();
         int Q = fs.nextInt();
-
-        String[] queries = new String[Q];
-        for (int i = 0; i < Q; i++) {
-            queries[i] = fs.nextLine();
-        }
-
-        int currentXor = 0;
-        Map<Integer, Integer> greaterThan0 = new ConcurrentHashMap<>();
-        for (String query : queries) {
-            if (query.startsWith("1")) {
-                // 1 index
-                String[] q = query.split(" ");
-                int index = Integer.parseInt(q[1]) - 1;
-
-                int num = greaterThan0.getOrDefault(index, 0);
-                currentXor = currentXor ^ num; // removing old value
-                num++;
-                currentXor = currentXor ^ num; // add new value
-                greaterThan0.put(index, num);
-
-            } else {
-                // 2
-                // decrease 1 from all nums
-                for (var entry : greaterThan0.entrySet()) {
-                    int index = entry.getKey();
-                    int num = entry.getValue();
-                    currentXor = currentXor ^ num; // remove old
-                    num--;
-                    currentXor = currentXor ^ num; // add new
-                    if (num == 0) greaterThan0.remove(index);
-                }
-            }
-
-            out.println(currentXor);
-        }
     }
 
     static class FastScanner {
