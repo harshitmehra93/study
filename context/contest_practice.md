@@ -30,6 +30,7 @@ detail was not supplied.
 | CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010, 4012, and 4013 verified (`Major`) | Independently redo and explain 4013's ordered-prefix model after spacing |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 | CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 verified (`Major`) | Independently redo 3321's ordered-partition invariant after spacing; implement and verify 3320 with rolling DP |
+| CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | Post-contest review verified 3324 and 3326 (`None`); 3325 repaired and verified (`Major`) | Independently redo 3325 with the linear counting window after spacing |
 
 ## Notes
 
@@ -134,3 +135,22 @@ detail was not supplied.
   randomized comparisons, and a maximum-constraint overflow check (`Major`).
 - **Next:** Independently redo and explain 3321's global-frequency ordered-partition
   invariant after spacing, and implement and verify primitive rolling DP for 3320.
+
+### CT005 — LeetCode Weekly Contest 420 (practice)
+
+- **Contest:** The presented 3324 simulation is correct and passed both official
+  examples. The 3325 solution passed the official examples but is incorrect: its
+  frequency-only `TreeSet` comparator collapses different characters with equal
+  frequencies; for `s = "aabbc", k = 2`, it returns 7 instead of 8. The presented
+  3326 solution has the correct right-to-left greedy reduction and passed all
+  official examples, 20,000 randomized comparisons, and a maximum-size adversarial
+  case. Actual judge verdicts, timing, and 3327 were not reported.
+- **Upsolve:** The assessed submissions closed with `Help=None`. After the
+  equal-frequency comparator defect and its character tiebreak were identified,
+  the repaired 3325 implementation passed both official examples, the prior
+  counterexample, 20,000 randomized comparisons, and a maximum-length case in
+  about 1.5 seconds locally (`Major`). It is correct and constraint-safe at
+  `O(n^2 log |Σ|)`; the supplied linear counting-window model was not used.
+- **Next:** Independently redo 3325 in `O(n)` after spacing and explain why only
+  the newly added character can violate the invalid-window invariant, and why
+  adding `left` counts every valid substring ending at `right`.
