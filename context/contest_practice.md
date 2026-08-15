@@ -29,7 +29,7 @@ detail was not supplied.
 | CT001 | 2026-08-01 | [AtCoder Beginner Contest 469](https://atcoder.jp/contests/abc469) | A-B correct; C correct simulation but `O(N^2)`; D incorrect; E-G not attempted | C model complete; D core reduction found but edge cases remain | Implement and verify C and D, then try E |
 | CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010, 4012, and 4013 verified (`Major`) | Independently redo and explain 4013's ordered-prefix model after spacing |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
-| CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 partial upsolve (`Nudge`) | Learn 3321's ordered-partition structure, then implement and verify 3320 and 3321 |
+| CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 verified (`Major`) | Independently redo 3321's ordered-partition invariant after spacing; implement and verify 3320 with rolling DP |
 
 ## Notes
 
@@ -126,6 +126,11 @@ detail was not supplied.
   reason about maintaining selected versus unselected entries, Harshit identified
   the remaining blocker as an uninstalled data-structure pattern. The assessed
   attempt closed incomplete (`Help=Nudge`); subsequent structure learning is
-  `Major`.
-- **Next:** Learn 3321's ordered-partition structure, then implement and verify
-  primitive rolling DP for 3320 and the incremental solution for 3321.
+  `Major`. In the 2026-08-16 guided upsolve, the first implementation adapted the
+  two-partition structure but stored partial frequencies independently in each
+  side and moved individual occurrences. After whole-value global-frequency
+  ownership and boundary swapping were supplied, the repaired implementation
+  passed both official examples, the frequency-group boundary case, 10,000
+  randomized comparisons, and a maximum-constraint overflow check (`Major`).
+- **Next:** Independently redo and explain 3321's global-frequency ordered-partition
+  invariant after spacing, and implement and verify primitive rolling DP for 3320.
