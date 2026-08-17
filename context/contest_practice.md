@@ -30,7 +30,7 @@ detail was not supplied.
 | CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010, 4012, and 4013 verified (`Major`) | Independently redo and explain 4013's ordered-prefix model after spacing |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 | CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 verified (`Major`) | Independently redo 3321's ordered-partition invariant after spacing; implement and verify 3320 with rolling DP |
-| CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | Post-contest review verified 3324 and 3326 (`None`); 3325 repaired and verified (`Major`) | Independently redo 3325 with the linear counting window after spacing |
+| CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | 3324 and 3326 verified (`None`); 3325 repaired and verified (`Major`); initial 3327 upsolve incomplete (`None`) | Implement 3327 with postorder intervals and linear palindrome preprocessing; later independently redo 3325's linear window |
 
 ## Notes
 
@@ -150,7 +150,20 @@ detail was not supplied.
   the repaired 3325 implementation passed both official examples, the prior
   counterexample, 20,000 randomized comparisons, and a maximum-length case in
   about 1.5 seconds locally (`Major`). It is correct and constraint-safe at
-  `O(n^2 log |Σ|)`; the supplied linear counting-window model was not used.
-- **Next:** Independently redo 3325 in `O(n)` after spacing and explain why only
-  the newly added character can violate the invalid-window invariant, and why
-  adding `left` counts every valid substring ending at `right`.
+  `O(n^2 log |Σ|)`; the supplied linear counting-window model was not used. The
+  initial independent 3327 upsolve generated the required subtree strings
+  correctly and passed both official examples plus 20,000 randomized comparisons,
+  but repeated string construction and palindrome scans take `Θ(n^2)` on a chain,
+  and the recursive implementation raised `StackOverflowError` on a valid
+  100,000-node chain (`Help=None`). The global-postorder interval reduction and
+  linear palindrome-preprocessing direction were then supplied. The guided second
+  attempt correctly built the global postorder string once and represented each
+  subtree by its `[enter, exit)` interval, eliminating the repeated construction.
+  It remained `Θ(n^2)` because `substring` and `isPalindrome` process every
+  subtree interval separately, and recursive DFS still overflowed on the maximum
+  chain. The next guided revision removed the `substring` allocation and scanned
+  the global string in place, but the sum of the separately scanned interval
+  lengths remains `Θ(n^2)` and the recursion-depth failure remains (`Major`).
+- **Next:** Implement and verify 3327 in `O(n)` with iterative postorder intervals
+  and Manacher's algorithm. After spacing, independently redo 3325 in `O(n)` and
+  explain its valid-start counting invariant.

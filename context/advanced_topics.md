@@ -26,6 +26,8 @@ without an attempt row. The dated rationale is in
 | AT16 | Low | Combinatorial counting and modular `nCr` | Defer | Revisit after repeated interview evidence or an explicit target requires it. |
 | AT17 | High | Fenwick tree with coordinate-compressed order statistics | Installed | Guided LeetCode 307 and 315 transfers are complete, and the guided contest 4013 transfer is verified. Independently recover the frequency/compression invariant after spacing. |
 | AT18 | Medium-low | Sliding-window mode with dynamically ordered frequencies | Retained — advanced recall candidate | After spacing, independently recover the ordered `(frequency, reverse value)` invariant, window updates, zero-frequency cleanup, and the Java performance tradeoff against a coordinate-compressed segment tree. |
+| AT19 | Medium-low | Manacher palindrome-radius preprocessing | Installed | Apply the transformed-string implementation to CT005 3327 with iterative postorder intervals; after spacing, independently recover the exclusive-boundary invariant, mirror clipping, and exact interval-query mapping. |
+| AT20 | Medium | Tree Euler tour / DFS flattening for subtree intervals | Promoted to core recall #29 | Recall and evidence are owned by `core_recall.md`; do not select or score this as a separate advanced attempt. |
 
 ## Update Rule
 
