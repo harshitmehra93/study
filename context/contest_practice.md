@@ -30,7 +30,7 @@ detail was not supplied.
 | CT002 | 2026-08-05 | [LeetCode Weekly Contest 513](https://leetcode.com/contest/weekly-contest-513/) — virtual | 4011 correct; 4010 and 4012 incorrect; 4013 not attempted | 4011 exact revision verified (`None`); 4010, 4012, and 4013 verified (`Major`) | Independently redo and explain 4013's ordered-prefix model after spacing |
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 | CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 verified (`Major`) | Independently redo 3321's ordered-partition invariant after spacing; implement and verify 3320 with rolling DP |
-| CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | 3324 and 3326 verified (`None`); 3325 repaired and verified (`Major`); initial 3327 upsolve incomplete (`None`) | Implement 3327 with postorder intervals and linear palindrome preprocessing; later independently redo 3325's linear window |
+| CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | 3324 and 3326 verified (`None`); 3325 repaired and verified (`Major`); guided 3327 now has linear Manacher queries but recursive DFS is depth-unsafe (`Major`) | Replace 3327's recursive DFS with iterative postorder and verify the maximum chain; later independently redo 3325's linear window |
 
 ## Notes
 
@@ -163,7 +163,13 @@ detail was not supplied.
   subtree interval separately, and recursive DFS still overflowed on the maximum
   chain. The next guided revision removed the `substring` allocation and scanned
   the global string in place, but the sum of the separately scanned interval
-  lengths remains `Θ(n^2)` and the recursion-depth failure remains (`Major`).
-- **Next:** Implement and verify 3327 in `O(n)` with iterative postorder intervals
-  and Manacher's algorithm. After spacing, independently redo 3325 in `O(n)` and
-  explain its valid-start counting invariant.
+  lengths remains `Θ(n^2)` and the recursion-depth failure remains (`Major`). The
+  latest guided submission correctly adds one transformed-string Manacher pass and
+  maps every subtree's `[enter,exit)` postorder interval to an `O(1)` palindrome
+  query, so the algorithmic work is now linear by inspection. It still uses
+  recursive DFS and therefore remains unsafe for a valid 100,000-node chain; no
+  new judge verdict or timing was supplied (`Major`).
+- **Next:** Replace 3327's recursive DFS with an iterative postorder traversal that
+  preserves increasing child order, then verify official examples, randomized
+  small trees, and the maximum chain. After spacing, independently redo 3325 in
+  `O(n)` and explain its valid-start counting invariant.

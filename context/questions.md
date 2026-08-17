@@ -49,8 +49,8 @@ tracker.
 | 14 | DP | ✅ | L1 review 2026-07-26 | Delete Operation for Two Strings |  |
 | 15 | DP | ✅ | L1 review 2026-07-26 | Minimum ASCII Delete Sum for Two Strings | Redo the equal-character dominance proof, O(mn) boundary handling, and a careful ASCII trace. |
 | 16 | DP | ✅ | L3 ✅ 2026-06-14 | Distinct Subsequences |  |
-| 17 | DP | ✅ | L1 review 2026-07-26 | Longest Palindromic Substring |  |
-| 18 | DP | ✅ | L1 review 2026-07-27 | Palindromic Substrings | No model or invariant was retrieved before the attempt ended. Redo odd/even center ownership, expansion invariant, uniqueness proof, and complexity independently. |
+| 17 | DP | ✅ | L1 review 2026-07-26 | Longest Palindromic Substring | Guided Manacher transfer is correct; independently recover transformed-radius boundary mapping and the linear-time argument after spacing. |
+| 18 | DP | ✅ | L1 review 2026-07-27 | Palindromic Substrings | Guided Manacher counting transfer is correct. Independently recover why each transformed center contributes `radius / 2`, the uniqueness argument, and linear complexity. |
 | 19 | Graphs / Matrix | ✅ | L1 review 2026-07-20 | Number of Islands |  |
 | 20 | Graphs | ✅ | L1 ✅ 2026-07-25 | Max Area of Island |  |
 | 21 | Graphs | ✅ | L1 review 2026-07-20 | Rotting Oranges |  |

@@ -33,6 +33,9 @@ public class CheckIfDFSStringsArePalindromes {
     int[] exit;
     Map<Integer, List<Integer>> childrenMap;
 
+    String transformed;
+    int[] radiiArr;
+
     public boolean[] findAnswer(int[] parent, String s) {
         childrenMap = new HashMap<>();
         for (int i = 1; i < parent.length; i++) {
@@ -48,13 +51,25 @@ public class CheckIfDFSStringsArePalindromes {
         dfs(0, s, sb);
         String result = sb.toString();
 
+        initTransformed(result);
+        radiiArr = new int[transformed.length()];
+        buildManacher();
+
         boolean[] answer = new boolean[parent.length];
         for (int i = 0; i < parent.length; i++) {
             int start = enter[i];
             int end = exit[i];
-            answer[i] = isPalindrome(result, start, end - 1);
+            answer[i] = isPalindrome(start, end - 1);
         }
         return answer;
+    }
+
+    boolean isPalindrome(int start, int end) {
+        int left = 2 * start + 1;
+        int right = 2 * end + 1;
+        int center = (left + right) / 2;
+        int expectedSize = right - left + 1;
+        return (radiiArr[center] - 1) * 2 >= expectedSize;
     }
 
     void dfs(int node, String s, StringBuilder sb) {
@@ -69,13 +84,40 @@ public class CheckIfDFSStringsArePalindromes {
         exit[node] = sb.length();
     }
 
-    boolean isPalindrome(String str, int left, int right) {
-        if (right - left + 1 < 2) return true;
-        while (left < right) {
-            if (str.charAt(left) != str.charAt(right)) return false;
-            left++;
-            right--;
+    void initTransformed(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            sb.append("#" + c);
         }
-        return true;
+        sb.append("#");
+        transformed = sb.toString();
+    }
+
+    void buildManacher() {
+        int L = 0;
+        int R = -1;
+
+        for (int i = 0; i < transformed.length(); i++) {
+            int radius;
+            if (i >= R) {
+                radius = 0;
+            } else {
+                int mirror = L + R - i;
+                radius = Math.min(radiiArr[mirror], R - i);
+            }
+
+            while (i - radius >= 0
+                    && i + radius < transformed.length()
+                    && transformed.charAt(i - radius) == transformed.charAt(i + radius)) {
+                radius++;
+            }
+
+            radiiArr[i] = radius;
+
+            if (i + radius > R) {
+                L = i - radius;
+                R = i + radius;
+            }
+        }
     }
 }
