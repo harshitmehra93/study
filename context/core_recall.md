@@ -60,6 +60,7 @@ Prioritize algorithms that show up in interviews as explainable building blocks:
 | 28 | Fenwick Tree |  | Point updates and prefix queries | Core mechanics were independently implemented; guided LeetCode 307 and 315 transfers are complete. Independently recover the frequency invariant, strict-smaller boundary, and compression mapping after spacing. |
 | 29 | Graph / Trees |  | Tree Euler tour / DFS flattening: subtree intervals | Guided installation in CT005. Independently recover the entry/exit invariant, traversal-order and child-order requirements, iterative finish simulation, and `O(n)` construction; distinguish one-visit flattening from repeated-node Euler tours used for other purposes. |
 | 30 | String / Palindromes |  | Manacher transformed-string radius preprocessing | Guided installation is correct and verified on both parities. Independently recover the exclusive-boundary invariant, clipped mirror radius, transformed interval mapping, and `O(n)` argument after spacing; first apply it to CT005 3327. |
+| 31 | Number Theory |  | Euclidean GCD and overflow-safe LCM | Euclidean GCD is correct for the tested domain, including the chosen empty identity, zero, and ordinary negatives; clean dead code and define `MIN_VALUE`. LCM now handles zero, negatives, and `long` results, but still needs a GCD-based `O(n log M)` fold and checked overflow. |
 
 ## Reference-only topics
 

@@ -31,6 +31,7 @@ detail was not supplied.
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 | CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 verified (`Major`) | Independently redo 3321's ordered-partition invariant after spacing; implement and verify 3320 with rolling DP |
 | CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | 3324 and 3326 verified (`None`); 3325 repaired and verified (`Major`); guided 3327 now has linear Manacher queries but recursive DFS is depth-unsafe (`Major`) | Replace 3327's recursive DFS with iterative postorder and verify the maximum chain; later independently redo 3325's linear window |
+| CT006 | 2026-08-18 | [LeetCode Weekly Contest 421](https://leetcode.com/contest/weekly-contest-421/) | Q1 and Q3 close but unfinished; Q2 model incorrect; Q4 unfinished for lack of time; excessive time spent on Q1 | 3334 is verified (`Major`); 3335 frequency simulation is verified (`None`), while its alternate contribution-precompute attempt needs repair (`None`); 3336 is verified (`Major`); 3337 transition model is correct but too slow (`None`) | Repair 3335's alternate precompute bottom-up, then replace 3337's simulation with matrix exponentiation; retain the contest switch checkpoint |
 
 ## Notes
 
@@ -173,3 +174,77 @@ detail was not supplied.
   preserves increasing child order, then verify official examples, randomized
   small trees, and the maximum chain. After spacing, independently redo 3325 in
   `O(n)` and explain its valid-start counting invariant.
+
+### CT006 — LeetCode Weekly Contest 421 (upsolve)
+
+- **Contest:** Q1 and Q3 were close but not completed. Q2's idea was incorrect,
+  and there was not enough time to complete Q4. A disproportionate amount of the
+  contest was spent on Q1, reducing time available for the remaining problems.
+- **Upsolve:** The independent 3336 submission correctly models each index's
+  three legal destinations: the first subsequence, the second subsequence, or
+  neither. It therefore counts ordered, disjoint pairs correctly on small inputs.
+  The assessed version is incomplete (`Help=None`): it explores `3^n` assignments,
+  recomputes both GCDs at every leaf, stores each partial subsequence, accumulates
+  into an overflowing `int`, and does not apply the required modulus.
+  After the two-GCD state model was supplied, the guided revision correctly
+  removed the materialized subsequences and carried only `(gcdA,gcdB)`. It is
+  still incorrect because it adds one whenever an intermediate state has equal
+  non-zero GCDs, counting the same chosen pair again along later skip transitions.
+  It also remains exponential because repeated states are not memoized and still
+  omits modular arithmetic (`Major`). The next guided revision fixed both the
+  terminal-only counting and memoized-state structure. It still returns the
+  never-updated field `count` instead of the recursive result, allocates GCD axes
+  of length 200 although the valid value 200 is used as an index, and adds the
+  three counts in `int` without applying the required modulus (`Major`). The
+  latest guided revision repaired all three defects. It passed the official
+  examples, the value-200 boundary, 10,000 randomized small comparisons against
+  exhaustive enumeration, and a descending 200-element stress case returning
+  `246467506` in about 1.3 seconds with a 256 MB heap. The same stress case raised
+  `OutOfMemoryError` with a 128 MB heap because `Long[][][]` combines roughly eight
+  million reference slots with separately boxed memo values (`Major`). The latest
+  revision replaced boxed storage with `int[][][]`; it still passed all prior
+  correctness checks and completed the descending maximum case in about 0.74
+  seconds with a 128 MB heap. However, it tests zero to mean uncached even though
+  zero is a valid modular result. Such states are recomputed; for example, from
+  GCD state `(2,3)` with only values `6` remaining, all three choices preserve
+  unequal GCDs and repeatedly generate the same zero-result subproblem. The final
+  guided revision initializes primitive memo cells to `-1` and caches zero-result
+  states correctly. It passed all official examples, the value-200 boundary,
+  10,000 randomized comparisons, the descending 200-element stress case in about
+  0.75 seconds, and `[2,3,6,6,...]` of length 200 in about 6 milliseconds with a
+  128 MB heap. The upsolve is complete and constraint-safe (`Major`).
+  In the subsequent independent 3335 upsolve, the submitted frequency simulation
+  correctly shifts counts for `a` through `y` and sends every `z` occurrence to
+  both `a` and `b`, applying the required modulus. Its `O(|s| + 26t)` time and
+  `O(26)` working space are constraint-safe. It passed both official examples,
+  10,000 randomized comparisons against literal string construction, and a
+  maximum-size case in about 6 milliseconds locally (`Help=None`; solution timing
+  not observed). A later independent alternative identified the reusable idea of
+  precomputing `length[character][time]` and summing each starting character's
+  contribution. The submitted recurrence is incorrect for `z`: it subtracts the
+  `b` contribution instead of adding it, so `s="z", t=1` would contribute zero
+  instead of two. Its static top-down fill also follows a recursion chain of
+  length 100,000 and is unsafe for Java's call stack. This alternative attempt is
+  incomplete (`Help=None`; timing not observed).
+  The independent 3337 upsolve then generalized the same frequency transition
+  correctly: every source letter distributes its count to the next `nums[i]`
+  cyclic letters. It is not constraint-safe because it repeats that transition
+  for every time step; with `t <= 10^9`, its `O(t * sum(nums))` work can reach
+  roughly 650 billion updates. The transition passed both official examples and
+  10,000 randomized small comparisons against literal expansion (`Help=None`;
+  timing not observed).
+  The subsequent 3334 upsolve uses independent prefix/suffix GCD and LCM folds to
+  evaluate every single-element exclusion in constant time after linear
+  preprocessing. The prefix/suffix structure and its boundary identities are
+  correct and passed all three official examples plus 10,000 randomized
+  comparisons against an `O(n^2)` remove-each-index oracle. The standard LCM
+  formula was supplied immediately beforehand, so the overall attempt is
+  recorded as guided (`Major`; timing not observed). The reusable exclusion
+  technique is retained as Advanced Topic AT21, while this contest tracker
+  remains the sole evidence owner.
+- **Next:** Repair 3335's alternative with a bottom-up time loop and additive `z`
+  transition, then express 3337's one-step frequency update as a `26 x 26` linear
+  transformation and compute its `t`-th power by binary exponentiation. In the
+  next contest, use a deliberate checkpoint on an early problem: if there is no
+  concrete converging implementation after roughly 15-20 minutes, scan the next
+  problem before investing further.

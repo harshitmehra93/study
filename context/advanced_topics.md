@@ -28,6 +28,7 @@ without an attempt row. The dated rationale is in
 | AT18 | Medium-low | Sliding-window mode with dynamically ordered frequencies | Retained — advanced recall candidate | After spacing, independently recover the ordered `(frequency, reverse value)` invariant, window updates, zero-frequency cleanup, and the Java performance tradeoff against a coordinate-compressed segment tree. |
 | AT19 | Medium-low | Manacher palindrome-radius preprocessing | Installed | Apply the transformed-string implementation to CT005 3327 with iterative postorder intervals; after spacing, independently recover the exclusive-boundary invariant, mirror clipping, and exact interval-query mapping. |
 | AT20 | Medium | Tree Euler tour / DFS flattening for subtree intervals | Promoted to core recall #29 | Recall and evidence are owned by `core_recall.md`; do not select or score this as a separate advanced attempt. |
+| AT21 | Medium | Prefix/suffix exclusion aggregation for removing one element | Installed — contest exposure | After spacing, independently recover the associative-prefix/suffix model, the operation identities, and the `combine(prefix[i-1], suffix[i+1])` boundary cases on a different representative. Evidence remains in Contest Practice CT006. |
 
 ## Update Rule
 
