@@ -31,7 +31,8 @@ detail was not supplied.
 | CT003 | 2026-08-08 | [AtCoder Beginner Contest 470](https://atcoder.jp/contests/abc470) | A-B correct; C correct simulation but `O(NQ)`; D incorrect and `O(NQ)`; E-G unknown | D implemented and verified (`Major`); C map version correct but too slow (`Major`) | Replace C's map with active-array compaction |
 | CT004 | 2026-08-13 | [LeetCode Weekly Contest 419](https://leetcode.com/contest/weekly-contest-419/) — practice | 3318 incorrect (`None`); 3319 solution presented with verdict unknown; 3320-3321 and timing unknown | 3318 and 3319 verified (`None`); 3320 recurrence verified but map implementation is not constraint-safe (`None`); 3321 verified (`Major`) | Independently redo 3321's ordered-partition invariant after spacing; implement and verify 3320 with rolling DP |
 | CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | 3324 and 3326 verified (`None`); 3325 repaired and verified (`Major`); guided 3327 now has linear Manacher queries but recursive DFS is depth-unsafe (`Major`) | Replace 3327's recursive DFS with iterative postorder and verify the maximum chain; later independently redo 3325's linear window |
-| CT006 | 2026-08-18 | [LeetCode Weekly Contest 421](https://leetcode.com/contest/weekly-contest-421/) | Q1 and Q3 close but unfinished; Q2 model incorrect; Q4 unfinished for lack of time; excessive time spent on Q1 | 3334 is verified (`Major`); 3335 frequency simulation is verified (`None`), while its alternate contribution-precompute attempt needs repair (`None`); 3336 is verified (`Major`); 3337 transition model is correct but too slow (`None`) | Repair 3335's alternate precompute bottom-up, then replace 3337's simulation with matrix exponentiation; retain the contest switch checkpoint |
+| CT006 | 2026-08-18 | [LeetCode Weekly Contest 421](https://leetcode.com/contest/weekly-contest-421/) | Q1 and Q3 close but unfinished; Q2 model incorrect; Q4 unfinished for lack of time; excessive time spent on Q1 | 3334 is verified (`Major`); 3335 frequency simulation is verified (`None`), while its alternate contribution-precompute attempt needs repair (`None`); 3336 is verified (`Major`); 3337's transition model is correct but matrix exponentiation is deliberately deferred (`None`) | Continue with a new LeetCode contest and retain the early-problem switch checkpoint |
+| CT007 | 2026-08-20 | [LeetCode Weekly Contest 422](https://leetcode.com/contest/weekly-contest-422/) | 3340 correct by inspection; 3341 incorrect; 3342 not presented; 3343 incomplete and constraint-unsafe; verdicts, timing, and help unknown | 3341, 3342, and 3343 verified (`Major`) | Independently redo and explain 3343's digit-allocation DP after spacing; continue with a new contest |
 
 ## Notes
 
@@ -242,9 +243,62 @@ detail was not supplied.
   recorded as guided (`Major`; timing not observed). The reusable exclusion
   technique is retained as Advanced Topic AT21, while this contest tracker
   remains the sole evidence owner.
-- **Next:** Repair 3335's alternative with a bottom-up time loop and additive `z`
-  transition, then express 3337's one-step frequency update as a `26 x 26` linear
-  transformation and compute its `t`-th power by binary exponentiation. In the
-  next contest, use a deliberate checkpoint on an early problem: if there is no
-  concrete converging implementation after roughly 15-20 minutes, scan the next
-  problem before investing further.
+- **Next:** Matrix exponentiation for 3337 is deliberately deferred because its
+  current interview-preparation value does not justify the learning cost. Continue
+  with a new LeetCode contest. Use a deliberate checkpoint on an early problem:
+  if there is no concrete converging implementation after roughly 15-20 minutes,
+  scan the next problem before investing further. The alternate 3335 precompute
+  repair is optional because the verified frequency solution is already complete.
+
+### CT007 — LeetCode Weekly Contest 422
+
+- **Contest:** The presented 3340 solution correctly sums digits by index parity
+  in linear time. The 3341 solution recursively minimizes over simple paths, but
+  adds room opening times as path costs; opening times are deadlines that require
+  waiting based on the current arrival time, and memoizing a cell while excluding
+  the current recursion path is not a valid shortest-path state. The presented
+  3343 solution enumerates distinct permutations with a frequency array. This is
+  exponential for length 80, and its `int` accumulation is not kept modulo the
+  required modulus. No solution was presented for 3342. Judge verdicts, timing,
+  and assistance are unknown.
+- **Upsolve:** The first guided 3341 revision replaces recursive path enumeration
+  with Dijkstra's algorithm and correctly uses a min-priority queue, settled set,
+  and distance relaxation structure. Its edge cost is still incorrect: it adds
+  the destination room's opening time to the current distance instead of waiting
+  until that time, and it special-cases the target's opening time as zero. For
+  `moveTime = [[0,0],[0,100]]`, it returns `2` instead of `101`. The assessed
+  revision is incomplete (`Major`).
+  The next guided 3341 revision repairs the relaxation to
+  `max(currentTime, moveTime[next]) + 1` and no longer ignores the target's
+  opening time. It passed all three official examples, the locked-target case,
+  and 10,000 randomized comparisons against an independent shortest-path oracle
+  (`Major`; solution timing not observed). The subsequent guided 3342 transfer
+  correctly alternates move costs between one and two seconds. A separate parity
+  state is unnecessary on this grid because every walk to `(i,j)` has parity
+  `(i+j) mod 2`. It passed all three official examples, 10,000 randomized
+  comparisons against a two-parity-state oracle, and a maximum 750-by-750
+  all-zero grid with the expected answer `2247`. The maximum case completed in
+  about 5.4 seconds with a 256 MB heap and 6.4 seconds with a 128 MB heap locally
+  (`Major`; solution timing not observed). Both upsolves are correct; primitive
+  arrays would reduce 3342's substantial object-allocation overhead. The latest
+  3342 revision makes that change for both distances and visited state while
+  preserving the same Dijkstra relaxation. It passed the official and 10,000
+  randomized checks again, and the same maximum case dropped to about 0.32
+  seconds with a 128 MB heap (`Major`; solution timing not observed). The latest
+  solution is correct and constraint-safe.
+  The guided 3343 upsolve correctly replaces permutation enumeration with a
+  memoized state over the current digit, even-index sum, and remaining even
+  slots. It derives the processed odd sum and remaining odd slots, precomputes
+  binomial coefficients modulo the required modulus, tries every split of a
+  digit's frequency between the two parities, and multiplies the independent
+  even-slot and odd-slot placement counts. An initially pasted subtraction sign
+  was clarified as a formatting error rather than the implemented operator. The
+  corrected preserved solution passed all three official examples, 10,000
+  randomized small strings against distinct-permutation brute force, an
+  80-identical-digit case, and an 80-digit mixed case in about 2 milliseconds
+  locally with a 128 MB heap (`Major`; solution timing not observed). It is
+  correct and constraint-safe; the unused contribution variable and factorial
+  helpers are optional cleanup.
+- **Next:** Independently redo and explain 3343's digit-allocation state and
+  multiplicative slot-counting invariant after spacing. Continue with a new
+  contest.
