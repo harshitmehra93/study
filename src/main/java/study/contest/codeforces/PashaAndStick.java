@@ -3,8 +3,9 @@ package study.contest.codeforces;
 import java.io.*;
 import java.util.StringTokenizer;
 
-// https://codeforces.com/problemset/problem/1840/C
-public class SkiResort {
+// https://codeforces.com/problemset/problem/610/A
+
+public class PashaAndStick {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
@@ -15,51 +16,28 @@ public class SkiResort {
     long[][] nc2;
 
     public static void main(String[] args) {
-        SkiResort main = new SkiResort();
+        PashaAndStick main = new PashaAndStick();
         main.solve();
         out.flush();
     }
 
     void solve() {
-        //        int T = in.nextInt();
-        int T = 1;
-        for (int t = 0; t < T; t++) {
-            //            int n = in.nextInt();
-            //            int k = in.nextInt();
-            //            int q = in.nextInt();
-            //            int[]  A = new int[n];
-            //            for(int i=0;i<n;i++){
-            //                A[i]=in.nextInt();
-            //            }
-            int n = 3;
-            int k = 1;
-            int q = 15;
-            int[] A = new int[] {-5, 9, -10};
+        int n = in.nextInt();
 
-            long count = 0;
-            int validBlockSize = 0;
-
-            int right = 0;
-            while (right < n) {
-                while (right < n && A[right] <= q) {
-                    validBlockSize++;
-                    right++;
-                }
-
-                count += contributionOfValidBlock(validBlockSize, k);
-
-                validBlockSize = 0;
-                right++;
-            }
-
-            out.println(count);
+        if (n % 2 != 0) {
+            out.println(0);
+            return;
         }
-    }
 
-    private long contributionOfValidBlock(int validBlockSize, int k) {
-        if (validBlockSize < k) return 0;
-        long x = validBlockSize - k + 1;
-        return x * (x + 1) / 2;
+        n = n / 2;
+        boolean isSquarePossible = false;
+        if (n % 2 == 0) {
+            isSquarePossible = true;
+        }
+        n = n / 2;
+        if (isSquarePossible) n--;
+
+        out.println(n);
     }
 
     static class FastScanner {
