@@ -1,9 +1,9 @@
-// package study.contest.cses;
+package study.contest.codeforces;
 
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Dictionary {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
@@ -11,28 +11,33 @@ public class Main {
     static final long INF = Long.MAX_VALUE / 4;
     static final int MOD = 1_000_000_007;
 
+    long[][] nc2;
+
     public static void main(String[] args) {
-        Main main = new Main();
+        Dictionary main = new Dictionary();
         main.solve();
         out.flush();
     }
 
     void solve() {
-        long n = in.nextInt();
-        out.println(pow(2, n));
-    }
+        int T = in.nextInt();
+        //        int T=1;
+        for (int t = 0; t < T; t++) {
+            String word = in.nextLine();
+            //            String word = "zx";
+            char first = word.charAt(0);
+            char second = word.charAt(1);
 
-    long pow(long a, long b) {
-        if (a == 0 && b == 0) return 1;
-        if (a == 0) return 0;
-        if (b == 0) return 1;
-        if (b == 1) return a % MOD;
-        long factor = 1;
-        if (b % 2 != 0) factor = a % MOD;
-        long answer = pow(a, b / 2) % MOD;
-        answer = (answer * answer) % MOD;
-        answer = (answer * factor) % MOD;
-        return answer;
+            int indexOne = first - 'a' + 1; // a = 0
+            int indexTwo = second - 'a' + 1; // z = 26
+
+            int fullFamilyCount = 25 * (indexOne - 1);
+
+            int currentFamilyRank = indexTwo;
+            if (indexOne < indexTwo) currentFamilyRank--;
+
+            out.println(fullFamilyCount + currentFamilyRank);
+        }
     }
 
     static class FastScanner {

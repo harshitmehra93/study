@@ -1,9 +1,9 @@
-// package study.contest.cses;
+package study.contest.cses; // package study.contest.cses;
 
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BitString {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
@@ -12,7 +12,7 @@ public class Main {
     static final int MOD = 1_000_000_007;
 
     public static void main(String[] args) {
-        Main main = new Main();
+        BitString main = new BitString();
         main.solve();
         out.flush();
     }
@@ -31,7 +31,7 @@ public class Main {
         if (b % 2 != 0) factor = a % MOD;
         long answer = pow(a, b / 2) % MOD;
         answer = (answer * answer) % MOD;
-        answer = (answer * factor) % MOD;
+        answer = (answer * factor) * MOD;
         return answer;
     }
 

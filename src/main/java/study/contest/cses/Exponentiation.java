@@ -1,9 +1,7 @@
-// package study.contest.cses;
-
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Exponentiation {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
@@ -12,26 +10,28 @@ public class Main {
     static final int MOD = 1_000_000_007;
 
     public static void main(String[] args) {
-        Main main = new Main();
+        Exponentiation main = new Exponentiation();
         main.solve();
         out.flush();
     }
 
     void solve() {
-        long n = in.nextInt();
-        out.println(pow(2, n));
+        int T = in.nextInt();
+
+        for (int t = 0; t < T; t++) {
+            long A = in.nextInt();
+            long B = in.nextInt();
+            out.println(pow(A, B));
+        }
     }
 
     long pow(long a, long b) {
-        if (a == 0 && b == 0) return 1;
-        if (a == 0) return 0;
         if (b == 0) return 1;
-        if (b == 1) return a % MOD;
+        if (b == 1) return a;
         long factor = 1;
-        if (b % 2 != 0) factor = a % MOD;
+        if (b % 2 != 0) factor = a;
         long answer = pow(a, b / 2) % MOD;
-        answer = (answer * answer) % MOD;
-        answer = (answer * factor) % MOD;
+        answer = (((answer * answer) % MOD) * factor) % MOD;
         return answer;
     }
 

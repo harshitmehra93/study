@@ -1,3 +1,5 @@
+package study.contest.atcoder;
+
 import java.io.*;
 import java.util.*;
 

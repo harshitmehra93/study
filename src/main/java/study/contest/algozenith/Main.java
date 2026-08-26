@@ -1,35 +1,25 @@
-package study.contest.codeforces;
+package study.contest.algozenith;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UncheckedIOException;
 
-public class Template {
-    static FastScanner fs = new FastScanner(System.in);
-    static PrintWriter out = new PrintWriter(System.out);
+public class Main {
+    static final SupportQueriesII.FastScanner fs = new SupportQueriesII.FastScanner(System.in);
+    static final PrintWriter out = new PrintWriter(System.out);
 
-    public static void main(String[] args) {
-        solve();
-        out.flush();
-    }
-
-    static void solve() {
-        int n = fs.nextInt();
-        int m = fs.nextInt();
-        //        String a = fs.next();
-
-        // your logic here
-
-        out.println(n + m);
-        //        out.println(a);
-    }
+    public static void main(String[] args) {}
 
     static class FastScanner {
         private final InputStream in;
         private final byte[] buffer = new byte[1 << 16];
-        private int ptr = 0, len = 0;
 
-        FastScanner(InputStream is) {
-            in = is;
+        private int ptr = 0;
+        private int len = 0;
+
+        FastScanner(InputStream in) {
+            this.in = in;
         }
 
         private int read() {
@@ -38,16 +28,21 @@ public class Template {
                     len = in.read(buffer);
                     ptr = 0;
                 } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+
+                if (len <= 0) {
                     return -1;
                 }
-                if (len <= 0) return -1;
             }
+
             return buffer[ptr++];
         }
 
         String next() {
             StringBuilder sb = new StringBuilder();
             int c;
+
             do {
                 c = read();
             } while (c <= ' ' && c != -1);
@@ -56,6 +51,7 @@ public class Template {
                 sb.append((char) c);
                 c = read();
             }
+
             return sb.toString();
         }
 
@@ -69,6 +65,19 @@ public class Template {
 
         double nextDouble() {
             return Double.parseDouble(next());
+        }
+
+        String nextLine() {
+            StringBuilder sb = new StringBuilder();
+            int c;
+
+            while ((c = read()) != -1 && c != '\n') {
+                if (c != '\r') { // handles Windows \r\n
+                    sb.append((char) c);
+                }
+            }
+
+            return sb.toString();
         }
     }
 }
