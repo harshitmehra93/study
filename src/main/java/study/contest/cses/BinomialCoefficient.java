@@ -1,42 +1,38 @@
-// package study.contest.cses;
+package study.contest.cses;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
 // https://cses.fi/problemset/task/1079
-public class Main {
+public class BinomialCoefficient {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
 
     static final long INF = Long.MAX_VALUE / 4;
     static final int MOD = 1_000_000_007;
-    private long[] factorial;
 
     public static void main(String[] args) {
-        Main main = new Main();
+        BinomialCoefficient main = new BinomialCoefficient();
         main.solve();
         out.flush();
     }
 
     void solve() {
 
-        //        int[][] ncr = new int[10_001][10_001];
-        //        for(int n=0;n<=10_000;n++){
-        //            for(int r=0;r<=10_000;r++){
-        //                if(n==0&&r==0) {ncr[n][r]=1;}
-        //                else if(r==0) {ncr[n][r]=1;}
-        //                else if(n==0){ncr[n][r]=0;}
-        //                else {
-        //                    ncr[n][r]=(ncr[n-1][r]%MOD+ncr[n-1][r-1]%MOD)%MOD;
-        //                }
-        //            }
-        //        }
-
-        factorial = new long[1_000_001];
-        factorial[0] = 1;
-        for (int i = 1; i < factorial.length; i++) {
-            factorial[i] = ((factorial[i - 1] % MOD) * (i % MOD)) % MOD;
+        int[][] ncr = new int[10_001][10_001];
+        for (int n = 0; n <= 10_000; n++) {
+            for (int r = 0; r <= 10_000; r++) {
+                if (n == 0 && r == 0) {
+                    ncr[n][r] = 1;
+                } else if (r == 0) {
+                    ncr[n][r] = 1;
+                } else if (n == 0) {
+                    ncr[n][r] = 0;
+                } else {
+                    ncr[n][r] = (ncr[n - 1][r] % MOD + ncr[n - 1][r - 1] % MOD) % MOD;
+                }
+            }
         }
 
         int T = in.nextInt();
@@ -44,33 +40,8 @@ public class Main {
         for (int t = 0; t < T; t++) {
             int n = in.nextInt();
             int r = in.nextInt();
-            long answer = ncr(n, r);
-            answer = ((answer % MOD) + MOD) % MOD;
-            out.println(answer);
+            out.println(ncr[n][r]);
         }
-    }
-
-    private long ncr(int n, int r) {
-        long answer = (factorial[n] * inv(factorial[n - r])) % MOD;
-        answer = (answer * inv(factorial[r])) % MOD;
-        return answer;
-    }
-
-    long inv(long a) {
-        return pow(a, MOD - 2) % MOD;
-    }
-
-    long pow(long a, long b) {
-        if (a == 0 && b == 0) return 1;
-        if (a == 0) return 0;
-        if (b == 0) return 1;
-        if (b == 1) return a % MOD;
-        long factor = 1;
-        if (b % 2 != 0) factor = a % MOD;
-        long answer = pow(a, b / 2);
-        answer = ((answer % MOD) * (answer % MOD)) % MOD;
-        answer = ((answer % MOD) * (factor % MOD)) % MOD;
-        return answer;
     }
 
     static class FastScanner {
