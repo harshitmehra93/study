@@ -1,10 +1,10 @@
-// package study.contest.cses;
+package study.contest.cses;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
 // https://cses.fi/problemset/task/1717
-public class Main {
+public class ChristmasParty {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
@@ -14,19 +14,18 @@ public class Main {
     private long[] factorial;
 
     public static void main(String[] args) {
-        Main main = new Main();
+        ChristmasParty main = new ChristmasParty();
         main.solve();
         out.flush();
     }
 
     void solve() {
         int n = in.nextInt();
-        long[] derangement = new long[n + 1];
+        int[] derangement = new int[n + 1];
         derangement[0] = 1;
         derangement[1] = 0;
         for (int i = 2; i < derangement.length; i++) {
-            derangement[i] =
-                    ((i - 1) % MOD * (derangement[i - 1] + derangement[i - 2]) % MOD) % MOD;
+            derangement[i] = (i - 1) * (derangement[i - 1] + derangement[i - 2]);
         }
         out.println(derangement[n]);
     }

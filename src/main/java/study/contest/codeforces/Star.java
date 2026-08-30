@@ -1,57 +1,60 @@
-// package study.contest.cses;
+package study.contest.codeforces;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
-// https://cses.fi/problemset/task/1717
-public class Main {
+// https://codeforces.com/problemset/problem/171/B
+public class Star {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
 
     static final long INF = Long.MAX_VALUE / 4;
     static final int MOD = 1_000_000_007;
-    private long[] factorial;
+
+    long[][] nc2;
 
     public static void main(String[] args) {
-        Main main = new Main();
+        Star main = new Star();
         main.solve();
         out.flush();
     }
 
     void solve() {
         int n = in.nextInt();
-        long[] derangement = new long[n + 1];
-        derangement[0] = 1;
-        derangement[1] = 0;
-        for (int i = 2; i < derangement.length; i++) {
-            derangement[i] =
-                    ((i - 1) % MOD * (derangement[i - 1] + derangement[i - 2]) % MOD) % MOD;
-        }
-        out.println(derangement[n]);
-    }
 
-    private long ncr(int n, int r) {
-        long answer = (factorial[n] * inv(factorial[n - r])) % MOD;
-        answer = (answer * inv(factorial[r])) % MOD;
-        return answer;
+        if (n == 1) {
+            out.println(1);
+            return;
+        }
+
+        long sideOfTriangle = 2 * n + (n - 2);
+        long nodesInTriangle = sideOfTriangle * (sideOfTriangle + 1) / 2;
+
+        long extra = n * (n - 1) / 2;
+
+        out.println(nodesInTriangle + 3 * extra);
     }
 
     long inv(long a) {
-        return pow(a, MOD - 2) % MOD;
+        return pow(a, MOD - 2, MOD) % MOD;
     }
 
-    long pow(long a, long b) {
+    long pow(long a, long b, long MOD) {
         if (a == 0 && b == 0) return 1;
         if (a == 0) return 0;
         if (b == 0) return 1;
         if (b == 1) return a % MOD;
         long factor = 1;
         if (b % 2 != 0) factor = a % MOD;
-        long answer = pow(a, b / 2);
+        long answer = pow(a, b / 2, MOD);
         answer = ((answer % MOD) * (answer % MOD)) % MOD;
         answer = ((answer % MOD) * (factor % MOD)) % MOD;
         return answer;
+    }
+
+    long pow(long a, long b) {
+        return pow(a, b, Long.MAX_VALUE);
     }
 
     static class FastScanner {

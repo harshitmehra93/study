@@ -1,58 +1,151 @@
 package study.contest.algozenith;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.UncheckedIOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class Main {
-    static final SupportQueriesII.FastScanner fs = new SupportQueriesII.FastScanner(System.in);
-    static final PrintWriter out = new PrintWriter(System.out);
 
-    public static void main(String[] args) {}
+    static FastScanner in = new FastScanner(System.in);
+    static PrintWriter out = new PrintWriter(System.out);
 
-    static class FastScanner {
-        private final InputStream in;
-        private final byte[] buffer = new byte[1 << 16];
+    static final long INF = Long.MAX_VALUE / 4;
+    static final int MOD = 1_000_000_007;
 
-        private int ptr = 0;
-        private int len = 0;
+    public static void main(String[] args) {
+        Main main = new Main();
+        precompute();
+        main.solve();
+        out.flush();
+    }
 
-        FastScanner(InputStream in) {
-            this.in = in;
+    static long[] spf;
+
+    private static void precompute() {
+        int MAX = 1000001;
+        spf = new long[MAX];
+        for (int i = 0; i < spf.length; i++) {
+            spf[i] = i;
+        }
+        for (int i = 2; i < spf.length; i++) {
+            if (spf[i] != i) continue;
+
+            int multiple = i * 2;
+            while (multiple < MAX) {
+                if (spf[multiple] != multiple) {
+                    multiple += i;
+                    continue;
+                }
+                spf[multiple] = i;
+                multiple += i;
+            }
+        }
+    }
+
+    void solve() {
+        int n = in.nextInt();
+
+        int count = 0;
+        boolean isThereAOne = false;
+
+        Set<Integer> perfectSquares = new HashSet<>();
+        Set<Integer> cubes = new HashSet<>();
+        Set<Integer> primes = new HashSet<>();
+
+        for (int i = 0; i < n; i++) {
+            int num = in.nextInt();
+
+            if (num == 1) {
+                isThereAOne = true;
+            } else if (isPerfectSquare(num)) {
+                perfectSquares.add(num);
+            } else if (isCube(num)) {
+                cubes.add(num);
+            } else if (isPrime(num)) {
+                primes.add(num);
+            }
         }
 
-        private int read() {
-            if (ptr >= len) {
-                try {
-                    len = in.read(buffer);
-                    ptr = 0;
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-
-                if (len <= 0) {
-                    return -1;
-                }
+        for (var perfectSquare : perfectSquares) {
+            int primeFactor = (int) Math.sqrt(perfectSquare);
+            if (primes.contains(primeFactor)) {
+                count++;
             }
+        }
 
-            return buffer[ptr++];
+        if (isThereAOne) {
+            count += cubes.size();
+        }
+
+        if (cubes.size() > 1) {
+            int cubesPermutation = cubes.size() * (cubes.size() - 1) / 2;
+            count += cubesPermutation;
+        }
+
+        out.println(count);
+    }
+
+    boolean isPrime(int num) {
+        return spf[num] == num;
+    }
+
+    boolean isPerfectSquare(long num) {
+        double factor = Math.sqrt(num);
+        if (num % factor != 0) return false;
+        return (factor * factor) == num;
+    }
+
+    boolean isCube(long num) {
+        ArrayList<Long> list = new ArrayList<>();
+        while (num > 1) {
+            list.add(spf[(int) num]);
+            num = num / spf[(int) num];
+        }
+        if (list.size() != 3) return false;
+
+        if (list.get(0) != list.get(1)) return false;
+        if (list.get(0) != list.get(2)) return false;
+        if (list.get(1) != list.get(2)) return false;
+
+        return true;
+    }
+
+    long inv(long a) {
+        return pow(a, MOD - 2) % MOD;
+    }
+
+    long pow(long a, long b) {
+        if (a == 0 && b == 0) return 1;
+        if (a == 0) return 0;
+        if (b == 0) return 1;
+        if (b == 1) return a % MOD;
+        long factor = 1;
+        if (b % 2 != 0) factor = a % MOD;
+        long answer = pow(a, b / 2);
+        answer = ((answer % MOD) * (answer % MOD)) % MOD;
+        answer = ((answer % MOD) * (factor % MOD)) % MOD;
+        return answer;
+    }
+
+    static class FastScanner {
+        private final BufferedReader br;
+        private StringTokenizer st;
+
+        FastScanner(InputStream is) {
+            br = new BufferedReader(new InputStreamReader(is));
         }
 
         String next() {
-            StringBuilder sb = new StringBuilder();
-            int c;
-
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            while (c > ' ') {
-                sb.append((char) c);
-                c = read();
+            while (st == null || !st.hasMoreTokens()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-
-            return sb.toString();
+            return st.nextToken();
         }
 
         int nextInt() {
@@ -67,17 +160,33 @@ public class Main {
             return Double.parseDouble(next());
         }
 
+        char nextChar() {
+            return next().charAt(0);
+        }
+
         String nextLine() {
-            StringBuilder sb = new StringBuilder();
-            int c;
-
-            while ((c = read()) != -1 && c != '\n') {
-                if (c != '\r') { // handles Windows \r\n
-                    sb.append((char) c);
-                }
+            try {
+                st = null;
+                return br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        }
 
-            return sb.toString();
+        int[] nextIntArray(int n) {
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = nextInt();
+            }
+            return a;
+        }
+
+        long[] nextLongArray(int n) {
+            long[] a = new long[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = nextLong();
+            }
+            return a;
         }
     }
 }

@@ -1,39 +1,72 @@
-// package study.contest.cses;
+package study.contest.codeforces;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
-// https://cses.fi/problemset/task/1717
-public class Main {
+// https://codeforces.com/problemset/problem/1096/B
+public class SubstringRemoval {
 
     static FastScanner in = new FastScanner(System.in);
     static PrintWriter out = new PrintWriter(System.out);
 
     static final long INF = Long.MAX_VALUE / 4;
-    static final int MOD = 1_000_000_007;
-    private long[] factorial;
+    static final int MOD = 998244353;
+
+    long[][] nc2;
 
     public static void main(String[] args) {
-        Main main = new Main();
+        SubstringRemoval main = new SubstringRemoval();
         main.solve();
         out.flush();
     }
 
     void solve() {
         int n = in.nextInt();
-        long[] derangement = new long[n + 1];
-        derangement[0] = 1;
-        derangement[1] = 0;
-        for (int i = 2; i < derangement.length; i++) {
-            derangement[i] =
-                    ((i - 1) % MOD * (derangement[i - 1] + derangement[i - 2]) % MOD) % MOD;
+        String s = in.nextLine();
+
+        int leftCount = 1;
+        int left = 1;
+        char c = s.charAt(0);
+        while (left < n && c == s.charAt(left)) {
+            left++;
+            leftCount++;
         }
-        out.println(derangement[n]);
+
+        int rightCount = 1;
+        int right = n - 2;
+        c = s.charAt(n - 1);
+        while (right >= 0 && c == s.charAt(right)) {
+            right--;
+            rightCount++;
+        }
+
+        if (s.charAt(0) != s.charAt(n - 1)) {
+
+            out.println(leftCount + rightCount + 1);
+
+        } else {
+            if (leftCount == n) {
+                out.println(nc2(leftCount + 1));
+            } else {
+                long answer = (long) (leftCount + 1) * (rightCount + 1) % MOD;
+                out.println(answer);
+            }
+        }
     }
 
-    private long ncr(int n, int r) {
-        long answer = (factorial[n] * inv(factorial[n - r])) % MOD;
-        answer = (answer * inv(factorial[r])) % MOD;
+    boolean areAllSame(int[] frequency) {
+        int numberOfDistinctChars = 0;
+        for (int i = 0; i < frequency.length; i++) {
+            if (frequency[i] > 0) numberOfDistinctChars++;
+            if (numberOfDistinctChars > 1) return false;
+        }
+        return true;
+    }
+
+    long nc2(long n) {
+        if (n == 1) return 1;
+        long answer = (n * (n - 1)) % MOD;
+        answer = (answer * inv(2)) % MOD;
         return answer;
     }
 
