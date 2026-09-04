@@ -1,17 +1,26 @@
 # OCP drills
 
-The original numbered `Test` classes are grouped here by the Java 17 OCP study-guide chapter that best matches their contents. Names describe the concept exercised rather than the order in which the files were created.
+The original numbered `Test` classes are grouped here by the Java 17 OCP study-guide chapter that best matches their contents. Names describe the concept exercised rather than the order in which the files were created. Repeated former numbers came from separate batches of drills.
 
-## Chapter 1 — Building Blocks
+## Building Blocks (`basics`)
 
 - `HelloWorld` (formerly `Test27`)
 - `VariableDeclarations` (formerly `Test39`)
 
-## Chapter 8 — Lambdas and Functional Interfaces
+## Lambdas and Functional Interfaces (`lambdas`)
 
 - `LambdaPredicateFiltering` (formerly `Test`)
+- `IntegerAdditionLambda` (formerly `Test`)
+- `PrimeNumberLambda` (formerly `Test2`)
+- `StringConcatenationMethodReference` (formerly `Test3`)
+- `CurrentTimeMethodReference` (formerly `Test4`)
+- `SquareLambda` (formerly `Test5`)
+- `ParseIntegerMethodReference` (formerly `Test6`)
+- `LowercaseMethodReference` (formerly `Test7`)
+- `ArrayListConstructorReference` (formerly `Test8`)
+- `PrintlnMethodReference` (formerly `Test9`)
 
-## Chapter 9 — Collections and Generics
+## Collections and Generics (`collections`)
 
 - `LinkedListOperations` (formerly `Test10`)
 - `ListCreationAndMutability` (formerly `Test11`)
@@ -20,21 +29,39 @@ The original numbered `Test` classes are grouped here by the Java 17 OCP study-g
 - `DequeOperations` (formerly `Test14`)
 - `DequeAsStack` (formerly `Test15`)
 - `ComparatorChaining` (formerly `Test16`)
+- `TreeSetComparatorOrdering` (formerly `Test20`)
 
-## Chapter 10 — Streams
+## Streams (`streams`)
 
 - `StreamReductionCollectionAndGeneration` (formerly `Test17`)
 - `PrimitiveIntStreams` (formerly `Test18`)
 - `ParseValidIntegers` (formerly `Test19`)
 - `SortedStreamMiddleElement` (formerly `Test20`)
+- `GeneratedStreamReuse` (formerly `Test21`)
+- `SpliteratorPartitioning` (formerly `Test22`)
+- `FilteringCollector` (formerly `Test23`)
+- `LengthsStartingWithA` (formerly `Test24`)
+- `FirstLongWord` (formerly `Test25`)
+- `DistinctLowercaseWordsByLength` (formerly `Test26`)
+- `AverageOfEvenNumbers` (formerly `Test27`)
+- `OptionalEmailValidation` (formerly `Test28`)
+- `JoinNonBlankStrings` (formerly `Test29`)
+- `IntStreamProduct` (formerly `Test30`)
+- `TotalLengthsByFirstCharacter` (formerly `Test31`)
+- `LowercaseWordsByLength` (formerly `Test32`)
+- `PartitionWordsByLength` (formerly `Test33`)
+- `FlattenUniqueTags` (formerly `Test34`)
+- `WordFrequency` (formerly `Test35`)
+- `EmployeeSalaryReport` (formerly `Test37`)
+- `DepartmentEmployeeCollectors` (formerly `Test38`)
 
-## Chapter 11 — Exceptions and Localization
+## Exceptions and Localization (`exceptionslocalization`)
 
 - `TryWithResourcesSuppressedExceptions` (formerly `Test23`)
 - `DateNumberAndLocaleFormatting` (formerly `Test24`)
 - `ResourceBundleLookup` (formerly `Test25`)
 
-## Chapter 13 — Concurrency
+## Concurrency (`concurrency`)
 
 - `ParallelLengthReduction` (formerly `Test21`)
 - `ParallelSquares` (formerly `Test22`)
@@ -44,8 +71,28 @@ The original numbered `Test` classes are grouped here by the Java 17 OCP study-g
 - `AtomicCounterSynchronization` (formerly `Test30`)
 - `ParallelStreamTiming` (formerly `Test31`)
 - `SafeParallelCollection` (formerly `Test32`)
+- `ParallelSquareCollection` (formerly `Test36`)
+- `ExecutorLifecycle` (formerly `Test39`)
+- `ScheduledFixedRateTask` (formerly `Test40`)
+- `ThreadCreation` (formerly `Test41`)
+- `ThreadStateObservation` (formerly `Test42`)
+- `SingleThreadExecutorOrdering` (formerly `Test43`)
+- `FixedThreadPoolOrdering` (formerly `Test44`)
+- `SubmitVersusExecute` (formerly `Test45`)
+- `CallableExceptionPropagation` (formerly `Test46`)
+- `CallableFutureSum` (formerly `Test47`)
+- `FutureTimeout` (formerly `Test48`)
+- `SynchronizedCounterDemo` (formerly `Test49`)
+- `CopyOnWriteArrayListIteration` (formerly `Test50`)
+- `ThreadInterruptFlag` (formerly `Test51`)
+- `ReentrantLockTryLock` (formerly `Test52`)
+- `CyclicBarrierPlaceholder` (formerly `Test53`)
+- `CounterSynchronizationVariants` (formerly `Test54`)
+- `CustomBoundedQueueProducerConsumer` (formerly `Test55`)
+- `BlockingQueueProducerConsumer` (formerly `Test56`)
+- `TransferQueueProducerConsumer` (formerly `Test57`)
 
-## Chapter 14 — I/O
+## I/O (`io`)
 
 - `PathComponents` (formerly `Test33`)
 - `ResolveAndCreatePath` (formerly `Test34`)
@@ -53,5 +100,6 @@ The original numbered `Test` classes are grouped here by the Java 17 OCP study-g
 - `FileProperties` (formerly `Test36`)
 - `FileReadWriteExercises` (formerly `Test37`)
 - `BufferedBinaryFileCopy` (formerly `Test38`)
+- `FileAndNioComparison` (formerly `Test58`)
 
-The text and log files produced while practicing I/O live under `src/main/resources/study/ocp/chapter14/io`.
+The text and log files produced while practicing I/O live under `src/main/resources/study/ocp/io`. Java compiler argument artifacts live under `src/main/resources/study/ocp/compiler`.
