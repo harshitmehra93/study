@@ -47,7 +47,7 @@ completion inside the deadline, and sufficient implementation/testing evidence.
 
 ## Log
 
-| # | Date | Source | Prompt | Novelty | Timing | Outcome | Help | Implementation / Test Evidence | Gap / Next Action |
+| # | Date | Source | Prompt | Novelty | Timing | Outcome | Help | Implementation / study.ocp.Test Evidence | Gap / Next Action |
 | ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 2026-07-23 | Exponent | Decrypt Message | Unknown | 20-30 min / unknown / unknown | Miss | Unknown | Unknown | Implementation defect unknown; review the code, identify the first defect, then redo; date unset. |
 | 2 | 2026-07-23 | Exponent | Drone Flight Planner | Unknown | 20-30 min / unknown / unknown | Pass | Unknown | Unknown | Evidence incomplete; capture the model and feedback before claiming independence. |
