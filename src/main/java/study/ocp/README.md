@@ -9,16 +9,26 @@ The original numbered `Test` classes are grouped here by the Java 17 OCP study-g
 
 ## Lambdas and Functional Interfaces (`lambdas`)
 
-- `LambdaPredicateFiltering` (formerly `Test`)
+Revise the lambda drills in this order:
+
+### 1. Lambda fundamentals (`lambdas.fundamentals`)
+
 - `IntegerAdditionLambda` (formerly `Test`)
-- `PrimeNumberLambda` (formerly `Test2`)
-- `StringConcatenationMethodReference` (formerly `Test3`)
+- `PrimeNumberLambda` (formerly `Test2`; under `fundamentals.prime`)
+- `SquareLambda` (formerly `Test5`; under `fundamentals.square`)
+- `LambdaPredicateFiltering` (formerly `Test`)
+
+### 2. Method references (`lambdas.methodreferences`)
+
 - `CurrentTimeMethodReference` (formerly `Test4`)
-- `SquareLambda` (formerly `Test5`)
 - `ParseIntegerMethodReference` (formerly `Test6`)
-- `LowercaseMethodReference` (formerly `Test7`)
-- `ArrayListConstructorReference` (formerly `Test8`)
+- `StringConcatenationMethodReference` (formerly `Test3`)
+- `LowercaseMethodReference` (formerly `Test7`; under `methodreferences.lowercase`)
 - `PrintlnMethodReference` (formerly `Test9`)
+
+### 3. Constructor references (`lambdas.constructorreferences`)
+
+- `ArrayListConstructorReference` (formerly `Test8`)
 
 ## Collections and Generics (`collections`)
 
@@ -33,27 +43,52 @@ The original numbered `Test` classes are grouped here by the Java 17 OCP study-g
 
 ## Streams (`streams`)
 
+Revise the stream drills in this order:
+
+### 1. Stream fundamentals (`streams.fundamentals`)
+
 - `StreamReductionCollectionAndGeneration` (formerly `Test17`)
+- `GeneratedStreamReuse` (formerly `Test21`)
+
+### 2. Mapping and filtering pipelines (`streams.pipelines`)
+
+- `LengthsStartingWithA` (formerly `Test24`)
+- `FirstLongWord` (formerly `Test25`)
+
+### 3. Primitive streams (`streams.primitivestreams`)
+
 - `PrimitiveIntStreams` (formerly `Test18`)
 - `ParseValidIntegers` (formerly `Test19`)
 - `SortedStreamMiddleElement` (formerly `Test20`)
-- `GeneratedStreamReuse` (formerly `Test21`)
-- `SpliteratorPartitioning` (formerly `Test22`)
-- `FilteringCollector` (formerly `Test23`)
-- `LengthsStartingWithA` (formerly `Test24`)
-- `FirstLongWord` (formerly `Test25`)
-- `DistinctLowercaseWordsByLength` (formerly `Test26`)
 - `AverageOfEvenNumbers` (formerly `Test27`)
-- `OptionalEmailValidation` (formerly `Test28`)
-- `JoinNonBlankStrings` (formerly `Test29`)
 - `IntStreamProduct` (formerly `Test30`)
+
+### 4. Optional values (`streams.optionals`)
+
+- `OptionalEmailValidation` (formerly `Test28`)
+
+### 5. Reduction (`streams.reduction`)
+
+- `JoinNonBlankStrings` (formerly `Test29`)
+
+### 6. Collectors (`streams.collectors`)
+
+- `FilteringCollector` (formerly `Test23`)
+- `DistinctLowercaseWordsByLength` (formerly `Test26`)
 - `TotalLengthsByFirstCharacter` (formerly `Test31`)
 - `LowercaseWordsByLength` (formerly `Test32`)
 - `PartitionWordsByLength` (formerly `Test33`)
+- `EmployeeSalaryReport` (formerly `Test37`; under `collectors.salaryreport`)
+- `DepartmentEmployeeCollectors` (formerly `Test38`; under `collectors.departmentreport`)
+
+### 7. Flattening nested data (`streams.flattening`)
+
 - `FlattenUniqueTags` (formerly `Test34`)
 - `WordFrequency` (formerly `Test35`)
-- `EmployeeSalaryReport` (formerly `Test37`)
-- `DepartmentEmployeeCollectors` (formerly `Test38`)
+
+### 8. Spliterators (`streams.spliterators`)
+
+- `SpliteratorPartitioning` (formerly `Test22`)
 
 ## Exceptions and Localization (`exceptionslocalization`)
 
@@ -63,34 +98,56 @@ The original numbered `Test` classes are grouped here by the Java 17 OCP study-g
 
 ## Concurrency (`concurrency`)
 
-- `ParallelLengthReduction` (formerly `Test21`)
-- `ParallelSquares` (formerly `Test22`)
+Revise the concurrency drills in this order:
+
+### 1. Thread fundamentals (`concurrency.fundamentals`)
+
 - `StartingThreadsWithRunnable` (formerly `Test26`)
+- `ThreadCreation` (formerly `Test41`)
+- `ThreadStateObservation` (formerly `Test42`; under `fundamentals.threadstates`)
 - `ThreadInterruption` (formerly `Test28`)
+- `ThreadInterruptFlag` (formerly `Test51`)
+
+### 2. Executors (`concurrency.executors`)
+
 - `SingleThreadExecutor` (formerly `Test29`)
-- `AtomicCounterSynchronization` (formerly `Test30`)
-- `ParallelStreamTiming` (formerly `Test31`)
-- `SafeParallelCollection` (formerly `Test32`)
-- `ParallelSquareCollection` (formerly `Test36`)
 - `ExecutorLifecycle` (formerly `Test39`)
 - `ScheduledFixedRateTask` (formerly `Test40`)
-- `ThreadCreation` (formerly `Test41`)
-- `ThreadStateObservation` (formerly `Test42`)
 - `SingleThreadExecutorOrdering` (formerly `Test43`)
 - `FixedThreadPoolOrdering` (formerly `Test44`)
 - `SubmitVersusExecute` (formerly `Test45`)
+
+### 3. Futures and callables (`concurrency.futures`)
+
 - `CallableExceptionPropagation` (formerly `Test46`)
 - `CallableFutureSum` (formerly `Test47`)
 - `FutureTimeout` (formerly `Test48`)
+
+### 4. Synchronization (`concurrency.synchronization`)
+
+- `AtomicCounterSynchronization` (formerly `Test30`)
 - `SynchronizedCounterDemo` (formerly `Test49`)
-- `CopyOnWriteArrayListIteration` (formerly `Test50`)
-- `ThreadInterruptFlag` (formerly `Test51`)
 - `ReentrantLockTryLock` (formerly `Test52`)
-- `CyclicBarrierPlaceholder` (formerly `Test53`)
 - `CounterSynchronizationVariants` (formerly `Test54`)
+
+### 5. Concurrent collections (`concurrency.concurrentcollections`)
+
+- `CopyOnWriteArrayListIteration` (formerly `Test50`)
+
+### 6. Coordination and queues (`concurrency.coordination`)
+
+- `CyclicBarrierPlaceholder` (formerly `Test53`)
 - `CustomBoundedQueueProducerConsumer` (formerly `Test55`)
 - `BlockingQueueProducerConsumer` (formerly `Test56`)
 - `TransferQueueProducerConsumer` (formerly `Test57`)
+
+### 7. Parallel streams (`concurrency.parallelstreams`)
+
+- `ParallelLengthReduction` (formerly `Test21`)
+- `ParallelSquares` (formerly `Test22`)
+- `ParallelStreamTiming` (formerly `Test31`)
+- `SafeParallelCollection` (formerly `Test32`)
+- `ParallelSquareCollection` (formerly `Test36`)
 
 ## I/O (`io`)
 

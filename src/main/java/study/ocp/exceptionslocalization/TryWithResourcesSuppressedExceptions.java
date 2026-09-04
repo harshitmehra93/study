@@ -1,8 +1,8 @@
 package study.ocp.exceptionslocalization; /*
-                             1) autocloseable/closeable
-                             2) try with resources
+                                          1) autocloseable/closeable
+                                          2) try with resources
 
-                             */
+                                          */
 
 class TryWithResourcesSuppressedExceptions {
     public static void main(String... args) {
