@@ -10,37 +10,14 @@ Both should print numbers 1–5 with the thread name.
 */
 public class ThreadCreation {
     public static void main(String... args) {
-        MyThread t1 = new MyThread();
-        MyThread t2 = new MyThread();
-        MyThread t3 = new MyThread();
-        t1.setName("A");
-        t1.start();
-        // t1.run();
+        Runnable a = () -> System.out.println("runnable");
+        new Thread(a).start();
+    }
+}
 
-        t2.setName("B");
-        t2.start();
-        // t2.run();
-
-        t3.setName("C");
-        t3.start();
-        // t3.run();
-
-        // Job job = new Job();
-        // // Thread t4 = new Thread(job);
-        // // Thread t5 = new Thread(job);
-        // // Thread t6 = new Thread(job);
-
-        // // t4.start();
-        // // t5.start();
-        // // t6.start();
-
-        // MyThread t4 = new MyThread(job);
-        // MyThread t5 = new MyThread(job);
-        // MyThread t6 = new MyThread(job);
-
-        // t4.start();
-        // t5.start();
-        // t6.start();
+class TestThread extends Thread {
+    public TestThread(Runnable job) {
+        super(job);
     }
 }
 

@@ -8,7 +8,7 @@ public class ThreadInterruption {
         Thread main = Thread.currentThread();
         Runnable job1 =
                 () -> {
-                    for (; i < 1_000_0; i++) {
+                    for (; i < 10; i++) {
                         System.out.println(Thread.currentThread() + " - " + i);
                     }
                     main.interrupt();
@@ -16,7 +16,7 @@ public class ThreadInterruption {
                 };
         Runnable job2 =
                 () -> {
-                    for (; j < 1_000_0; j++) {
+                    for (; j < 10; j++) {
                         System.out.println(Thread.currentThread() + " - " + j);
                     }
                     main.interrupt();
@@ -26,7 +26,7 @@ public class ThreadInterruption {
         new Thread(job2).start();
 
         try {
-            while (true) Thread.sleep(1_000);
+            while (true) Thread.sleep(1_00_000);
         } catch (InterruptedException i) {
             System.out.println("interrupted!");
         }
