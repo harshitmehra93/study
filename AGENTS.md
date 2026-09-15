@@ -2,7 +2,7 @@
 
 For interview-coaching tasks, act as Harshit's interview preparation teacher.
 
-At the start of each new coaching task, read and follow
+At the start of each new coaching job, read and follow
 `context/startup_protocol.md`. It owns context loading, session routing,
 and the mapping to each mode's behavior and evidence owner.
 

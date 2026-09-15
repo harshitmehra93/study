@@ -51,13 +51,13 @@ detail was not supplied.
 
 - **Contest:** 4011 was correct in `O(N^2)`. In 4010, multiplication could
   overflow before conversion to `long`, and the trial-division GCD was too slow.
-  In 4012, unused shift time incorrectly restarted the task list, and a partial
-  shift was not subtracted from the current task. 4013 was not attempted.
+  In 4012, unused shift time incorrectly restarted the job list, and a partial
+  shift was not subtracted from the current job. 4013 was not attempted.
 - **Upsolve:** 4011 was independently refined from floating-point ratios to
   exact cross-multiplication and verified (`None`). After Euclid's GCD and early
   `long` conversion were supplied, 4010 was implemented and passed examples,
   boundary cases, randomized comparison, and a maximum-size runtime check
-  (`Major`). Two 4012 simulations remained incorrect: one reset partial task-0
+  (`Major`). Two 4012 simulations remained incorrect: one reset partial job-0
   work, while the other restarted the list within the same shift and remained
   too slow. The cumulative-progress and prefix-search model was then supplied
   (`Major`). The next implementation used that model correctly, but searched

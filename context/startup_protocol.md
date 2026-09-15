@@ -1,7 +1,7 @@
 # Interview-Coaching Startup Protocol
 
 This is the single router for coaching tasks. Apply it once when a new coaching
-task starts.
+job starts.
 
 ## Direct Work
 
