@@ -13,42 +13,43 @@ public class DocumentEditorWithUndoRedo {
         3. Command
         4. WriteString
          */
-        Command a = new WriteString("a");
-        Command b = new WriteString("b");
-        Command c = new WriteString("c");
-        Command d = new WriteString("d");
-        Command e = new WriteString("e");
-        Command f = new WriteString("f");
+        Document document = new Document();
+        Command a = new WriteString("a", document);
+        Command b = new WriteString("b", document);
+        Command c = new WriteString("c", document);
+        Command d = new WriteString("d", document);
+        Command e = new WriteString("e", document);
+        Command f = new WriteString("f", document);
 
         DocumentEditor editor = new DocumentEditor();
         editor.execute(a);
         editor.execute(b);
         editor.execute(c);
+        System.out.println(document);
         editor.undo();
         editor.undo();
         editor.redo();
         editor.execute(d);
+        System.out.println(document);
         editor.undo();
         editor.undo();
         editor.undo();
-        System.out.println(editor.toString());
+        editor.execute(e);
+        System.out.println(document);
     }
 }
 
 class DocumentEditor {
-    private final StringBuilder sb;
     private final Stack<Command> executed = new Stack<>();
     private final Stack<Command> undone = new Stack<>();
 
-    DocumentEditor() {
-        this.sb = new StringBuilder();
-    }
+    DocumentEditor() {}
 
     void execute(Command command) {
         undone.clear();
 
         executed.push(command);
-        command.execute(sb);
+        command.execute();
     }
 
     void undo() {
@@ -56,7 +57,7 @@ class DocumentEditor {
 
         Command lastExecuted = executed.pop();
         undone.push(lastExecuted);
-        lastExecuted.undo(sb);
+        lastExecuted.undo();
     }
 
     void redo() {
@@ -64,7 +65,23 @@ class DocumentEditor {
 
         Command lastUndone = undone.pop();
         executed.push(lastUndone);
-        lastUndone.execute(sb);
+        lastUndone.execute();
+    }
+}
+
+class Document {
+    final StringBuilder sb;
+
+    Document() {
+        this.sb = new StringBuilder();
+    }
+
+    void append(String str) {
+        sb.append(str);
+    }
+
+    void deleteFromEnd(int len) {
+        sb.delete(sb.length() - len, sb.length());
     }
 
     @Override
@@ -74,25 +91,27 @@ class DocumentEditor {
 }
 
 interface Command {
-    void execute(StringBuilder sb);
+    void execute();
 
-    void undo(StringBuilder sb);
+    void undo();
 }
 
 class WriteString implements Command {
     final String str;
+    final Document document;
 
-    WriteString(String str) {
+    WriteString(String str, Document document) {
         this.str = str;
+        this.document = document;
     }
 
     @Override
-    public void execute(StringBuilder sb) {
-        sb.append(str);
+    public void execute() {
+        document.append(str);
     }
 
     @Override
-    public void undo(StringBuilder sb) {
-        sb.delete(sb.length() - str.length(), sb.length());
+    public void undo() {
+        document.deleteFromEnd(str.length());
     }
 }
