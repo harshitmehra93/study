@@ -3,6 +3,7 @@ package study.lld.designpatterns.lldbootcampweek2;
 import java.util.ArrayList;
 import java.util.List;
 
+// Uses COMMAND
 public class JobProcessingService {
     public static void main(String[] args) {
 
