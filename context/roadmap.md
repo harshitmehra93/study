@@ -14,10 +14,11 @@ historical coding mocks remain uncalibrated.
 
 ## System Design Direction
 
-Plan status: **2026-08-03**
+Plan status: **2026-09-19**
 
-- LLD is at Phase 0; the next recorded action is the cold Parking Lot
-  diagnostic.
+- LLD is at Phase 1 following the in-memory Zerodha Phase 0 diagnostic; the
+  next recorded action is a targeted repair of its state invariants and failure
+  contracts, followed by the Phase 1 object-modelling material.
 - HLD is at Phase 0; the next recorded action is the cold URL Shortener
   diagnostic.
 
