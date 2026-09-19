@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+/*
+Learnings
+1. CompletableFuture
+2. ConditionalVariables await(), signal(), signalAll()
+2. Blocking Queue
+
+ */
 public class Main {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
