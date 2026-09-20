@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 Learnings
 -> For a state transition heavy problem, draw state transitions during the planning phase
 -> When condition tree starts exploding, stop coding and ask what simple invariants exist. In this case I built a huge decision tree. As I didnot settle on invariants
-->
+-> time - ~2hours
  */
 public class Main {
     public static void main(String[] args) {

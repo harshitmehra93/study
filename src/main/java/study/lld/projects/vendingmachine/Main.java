@@ -4,6 +4,12 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/*
+Learnings
+- Learned state pattern
+- time - ~4 hours
+- we should use abstract class in state pattern to avoid duplicates "unknown operation"
+ */
 public class Main {
     public static void main(String[] args) {
         /*
