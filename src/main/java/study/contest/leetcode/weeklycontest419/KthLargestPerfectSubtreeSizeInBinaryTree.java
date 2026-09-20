@@ -3,7 +3,7 @@ package study.contest.leetcode.weeklycontest419;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
-import study.interview.commons.TreeNode;
+import study.dsa.interview.commons.TreeNode;
 
 /**
  * LeetCode 3319 — K-th Largest Perfect Subtree Size in Binary Tree
