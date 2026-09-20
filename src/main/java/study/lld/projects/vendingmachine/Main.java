@@ -162,18 +162,6 @@ public class Main {
     }
 }
 
-/*
-       -> List<Line> lines
-       -> currentOrder
-       -> State: {Init, Vending, Ready, Order In Progress, Checkout, Error, Out Of Items}
-       -> vend()
-       -> reset()
-       -> addProductToOrder(line_id, quantity)
-       -> init()
-       -> checkout()
-       -> ready()
-*/
-
 class VendingMachineCustomerInterface {
     private final VendingMachine vendingMachine;
 

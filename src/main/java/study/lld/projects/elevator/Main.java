@@ -114,6 +114,7 @@ public class Main {
         ElevatorService elevatorService = new ElevatorService(elevatorDao);
         LobbyService lobbyService = new LobbyService(new SimpleElevatorFinder(), elevatorDao);
         elevatorDao.save(new Elevator());
+        elevatorDao.save(new Elevator());
         lobbyService.requestElevator(1, Direction.UP);
         elevatorService.requestFloor(0, 5);
         stepAll(elevatorDao);
