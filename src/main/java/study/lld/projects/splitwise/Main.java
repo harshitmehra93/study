@@ -3,13 +3,16 @@ package study.lld.projects.splitwise;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /*
 Learnings
 - time: 1h45m
 - I could have simplified the model. If I ran through user stories once, probably / maybe
+- I was storing the same relationship twice, that should have been a flag for me to rethink owedBy,owedTo rows for both group and overall
 - I could not spend time on core apis like add expense, settle debt
 - modelling for settle was completely missing
+- I later spent 2 hours to add missing things and corrected its logic as well
  */
 public class Main {
     public static void main(String[] args) {
@@ -165,6 +168,10 @@ class SplitwiseService {
     Map<User, Map<User, Double>> getOverallBalance(int userId) {
         return owingService.getOverallBalance(userId);
     }
+
+    void recordPayment(User a, User b, int groupId, double amount) {
+        owingService.recordPaymentInGroup(a, b, groupId, amount);
+    }
 }
 
 class ExpenseService {
@@ -177,48 +184,21 @@ class ExpenseService {
         // atomic transaction boundary start
         // we need a huge db level optimistic lock via a transaction on all owingBy and owingto
         // rows, along with expense row
-        addAllOwedByEntries(balances, expense.groupId);
-        addAllOwedToEntries(balances, expense.groupId);
+        addAllOwingEntries(balances, expense.groupId);
         expenseDao.save(expense);
         // atomic transaction boundary end
     }
 
-    void addAllOwedByEntries(Map<User, Map<User, Double>> balances, Integer groupId) {
+    void addAllOwingEntries(Map<User, Map<User, Double>> balances, Integer groupId) {
         for (Map.Entry<User, Map<User, Double>> userBalance : balances.entrySet()) {
-            User principal = userBalance.getKey();
-            for (Map.Entry<User, Double> entry : userBalance.getValue().entrySet()) {
-                User owedBy = entry.getKey();
-                Double balance = entry.getValue();
-                if (balance == 0) continue;
-                if (isOwedByEntry(balance)) {
-                    owingService.createOrUpdateOwing(
-                            principal, owedBy, balance, groupId, OwingType.OWED_BY);
-                }
+            User creditor = userBalance.getKey();
+            for (Map.Entry<User, Double> debtorEntry : userBalance.getValue().entrySet()) {
+                User debtor = debtorEntry.getKey();
+                Double amount = debtorEntry.getValue();
+                if (amount == 0) continue;
+                owingService.createOrUpdateOwing(creditor, debtor, amount, groupId);
             }
         }
-    }
-
-    void addAllOwedToEntries(Map<User, Map<User, Double>> balances, Integer groupId) {
-        for (Map.Entry<User, Map<User, Double>> userBalance : balances.entrySet()) {
-            User principal = userBalance.getKey();
-            for (Map.Entry<User, Double> entry : userBalance.getValue().entrySet()) {
-                User owedTo = entry.getKey();
-                Double balance = entry.getValue();
-                if (balance == 0) continue;
-                if (isOwedToEntry(balance)) {
-                    owingService.createOrUpdateOwing(
-                            principal, owedTo, balance, groupId, OwingType.OWED_TO);
-                }
-            }
-        }
-    }
-
-    private boolean isOwedByEntry(Double balance) {
-        return balance > 0;
-    }
-
-    private boolean isOwedToEntry(Double balance) {
-        return balance < 0;
     }
 }
 
@@ -235,9 +215,9 @@ class ExpenseDao {
 
 class OwingService {
     OwingDao owingDao;
+    UserService userService;
 
-    public void createOrUpdateOwing(
-            User principal, User target, Double balance, Integer groupId, OwingType owingType) {
+    public void createOrUpdateOwing(User principal, User target, Double balance, Integer groupId) {
         //  get existing entry for principal with the type and target user in overall, or assume 0
         // balance
         //  get existing entry for principal with the type and target user in group, or assume 0
@@ -260,52 +240,114 @@ class OwingService {
                    A : 30
     */
     public Map<User, Map<User, Double>> getGroupBalance(Integer groupId) {
-        Map<User, Map<User, Double>> owedBy = owingDao.getAllOwedByUserBalances(groupId);
-        Map<User, Map<User, Double>> owedTo = owingDao.getAllOwedToUserBalances(groupId);
+        List<Owing> owings = owingDao.getAllOwingsInGroup(groupId);
 
         Map<User, Map<User, Double>> result = new HashMap<>();
 
-        for (Map.Entry<User, Map<User, Double>> entry : owedBy.entrySet()) {
-            User principal = entry.getKey();
-            Map<User, Double> balances = entry.getValue();
-            for (Map.Entry<User, Double> owedByUserEntry : balances.entrySet()) {
-                Map<User, Double> principalsBalances =
-                        result.getOrDefault(principal, new HashMap<>());
-                principalsBalances.put(
-                        owedByUserEntry.getKey(),
-                        principalsBalances.getOrDefault(owedByUserEntry.getKey(), 0.0)
-                                + owedByUserEntry.getValue());
-            }
-        }
-
-        for (Map.Entry<User, Map<User, Double>> entry : owedTo.entrySet()) {
-            User principal = entry.getKey();
-            Map<User, Double> balances = entry.getValue();
-            for (Map.Entry<User, Double> owedToUserEntry : balances.entrySet()) {
-                Map<User, Double> principalsBalances =
-                        result.getOrDefault(principal, new HashMap<>());
-                principalsBalances.put(
-                        owedToUserEntry.getKey(),
-                        principalsBalances.getOrDefault(owedToUserEntry.getKey(), 0.0)
-                                - owedToUserEntry.getValue());
-            }
+        for (Owing owing : owings) {
+            User creditor = owing.creditor;
+            if (result.containsKey(creditor)) continue;
+            Map<User, Double> debtors = getAllDebtorsForCreditor(creditor, owings);
+            result.put(creditor, debtors);
         }
 
         return result;
     }
 
+    /*
+    A is owed by B 20
+    A is owed by B 30
+    A is owed by C 40
+     */
+    private Map<User, Double> getAllDebtorsForCreditor(User creditor, List<Owing> owings) {
+        Map<User, Double> debtors = new HashMap<>();
+        for (Owing owing : owings) {
+            if (owing.creditor != creditor) continue;
+            debtors.put(owing.debtor, debtors.getOrDefault(owing.debtor, 0.0) + owing.amount);
+        }
+        return debtors;
+    }
+
     public Map<User, Map<User, Double>> getOverallBalance(int userId) {
-        return getGroupBalance(null);
+        List<Owing> owingsForA = owingDao.getAllOwingForUser(userId);
+        List<Owing> debtsOfA = owingDao.getAllDebtsOfUser(userId);
+
+        User user = userService.get(userId);
+
+        Map<User, Map<User, Double>> result = new HashMap<>();
+        HashMap<User, Double> balances = new HashMap<>();
+        result.put(user, balances);
+        for (Owing owing : debtsOfA) {
+            balances.put(owing.creditor, balances.getOrDefault(owing.creditor, 0.0) - owing.amount);
+        }
+        for (Owing owing : owingsForA) {
+            balances.put(owing.debtor, balances.getOrDefault(owing.debtor, 0.0) + owing.amount);
+        }
+        return result;
+    }
+
+    public void recordPaymentInGroup(User a, User b, int groupId, double amount) {
+        List<Owing> owingBetweenAB = owingDao.getAllOwingForGroup(a, b, groupId);
+
+        // A is owed by B 50
+        double totalOwedByBToA = 0;
+        for (Owing oweing : owingBetweenAB) {
+            if (oweing.creditor.id == a.id) {
+                totalOwedByBToA += oweing.amount;
+            } else {
+                totalOwedByBToA -= oweing.amount;
+            }
+        }
+        totalOwedByBToA -= amount;
+        owingBetweenAB.forEach(o -> owingDao.delete(o.id));
+        if (totalOwedByBToA == 0) {
+            System.out.println("completely settled");
+        } else if (totalOwedByBToA > 0) {
+            System.out.println("B owes A " + totalOwedByBToA);
+            owingDao.save(new Owing(a, b, groupId, totalOwedByBToA));
+        } else {
+            double owedByAtoB = -totalOwedByBToA;
+            System.out.println("A owes B " + totalOwedByBToA);
+            owingDao.save(new Owing(b, a, groupId, owedByAtoB));
+        }
+    }
+}
+
+class UserService {
+    User get(int id) {
+        return null;
     }
 }
 
 class OwingDao {
 
-    public Map<User, Map<User, Double>> getAllOwedByUserBalances(Integer groupId) {
-        return null;
+    Map<Integer, Owing> owings = new HashMap<>();
+
+    public List<Owing> getAllOwingsInGroup(Integer groupId) {
+        return owings.values().stream().filter(o -> Objects.equals(o.groupId, groupId)).toList();
     }
 
     public Map<User, Map<User, Double>> getAllOwedToUserBalances(Integer groupId) {
+        return null;
+    }
+
+    public List<Owing> getAllOwing(User a, User b) {
+        return null;
+    }
+
+    public void delete(int id) {}
+
+    public void save(Owing owing) {}
+
+    public List<Owing> getAllOwingForGroup(User a, User b, int groupId) {
+        return null;
+    }
+
+    public List<Owing> getAllOwingForUser(int userId) {
+        return null;
+    }
+
+    public List<Owing> getAllDebtsOfUser(int userId) {
         return null;
     }
 }
@@ -324,16 +366,12 @@ class Group {
 
 class Owing {
     int id;
-    User sourceUser;
-    User targetUser;
+    User creditor;
+    User debtor;
     double amount;
     Integer groupId;
-    OwingType owingType;
-}
 
-enum OwingType {
-    OWED_TO,
-    OWED_BY
+    public Owing(User a, User b, int groupId, double totalOwed) {}
 }
 /*
         Expense
