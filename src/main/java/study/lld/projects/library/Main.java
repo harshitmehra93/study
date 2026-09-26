@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+/*
+time: 1h20m
+ */
 public class Main {
     public static void main(String[] args) {
         /*

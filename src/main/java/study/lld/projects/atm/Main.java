@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 /*
 Learnings-
 - If ATM owns the state then, ATM Service should not be changing its state directly. It should just call methods on ATM and they should be managing state.
--
+- time: 2h
  */
 public class Main {
     public static void main(String[] args) {
