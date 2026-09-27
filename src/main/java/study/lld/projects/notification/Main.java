@@ -54,17 +54,23 @@ public class Main {
         - run()
 
          */
-        JobService jobService = new JobService(new JobDao());
-        NotificationSystemService notificationSystemService =
-                new NotificationSystemService(jobService);
-
         ArrayDeque<Job> emailQueue = new ArrayDeque<>();
         Channel emailChannel = new EmailChannel(emailQueue);
         NotificationConsumer emailConsumer = new EmailNotificationConsumer(emailQueue, 5);
 
+        ArrayDeque<Job> smsQueue = new ArrayDeque<>();
+        Channel smslChannel = new SmsChannel(smsQueue);
+        NotificationConsumer smsConsumer = new SmsConsumer(smsQueue, 5);
+
+        JobService jobService = new JobService(new JobDao());
+        NotificationSystemService notificationSystemService =
+                new NotificationSystemService(jobService);
         notificationSystemService.addChannel(emailChannel);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        notificationSystemService.addChannel(smslChannel);
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         scheduledExecutorService.scheduleWithFixedDelay(emailConsumer, 1L, 3L, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(smsConsumer, 1L, 3L, TimeUnit.SECONDS);
 
         User a = new User(1, "Harshit", "address", "harshit@gmail.com", "1234");
         notificationSystemService.submitNotificationJob(a, "Welcome", "Hello user");
@@ -145,8 +151,38 @@ class EmailChannel implements Channel {
     }
 }
 
+class SmsChannel implements Channel {
+    private final Queue<Job> q;
+
+    SmsChannel(Queue<Job> q) {
+        this.q = q;
+    }
+
+    @Override
+    public void submitNotificationJob(Job job) {
+        System.out.printf("Submitting sms job %d to channel\n", job.id);
+        q.offer(job);
+    }
+}
+
 interface NotificationConsumer extends Runnable {
     void consumeJob();
+
+    public default void run() {
+        System.out.println("consumer batch started on " + Thread.currentThread().getName());
+        for (int i = 0; i < getBatch(); i++) {
+            if (getQueue().isEmpty()) {
+                System.out.println("no jobs in queue");
+                break;
+            }
+            consumeJob();
+        }
+        System.out.println("consumer batch completed " + Thread.currentThread().getName());
+    }
+
+    int getBatch();
+
+    Queue<Job> getQueue();
 }
 
 class EmailNotificationConsumer implements NotificationConsumer {
@@ -161,22 +197,47 @@ class EmailNotificationConsumer implements NotificationConsumer {
 
     @Override
     public void consumeJob() {
-        Job job = q.poll();
+        Job job = getQueue().poll();
         System.out.printf(
                 "Sending Email to user %s : \n%s\n\t%s\n", job.user.name, job.title, job.body);
     }
 
     @Override
-    public void run() {
-        System.out.println("consumer batch started on " + Thread.currentThread().getName());
-        for (int i = 0; i < batchSize; i++) {
-            if (q.isEmpty()) {
-                System.out.println("no jobs in queue");
-                break;
-            }
-            consumeJob();
-        }
-        System.out.println("consumer batch completed " + Thread.currentThread().getName());
+    public int getBatch() {
+        return batchSize;
+    }
+
+    @Override
+    public Queue<Job> getQueue() {
+        return q;
+    }
+}
+
+class SmsConsumer implements NotificationConsumer {
+
+    private final Queue<Job> q;
+    private final int batchSize;
+
+    SmsConsumer(Queue<Job> q, int batchSize) {
+        this.q = q;
+        this.batchSize = batchSize;
+    }
+
+    @Override
+    public void consumeJob() {
+        Job job = getQueue().poll();
+        System.out.printf(
+                "Sending Sms to user %s : \n%s\n%s\n", job.user.name, job.title, job.body);
+    }
+
+    @Override
+    public int getBatch() {
+        return batchSize;
+    }
+
+    @Override
+    public Queue<Job> getQueue() {
+        return q;
     }
 }
 
