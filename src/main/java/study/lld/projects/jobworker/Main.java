@@ -1,5 +1,7 @@
 package study.lld.projects.jobworker;
 
+import static java.util.Objects.isNull;
+
 import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -11,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-
-import static java.util.Objects.isNull;
 
 /*
 Time: 52min
@@ -70,19 +70,27 @@ public class Main {
          */
     }
 }
-abstract class Job{
+
+abstract class Job {
     int id;
     AtomicInteger noOfAssignments = new AtomicInteger(0);
     final int MAX_ASSIGNMENTS = 10;
-    abstract void run();
-    abstract void rollback();
-    JobStatus status;
 
+    abstract void run();
+
+    abstract void rollback();
+
+    JobStatus status;
 }
-enum JobStatus{
-    ACCEPTED,COMPLETED,FAILED,IN_PROGRESS
+
+enum JobStatus {
+    ACCEPTED,
+    COMPLETED,
+    FAILED,
+    IN_PROGRESS
 }
-class Worker implements Runnable{
+
+class Worker implements Runnable {
     private final BlockingQueue queue;
     private final LeaseService leaseService;
     private final JobService jobService;
@@ -95,77 +103,79 @@ class Worker implements Runnable{
         this.queue = queue;
         this.leaseService = leaseService;
         this.jobService = jobService;
-        this.id=counter.getAndIncrement();
-        isRunning=true;
-        heartbeat= Executors.newSingleThreadScheduledExecutor();
-        Runnable renewLeaseJob = ()->{
-            Lease lease = leaseService.getActiveLeaseForWorker(id);
-            if(!isRunning){
-                return;
-            }
-            if(isNull(lease)){
-                System.out.println("no active lease");
-                return;
-            }
-            leaseService.renewLease(lease);
-        };
-        heartbeat.scheduleWithFixedDelay(renewLeaseJob,5,5, TimeUnit.SECONDS);
+        this.id = counter.getAndIncrement();
+        isRunning = true;
+        heartbeat = Executors.newSingleThreadScheduledExecutor();
+        Runnable renewLeaseJob =
+                () -> {
+                    Lease lease = leaseService.getActiveLeaseForWorker(id);
+                    if (!isRunning) {
+                        return;
+                    }
+                    if (isNull(lease)) {
+                        System.out.println("no active lease");
+                        return;
+                    }
+                    leaseService.renewLease(lease);
+                };
+        heartbeat.scheduleWithFixedDelay(renewLeaseJob, 5, 5, TimeUnit.SECONDS);
     }
 
     public void run() {
-        isRunning=true;
-        while (isRunning){
-            System.out.println("polling for work "+id);
+        isRunning = true;
+        while (isRunning) {
+            System.out.println("polling for work " + id);
             Job job = queue.dequeue();
-            System.out.println("work received"+id);
-            if(job.status==JobStatus.COMPLETED || job.status==JobStatus.IN_PROGRESS){
+            System.out.println("work received" + id);
+            if (job.status == JobStatus.COMPLETED || job.status == JobStatus.IN_PROGRESS) {
                 throw new RuntimeException("invalid job state");
             }
-            if(job.noOfAssignments.get()==job.MAX_ASSIGNMENTS){
+            if (job.noOfAssignments.get() == job.MAX_ASSIGNMENTS) {
                 throw new RuntimeException("max no of assignments reached for job");
             }
             // transaction boundary
-            if(leaseService.hasExistingLeaseForJob(job.id)){
+            if (leaseService.hasExistingLeaseForJob(job.id)) {
                 Lease lease = leaseService.getLeaseForJob(job.id);
-                if(lease.expiryTime.isAfter(Instant.now())){
+                if (lease.expiryTime.isAfter(Instant.now())) {
                     throw new RuntimeException("active lease already exists for job");
                 }
             }
-            leaseService.createLeaseForJob(id,job.id);
+            leaseService.createLeaseForJob(id, job.id);
             // transaction end
 
-
-            try{
+            try {
                 // transaction start
-                leaseService.validateLease(id,job.id);
-                System.out.println("Executing job "+job.id+" in worker "+id);
-                jobService.updateStatusOfjob(job,JobStatus.IN_PROGRESS);
+                leaseService.validateLease(id, job.id);
+                System.out.println("Executing job " + job.id + " in worker " + id);
+                jobService.updateStatusOfjob(job, JobStatus.IN_PROGRESS);
                 jobService.incrementNoOfAssignmentOfJob(job);
                 // transaction end
 
-                leaseService.validateLease(id,job.id);
+                leaseService.validateLease(id, job.id);
                 job.run();
 
                 // transaction start
-                leaseService.validateLease(id,job.id);
-                System.out.println("Completed job "+job.id+" in worker "+id);
-                jobService.updateStatusOfjob(job,JobStatus.COMPLETED);
+                leaseService.validateLease(id, job.id);
+                System.out.println("Completed job " + job.id + " in worker " + id);
+                jobService.updateStatusOfjob(job, JobStatus.COMPLETED);
                 // transaction end
-            }catch (Exception e){
-                System.out.println("Failed job "+job.id+" in worker "+id);
+            } catch (Exception e) {
+                System.out.println("Failed job " + job.id + " in worker " + id);
                 job.rollback();
-                jobService.updateStatusOfjob(job,JobStatus.FAILED);
+                jobService.updateStatusOfjob(job, JobStatus.FAILED);
                 queue.enqueue(job); // add back in queue for retry
-            }finally {
+            } finally {
                 leaseService.endLease(id);
             }
         }
     }
-    void stop(){
-        isRunning=false;
+
+    void stop() {
+        isRunning = false;
     }
 }
-interface LeaseService{
+
+interface LeaseService {
 
     boolean hasExistingLeaseForJob(int jobId);
 
@@ -181,29 +191,33 @@ interface LeaseService{
 
     void renewLease(Lease lease);
 }
-class Lease{
+
+class Lease {
     int id;
     int jobId;
     int workerId;
     Instant expiryTime;
 }
-class BlockingQueue{
+
+class BlockingQueue {
     Queue<Job> queue = new ArrayDeque<>();
     private final ReentrantLock LOCK = new ReentrantLock();
     private final Condition notEmpty = LOCK.newCondition();
-    public void enqueue(Job job){
+
+    public void enqueue(Job job) {
         LOCK.lock();
         try {
             queue.offer(job);
             notEmpty.signal();
-        }finally {
+        } finally {
             LOCK.unlock();
         }
     }
-    public Job dequeue(){
+
+    public Job dequeue() {
         LOCK.lock();
         try {
-            while (queue.isEmpty()){
+            while (queue.isEmpty()) {
                 notEmpty.await();
             }
             return queue.poll();
@@ -214,24 +228,24 @@ class BlockingQueue{
         }
     }
 }
-class JobService{
+
+class JobService {
     private final BlockingQueue queue;
 
     JobService(BlockingQueue queue) {
         this.queue = queue;
     }
 
-    void submitJob(Job job){
+    void submitJob(Job job) {
         queue.enqueue(job);
     }
 
-    public void updateStatusOfjob(Job job, JobStatus jobStatus) {
-    }
+    public void updateStatusOfjob(Job job, JobStatus jobStatus) {}
 
-    public void incrementNoOfAssignmentOfJob(Job job) {
-    }
+    public void incrementNoOfAssignmentOfJob(Job job) {}
 }
-class WorkerService{
+
+class WorkerService {
     List<Worker> workers = new ArrayList<>();
     private final BlockingQueue queue;
     private final LeaseService leaseService;
@@ -243,7 +257,7 @@ class WorkerService{
         this.jobService = jobService;
     }
 
-    void registerNewWorker(){
+    void registerNewWorker() {
         System.out.println("Registered new worker");
         Worker worker = new Worker(queue, leaseService, jobService);
         workers.add(worker);
