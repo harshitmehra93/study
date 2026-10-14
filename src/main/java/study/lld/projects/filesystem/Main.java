@@ -72,138 +72,156 @@ public class Main {
          */
     }
 }
-class FileSystemNode{
+
+class FileSystemNode {
     int id;
     String name;
     FileSystemNode parent;
     ReentrantLock writeLock = new ReentrantLock();
 }
-class File extends FileSystemNode{
+
+class File extends FileSystemNode {
     String content;
 }
-class Directory extends FileSystemNode{
+
+class Directory extends FileSystemNode {
     List<FileSystemNode> children = new ArrayList<>();
 }
-class FileSystem{
+
+class FileSystem {
     FileSystemDao fileSystemDao;
-    void init(){
+
+    void init() {
         fileSystemDao.createRoot();
     }
-    void createFile(String name, Directory parent, String content){
+
+    void createFile(String name, Directory parent, String content) {
         throwIfInvalidDirectory(parent);
 
         parent.writeLock.lock();
-        try{
+        try {
             List<FileSystemNode> nodesInDirectory = fileSystemDao.listNodesInDirectory(parent);
-            nodesInDirectory.forEach(node -> {
-                if(Objects.equals(node.name, name)){
-                    throw new RuntimeException("file/directory with same name already exists");
-                }
-            });
+            nodesInDirectory.forEach(
+                    node -> {
+                        if (Objects.equals(node.name, name)) {
+                            throw new RuntimeException(
+                                    "file/directory with same name already exists");
+                        }
+                    });
 
-            fileSystemDao.createFile(name,parent,content);
-        }finally {
+            fileSystemDao.createFile(name, parent, content);
+        } finally {
             parent.writeLock.unlock();
         }
     }
-    void createDirectory(String name, Directory parent){
+
+    void createDirectory(String name, Directory parent) {
         throwIfInvalidDirectory(parent);
 
         parent.writeLock.lock();
-        try{
+        try {
             List<FileSystemNode> nodesInDirectory = fileSystemDao.listNodesInDirectory(parent);
-            nodesInDirectory.forEach(node -> {
-                if(Objects.equals(node.name, name)){
-                    throw new RuntimeException("file/directory with same name already exists");
-                }
-            });
+            nodesInDirectory.forEach(
+                    node -> {
+                        if (Objects.equals(node.name, name)) {
+                            throw new RuntimeException(
+                                    "file/directory with same name already exists");
+                        }
+                    });
 
-            fileSystemDao.createDirectory(name,parent);
-        }finally {
+            fileSystemDao.createDirectory(name, parent);
+        } finally {
             parent.writeLock.unlock();
         }
     }
 
     private void throwIfInvalidDirectory(Directory parent) {
-        if(fileSystemDao.get(parent).isEmpty()){
+        if (fileSystemDao.get(parent).isEmpty()) {
             throw new RuntimeException("invalid parent directory");
         }
     }
 
-    List<File> findFileByNameInAllPlaces(String name){
+    List<File> findFileByNameInAllPlaces(String name) {
         return fileSystemDao.findFileByNameInAllPlaces(name);
     }
-    List<File> findFileInDirectoryAndItsChildren(String fileName,Directory directory){
+
+    List<File> findFileInDirectoryAndItsChildren(String fileName, Directory directory) {
         throwIfInvalidDirectory(directory);
-        return fileSystemDao.findFileByNameFromDirectory(fileName,directory);
+        return fileSystemDao.findFileByNameFromDirectory(fileName, directory);
     }
-    void writeToFile(File file, String content, WriteType writeType){
+
+    void writeToFile(File file, String content, WriteType writeType) {
         throwIfInvalidFile(file);
         file.writeLock.lock();
-        try{
-            fileSystemDao.writeToFile(file,content,writeType);
-        }finally {
+        try {
+            fileSystemDao.writeToFile(file, content, writeType);
+        } finally {
             file.writeLock.unlock();
         }
     }
 
-    private void throwIfInvalidFile(File file) {
-    }
+    private void throwIfInvalidFile(File file) {}
 
-    void moveNode(FileSystemNode node, Directory newParent){
+    void moveNode(FileSystemNode node, Directory newParent) {
         throwIfInvalidDirectory(newParent);
         FileSystemNode oldParent = node.parent;
-        takeWriteLocks(oldParent,newParent);
+        takeWriteLocks(oldParent, newParent);
         try {
-            if(node.id==newParent.id){
+            if (node.id == newParent.id) {
                 throw new RuntimeException("cannot be moved to same node");
             }
-            if(fileSystemDao.isNewParentAChildOfNode(node,newParent)){
+            if (fileSystemDao.isNewParentAChildOfNode(node, newParent)) {
                 throw new RuntimeException("node cannot be moved down to itss own children");
             }
-            newParent.children.forEach(n->{
-                if(n.name.equals(node.name)){
-                    throw new RuntimeException("destination already has a file/dir with same name");
-                }
-            });
+            newParent.children.forEach(
+                    n -> {
+                        if (n.name.equals(node.name)) {
+                            throw new RuntimeException(
+                                    "destination already has a file/dir with same name");
+                        }
+                    });
 
-            fileSystemDao.changeParent(node,newParent);
-        }finally {
-            releaseWriteLocks(oldParent,newParent);
+            fileSystemDao.changeParent(node, newParent);
+        } finally {
+            releaseWriteLocks(oldParent, newParent);
         }
     }
 
     private void takeWriteLocks(FileSystemNode nodeA, FileSystemNode nodeB) {
-        if(nodeA.id<=nodeB.id){
+        if (nodeA.id <= nodeB.id) {
             nodeA.writeLock.lock();
             nodeB.writeLock.lock();
-        }else {
+        } else {
             nodeB.writeLock.lock();
             nodeA.writeLock.lock();
         }
     }
+
     private void releaseWriteLocks(FileSystemNode nodeA, FileSystemNode nodeB) {
-        if(nodeA.id<=nodeB.id){
+        if (nodeA.id <= nodeB.id) {
             nodeB.writeLock.unlock();
             nodeA.writeLock.unlock();
-        }else {
+        } else {
             nodeA.writeLock.unlock();
             nodeB.writeLock.unlock();
         }
     }
 
-
-    List<FileSystemNode> listFilesInDirectory(Directory directory){
+    List<FileSystemNode> listFilesInDirectory(Directory directory) {
         throwIfInvalidDirectory(directory);
         return directory.children;
     }
 }
-enum WriteType{
-    APPEND,OVERWRITE
+
+enum WriteType {
+    APPEND,
+    OVERWRITE
 }
-interface FileSystemDao{
+
+interface FileSystemDao {
 
     void createRoot();
+
     Directory getRoot();
 
     Optional<FileSystemNode> get(FileSystemNode parent);
@@ -216,22 +234,23 @@ interface FileSystemDao{
 
     List<File> findFileByName(String name);
 
-    default List<File> findFileByNameInAllPlaces(String name){
-        return findFileByNameFromDirectory(name,getRoot());
+    default List<File> findFileByNameInAllPlaces(String name) {
+        return findFileByNameFromDirectory(name, getRoot());
     }
 
-    default List<File> findFileByNameFromDirectory(String fileName, Directory directory){
+    default List<File> findFileByNameFromDirectory(String fileName, Directory directory) {
         List<File> result = new ArrayList<>();
-        walkFilesystemAndFindFilesWithName(directory,result,fileName);
+        walkFilesystemAndFindFilesWithName(directory, result, fileName);
         return result;
     }
 
-    default void walkFilesystemAndFindFilesWithName(Directory directory, List<File> result, String fileName){
+    default void walkFilesystemAndFindFilesWithName(
+            Directory directory, List<File> result, String fileName) {
         List<FileSystemNode> children = directory.children;
-        for(FileSystemNode child : children){
-            if(child instanceof Directory dir){
-                walkFilesystemAndFindFilesWithName(dir,result,fileName);
-            }else if(child.name.equals(fileName)){
+        for (FileSystemNode child : children) {
+            if (child instanceof Directory dir) {
+                walkFilesystemAndFindFilesWithName(dir, result, fileName);
+            } else if (child.name.equals(fileName)) {
                 result.add((File) child);
             }
         }
@@ -240,7 +259,6 @@ interface FileSystemDao{
     void writeToFile(File file, String content, WriteType writeType);
 
     void changeParent(FileSystemNode node, Directory newParent);
-
 
     boolean isNewParentAChildOfNode(FileSystemNode node, Directory newParent);
 }
