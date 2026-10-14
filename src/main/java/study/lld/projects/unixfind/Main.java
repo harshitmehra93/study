@@ -10,6 +10,7 @@ Learnings
 - For a filtering heavy design with composition chaining and multiple filter use Predicates and their AND/OR composition
 - other learning are derived from FileSystem project
 - traverse to all nodes regardless of file/dir because we want to include the target directory in the matching predicate too
+- Composition Design pattern of predicates
  */
 public class Main {
     public static void main(String[] args) {
