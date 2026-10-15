@@ -33,6 +33,7 @@ detail was not supplied.
 | CT005 | 2026-08-16 | [LeetCode Weekly Contest 420](https://leetcode.com/contest/weekly-contest-420/) — practice | 3324 correct; 3325 incorrect; 3326 correct; 3327 and timing unknown | 3324 and 3326 verified (`None`); 3325 repaired and verified (`Major`); guided 3327 now has linear Manacher queries but recursive DFS is depth-unsafe (`Major`) | Replace 3327's recursive DFS with iterative postorder and verify the maximum chain; later independently redo 3325's linear window |
 | CT006 | 2026-08-18 | [LeetCode Weekly Contest 421](https://leetcode.com/contest/weekly-contest-421/) | Q1 and Q3 close but unfinished; Q2 model incorrect; Q4 unfinished for lack of time; excessive time spent on Q1 | 3334 is verified (`Major`); 3335 frequency simulation is verified (`None`), while its alternate contribution-precompute attempt needs repair (`None`); 3336 is verified (`Major`); 3337's transition model is correct but matrix exponentiation is deliberately deferred (`None`) | Continue with a new LeetCode contest and retain the early-problem switch checkpoint |
 | CT007 | 2026-08-20 | [LeetCode Weekly Contest 422](https://leetcode.com/contest/weekly-contest-422/) | 3340 correct by inspection; 3341 incorrect; 3342 not presented; 3343 incomplete and constraint-unsafe; verdicts, timing, and help unknown | 3341, 3342, and 3343 verified (`Major`) | Independently redo and explain 3343's digit-allocation DP after spacing; continue with a new contest |
+| CT008 | 2026-10-15 | [LeetCode Weekly Contest 423](https://leetcode.com/contest/weekly-contest-423/) — practice | 3349 and 3350 verified (`Unknown`); 3351 incorrect; 3352 does not compile and is constraint-unsafe; verdicts, timing, and help unknown | None presented | Upsolve 3351 and 3352 |
 
 ## Notes
 
@@ -302,3 +303,16 @@ detail was not supplied.
 - **Next:** Independently redo and explain 3343's digit-allocation state and
   multiplicative slot-counting invariant after spacing. Continue with a new
   contest.
+
+### CT008 — LeetCode Weekly Contest 423 (practice)
+
+- **Contest:** The presented 3349 solution checks every possible start and the
+  presented 3350 solution partitions the array into maximal increasing runs;
+  both passed the official examples and 20,000 randomized comparisons against
+  brute force (`Unknown`). The 3351 solution counts prior adjacent values rather
+  than all good subsequences and returns 7 instead of 14 for `[1,2,1]`; its
+  binary-search helper can also fail to advance. The presented 3352 source does
+  not compile, parses an up-to-800-bit input through `int`, and enumerates every
+  smaller number. Judge verdicts, timing, and assistance were not reported.
+- **Upsolve:** None presented.
+- **Next:** Upsolve 3351 and 3352.
