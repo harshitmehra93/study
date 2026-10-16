@@ -85,13 +85,16 @@ public class Main {
          */
     }
 }
-class CronSchedulerService{
+
+class CronSchedulerService {
     JobDefinitionService jobDefinitionService;
-    void createCronJob(Runnable runnable, Instant startTime,Duration repeatInterval){
-        jobDefinitionService.createJobDefinition(runnable,startTime,repeatInterval);
+
+    void createCronJob(Runnable runnable, Instant startTime, Duration repeatInterval) {
+        jobDefinitionService.createJobDefinition(runnable, startTime, repeatInterval);
     }
 }
-interface JobDefinitionService{
+
+interface JobDefinitionService {
 
     public void createJobDefinition(Runnable runnable, Instant startTime, Duration repeatInterval);
 
@@ -103,7 +106,7 @@ interface JobDefinitionService{
 }
 
 // This should be a singleton
-class JobRunManager{
+class JobRunManager {
     private final ScheduledExecutorService createEligibleRunsManager;
     private final ScheduledExecutorService requeueEligibleRunsManager;
     private final JobDefinitionService jobDefinitionService;
@@ -111,7 +114,10 @@ class JobRunManager{
     private final JobQueue jobQueue;
     private boolean isRunning;
 
-    JobRunManager(JobDefinitionService jobDefinitionService, JobRunService jobRunService, JobQueue jobQueue) {
+    JobRunManager(
+            JobDefinitionService jobDefinitionService,
+            JobRunService jobRunService,
+            JobQueue jobQueue) {
         this.createEligibleRunsManager = Executors.newSingleThreadScheduledExecutor();
         this.requeueEligibleRunsManager = Executors.newSingleThreadScheduledExecutor();
         this.jobDefinitionService = jobDefinitionService;
@@ -120,40 +126,41 @@ class JobRunManager{
         this.isRunning = false;
     }
 
-    void start(){
-        isRunning=true;
-        createEligibleRunsManager.scheduleAtFixedRate(()-> createEligibleRuns(),1,5, TimeUnit.SECONDS);
-        requeueEligibleRunsManager.scheduleAtFixedRate(()-> requeueEligibleRuns(),1,2, TimeUnit.MINUTES);
+    void start() {
+        isRunning = true;
+        createEligibleRunsManager.scheduleAtFixedRate(
+                () -> createEligibleRuns(), 1, 5, TimeUnit.SECONDS);
+        requeueEligibleRunsManager.scheduleAtFixedRate(
+                () -> requeueEligibleRuns(), 1, 2, TimeUnit.MINUTES);
     }
 
     private void requeueEligibleRuns() {
         // this needs to be paginated
         List<JobRun> runs = jobRunService.listRuns();
-        for(JobRun run: runs){
-            if(run.status==JobStatus.FAILED){
-                if(!jobRunService.exceededRetryCount(run)){
+        for (JobRun run : runs) {
+            if (run.status == JobStatus.FAILED) {
+                if (!jobRunService.exceededRetryCount(run)) {
                     jobQueue.enqueue(run);
-                    jobRunService.updateStatusOfRun(run,JobStatus.RUNNABLE);
-                }else {
+                    jobRunService.updateStatusOfRun(run, JobStatus.RUNNABLE);
+                } else {
                     jobRunService.deadLetter(run);
                 }
-            } else if (run.status==JobStatus.RUNNING) {
-                if(!jobRunService.hasActiveLease(run)){
+            } else if (run.status == JobStatus.RUNNING) {
+                if (!jobRunService.hasActiveLease(run)) {
                     jobQueue.enqueue(run);
-                    jobRunService.updateStatusOfRun(run,JobStatus.RUNNABLE);
+                    jobRunService.updateStatusOfRun(run, JobStatus.RUNNABLE);
                 }
-            } else if (run.status==JobStatus.INIT) {
+            } else if (run.status == JobStatus.INIT) {
                 jobQueue.enqueue(run);
-                jobRunService.updateStatusOfRun(run,JobStatus.RUNNABLE);
-            } else if (run.status==JobStatus.RUNNABLE) {
-                if(!jobQueue.contains(run))
-                    jobQueue.enqueue(run);
+                jobRunService.updateStatusOfRun(run, JobStatus.RUNNABLE);
+            } else if (run.status == JobStatus.RUNNABLE) {
+                if (!jobQueue.contains(run)) jobQueue.enqueue(run);
             }
         }
     }
 
-    void stop(){
-        isRunning=false;
+    void stop() {
+        isRunning = false;
         createEligibleRunsManager.shutdownNow();
         requeueEligibleRunsManager.shutdownNow();
     }
@@ -161,11 +168,11 @@ class JobRunManager{
     private void createEligibleRuns() {
         // this should have pagination
         List<JobDefinition> jobDefinitions = jobDefinitionService.listJobDefinitions();
-        for(JobDefinition jd : jobDefinitions){
-            if(isEligible(jd)){
+        for (JobDefinition jd : jobDefinitions) {
+            if (isEligible(jd)) {
                 // get job Definition run creator lock
                 // start mutation boundary. Make it atomic with transaction
-                if(jobRunService.findRun(jd.id,jd.nextScheduledRun).isPresent()){
+                if (jobRunService.findRun(jd.id, jd.nextScheduledRun).isPresent()) {
                     System.out.println("job already exists");
                     continue;
                 }
@@ -183,13 +190,15 @@ class JobRunManager{
     }
 }
 // this will be a blocking queue
-interface JobQueue{
+interface JobQueue {
     void enqueue(JobRun jobRun);
+
     JobRun dequeue();
 
     boolean contains(JobRun run);
 }
-class JobRunnerConsumer implements Runnable{
+
+class JobRunnerConsumer implements Runnable {
     int id;
     JobRun currentJob;
     JobQueue jobQueue;
@@ -201,60 +210,62 @@ class JobRunnerConsumer implements Runnable{
     public void run() {
         // consumer will poll the queue every X seconds if in a distributed environment
         // otherwise we can have a blocking queue and consumer can poll continuously;
-        while (isRunning){
+        while (isRunning) {
             JobRun jobRun = jobQueue.dequeue();
-            if(jobRun.status==JobStatus.COMPLETED){
+            if (jobRun.status == JobStatus.COMPLETED) {
                 System.out.println("invalid state");
                 continue;
             }
-            if(jobRun.status==JobStatus.RUNNING && jobRunService.hasActiveLease(jobRun)){
+            if (jobRun.status == JobStatus.RUNNING && jobRunService.hasActiveLease(jobRun)) {
                 System.out.println("job is already being worked on");
                 continue;
             }
-            if(jobRun.status==JobStatus.FAILED){
+            if (jobRun.status == JobStatus.FAILED) {
                 System.out.println("job is failed, wait for requeue");
                 continue;
             }
 
-            try{
+            try {
                 // transaction start
-                if(jobRunService.get(jobRun.id).status!=JobStatus.RUNNABLE){
+                if (jobRunService.get(jobRun.id).status != JobStatus.RUNNABLE) {
                     System.out.println("invalid state");
                     continue;
                 }
-                boolean leaseAcquired = jobRunService.tryToGetLease(jobRun,id); // acts like a job write lock
-                if(!leaseAcquired){
+                boolean leaseAcquired =
+                        jobRunService.tryToGetLease(jobRun, id); // acts like a job write lock
+                if (!leaseAcquired) {
                     System.out.println("lease not held");
                     continue;
                 }
 
                 currentJob = jobRun;
-                jobRunService.updateStatusOfRun(jobRun,JobStatus.RUNNING);
+                jobRunService.updateStatusOfRun(jobRun, JobStatus.RUNNING);
                 jobRunService.incrementNoOfAssignments(jobRun);
                 // transaction end
 
                 jobDefinitionService.get(jobRun.jobDefinitionId).task.run();
 
-                jobRunService.updateStatusOfRun(jobRun,JobStatus.COMPLETED); // method is transactional
-            }catch(Exception e){
+                jobRunService.updateStatusOfRun(
+                        jobRun, JobStatus.COMPLETED); // method is transactional
+            } catch (Exception e) {
                 System.out.println("unexpected error occured");
-                jobRunService.updateStatusOfRun(jobRun,JobStatus.FAILED);
-            }finally {
-                jobRunService.releaseLeaseIfHeldByConsumer(jobRun,id);
+                jobRunService.updateStatusOfRun(jobRun, JobStatus.FAILED);
+            } finally {
+                jobRunService.releaseLeaseIfHeldByConsumer(jobRun, id);
             }
-
         }
-
     }
 }
-class JobDefinition{
+
+class JobDefinition {
     int id;
     Runnable task;
     Instant startTime;
     Duration interval;
     Instant nextScheduledRun;
 }
-interface JobRunService{
+
+interface JobRunService {
 
     JobRun createRun(JobDefinition jd);
 
@@ -278,7 +289,8 @@ interface JobRunService{
 
     JobRun get(int id);
 }
-class JobRun{
+
+class JobRun {
     int id;
     Instant scheduledRunTime;
     int jobDefinitionId;
@@ -287,6 +299,11 @@ class JobRun{
     Instant leaseExpiryTime;
     int noOfAssignments;
 }
-enum JobStatus{
-    INIT,RUNNABLE,RUNNING,FAILED,COMPLETED
+
+enum JobStatus {
+    INIT,
+    RUNNABLE,
+    RUNNING,
+    FAILED,
+    COMPLETED
 }
