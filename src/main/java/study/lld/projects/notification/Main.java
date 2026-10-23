@@ -10,49 +10,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /*
-- time: 1/2d Did a heavy redo in depth
+- time: 2 days - did a heavy redo in depth
+Used leases for jobs, job table, repair scans. SQS / Kafka provides these functionalities out of the box
+We just need to maintain a deduplication table on the consumer.
+
 - Learnings
-- producer consumer sematics
+- producer consumer semantics
+- producer needs to take care of
+    - adding message to queue
+    - multiple requests to put the same message should put one message
+    - if put message fails then client will retry
+
+- consumer needs to take care of
+    - pick up the message and process it
+    - if consuming fails then dont ack or commit the message
+    - SQS/Kafka can deliver a message twice. So we need a deduplication table on consumer.
+    - Lease is not required by a SQS as we can use its visibility timeout.
+    - Lease in Kafka is not required. When consumer dies, kafka rebalances the partition.
+        And deduplication helps skip processed records.
 */
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        /*
-        Notification System
-        - Subject or information
-        - Channel sms, email, post
-        - each channel can have jobs which are put in queue and notifications can be processed async
-        - each channel will have consumers which will send messages by their channel in batches.
-        - Formatting of different channels might be different, so we will have formatters
-        - concurrent access will be managed by a queueing service.
-
-
-        User
-        - id
-        - name
-        - email
-        - phone
-        - address
-
-        NotificationSystem
-        - addChannel
-        - notify(user,title,body)
-
-        Job
-        - id
-        - user
-        - title
-        - body
-
-        NotificationChannel
-        - id
-        - notify(Job job)
-        - setQueue
-
-        NotificationChannelConsumer implements Runnable
-        - setQueue
-        - run()
-
-         */
         // ------------------------------------------------------------
         // 1. DAOs
         // ------------------------------------------------------------
