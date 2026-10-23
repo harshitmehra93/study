@@ -11,9 +11,12 @@ import lombok.Builder;
 
 /*
 - time: 2 days - did a heavy redo in depth
-Used leases for jobs, job table, repair scans. SQS / Kafka provides these functionalities out of the box
-We just need to maintain a deduplication table on the consumer. We need a request / retry token tracking
-for idempotency
+Used leases for jobs, job table, repair scans. This comment is ahead of the code.
+
+SQS / Kafka provides leases, retry, parallelism functionalities out of the box
+We need to maintain a deduplication table on the consumer to skip completed messages
+and resolve races as both kafka and sqs can deliver a message more than once
+We need a request / retry token tracking for idempotency
 
 - Learnings
 - producer consumer semantics
