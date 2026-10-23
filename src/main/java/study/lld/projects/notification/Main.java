@@ -1,24 +1,18 @@
 package study.lld.projects.notification;
 
-import static java.lang.Thread.sleep;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /*
-- time: 45m
+- time: 1/2d Did a heavy redo in depth
 - Learnings
-- Did not handle/mention case where an email job failed, then how will we provide retries ?
-    we need a channel deliveryDao which track status of job for deduplication
+- producer consumer sematics
 */
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -59,37 +53,141 @@ public class Main {
         - run()
 
          */
-        ArrayDeque<Job> emailQueue = new ArrayDeque<>();
+        // ------------------------------------------------------------
+        // 1. DAOs
+        // ------------------------------------------------------------
+
+        UserDao userDao = new UserDao();
+        JobDao jobDao = new JobDao();
+        JobLeaseDao jobLeaseDao = new JobLeaseDao();
+        NotificationRequestDao notificationRequestDao = new NotificationRequestDao();
+
+        // ------------------------------------------------------------
+        // 2. Services
+        // ------------------------------------------------------------
+
+        UserService userService = new UserService(userDao);
+
+        JobLeaseService jobLeaseService = new JobLeaseService(jobLeaseDao);
+
+        JobService jobService = new JobService(jobDao, jobLeaseService);
+
+        NotificationRequestService notificationRequestService =
+                new NotificationRequestService(notificationRequestDao);
+
+        // ------------------------------------------------------------
+        // 3. Queues
+        //
+        // Don't use ArrayDeque because consumers/producers are concurrent.
+        // ------------------------------------------------------------
+
+        Queue<Job> emailQueue = new ConcurrentLinkedQueue<>();
+
+        Queue<Job> smsQueue = new ConcurrentLinkedQueue<>();
+
+        // ------------------------------------------------------------
+        // 4. Channels / producers
+        // ------------------------------------------------------------
+
         Channel emailChannel = new EmailChannel(emailQueue);
-        NotificationConsumer emailConsumer =
-                new EmailNotificationConsumer(id, emailQueue, 5, jobService);
 
-        ArrayDeque<Job> smsQueue = new ArrayDeque<>();
-        Channel smslChannel = new SmsChannel(smsQueue);
-        NotificationConsumer smsConsumer = new SmsConsumer(smsQueue, 5);
+        Channel smsChannel = new SmsChannel(smsQueue);
 
-        JobService jobService = new JobService(new JobDao(), jobLeaseService);
+        // ------------------------------------------------------------
+        // 5. Notification service
+        // ------------------------------------------------------------
+
         NotificationSystemService notificationSystemService =
                 new NotificationSystemService(jobService, userService, notificationRequestService);
+
         notificationSystemService.addChannel(emailChannel);
-        notificationSystemService.addChannel(smslChannel);
+        notificationSystemService.addChannel(smsChannel);
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        scheduledExecutorService.scheduleWithFixedDelay(emailConsumer, 1L, 3L, TimeUnit.SECONDS);
-        scheduledExecutorService.scheduleWithFixedDelay(smsConsumer, 1L, 3L, TimeUnit.SECONDS);
+        // ------------------------------------------------------------
+        // 6. Consumers
+        // ------------------------------------------------------------
 
-        User a = new User(1, "Harshit", "address", "harshit@gmail.com", "1234");
-        notificationSystemService.createNotification(a, "Welcome", "Hello user");
-        notificationSystemService.createNotification(a, "Welcome1", "Hello user");
-        notificationSystemService.createNotification(a, "Welcome2", "Hello user");
-        notificationSystemService.createNotification(a, "Welcome3", "Hello user");
-        notificationSystemService.createNotification(a, "Welcome4", "Hello user");
-        notificationSystemService.createNotification(a, "Welcome5", "Hello user");
-        notificationSystemService.createNotification(a, "Welcome6", "Hello user");
+        int maxRetries = 5;
+        int batchSize = 10;
 
-        //        emailConsumer.stop();
-        sleep(10_000L);
-        scheduledExecutorService.shutdownNow();
+        NotificationConsumer emailConsumer =
+                new EmailNotificationConsumer(
+                        1, // consumerId
+                        maxRetries,
+                        emailQueue,
+                        batchSize,
+                        jobService);
+
+        NotificationConsumer smsConsumer =
+                new SmsConsumer(
+                        2, // consumerId
+                        maxRetries,
+                        jobService,
+                        smsQueue,
+                        batchSize);
+
+        // ------------------------------------------------------------
+        // 7. Start consumers
+        // ------------------------------------------------------------
+
+        ScheduledExecutorService consumerExecutor = Executors.newScheduledThreadPool(2);
+
+        consumerExecutor.scheduleWithFixedDelay(emailConsumer, 0, 3, TimeUnit.SECONDS);
+
+        consumerExecutor.scheduleWithFixedDelay(smsConsumer, 0, 3, TimeUnit.SECONDS);
+
+        // ------------------------------------------------------------
+        // 8. Create test user
+        // ------------------------------------------------------------
+
+        User user = new User(1, "Harshit", "address", "harshit@gmail.com", "1234");
+
+        userService.save(user);
+
+        // ------------------------------------------------------------
+        // 9. Create notification requests
+        // ------------------------------------------------------------
+
+        for (int i = 1; i <= 7; i++) {
+
+            CreateNotificationRequest request =
+                    CreateNotificationRequest.builder()
+                            .id(i)
+                            .retryToken(1000 + i)
+                            .notificationDetails(
+                                    NotificationDetails.builder()
+                                            .userId(user.id)
+                                            .channelType(ChannelType.SMS)
+                                            .title("Welcome " + i)
+                                            .body("Hello user " + i)
+                                            .build())
+                            .build();
+
+            CreateNotificationResponse response =
+                    notificationSystemService.createNotification(request);
+
+            System.out.println(
+                    "Created notification: "
+                            + response.id
+                            + " status="
+                            + response.status
+                            + " message="
+                            + response.message);
+        }
+
+        // ------------------------------------------------------------
+        // 10. Let consumers run for a while
+        // ------------------------------------------------------------
+
+        Thread.sleep(20_000);
+
+        // ------------------------------------------------------------
+        // 11. Shutdown
+        // ------------------------------------------------------------
+
+        consumerExecutor.shutdownNow();
+
+        System.out.println("Application stopped");
     }
 }
 
@@ -223,6 +321,7 @@ class NotificationSystemService {
     private final UserService userService;
     private final NotificationRequestService notificationRequestService;
     Map<ChannelType, Channel> channels;
+    ScheduledExecutorService repairScanExecutor = Executors.newSingleThreadScheduledExecutor();
 
     NotificationSystemService(
             JobService jobService,
@@ -232,6 +331,7 @@ class NotificationSystemService {
         this.userService = userService;
         this.notificationRequestService = notificationRequestService;
         channels = new HashMap<>();
+        repairScanExecutor.scheduleWithFixedDelay(this::repairScan, 2L, 2L, TimeUnit.MINUTES);
     }
 
     void addChannel(Channel channel) {
@@ -353,8 +453,8 @@ class NotificationSystemService {
         return createResponse(request, "notification accepted");
     }
 
-    private void enqueueJobs(List<Job> jobsToBeCreated) {
-        jobsToBeCreated.forEach(
+    private void enqueueJobs(List<Job> jobs) {
+        jobs.forEach(
                 j -> {
                     if (!channels.containsKey(j.channelType)) {
                         throw new RuntimeException("channel is not supported");
@@ -404,8 +504,10 @@ class NotificationSystemService {
             CreateNotificationRequest createNotificationRequest, User user) {
         List<ChannelType> supportedChannels =
                 channels.values().stream().map(c -> c.getType()).collect(Collectors.toList());
-        if (!supportedChannels.contains(
-                createNotificationRequest.notificationDetails.channelType)) {
+        if (createNotificationRequest.notificationDetails.channelType
+                        != ChannelType.ALL_REGISTERED_CHANNELS
+                && !supportedChannels.contains(
+                        createNotificationRequest.notificationDetails.channelType)) {
             throw new RuntimeException("channel is not supported by service");
         }
         switch (createNotificationRequest.notificationDetails.channelType) {
@@ -455,6 +557,28 @@ class NotificationSystemService {
                 notificationRequest.notificationDetails.channelType,
                 notificationRequest.status,
                 message);
+    }
+
+    void repairScan() {
+        List<Job> jobs = jobService.listNonTerminalJobs();
+        List<Job> jobsInAcceptedState =
+                jobs.stream()
+                        .filter(j -> j.status == JobStatus.ACCEPTED)
+                        .collect(Collectors.toList());
+        enqueueJobs(jobsInAcceptedState);
+
+        List<Job> jobsInFailedState =
+                jobs.stream()
+                        .filter(j -> j.status == JobStatus.FAILED)
+                        .collect(Collectors.toList());
+        enqueueJobs(jobsInFailedState);
+
+        List<Job> jobsWithExpiredLeases =
+                jobs.stream()
+                        .filter(j -> j.status == JobStatus.LEASED)
+                        .filter(j -> !jobService.hasActiveLease(j))
+                        .collect(Collectors.toList());
+        enqueueJobs(jobsWithExpiredLeases);
     }
 }
 
@@ -583,7 +707,16 @@ abstract class NotificationConsumer implements Runnable {
         MAX_JOB_RETRY = maxJobRetry;
     }
 
-    void consumeJob(Job job) {
+    /*
+    a job is in queue
+    - consumer picks it but immediately dies. The get is not committed and its retried.
+    - a consumer picks up a job, but its has an active lease. its skipped and commited.
+    - a consumer picks up a job which is terminally failed, the consumer skips it and commits it.
+    - a consumer picks up a failed job with retries left. It processes it normally.
+    - If a consumer take a lease and dies then upon expiry, repair scan will put the job back in queue.
+     */
+
+    void processJob(Job job) {
         if (job == null) {
             System.out.println("no jobs");
             return;
@@ -600,7 +733,9 @@ abstract class NotificationConsumer implements Runnable {
         }
 
         if (job.status == JobStatus.LEASED && jobService.hasActiveLease(job)) {
-            System.out.println("job has an active lease");
+            // once the lease expires then repair scan will add the job to queue again, it will mark
+            // the job IN QUEUE
+            System.out.println("job is leased");
             return;
         }
 
@@ -609,7 +744,8 @@ abstract class NotificationConsumer implements Runnable {
             try {
                 jobService.updateJobStatus(job, JobStatus.TERMINALLY_FAILED);
             } catch (Exception e) {
-                System.out.println("unexpected error while changng status");
+                System.out.println(e);
+                System.out.println("unexpected error while changing status");
             }
 
             // dead letter and emit metrics
@@ -624,23 +760,27 @@ abstract class NotificationConsumer implements Runnable {
                 return;
             }
 
-            // All queued and failed jobs can retry
+            jobService.updateJobStatus(job, JobStatus.LEASED);
+
             int previousNoOfAssignments = job.noOfAssignments;
             try {
                 jobService.incrementAssignmentOfJob(job.id);
             } catch (Exception e) {
-                jobService.setNoOfAssignments(job.id, previousNoOfAssignments);
                 System.out.println("increment failed");
+                System.out.println(e);
+                jobService.setNoOfAssignments(job.id, previousNoOfAssignments);
                 return;
             }
 
-            jobService.updateJobStatus(job, JobStatus.LEASED);
+            // sending notification is idempotent
             sendNotification(job);
+
             jobService.updateJobStatus(job, JobStatus.COMPLETED);
             // mutation boundary end; release lock on lease with id = job.id
         } catch (Exception e) {
-            jobService.updateJobStatus(job, JobStatus.FAILED);
             System.out.println("Unexpected failure");
+            System.out.println(e);
+            jobService.updateJobStatus(job, JobStatus.FAILED);
         } finally {
             jobService.releaseLease(job, consumerId);
         }
@@ -655,9 +795,20 @@ abstract class NotificationConsumer implements Runnable {
                 break;
             }
             Job job = getQueue().poll();
-            consumeJob(job);
+            if (job == null) continue;
+            try {
+                processJob(job);
+                commitJobInQueue();
+            } catch (Exception e) {
+                System.out.println("unexpected error occurred");
+            }
         }
         System.out.println("consumer batch completed " + Thread.currentThread().getName());
+    }
+
+    private void commitJobInQueue() {
+        // In kafka there is a concept of checkpoint. we will do that.
+        // in sqs there is a concept of visibility timeout, we will use that
     }
 
     abstract int getBatch();
@@ -742,14 +893,19 @@ class JobService {
         jobDao.updateStatus(j, jobStatus);
     }
 
+    /*
+    case 1
+    consumer 1 takes lease on job 1
+    consumer 2 takes lease on same job 1
+    it should return false.
+
+    case 2
+    consumer 1 takes lease on job 1 and consumer 1 dies
+    consumer 2 tries to take lease on same job 1 after its expiry
+     */
     public boolean tryToGetLease(Job job, int consumerId) {
         // get lock on JobLease id = job.id, this is a mutation boundary start
         if (jobLeaseService.activeLeasePresent(job.id)) {
-            return false;
-        }
-        Optional<JobLease> leaseOpt = jobLeaseService.find(job.id);
-        if (leaseOpt.isPresent() && leaseOpt.get().consumerId != consumerId) {
-            System.out.println("lease is held by someone else");
             return false;
         }
 
@@ -776,7 +932,14 @@ class JobService {
         // get lock on job, mutation boundary end
     }
 
-    public void releaseLease(Job job, int consumerId) {}
+    public void releaseLease(Job job, int consumerId) {
+        // get lock on lease and job with id == job.id, this is atomic and transactional boundary
+        Optional<JobLease> lease = jobLeaseService.find(job.id);
+        if (lease.isPresent() && lease.get().consumerId == consumerId) {
+            jobLeaseService.removeLease(job.id);
+        }
+        // release lock
+    }
 
     public boolean hasActiveLease(Job job) {
         return jobLeaseService.activeLeasePresent(job.id);
@@ -793,9 +956,22 @@ class JobService {
     public void setNoOfAssignments(int id, int previousNoOfAssignments) {
         jobDao.setNoOfAssignments(id, previousNoOfAssignments);
     }
+
+    public boolean isLeaseOwner(Job job, int consumerId) {
+        Optional<JobLease> leaseOpt = jobLeaseService.find(job.id);
+        if (leaseOpt.isEmpty()) return false;
+        if (leaseOpt.get().expiry.isBefore(Instant.now())) return false;
+        return leaseOpt.get().consumerId == consumerId;
+    }
+
+    public List<Job> listNonTerminalJobs() {
+        return jobDao.listNonTerminalJobs();
+    }
 }
 
 class JobDao {
+    private static final Set<JobStatus> TERMINAL_STATES =
+            Set.of(JobStatus.COMPLETED, JobStatus.TERMINALLY_FAILED);
     Map<Integer, Job> jobs = new HashMap<>();
 
     public void save(Job job) {
@@ -833,6 +1009,12 @@ class JobDao {
     public void setNoOfAssignments(int id, int previousNoOfAssignments) {
         Job j = get(id);
         j.noOfAssignments = previousNoOfAssignments;
+    }
+
+    public List<Job> listNonTerminalJobs() {
+        return jobs.values().stream()
+                .filter(j -> !TERMINAL_STATES.contains(j.status))
+                .collect(Collectors.toList());
     }
 }
 
