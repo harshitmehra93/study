@@ -86,7 +86,7 @@ public class Main {
 
 class RateLimiter {
     int id;
-    int tokenBucket;
+    int tokensInBucket;
     int noOfAllowedRequests;
     Duration refillInterval;
     Instant lastRefillTime;
@@ -100,13 +100,13 @@ class RateLimiter {
 
         this.noOfAllowedRequests = noOfAllowedRequest;
         this.refillInterval = refillInterval;
-        refillBucket(noOfAllowedRequest);
+        refillBucket();
     }
 
     synchronized RateLimitResponse getToken() {
         refillIfRequired();
-        if (tokenBucket > 0) {
-            tokenBucket--;
+        if (tokensInBucket > 0) {
+            tokensInBucket--;
             return successResponse();
         }
         return throttleResponse();
@@ -122,18 +122,14 @@ class RateLimiter {
 
     void refillIfRequired() {
         if (nextRefillTime.isBefore(Instant.now())) {
-            refillBucket(noOfAllowedRequests);
+            refillBucket();
         }
     }
 
-    private void refillBucket(Integer noOfAllowedRequests) {
-        tokenBucket = noOfAllowedRequests;
+    private void refillBucket() {
+        tokensInBucket = noOfAllowedRequests;
         lastRefillTime = Instant.now();
-        nextRefillTime = getNextRefillTime();
-    }
-
-    private Instant getNextRefillTime() {
-        return lastRefillTime.plus(refillInterval);
+        nextRefillTime = lastRefillTime.plus(refillInterval);
     }
 }
 
