@@ -1,263 +1,195 @@
 package study.lld.projects.lrucache;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class Main {
     public static void main(String[] args) {
         /*
         LRU cache
-        A key value pair db which has a max size N, and when the cache capacity is full, we
-        overwrite the least recently used keys
+        - get(key)
+        - put(key,value)
 
-        Keeping LruCache in memory is easy with a doubly linked list, but need to see how we will
-            keep it in DB
-            - We can have a LruNode table which saves LruNodes
-            - when someone does a get(key) we find this table to get the key.
-            - we will first add two sentinels Head and Tail in the dao upon initialisation to simplify logic
-                - how will we select key of head and tail ?
-                    - selecting any key for head and tail will lead to eliminating the key as a valid key of the system
-                    - We can select a 10 length alpha numeric random String to greatly reduce collision.
-                    - If there is ever a collision we will emit a metric and alarm, and we can have logic to migrate head
-                        and tail key if there is ever a collision
-                - In a distributed system, how do all apps know the head and tail ?
-                    - once we select the key, we need a durable way to get to know the head/tail key
-                    - we can have a separate table for this
-                - We will have a init method which sets up the sentinels
-                    - init will create two rown in lru dao as head and tail
-                    - then init will update dentinelDao to update the key of head and tail
-                - Then we need an extra query on every put to check if its hitting the sentinel. Which is extra query.
+        DoublyLinkedList
+        - id
+        - Map<key,DoublyLinkedListNode>
+        - head, tail
+        - writeLock
 
-                -  On second thoughts, this adds too much complexity for a real DB scenario, so we will not be using
-                    sentinels for real DB, but we will use it in this example for simplicity
-            - Then we remove the LruNode from the middle of the doubly Linked list and put it at the head
-                - get the node : node = get(key)
-                - remove
-                    - prev = get(node.prev)
-                    - next = get(node.next)
-                    - updateNext(previous,next)
-                    - updatePrevious(next,previous)
-                - AddToHead
-                    - currentHead = head.prev
-                    - currentHead.next = node
-                    - node.previous = currentHead
-                    - node.next = head
-                    - head.previous = node
+        DoublyLinkedListNode
+        - key
+        - value
+        - next
+        - previous
 
-        LruCache
-        get(key): value <This will increase the recency of the key>
-        put(key,value): void <This will increase the recency of the key>
-        delete(key): <will skip>
+        GET(Key)
+        - get DLL lock
+        - see if node with the key exists,
+            - if not then create it
+            - if yes then remove it from DLL
+        - put the node at the end
+        - return value
+        - release DLL lock
 
-        LruService
-         - LruDao
-         - get(key): value
-         - put(key,value): value
-         - delete(key): value
-
-         LruDao
-         - SentinelDao sentinelDao
-         - getMostRecent(): LruNode
-         - get(key): LruNode
-         - put(key,value): void
-         - getLeastRecent(): LruNode
-         - addToHead(LruNode)
-         - updatePrevious(LruNode,LruNode)
-         - updateNext(LruNode,LruNode)
-         - getHead(): LruNode
-         - getTail(): LruNode
-
-         LruNode
-         - Key
-         - Value
-         - nextLruNodeId : int
-         - previousLruNodeId : int
-
-         SentinelDao
-         - List<Sentinel>
-         - createHead(): void
-         - createTail(): void
-         - getHeadKey(): key
-         - getTailKey(): key
-         - This will save HEAD : key, TAIL: key
-
-         Sentinel
-         - type : HEAD/TAIL
-         - key : String
-
-
-         DoublyLinkedList
-         Head -> | | | | <- Tail
+        PUT(Key, Value)
+        - get DLL lock
+        - see if node exists with key
+            - if yes then remove it from DLL, and update its value
+            - if not then create a new node
+        - add the node at the end
+        - release DLL lock
 
          */
-        LruDao lruDao = new LruDao();
-        LruService lru = new LruService(lruDao);
+        LRUCache cache = new LRUCache(2);
+        cache.get("1");
+        cache.get("2");
 
-        lru.put("a", "b");
-        lru.put("b", "b");
-        lru.put("c", "b");
-        lru.put("d", "b");
-        lru.put("e", "b");
-        lru.printAll();
-        System.out.println("====");
-        lru.put("f", "b");
-        lru.put("g", "b");
-        lru.put("h", "b");
-        lru.put("i", "b");
-        lru.put("j", "b");
-        lru.printAll();
-        System.out.println("====");
+        cache.put("1", "A");
+        cache.put("2", "B");
+        cache.put("1", "AA");
+        cache.put("2", "BB");
+        cache.put("3", "C");
 
-        lru.put("f", "c");
-        lru.put("k", "b");
-        lru.printAll();
-        System.out.println("====");
+        cache.get("1");
+        cache.get("2");
+        cache.get("3");
     }
 }
-/*
-       LruService
-        - LruDao
-        - get(key): value
-        - put(key,value): void
-        - delete(key): void
-*/
-class LruService {
-    private final LruDao lruDao;
-    int capacity = 5;
 
-    LruService(LruDao lruDao) {
-        this.lruDao = lruDao;
+class LRUCache {
+    private final LRUDoublyLinkedList lruDoublyLinkedList;
+
+    LRUCache(int size) {
+        lruDoublyLinkedList = new LRUDoublyLinkedList(size);
     }
 
     String get(String key) {
-        LruNode node = lruDao.get(key);
-        if (node == null) return null;
-        lruDao.removeFromMiddle(node);
-        lruDao.addToTail(node);
-        return node.value;
+        lruDoublyLinkedList.lock();
+        try {
+            if (!lruDoublyLinkedList.containsKey(key)) {
+                System.out.println("Cache Miss");
+                return null;
+            }
+
+            LRUDoublyLinkedListNode node = lruDoublyLinkedList.detachNode(key);
+            lruDoublyLinkedList.addToTail(node);
+            System.out.printf("Getting %s: %s\n", node.key, node.value);
+            return node.value;
+        } finally {
+            lruDoublyLinkedList.unlock();
+        }
     }
 
     void put(String key, String value) {
-        LruNode existingNode = lruDao.get(key);
-        if (existingNode == null) {
-            if (lruDao.getSize() == capacity) lruDao.removeLeastRecentlyUsed();
-            lruDao.addNode(key, value);
-        } else {
-            lruDao.update(key, value);
-            lruDao.removeFromMiddle(existingNode);
-            lruDao.addToTail(existingNode);
+        lruDoublyLinkedList.lock();
+        try {
+            LRUDoublyLinkedListNode node;
+            if (lruDoublyLinkedList.containsKey(key)) {
+                node = lruDoublyLinkedList.get(key);
+                node.value = value;
+                lruDoublyLinkedList.detachNode(key);
+            } else {
+                node = new LRUDoublyLinkedListNode(key, value);
+            }
+
+            System.out.printf("Putting %s: %s\n", node.key, node.value);
+
+            lruDoublyLinkedList.addToTail(node);
+
+            if (lruDoublyLinkedList.getSize() > lruDoublyLinkedList.getMAX_SIZE()) {
+                lruDoublyLinkedList.evict();
+            }
+        } finally {
+            lruDoublyLinkedList.unlock();
         }
-    }
-
-    void remove(String key) {
-        lruDao.removeFromMiddle(lruDao.get(key));
-    }
-
-    void printAll() {
-        lruDao.printAll();
     }
 }
 
-class LruDao {
-    String headKey = "-1";
-    String tailKey = "-2";
-    Map<String, LruNode> nodes;
-    @Getter private int size;
+class LRUDoublyLinkedList {
+    private final Map<String, LRUDoublyLinkedListNode> nodes;
+    private final LRUDoublyLinkedListNode head;
+    private final LRUDoublyLinkedListNode tail;
+    @Getter private final int MAX_SIZE;
+    private final ReentrantLock LOCK;
 
-    LruDao() {
-        nodes = new HashMap<>();
-        LruNode head = new LruNode(headKey, headKey);
-        LruNode tail = new LruNode(tailKey, tailKey);
-        nodes.put(headKey, head);
-        nodes.put(tailKey, tail);
-        head.nextNodeKey = tailKey;
-        tail.previousNodeKey = headKey;
-        size = 0;
+    LRUDoublyLinkedList(int size) {
+        this.head = new LRUDoublyLinkedListNode();
+        this.tail = new LRUDoublyLinkedListNode();
+        head.next = tail;
+        tail.previous = head;
+        this.nodes = new ConcurrentHashMap<>();
+        this.LOCK = new ReentrantLock();
+        this.MAX_SIZE = size;
     }
 
-    LruNode get(String key) {
-        if (!nodes.containsKey(key)) return null;
-        return nodes.get(key);
+    void lock() {
+        LOCK.lock();
     }
 
-    LruNode getHead() {
-        return get(headKey);
+    void unlock() {
+        LOCK.unlock();
     }
 
-    void removeFromMiddle(LruNode node) {
-        LruNode prev = get(node.previousNodeKey);
-        LruNode next = get(node.nextNodeKey);
-
-        prev.nextNodeKey = next.key;
-        next.previousNodeKey = prev.key;
-
-        nodes.remove(node.key);
-        size--;
+    public boolean containsKey(String key) {
+        return nodes.containsKey(key);
     }
 
-    void removeLeastRecentlyUsed() {
-        LruNode firstElement = get(getHead().nextNodeKey);
-        LruNode secondElement = get(firstElement.nextNodeKey);
+    public LRUDoublyLinkedListNode detachNode(String key) {
+        LRUDoublyLinkedListNode node = get(key);
+        LRUDoublyLinkedListNode prev = node.previous;
+        LRUDoublyLinkedListNode next = node.next;
+        prev.next = next;
+        next.previous = prev;
 
-        secondElement.previousNodeKey = getHead().key;
-        getHead().nextNodeKey = secondElement.key;
+        nodes.remove(key);
 
-        nodes.remove(firstElement.key);
-        size--;
-    }
-
-    void addToTail(LruNode node) {
-        LruNode lastElement = get(getTail().previousNodeKey);
-
-        getTail().previousNodeKey = node.key;
-        node.nextNodeKey = getTail().key;
-
-        lastElement.nextNodeKey = node.key;
-        node.previousNodeKey = lastElement.key;
-
-        nodes.put(node.key, node);
-        size++;
-    }
-
-    LruNode getTail() {
-        return get(tailKey);
-    }
-
-    LruNode addNode(String key, String value) {
-        LruNode node = new LruNode(key, value);
-        addToTail(node);
         return node;
     }
 
-    public void printAll() {
-        LruNode tmp = get(getHead().nextNodeKey);
-        while (tmp != null && tmp != getTail()) {
-            System.out.printf("%s: %s\n", tmp.key, tmp.value);
-            tmp = get(tmp.nextNodeKey);
-        }
+    public LRUDoublyLinkedListNode get(String key) {
+        if (!containsKey(key)) throw new RuntimeException("Cache Miss");
+        return nodes.get(key);
     }
 
-    public void update(String key, String value) {
-        get(key).value = value;
+    public void addToTail(LRUDoublyLinkedListNode node) {
+        //        System.out.println("Adding key to end "+node.key);
+        LRUDoublyLinkedListNode prev = tail.previous;
+        node.next = tail;
+        tail.previous = node;
+
+        prev.next = node;
+        node.previous = prev;
+
+        nodes.put(node.key, node);
+    }
+
+    public int getSize() {
+        return nodes.size();
+    }
+
+    public void evict() {
+        LRUDoublyLinkedListNode leastRecentlyUsedNode = head.next;
+        LRUDoublyLinkedListNode newLeastRecentlyUsed = leastRecentlyUsedNode.next;
+
+        head.next = newLeastRecentlyUsed;
+        newLeastRecentlyUsed.previous = head;
+
+        nodes.remove(leastRecentlyUsedNode.key);
+        System.out.println("Evicted key " + leastRecentlyUsedNode.key);
     }
 }
 
-class LruNode {
-    private static AtomicInteger counter = new AtomicInteger(0);
+@NoArgsConstructor
+class LRUDoublyLinkedListNode {
     String key;
     String value;
-    String nextNodeKey;
-    String previousNodeKey;
+    LRUDoublyLinkedListNode next;
+    LRUDoublyLinkedListNode previous;
 
-    public LruNode(String value) {
-        this.key = String.valueOf(counter.getAndIncrement());
-        ;
-        this.value = value;
-    }
-
-    public LruNode(String key, String value) {
+    public LRUDoublyLinkedListNode(String key, String value) {
         this.key = key;
         this.value = value;
     }
